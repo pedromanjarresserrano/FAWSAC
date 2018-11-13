@@ -1,0 +1,76 @@
+package com.gitlab.pedrioko.core.view.action;
+
+import com.gitlab.pedrioko.core.lang.annotation.ToolAction;
+import com.gitlab.pedrioko.core.view.action.api.Action;
+import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
+import com.gitlab.pedrioko.core.view.enums.CrudAction;
+import com.gitlab.pedrioko.core.view.enums.FormStates;
+import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.services.CrudService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.zkoss.zul.East;
+
+import java.util.Arrays;
+import java.util.List;
+
+@ToolAction
+public class SearchAction implements Action {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SearchAction.class);
+
+    @Autowired
+    private CrudService crudservice;
+
+    @Override
+    public String getLabel() {
+        return "";
+    }
+
+    @Override
+    public String getIcon() {
+        return "fa fa-filter";
+    }
+
+    @Override
+    public void actionPerform(CrudActionEvent event) {
+        East east = event.getCrudViewParent().getEast();
+        boolean visible = east.isVisible();
+        east.setVisible(!visible);
+    }
+
+    @Override
+    public List<?> getAplicateClass() {
+        return Arrays.asList(CrudAction.class);
+    }
+
+    @Override
+    public String getClasses() {
+        return "btn-default";
+    }
+
+    @Override
+    public FormStates getFormState() {
+        return null;
+    }
+
+    @Override
+    public Integer position() {
+        return 4;
+    }
+
+    @Override
+    public String getColor() {
+        return "#B2B2B2";
+    }
+
+    @Override
+    public int getGroup() {
+        return 0;
+    }
+
+    @Override
+    public String getTooltipText() {
+        return ReflectionZKUtil.getLabel("filtrar");
+    }
+}

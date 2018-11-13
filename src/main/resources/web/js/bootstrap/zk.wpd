@@ -1,0 +1,4 @@
+<package name="bootstrap" language="xul/html">
+	<!-- Bootstrap version 3.0.0 -->
+	<script src="ext/js/bootstrap.min.js"/>
+</package>

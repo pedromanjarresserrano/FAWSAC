@@ -1,0 +1,4 @@
+<package name="zk.gallery" language="xul/html">
+  	<script src="js/natural-gallery.full.js" />
+    <widget name="Gallery"/>
+</package>

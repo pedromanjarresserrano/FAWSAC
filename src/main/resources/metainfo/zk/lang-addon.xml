@@ -1,0 +1,151 @@
+<!-- ZK will load this file
+    (classpath/metainfo/zk/lang-addon.xml) automatically -->
+
+<language-addon>
+    <!-- addon name,
+        required, it's better to be unique -->
+    <addon-name>custom</addon-name>
+    <!-- specifies the name of a language definition
+        should be unique in a language definition,
+        xul/html is predefinied language in ZK
+        so can be used in lang-addon directly -->
+    <language-name>xul/html</language-name>
+    <stylesheet href="~./css/clock.css" type="text/css"/>
+    <stylesheet href="~./css/toastr.css" type="text/css"/>
+    <stylesheet href="~./css/fonts.css" type="text/css"/>
+    <stylesheet href="~./zul/less/index.css" type="text/css"/>
+    <stylesheet href="~./css/bootstrap/bootstrap.min.css" type="text/css"/>
+
+    <stylesheet href="~./css/loading-bar.css" type="text/css"/>
+    <!--<stylesheet href="https://cdn.plyr.io/3.4.6/plyr.css" type="text/css"/>-->
+    <!--<stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" type="text/css"/>-->
+    <javascript src="~./js/jscolor.js"/>
+
+    <javascript src="/webjars/jquery/jquery.min.js"/>
+    <javascript src="/webjars/sockjs-client/sockjs.min.js"/>
+    <javascript src="/webjars/stomp-websocket/stomp.min.js"/>
+    <javascript src="~./js/jquery.simpleWeather.min.js"/>
+    <javascript src="~./js/toastr.js"/>
+    <javascript src="~./js/fontawesome.js"/>
+    <javascript src="~./js/jquery-2.1.1.min.js"/>
+    <javascript src="~./js/slider.js"/>
+    <javascript src="~./js/bootstrap/bootstrap.min.js"/>
+    <javascript src="~./js/Chart.js"/>
+    <javascript src="~./js/Chart.min.js"/>
+    <javascript src="~./js/chartjs-plugin-datalabels.min.js"/>
+    <!--<javascript src="https://cdn.plyr.io/3.4.6/plyr.js"/>-->
+
+    <javascript src="~./js/jspdf.min.js"/>
+    <javascript src="~./js/jspdf.plugin.autotable.js"/>
+    <javascript src="~./js/html2canvas.js"/>
+    <javascript src="~./js/loading-bar.js"/>
+
+    <javascript src="~./js/addons.js"/>
+
+
+    <!-- define a component -->
+    <component>
+        <component-name>menupages</component-name>
+        <component-class>com.gitlab.pedrioko.core.view.navegation.MenuPages</component-class>
+        <widget-class>zul.box.Vlayout</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/layout.js</mold-uri>
+            <css-uri>css/layout.css.dsp</css-uri>
+        </mold>
+    </component>
+
+    <component>
+        <component-name>chart</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.Chart</component-class>
+        <extends>canvas</extends>
+
+    </component>
+
+    <component>
+        <component-name>colorchooserbox</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.ColorChooserBox</component-class>
+        <extends>textbox</extends>
+    </component>
+
+    <component>
+        <component-name>canvas</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.Canvas</component-class>
+        <widget-class>zkforge.canvas.Canvas</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/canvas.js</mold-uri>
+            <css-uri>css/canvas.css.dsp</css-uri>
+        </mold>
+    </component>
+    <component>
+        <component-name>video</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.Gallery</component-class>
+        <widget-class>zk.gallery.Gallery</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/Gallery.js</mold-uri>
+            <css-uri>css/gallery.css.dsp</css-uri>
+        </mold>
+    </component>
+    <component>
+        <component-name>video</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.Video</component-class>
+        <widget-class>zk.video.Video</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/Video.js</mold-uri>
+            <css-uri>css/video.css.dsp</css-uri>
+        </mold>
+    </component>
+    <component>
+        <component-name>clock</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.widgets.Clock</component-class>
+        <widget-class>zul.wgt.Div</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/div.js</mold-uri>
+        </mold>
+        <preserve-blank/>
+    </component>
+    <component>
+        <component-name>pointgmap</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.PointGmap</component-class>
+        <widget-class>gmaps.Gmaps</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <css-uri>css/gmaps.css.dsp</css-uri>
+        </mold>
+        <annotation>
+            <annotation-name>ZKBIND</annotation-name>
+            <property-name>value</property-name>
+            <attribute>
+                <attribute-name>ACCESS</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+        </annotation>
+    </component>
+    <component>
+        <component-name>contenttab</component-name>
+        <component-class>com.gitlab.pedrioko.core.view.navegation.ContentTab</component-class>
+        <widget-class>zul.wgt.Div</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/div.js</mold-uri>
+        </mold>
+        <preserve-blank/>
+    </component>
+    <component>
+        <component-name>firebase</component-name>
+        <component-class>com.gitlab.pedrioko.core.view.viewers.FireBase</component-class>
+        <widget-class>zul.wnd.Window</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/window.js</mold-uri>
+            <css-uri>css/window.css.dsp</css-uri>
+        </mold>
+        <preserve-blank/>
+    </component>
+
+
+</language-addon>

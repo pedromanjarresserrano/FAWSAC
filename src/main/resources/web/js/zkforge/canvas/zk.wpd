@@ -1,0 +1,6 @@
+<package name="zkforge.canvas" language="xul/html" depends="zul, zk.canvas">
+	<widget name="Canvas" />
+	<script src="Drawable.js" />
+	<script src="Shape.js" />
+	<script src="Text.js" />
+</package>

@@ -1,0 +1,128 @@
+package com.gitlab.pedrioko.core.view.api.impl;
+
+import com.gitlab.pedrioko.core.view.api.ContentView;
+import com.gitlab.pedrioko.core.view.api.MenuProvider;
+import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
+import com.gitlab.pedrioko.core.view.viewers.CrudView;
+import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zul.*;
+
+import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@org.springframework.stereotype.Component
+@Scope("session")
+public class ContentViewImpl implements ContentView {
+
+    private Tabbox tab;
+    @Autowired
+    private FHSessionUtil fhSessionUtil;
+
+    @PostConstruct
+    private void init() {
+        tab = new Tabbox();
+        Tabs tabs = new Tabs();
+        tabs.setParent(tab);
+        Tabpanels tabpanels = new Tabpanels();
+        tabpanels.setHeight("99%");
+        tab.setHeight("99%");
+        tabpanels.setParent(tab);
+        tab.appendChild(tabs);
+        tab.appendChild(tabpanels);
+
+    }
+
+    @Override
+    public Component getView() {
+        if (tab.getPage() != null)
+            init();
+        return tab;
+    }
+
+    @Override
+    public void addContent(MenuProvider provider) {
+        String id = provider.getClass().getSimpleName();
+        String label = provider.getLabel();
+        Tabs tabs = tab.getTabs();
+        List<Component> list = new ArrayList<>();
+        if (tabs != null) {
+            list = tabs.getChildren();
+        }
+        Optional<Component> existtab = list.stream()
+                .filter(e -> e.getId().equalsIgnoreCase(id)).findFirst();
+        try {
+            if (existtab.isPresent()) {
+                if (tab != null)
+                    tab.setSelectedTab((Tab) existtab.get());
+            } else {
+                Tab tab = new Tab(label);
+                tab.setId(id);
+                list.add(tab);
+                tab.setClosable(true);
+                this.tab.getTabs().appendChild(tab);
+                Component view = provider.getView();
+                if (!(view instanceof Tabpanel)) {
+                    Tabpanel tabpanel = new Tabpanel();
+                    tab.setLabel(label);
+                    tabpanel.appendChild(view);
+                    tabpanel.setStyle("overflow:auto;");
+                    this.tab.getTabpanels().getChildren().add(tabpanel);
+
+                } else {
+                    CrudView crudView = (CrudView) view;
+                    if (fhSessionUtil.getCurrentUser().getTipo() != TipoUsuario.ROLE_ADMIN) {
+                        crudView.onlyEnable(fhSessionUtil.getCurrentUser().getUserprofiles().stream().flatMap(e -> e.getProvidersaccess().stream())
+                                .filter(e -> e.getMenuprovider().equalsIgnoreCase(id))
+                                .flatMap(e -> e.getActions().stream()).collect(Collectors.toList()));
+                    }
+                    this.tab.getTabpanels().getChildren().add(crudView);
+                }
+                this.tab.setSelectedTab(tab);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void addView(Component component, String id, String label) {
+        Tabs tabs = tab.getTabs();
+        List<Component> list = new ArrayList<>();
+        if (tabs != null) {
+            list = tabs.getChildren();
+        }
+        Optional<Component> existtab = list.stream()
+                .filter(e -> e.getId().equalsIgnoreCase(id)).findFirst();
+
+        if (existtab.isPresent()) {
+            tab.setSelectedTab((Tab) existtab.get());
+        } else {
+            Tab tab = new Tab(label);
+            tab.setId(id);
+            list.add(tab);
+            tab.setClosable(true);
+            this.tab.getTabs().appendChild(tab);
+            org.zkoss.zk.ui.Component view = component;
+            Tabpanel tabpanel = new Tabpanel();
+            tab.setLabel(label);
+            tabpanel.appendChild(view);
+            tabpanel.setStyle("overflow:auto;");
+            this.tab.getTabpanels().getChildren().add(tabpanel);
+            this.tab.setSelectedTab(tab);
+
+        }
+    }
+
+    @Override
+    public void closeCurrent() {
+        tab.getSelectedTab().close();
+    }
+}
