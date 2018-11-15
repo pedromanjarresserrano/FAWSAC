@@ -2,9 +2,6 @@ package com.gitlab.pedrioko.zk.vm.user;
 
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
-import com.gitlab.pedrioko.core.zk.component.Gallery;
-import com.gitlab.pedrioko.core.zk.component.model.GalleryItem;
-import com.gitlab.pedrioko.core.zk.component.model.enums.GalleryType;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import com.gitlab.pedrioko.zk.composer.interfaces.DashBoardComponent;
 import org.zkoss.zk.ui.Executions;
@@ -17,7 +14,6 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Window;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -97,16 +93,6 @@ public class Dashboard extends SelectorComposer<Window> {
                 }
             }
         }
-        Gallery child = new Gallery();
-        child.setGalleryType(GalleryType.NATURAL);
-        ArrayList<GalleryItem> galleryItems = new ArrayList<>();
-        GalleryItem galleryItem = new GalleryItem();
-        galleryItem.setEnlargedSrc("http://localhost:8080/storage/files/preview_Zelda Morrison And Alyssa Cole Get Some Dick Gurgling Lessons.mp4-0.jpg");
-        galleryItem.setThumbnailSrc("http://localhost:8080/storage/files/preview_Zelda Morrison And Alyssa Cole Get Some Dick Gurgling Lessons.mp4-0.jpg");
-        galleryItems.add(galleryItem);
-        galleryItems.add(galleryItem);
-        child.setGalleryItems(galleryItems);
-        component.appendChild(child);
     }
 
     public boolean isMobile() {

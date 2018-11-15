@@ -15,10 +15,14 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.UUID;
 
 @Service("storageservice")
 public class StorageServiceImpl implements StorageService {
@@ -53,7 +57,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public String getUrlStorageLocation() {
-        return "http://localhost:" + serverListener.getIntPort() + StorageStaticResourceLocationsImpl.STORAGE_PATH;
+        return "" + StorageStaticResourceLocationsImpl.STORAGE_PATH;
     }
 
     @Override
@@ -62,6 +66,12 @@ public class StorageServiceImpl implements StorageService {
 
         return new File(value + filename);
     }
+
+    @Override
+    public String getUUID() {
+        return UUID.randomUUID().toString();
+    }
+
 
     @Override
     public File getFile(FileEntity filename) {
@@ -75,7 +85,66 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public String getUrlFile(String filename) {
-        return getUrlStorageLocation() + filename;
+        return getUrlStorageLocation() + "/" + filename.split(".")[0] + "/" + filename;
+    }
+
+    @Override
+    public FileEntity saveFile(InputStream inputstream) {
+        String uuid = getUUID();
+        File file = this.saveFile(uuid, inputstream);
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setFilename(uuid);
+        fileEntity.setUrl(file.getAbsolutePath());
+        return fileEntity;
+    }
+
+    @Override
+    public FileEntity saveFileImage(BufferedImage bufferedImage, String fileName) {
+        return this.saveFileImage(bufferedImage, fileName, "jpg");
+    }
+
+    @Override
+    public void writeImage(BufferedImage bufferedImage, String fileName, String extension) {
+        File output = new File(getStorageLocation() + "\\" + fileName + "." + extension);
+        writeImage(output, bufferedImage, extension);
+    }
+
+    @Override
+    public void writeImage(File output, BufferedImage bufferedImage, String extension) {
+        try {
+            ImageIO.write(bufferedImage, extension, output);
+        } catch (IOException e) {
+            LOGGER.error("ERROR", e);
+        }
+    }
+
+    @Override
+    public FileEntity saveFileImage(BufferedImage bufferedImage, String fileName, String extension) {
+        File output = new File(getStorageLocation() + "\\" + fileName + "." + extension);
+
+        FileEntity fileEntity = existFileEntity(fileName) ? new FileEntity() : getFileEntities(fileName).get(0);
+        if (!output.exists()) {
+            try {
+                ImageIO.write(bufferedImage, extension, output);
+            } catch (IOException e) {
+                LOGGER.error("ERROR", e);
+            }
+        }
+
+        fileEntity.setFilename(output.getName());
+        fileEntity.setUrl(output.getAbsolutePath());
+        return fileEntity;
+    }
+
+    @Override
+    public boolean existFileEntity(String fileName) {
+        List<FileEntity> likePrecise = getFileEntities(fileName);
+        return !(likePrecise == null || likePrecise.isEmpty());
+    }
+
+    @Override
+    public List<FileEntity> getFileEntities(String fileName) {
+        return crudService.getLikePrecise(FileEntity.class, fileName);
     }
 
 
@@ -83,7 +152,7 @@ public class StorageServiceImpl implements StorageService {
     public File saveFile(String filename, InputStream inputstream) {
         String value = getAppParam().getValue();
         OutputStream outputStream = null;
-        File banner = new File(value + filename);
+        File banner = new File(value + "/" + filename.split(".")[0] + "/" + filename);
         try (FileOutputStream fos = new FileOutputStream(banner)) {
             InputStream inputStream = inputstream;
             outputStream = fos;

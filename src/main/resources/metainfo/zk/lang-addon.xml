@@ -90,6 +90,16 @@
     </component>
     <component>
         <component-name>video</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.Carousel</component-class>
+        <widget-class>zk.carousel.Carousel</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/Carousel.js</mold-uri>
+            <css-uri>css/carousel.css</css-uri>
+        </mold>
+    </component>
+    <component>
+        <component-name>video</component-name>
         <component-class>com.gitlab.pedrioko.core.zk.component.Video</component-class>
         <widget-class>zk.video.Video</widget-class>
         <mold>

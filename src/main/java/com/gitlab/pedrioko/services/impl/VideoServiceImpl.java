@@ -28,9 +28,11 @@ public class VideoServiceImpl implements VideoService {
 
     @Autowired
     private CrudService crudService;
+    @Autowired
+    private StorageService storageService;
 
     @Override
-    public List<FileEntity> generatePreviewImage(String filePath) {
+    public List<FileEntity> generatePreviewImage(String filePath, int previewCount) {
         List<FileEntity> fileEntities = new ArrayList<>();
         try {
             Long sec = 1L;
@@ -43,27 +45,24 @@ public class VideoServiceImpl implements VideoService {
             DemuxerTrack vt = dm.getVideoTrack();
             DemuxerTrackMeta meta = vt.getMeta();
             double totalDuration = meta.getTotalDuration();
-            Long v = Math.round(totalDuration / 10L);
+            Long v = Math.round(totalDuration / previewCount);
             FileChannelWrapper ch = null;
             File file = new File(filePath);
             try {
                 ch = NIOUtils.readableChannel(file);
                 AWTFrameGrab awtFrameGrab = AWTFrameGrab.createAWTFrameGrab(ch);
-                for (int i = 0; i < 10; i++) {
-                    File output = new File(name.getValue() + "\\preview_" + file.getName() + "-" + i + ".jpg");
-                    if (!output.exists()) {
-                        BufferedImage dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
-                        ImageIO.write(dst, "jpg", output);
-                        sec += v;
-                        FileEntity e = new FileEntity();
-                        e.setFilename(output.getName());
-                        e.setUrl(output.getAbsolutePath());
-                        fileEntities.add(e);
+                for (int i = 0; i < previewCount; i++) {
+                    File output = new File(name.getValue() + "\\pv_" + file.getName() + "-" + i + ".jpg");
+                    String name1 = output.getName();
+                    BufferedImage dst = null;
+                    if (storageService.existFileEntity(name1)) {
+                        if (!output.exists()) {
+                            dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
+                            storageService.writeImage(output, dst, "jpg");
+                        }
                     } else {
-                        FileEntity e = new FileEntity();
-                        e.setFilename(output.getName());
-                        e.setUrl(output.getAbsolutePath());
-                        fileEntities.add(e);
+                        dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
+                        fileEntities.add(storageService.saveFileImage(dst, name1));
                     }
                 }
             } catch (Exception e) {
@@ -76,6 +75,11 @@ public class VideoServiceImpl implements VideoService {
             e.printStackTrace();
         }
         return fileEntities;
+    }
+
+    @Override
+    public List<FileEntity> generatePreviewImage(String filePath) {
+        return this.generatePreviewImage(filePath, 10);
     }
 
 }

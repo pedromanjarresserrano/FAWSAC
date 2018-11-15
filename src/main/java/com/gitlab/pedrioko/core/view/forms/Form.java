@@ -44,7 +44,7 @@ class Form extends Window {
     private Div actions = new Div();
     private transient Map<Field, Component> binding = new LinkedHashMap<>();
     private Class<?> klass;
-    private String reglonClass = "control-group col-sm-12 col-md-5 col-lg-5";
+    private String reglonClass = "col-sm-12 col-md-5 col-lg-5";
 
     public Form() {
         super();

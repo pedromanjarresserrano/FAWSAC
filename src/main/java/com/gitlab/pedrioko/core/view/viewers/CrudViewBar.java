@@ -142,9 +142,9 @@ public class CrudViewBar extends Toolbar {
         textbox.setHeight("33px");
         textbox.setPlaceholder(getLabel("buscar"));
         textbox.addEventListener(Events.ON_OK, e -> crudTable.setValue(crudService.getLike(klass, textbox.getValue())));
-
-        appendChild(textbox);
-
+        if (!ZKUtil.isMobile()) {
+            appendChild(textbox);
+        }
     }
 
 

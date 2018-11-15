@@ -8,8 +8,9 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.Validate;
+import com.gitlab.pedrioko.core.zk.component.Carousel;
+import com.gitlab.pedrioko.core.zk.component.model.CarouselItem;
 import com.gitlab.pedrioko.services.StorageService;
-import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.*;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class CrudGrid extends Grid {
 
@@ -31,6 +33,8 @@ public class CrudGrid extends Grid {
     private String selectValueUUID = "";
     private CrudMenuContext popup;
     private StorageService storageService;
+    private int cellsInRow = 4;
+
 
     public CrudGrid(Class<?> klass) {
         super();
@@ -78,21 +82,30 @@ public class CrudGrid extends Grid {
                 Object obj = listitems.get(i);
 
                 Object valueFieldObject = ReflectionJavaUtil.getValueFieldObject((String) value, obj);
-                Image image = new Image();
-                final AImage[] ai = {null};
+
                 if ((boolean) map.get("isList")) {
                     List<FileEntity> listfiles = (List) valueFieldObject;
                     if (!listfiles.isEmpty()) {
-                        image.setSrc(storageService.getUrlFile(listfiles.get(0)));
+                        Carousel carousel = new Carousel();
+                        carousel.setCarouselItems(listfiles.stream().map(e -> {
+                            CarouselItem carouselItem = new CarouselItem();
+                            String url = ApplicationContextUtils.getBean(StorageService.class).getUrlFile(e.getFilename());
+                            carouselItem.setEnlargedSrc(url);
+                            return carouselItem;
+                        }).collect(Collectors.toList()));
+                        child.appendChild(carousel);
+
                     }
                 } else {
+                    Image image = new Image();
                     image.setSrc(storageService.getUrlFile(((FileEntity) valueFieldObject)));
+                    image.setClass("img-responsive");
+                    image.setStyle("margin: 0 auto; background: black;");
+                    image.setHeight("100px");
+                    child.appendChild(image);
                 }
 
-                image.setClass("img-responsive");
-                image.setStyle("margin: 0 auto; background: black;");
-                image.setHeight("100px");
-                child.appendChild(image);
+
                 child.setClass("crud-grid-item");
                 child.appendChild(new Label((String) ReflectionJavaUtil.getValueFieldObject(gridViewFieldName, obj)));
                 child.setHeight("135px");
@@ -109,15 +122,11 @@ public class CrudGrid extends Grid {
                     popup.open(child, "after_end");
                     getEvent(CrudEvents.ON_RIGHT_CLICK).forEach(OnEvent::doSomething);
                 });
-                image.addEventListener(Events.ON_MOUSE_OVER, e -> popup.open(image, "after_end"));
-
-                row.setContextAttributes(popup, "at_pointer", "0", "0", null);
                 row.appendChild(div);
-
                 row.setHeight("135px");
                 counter++;
 
-                if (counter == 6 || listitems.size() < 7) {
+                if (counter == this.cellsInRow || listitems.size() < this.cellsInRow + 1) {
                     rows.appendChild(row);
                     row = new Row();
                     counter = 0;
