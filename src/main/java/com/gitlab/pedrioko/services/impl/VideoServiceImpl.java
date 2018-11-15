@@ -53,7 +53,7 @@ public class VideoServiceImpl implements VideoService {
                 AWTFrameGrab awtFrameGrab = AWTFrameGrab.createAWTFrameGrab(ch);
                 for (int i = 0; i < previewCount; i++) {
                     File output = new File(name.getValue() + "\\pv_" + file.getName() + "-" + i + ".jpg");
-                    String name1 = output.getName();
+                    String name1 = "pv_" + file.getName() + "-" + i;
                     BufferedImage dst = null;
                     if (storageService.existFileEntity(name1)) {
                         if (!output.exists()) {
@@ -64,6 +64,7 @@ public class VideoServiceImpl implements VideoService {
                         dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
                         fileEntities.add(storageService.saveFileImage(dst, name1));
                     }
+                    sec += v;
                 }
             } catch (Exception e) {
                 e.printStackTrace();

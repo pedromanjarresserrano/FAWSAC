@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Timer;
 import org.zkoss.zul.Window;
@@ -21,7 +22,7 @@ public class TaskMenuProvider implements MenuProvider {
 
     @Override
     public String getLabel() {
-        return ReflectionZKUtil.getLabel("usuarios");
+        return ReflectionZKUtil.getLabel("Taks process");
     }
 
     @Override
@@ -30,23 +31,28 @@ public class TaskMenuProvider implements MenuProvider {
         Label label = new Label();
         window.appendChild(label);
         Timer timer = new Timer();
-        timer.setDelay(2000);
+        timer.setDelay(1000);
         timer.setRepeats(true);
         long l = getProcent();
         label.setValue("Task at " + l + "%");
         timer.addEventListener(Events.ON_TIMER, e -> label.setValue("Task at " + getProcent() + "%"));
+        label.addEventListener(Events.ON_AFTER_SIZE, e -> Clients.evalJavaScript("" +
+                "        var ctx = document.getElementById('" + label.getUuid() + "');" +
+                "console.log(ctx);"));
         timer.start();
         return window;
     }
 
     private long getProcent() {
         ThreadPoolExecutor threadPoolExecutor = taskExecutor.getThreadPoolExecutor();
-        return threadPoolExecutor.getCompletedTaskCount() * 100 / threadPoolExecutor.getTaskCount();
+        long taskCount = threadPoolExecutor.getTaskCount();
+        long completedTaskCount = threadPoolExecutor.getCompletedTaskCount();
+        return taskCount > 0 ? (completedTaskCount * 100) / taskCount : 0;
     }
 
     @Override
     public String getIcon() {
-        return "fa fa-users";
+        return "fa fa-spinner spin";
     }
 
     @Override

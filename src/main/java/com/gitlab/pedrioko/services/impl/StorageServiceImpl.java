@@ -85,7 +85,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public String getUrlFile(String filename) {
-        return getUrlStorageLocation() + "/" + filename.split(".")[0] + "/" + filename;
+        return getUrlStorageLocation() + filename;
     }
 
     @Override
@@ -122,7 +122,7 @@ public class StorageServiceImpl implements StorageService {
     public FileEntity saveFileImage(BufferedImage bufferedImage, String fileName, String extension) {
         File output = new File(getStorageLocation() + "\\" + fileName + "." + extension);
 
-        FileEntity fileEntity = existFileEntity(fileName) ? new FileEntity() : getFileEntities(fileName).get(0);
+        FileEntity fileEntity = !existFileEntity(fileName) ? new FileEntity() : getFileEntities(fileName).get(0);
         if (!output.exists()) {
             try {
                 ImageIO.write(bufferedImage, extension, output);
@@ -152,7 +152,7 @@ public class StorageServiceImpl implements StorageService {
     public File saveFile(String filename, InputStream inputstream) {
         String value = getAppParam().getValue();
         OutputStream outputStream = null;
-        File banner = new File(value + "/" + filename.split(".")[0] + "/" + filename);
+        File banner = new File(value + "/"/* + filename.split(".")[0] + "/"*/ + filename);
         try (FileOutputStream fos = new FileOutputStream(banner)) {
             InputStream inputStream = inputstream;
             outputStream = fos;
