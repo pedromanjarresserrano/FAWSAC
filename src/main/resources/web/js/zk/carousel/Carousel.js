@@ -55,7 +55,7 @@ zk.carousel.Carousel = zk.$extends(zk.Widget, {
     domCarouselContent_: function () {
         var obj = JSON.parse(this.getCarouselItemsJson());
         for (var b = obj.length, c = "", d = 0; d < b; d++)
-            c += '<img class="img-responsive" src="' + obj[d].enlargedSrc + '">';
+            c += '<span><img class="tns-image img-responsive " style="height: ' + obj[d].enlargedHeight + ';" src="' + obj[d].enlargedSrc + '"></span>';
         return c;
 
     },

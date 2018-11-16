@@ -9,8 +9,11 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.Validate;
 import com.gitlab.pedrioko.core.zk.component.Carousel;
+import com.gitlab.pedrioko.core.zk.component.Video;
 import com.gitlab.pedrioko.core.zk.component.model.CarouselItem;
 import com.gitlab.pedrioko.services.StorageService;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.*;
@@ -21,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@EqualsAndHashCode(callSuper = false)
 public class CrudGrid extends Grid {
 
     private static final long serialVersionUID = 1L;
@@ -35,6 +39,8 @@ public class CrudGrid extends Grid {
     private StorageService storageService;
     private int cellsInRow = 4;
 
+    private @Getter
+    Long imageHeight;
 
     public CrudGrid(Class<?> klass) {
         super();
@@ -67,6 +73,7 @@ public class CrudGrid extends Grid {
         rows.setHeight("135px");
         popup = new CrudMenuContext(klass, ApplicationContextUtils.getBeans(Action.class));
         storageService = ApplicationContextUtils.getBean(StorageService.class);
+        imageHeight = 100L;
     }
 
     private void loadItems() {
@@ -91,24 +98,35 @@ public class CrudGrid extends Grid {
                             CarouselItem carouselItem = new CarouselItem();
                             String url = ApplicationContextUtils.getBean(StorageService.class).getUrlFile(e.getFilename());
                             carouselItem.setEnlargedSrc(url);
+                            carouselItem.setEnlargedHeight(imageHeight + "px");
+
                             return carouselItem;
                         }).collect(Collectors.toList()));
                         child.appendChild(carousel);
 
+                    } else {
+                        Video image = new Video();
+                        String urlFile = "/statics/files/" + ReflectionJavaUtil.getValueFieldObject((String) map.get("replaceValue"), obj);
+                        image.setSrc(urlFile);
+                        //image.setClass("img-responsive");
+                        //image.setStyle("margin: 0 auto; background: black;");
+                        image.setHeight(imageHeight.toString() + "px");
+                        child.appendChild(image);
                     }
                 } else {
                     Image image = new Image();
-                    image.setSrc(storageService.getUrlFile(((FileEntity) valueFieldObject)));
-                    image.setClass("img-responsive");
-                    image.setStyle("margin: 0 auto; background: black;");
-                    image.setHeight("100px");
+                    String urlFile = storageService.getUrlFile(((FileEntity) valueFieldObject));
+                    image.setSrc(urlFile);
+                    //image.setClass("img-responsive");
+                    //image.setStyle("margin: 0 auto; background: black;");
+                    image.setHeight(imageHeight.toString() + "px");
                     child.appendChild(image);
                 }
 
 
                 child.setClass("crud-grid-item");
                 child.appendChild(new Label((String) ReflectionJavaUtil.getValueFieldObject(gridViewFieldName, obj)));
-                child.setHeight("135px");
+                child.setHeight("auto");
                 int finalI = i;
                 Div div = new Div();
                 div.appendChild(child);
@@ -123,18 +141,23 @@ public class CrudGrid extends Grid {
                     getEvent(CrudEvents.ON_RIGHT_CLICK).forEach(OnEvent::doSomething);
                 });
                 row.appendChild(div);
-                row.setHeight("135px");
+                row.setHeight("auto");
                 counter++;
 
-                if (counter == this.cellsInRow || listitems.size() < this.cellsInRow + 1) {
+                if (counter == this.cellsInRow || listitems.size() < this.cellsInRow || (i == listitems.size() - 1)) {
                     rows.appendChild(row);
                     row = new Row();
                     counter = 0;
                 }
             }
         }
+        //  rows.getChildren().stream().sorted(Collections.reverseOrder());
         System.out.println("end load");
 
+    }
+
+    private boolean valideLimit(int base, int limit) {
+        return base == limit - 1 ? true : valideLimit(base, limit - 1);
     }
 
     private void onClick(Vlayout child, int finalI) {
@@ -155,6 +178,10 @@ public class CrudGrid extends Grid {
 
     public <T> T getSelectedValue() {
         return (T) selectValue;
+    }
+
+    public void clearSelecion() {
+        selectValue = null;
     }
 
     public List getValue() {
@@ -183,4 +210,8 @@ public class CrudGrid extends Grid {
     }
 
 
+    public void setImageHeight(long imageHeight) {
+        this.imageHeight = imageHeight;
+        update();
+    }
 }

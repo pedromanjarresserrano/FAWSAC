@@ -6,6 +6,7 @@
         <option value="activateOnShortcut" />
         <option value="organizeImports" />
         <option value="reformat" />
+        <option value="reformatChangedCode" />
         <option value="compile" />
       </set>
     </option>

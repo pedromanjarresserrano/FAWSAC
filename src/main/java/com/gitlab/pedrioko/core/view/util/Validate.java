@@ -54,6 +54,8 @@ public class Validate {
         HashMap map = new HashMap();
         map.put("value", annotation.value());
         map.put("isList", annotation.isList());
+        map.put("replaceValue", annotation.replaceValue());
+
         return map;
     }
 }

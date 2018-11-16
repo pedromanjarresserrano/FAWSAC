@@ -188,6 +188,8 @@ public class CrudView extends Tabpanel {
 
     public void setValue(List<?> value) {
         crudController.setValue(value);
+        if (gridTable != null)
+            gridTable.clearSelecion();
     }
 
     public void setValue(ArrayList<?> value) {

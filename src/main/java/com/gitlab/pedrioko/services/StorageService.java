@@ -28,6 +28,8 @@ public interface StorageService {
 
     FileEntity saveFile(InputStream inputstream);
 
+    FileEntity saveFileToFileEntity(String filename, InputStream inputstream);
+
     FileEntity saveFileImage(BufferedImage bufferedImage, String fileName);
 
     void writeImage(BufferedImage bufferedImage, String fileName, String extension);

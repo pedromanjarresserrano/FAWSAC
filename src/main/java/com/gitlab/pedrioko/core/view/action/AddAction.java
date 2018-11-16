@@ -50,6 +50,7 @@ public class AddAction implements Action {
             comboitem.setValue(e);
             combobox.getItems().add(comboitem);
         });
+        form.getRenglon(AGREGAR).setClass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
         form.addAction(ReflectionZKUtil.getLabel("agregar"), "fa fa-plus", e -> {
             crudViewParent.addValue(combobox.getSelectedItem().getValue());
             form.detach();

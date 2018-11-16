@@ -82,6 +82,7 @@ zk.video.Video = zk.$extends(zk.Widget, {
             ctx.classList.add("col-md-12");
             ctx.classList.add("col-lg-12");
             ctx.classList.add("col-xs-12");
+            ctx.style.height = this.getHeight();
         }
     },
     unbind_: function () {

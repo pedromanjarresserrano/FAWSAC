@@ -90,6 +90,9 @@
 .tns-lazy-img.loaded {
     opacity: 1
 }
+.tns-image{
+    margin: auto;
+}
 
 .tns-ah {
     -webkit-transition: height 0s;

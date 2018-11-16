@@ -9,4 +9,6 @@ public @interface GridViewFieldPreview {
     String value();
 
     boolean isList();
+
+    String replaceValue() default "";
 }

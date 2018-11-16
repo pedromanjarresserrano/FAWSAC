@@ -10,6 +10,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -22,6 +23,8 @@ public class CustomForm extends Form {
     private transient Map<String, Class<?>> formfields;
     private Div form = new Div();
     private Map<String, Component> binding;
+
+    private transient Map<String,Div> formRenglones = new HashMap<>();
 
     public CustomForm(Class<?> klass, Map<String, Class<?>> formfields) {
         this.binding = new LinkedHashMap<>();
@@ -68,10 +71,14 @@ public class CustomForm extends Form {
             else
                 putBinding(this.getKlass().getDeclaredField(k), v);
             loadReglon(renglon, labeldiv, label, campo);
+            formRenglones.put(k,renglon);
         } catch (IllegalArgumentException | SecurityException | NoSuchFieldException e) {
             LOGGER.error("ERROR on addField()", e);
 
         }
+    }
+    public Div getRenglon(String field){
+        return this.formRenglones.get(field);
     }
 
     public void addEventToField(String fieldname, String event, EventListener eventListener) {

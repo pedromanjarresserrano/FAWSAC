@@ -99,6 +99,14 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
+    public FileEntity saveFileToFileEntity(String filename, InputStream inputstream) {
+        File file = this.saveFile(filename, inputstream);
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setFilename(filename);
+        fileEntity.setUrl(file.getAbsolutePath());
+        return fileEntity;
+    }
+    @Override
     public FileEntity saveFileImage(BufferedImage bufferedImage, String fileName) {
         return this.saveFileImage(bufferedImage, fileName, "jpg");
     }
