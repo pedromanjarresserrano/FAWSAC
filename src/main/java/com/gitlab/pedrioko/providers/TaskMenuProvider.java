@@ -3,13 +3,11 @@ package com.gitlab.pedrioko.providers;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.zk.component.ProgressTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Label;
-import org.zkoss.zul.Timer;
 import org.zkoss.zul.Window;
 
 import java.util.concurrent.ThreadPoolExecutor;
@@ -30,16 +28,13 @@ public class TaskMenuProvider implements MenuProvider {
         Window window = new Window();
         Label label = new Label();
         window.appendChild(label);
-        Timer timer = new Timer();
-        timer.setDelay(1000);
-        timer.setRepeats(true);
-        long l = getProcent();
-        label.setValue("Task at " + l + "%");
-        timer.addEventListener(Events.ON_TIMER, e -> label.setValue("Task at " + getProcent() + "%"));
-        label.addEventListener(Events.ON_AFTER_SIZE, e -> Clients.evalJavaScript("" +
-                "        var ctx = document.getElementById('" + label.getUuid() + "');" +
-                "console.log(ctx);"));
-        timer.start();
+        ProgressTask pg = new ProgressTask();
+        pg.setOnTimerEvent(() -> {
+            pg.setCurrentValue(getProcent());
+        });
+        pg.setWidth("300px");
+        pg.setTime(1000);
+        window.appendChild(pg);
         return window;
     }
 

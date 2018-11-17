@@ -36,6 +36,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (tipo1 == null || tipo1.isEmpty()) {
             Usuario usuario = new Usuario();
             usuario.setUsername("admin");
+            usuario.setTipo(TipoUsuario.ROLE_ADMIN);
             usuario.setPassword(passwordEncoder.encode("admin"));
             myservice.save(usuario);
         }

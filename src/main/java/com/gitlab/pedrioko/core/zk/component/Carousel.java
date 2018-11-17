@@ -3,8 +3,9 @@ package com.gitlab.pedrioko.core.zk.component;
 import com.gitlab.pedrioko.core.zk.component.model.CarouselItem;
 import com.google.gson.Gson;
 import lombok.Data;
-import org.zkoss.json.JSONObject;
 import org.zkoss.zk.ui.HtmlBasedComponent;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.sys.ContentRenderer;
 
 import java.io.IOException;
@@ -15,10 +16,14 @@ public @Data
 class Carousel extends HtmlBasedComponent {
 
     private List<CarouselItem> carouselItems;
-    private JSONObject jsonObject = new JSONObject();
     private String carouselItemsJson = "";
 
     public Carousel() {
+    }
+
+    @Override
+    public boolean addEventListener(String evtnm, EventListener<? extends Event> listener) {
+        return super.addEventListener(evtnm, listener);
     }
 
     @Override
@@ -36,7 +41,12 @@ class Carousel extends HtmlBasedComponent {
 
     public void setCarouselItemsJson(String galleryItemsJson) {
         this.carouselItemsJson = galleryItemsJson;
+        smartUpdate("carouselItemsJson", carouselItemsJson);
     }
 
+    public void setCarouselItems(List<CarouselItem> carouselItems) {
+        this.carouselItems = carouselItems;
+        smartUpdate("carouselItemsJson", carouselItems);
 
+    }
 }

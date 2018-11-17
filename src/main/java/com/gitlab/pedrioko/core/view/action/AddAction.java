@@ -50,7 +50,7 @@ public class AddAction implements Action {
             comboitem.setValue(e);
             combobox.getItems().add(comboitem);
         });
-        form.getRenglon(AGREGAR).setClass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
+        form.getRenglon(AGREGAR).setZclass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
         form.addAction(ReflectionZKUtil.getLabel("agregar"), "fa fa-plus", e -> {
             crudViewParent.addValue(combobox.getSelectedItem().getValue());
             form.detach();
@@ -58,7 +58,6 @@ public class AddAction implements Action {
         });
         form.addAction(ReflectionZKUtil.getLabel("cancelar"), "fa fa-ban", "btn btn-danger", e -> form.detach());
         form.setTitle(AGREGAR);
-        form.setClass("col-sm-12 col-md-6 col-lg-6");
         ZKUtil.showDialogWindow(form);
 
     }

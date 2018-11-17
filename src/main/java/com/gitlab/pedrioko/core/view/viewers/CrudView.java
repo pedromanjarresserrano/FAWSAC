@@ -90,7 +90,7 @@ public class CrudView extends Tabpanel {
 //        appendChild(crudTable);
         appendChild(actions);
         actions.setClass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
-        actions.setStyle("margin-top:10px;margin-buttom:10px;");
+        actions.setStyle("margin-top:10px;margin-bottom:10px;");
         setStyle("height:100%;");
         reloadable = crudviewmode != CrudMode.SUBCRUD;
 
@@ -148,7 +148,7 @@ public class CrudView extends Tabpanel {
 //        appendChild(crudTable);
         appendChild(actions);
         actions.setClass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
-        actions.setStyle("margin-top:10px;margin-buttom:10px;");
+        actions.setStyle("margin-top:10px;margin-bottom:10px;");
         setStyle("height:100%;");
         reloadable = crudviewmode != CrudMode.SUBCRUD;
         if (crudController == null) {

@@ -44,12 +44,12 @@ class Form extends Window {
     private Div actions = new Div();
     private transient Map<Field, Component> binding = new LinkedHashMap<>();
     private Class<?> klass;
-    private String reglonClass = "col-sm-12 col-md-5 col-lg-5";
+    private String reglonClass = "col-sm-12 col-md-6 col-lg-6";
 
     public Form() {
         super();
         actions.setClass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
-        actions.setStyle("margin-top:10px;margin-buttom:10px;");
+        actions.setStyle("margin-top:40px;margin-bottom:10px;");
     }
 
     public void addAction(Action action) {
@@ -121,7 +121,7 @@ class Form extends Window {
     public void loadReglon(Div renglon, Div labeldiv, Label label, Div campo) {
         labeldiv.appendChild(label);
         renglon.appendChild(labeldiv);
-        renglon.setStyle("margin-top:10px;margin-buttom:10px;");
+        renglon.setStyle("margin-top:10px;margin-bottom:10px;");
         renglon.setZclass(reglonClass);
         labeldiv.setZclass("col-sm-4");
         campo.setZclass("col-sm-8");

@@ -92,7 +92,7 @@ public class CrudFilters extends Window {
     public void loadReglon(Div renglon, Div labeldiv, Label label, Div campo) {
         labeldiv.appendChild(label);
         renglon.appendChild(labeldiv);
-        renglon.setStyle("margin-top:10px;margin-buttom:10px;");
+        renglon.setStyle("margin-top:10px;margin-bottom:10px;");
         renglon.setZclass(reglonClass);
         labeldiv.setZclass("col-sm-12");
         campo.setZclass("col-sm-12");

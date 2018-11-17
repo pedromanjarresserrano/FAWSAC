@@ -1,0 +1,5 @@
+<package name="zk.progresstask" language="xul/html">
+    	<script src="js/progresstask.js" />
+
+  	<widget name="ProgressTask"/>
+</package>

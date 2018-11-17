@@ -21,6 +21,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -104,6 +105,7 @@ public class StorageServiceImpl implements StorageService {
         FileEntity fileEntity = new FileEntity();
         fileEntity.setFilename(filename);
         fileEntity.setUrl(file.getAbsolutePath());
+        fileEntity.setCreationDate(new Date());
         return fileEntity;
     }
     @Override

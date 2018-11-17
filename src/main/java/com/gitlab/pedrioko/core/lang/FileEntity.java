@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @UIEntity
@@ -19,6 +20,8 @@ class FileEntity implements Serializable {
 
     private String filename;
 
+    private Date creationDate;
     @Version
     private int version;
+
 }

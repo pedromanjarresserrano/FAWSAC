@@ -16,7 +16,6 @@
     <stylesheet href="~./zul/less/index.css" type="text/css"/>
     <stylesheet href="~./css/bootstrap/bootstrap.min.css" type="text/css"/>
 
-    <stylesheet href="~./css/loading-bar.css" type="text/css"/>
     <!--<stylesheet href="https://cdn.plyr.io/3.4.6/plyr.css" type="text/css"/>-->
     <!--<stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" type="text/css"/>-->
     <javascript src="~./js/jscolor.js"/>
@@ -96,6 +95,16 @@
             <mold-name>default</mold-name>
             <mold-uri>mold/Carousel.js</mold-uri>
             <css-uri>css/carousel.css</css-uri>
+        </mold>
+    </component>
+    <component>
+        <component-name>video</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.ProgressTask</component-class>
+        <widget-class>zk.progresstask.ProgressTask</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/ProgressTask.js</mold-uri>
+            <css-uri>css/progresstask.css</css-uri>
         </mold>
     </component>
     <component>
