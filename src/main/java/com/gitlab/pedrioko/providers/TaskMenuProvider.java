@@ -3,11 +3,12 @@ package com.gitlab.pedrioko.providers;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
-import com.gitlab.pedrioko.core.zk.component.ProgressTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.Timer;
 import org.zkoss.zul.Window;
 
 import java.util.concurrent.ThreadPoolExecutor;
@@ -28,13 +29,15 @@ public class TaskMenuProvider implements MenuProvider {
         Window window = new Window();
         Label label = new Label();
         window.appendChild(label);
-        ProgressTask pg = new ProgressTask();
-        pg.setOnTimerEvent(() -> {
-            pg.setCurrentValue(getProcent());
+        Timer timer = new Timer();
+        label.setValue("Task at " + getProcent() + "%");
+        timer.addEventListener(Events.ON_TIMER, e -> {
+            label.setValue("Task at " + getProcent() + "%");
         });
-        pg.setWidth("300px");
-        pg.setTime(1000);
-        window.appendChild(pg);
+        window.appendChild(timer);
+        timer.start();
+        timer.setDelay(1000);
+        timer.setRepeats(true);
         return window;
     }
 

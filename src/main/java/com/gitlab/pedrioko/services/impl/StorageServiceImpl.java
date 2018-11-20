@@ -108,6 +108,7 @@ public class StorageServiceImpl implements StorageService {
         fileEntity.setCreationDate(new Date());
         return fileEntity;
     }
+
     @Override
     public FileEntity saveFileImage(BufferedImage bufferedImage, String fileName) {
         return this.saveFileImage(bufferedImage, fileName, "jpg");
@@ -117,14 +118,19 @@ public class StorageServiceImpl implements StorageService {
     public void writeImage(BufferedImage bufferedImage, String fileName, String extension) {
         File output = new File(getStorageLocation() + "\\" + fileName + "." + extension);
         writeImage(output, bufferedImage, extension);
+
     }
 
     @Override
     public void writeImage(File output, BufferedImage bufferedImage, String extension) {
         try {
-            ImageIO.write(bufferedImage, extension, output);
+            BufferedOutputStream imageOutputStream = new BufferedOutputStream(new FileOutputStream(output));
+            ImageIO.write(bufferedImage, extension, imageOutputStream);
+            imageOutputStream.close();
         } catch (IOException e) {
             LOGGER.error("ERROR", e);
+        } finally {
+
         }
     }
 

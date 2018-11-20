@@ -15,6 +15,7 @@ import org.jcodec.common.io.SeekableByteChannel;
 import org.jcodec.containers.mp4.demuxer.MP4Demuxer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -52,10 +53,11 @@ public class VideoServiceImpl implements VideoService {
                 ch = NIOUtils.readableChannel(file);
                 AWTFrameGrab awtFrameGrab = AWTFrameGrab.createAWTFrameGrab(ch);
                 for (int i = 0; i < previewCount; i++) {
-                    File output = new File(name.getValue() + "\\pv_" + file.getName() + "-" + i + ".jpg");
-                    String name1 = "pv_" + file.getName() + "-" + i;
+                    String name1 = DigestUtils.md5DigestAsHex(("pv_" + file.getName() + "-" + i).getBytes());
+                    File output = new File(name.getValue() + "\\" + name1 + ".jpg");
+
                     BufferedImage dst = null;
-                    if (storageService.existFileEntity(name1)) {
+                    if (storageService.existFileEntity(name1 + ".jpg")) {
                         if (!output.exists()) {
                             dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
                             storageService.writeImage(output, dst, "jpg");

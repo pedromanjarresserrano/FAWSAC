@@ -105,20 +105,26 @@ public class CrudGrid extends Grid {
                         child.appendChild(carousel);
 
                     } else {
-                        Video image = new Video();
                         String urlFile = "/statics/files/" + ReflectionJavaUtil.getValueFieldObject((String) map.get("replaceValue"), obj);
-                        image.setSrc(urlFile);
-                        //image.setClass("img-responsive");
-                        //image.setStyle("margin: 0 auto; background: black;");
-                        image.setHeight(imageHeight.toString() + "px");
-                        child.appendChild(image);
+                        if (urlFile.endsWith(".gif")) {
+                            Image image = new Image();
+                            image.setSrc(urlFile);
+                            image.setHeight(imageHeight.toString() + "px");
+                            child.appendChild(image);
+                        } else {
+
+                            Video image = new Video();
+                            image.setSrc(urlFile);
+                            //image.setClass("img-responsive");
+                            //image.setStyle("margin: 0 auto; background: black;");
+                            image.setHeight(imageHeight.toString() + "px");
+                            child.appendChild(image);
+                        }
                     }
                 } else {
-                    Image image = new Image();
                     String urlFile = storageService.getUrlFile(((FileEntity) valueFieldObject));
+                    Image image = new Image();
                     image.setSrc(urlFile);
-                    //image.setClass("img-responsive");
-                    //image.setStyle("margin: 0 auto; background: black;");
                     image.setHeight(imageHeight.toString() + "px");
                     child.appendChild(image);
                 }
@@ -164,9 +170,13 @@ public class CrudGrid extends Grid {
         selectValue = listitems.get(finalI);
         if (!selectValueUUID.isEmpty())
             Clients.evalJavaScript("var var1 = document.getElementById('" + selectValueUUID + "');" +
-                    "if(var1 != null) var1.style.opacity = '1.0';");
+                    "if(var1 != null) {" +
+                    "var1.style.border= '0px';" +
+                    "}");
 
-        Clients.evalJavaScript("document.getElementById('" + child.getUuid() + "').style.opacity = '0.5'");
+
+        Clients.evalJavaScript("document.getElementById('" + child.getUuid() + "').style.border=  '2px solid';" +
+                "");
 
         selectValueUUID = child.getUuid();
     }
