@@ -19,6 +19,8 @@ public class TaskMenuProvider implements MenuProvider {
     @Autowired
     private ThreadPoolTaskExecutor taskExecutor;
 
+    private static int totalCount = 0;
+
     @Override
     public String getLabel() {
         return ReflectionZKUtil.getLabel("Taks process");
@@ -45,7 +47,13 @@ public class TaskMenuProvider implements MenuProvider {
         ThreadPoolExecutor threadPoolExecutor = taskExecutor.getThreadPoolExecutor();
         long taskCount = threadPoolExecutor.getTaskCount();
         long completedTaskCount = threadPoolExecutor.getCompletedTaskCount();
-        return taskCount > 0 ? (completedTaskCount * 100) / taskCount : 0;
+        int Qusize = threadPoolExecutor.getQueue().size();
+        long realTotal = taskCount - totalCount;
+        long l = ((completedTaskCount - totalCount) * 100) / (realTotal == 0L ? 1 : realTotal);
+        if (l == 100) {
+            totalCount += taskCount;
+        }
+        return taskCount > 0 ? l : 0;
     }
 
     @Override

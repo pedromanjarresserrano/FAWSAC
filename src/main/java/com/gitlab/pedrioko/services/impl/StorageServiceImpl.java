@@ -19,11 +19,15 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 @Service("storageservice")
 public class StorageServiceImpl implements StorageService {
@@ -34,12 +38,19 @@ public class StorageServiceImpl implements StorageService {
     @Autowired
     private CrudService crudService;
 
+    private byte[] buffer = new byte[2048];
 
     @PostConstruct
     private void init() {
         AppParam fetchFirst = getAppParam();
         if (fetchFirst == null) {
             fetchFirst = new AppParam(0, StorageService.APP_VAR_NAME, "");
+            crudService.saveOrUpdate(fetchFirst);
+        }
+
+        fetchFirst = getTempAppParam();
+        if (fetchFirst == null) {
+            fetchFirst = new AppParam(0, StorageService.APP_TEMP_VAR_NAME, "");
             crudService.saveOrUpdate(fetchFirst);
         }
     }
@@ -51,9 +62,25 @@ public class StorageServiceImpl implements StorageService {
 
     }
 
+    private AppParam getTempAppParam() {
+        PathBuilder<?> path = crudService.getPathBuilder(AppParam.class);
+        return (AppParam) crudService.query().from(path)
+                .where(path.getString("name").eq(StorageService.APP_TEMP_VAR_NAME)).fetchFirst();
+
+    }
+
+    private Path getPathTempAppParam() {
+        return Paths.get(getTempAppParam().getValue());
+    }
+
     @Override
     public String getStorageLocation() {
         return getAppParam().getValue();
+    }
+
+    @Override
+    public String getTempStorageLocation() {
+        return getTempAppParam().getValue();
     }
 
     @Override
@@ -108,6 +135,40 @@ public class StorageServiceImpl implements StorageService {
         fileEntity.setCreationDate(new Date());
         return fileEntity;
     }
+
+    @Override
+    public List<FileEntity> saveZipFileToFileEntity(String filename, InputStream inputstream) {
+        List<FileEntity> fileList = new ArrayList<>();
+        try {
+            ZipInputStream stream = new ZipInputStream(inputstream);
+            Path outDir = getPathTempAppParam();
+
+            ZipEntry entry;
+            while ((entry = stream.getNextEntry()) != null) {
+                Path filePath = outDir.resolve(getUUID() + entry.getName());
+                File file = filePath.toFile();
+                try (FileOutputStream fos = new FileOutputStream(file);
+                     BufferedOutputStream bos = new BufferedOutputStream(fos, buffer.length)) {
+                    int len;
+                    while ((len = stream.read(buffer)) > 0) {
+                        bos.write(buffer, 0, len);
+                    }
+                    fileList.add(saveFileToFileEntity(file.getName(), new FileInputStream(file)));
+                    try {
+                        Files.move(filePath, Paths.get(getAppParam().getValue()));
+                    } catch (Exception w) {
+                    }
+                    file.delete();
+
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("ERROR", e);
+
+        }
+        return fileList;
+    }
+
 
     @Override
     public FileEntity saveFileImage(BufferedImage bufferedImage, String fileName) {

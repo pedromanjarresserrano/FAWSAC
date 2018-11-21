@@ -91,8 +91,15 @@ public class FileUpload extends Fileupload {
         get(i, upEvent -> {
             if (upEvent != null) {
                 Media[] medias = upEvent.getMedias();
-                if (medias != null && medias.length > 1) {
-                    Arrays.asList(medias).forEach(e -> media.add(storageService.saveFileToFileEntity(e.getName(), e.getStreamData())));
+                if (medias != null && medias.length > 0) {
+                    Arrays.asList(medias).forEach(e -> {
+                        if (e.getName().endsWith("zip")) {
+                            media.addAll(storageService.saveZipFileToFileEntity(e.getName(), e.getStreamData()));
+
+                        } else {
+                            media.add(storageService.saveFileToFileEntity(e.getName(), e.getStreamData()));
+                        }
+                    });
                 }
                 if (event != null) event.doSomething();
             }

@@ -1,0 +1,220 @@
+<?page title="Alert System" contentType="text/html;charset=UTF-8"?>
+<!-- Load Bootstrap -->
+<!-- Google Open Sans font -->
+<!-- Load fonts from local -->
+<?link href="css/fonts.css" rel="stylesheet" type="text/css"?>
+
+<!-- Unmark if we want to use fonts from google server <?link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' 
+	rel='stylesheet' type='text/css'?> -->
+
+<?link href="less/index.css.dsp" rel="stylesheet" type="text/css"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<zk xmlns:n="native" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.zkoss.org/2005/zul"
+    xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<style>
+		.z-loading { top: 50% !important; left: 45% !important; align:
+		center; vertical-align: middle; } body { padding-top: 120px;
+		padding-bottom: 40px;
+
+		} .btn { outline:0; border:none; border-top:none;
+		border-bottom:none; border-left:none; border-right:none;
+		box-shadow:inset 2px -3px rgba(0,0,0,0.15); }
+
+
+		.fullscreen_bg { position: fixed; top: 0; right: 0; bottom: 0;
+		left: 0; background-size: cover; background-position: 50% 50%;
+		background-repeat:repeat; } body{
+
+		position: fixed; top: 0; right: 0; bottom: 0; left: 0;
+		background-size: cover; background-position: 50% 50%;
+		background-image: url('/images/back.jpg');
+		background-repeat:repeat; }
+
+		.boxe{ border: 0px solid #000000; top:50px; -webkit-box-shadow:
+		20px 15px 65px -4px rgba(0,0,0,0.36); -moz-box-shadow: 20px 15px
+		65px -4px rgba(0,0,0,0.36); box-shadow: 20px 15px 65px -4px
+		rgba(0,0,0,0.36); background: #ffffff; }
+
+		.box{
+
+
+		}
+
+	</style>
+	<window border="none"
+		contentStyle="
+	position: fixed; top: 0; right: 0; bottom: 0; left: 0;	
+	background: #F2F2F2;"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.gitlab.pedrioko.zk.vm.login.RegisterVM')">
+		<div
+			style="position: fixed;
+		    	top: 1px;
+		    	left: 4px;
+		    	right: 0;">
+			<n:i class="fa fa-leaf" style="font-size:3em;"></n:i>
+			<label  style="font-size:3em;" >
+			 Alert System
+			</label>
+		</div>
+		<div class="container-fluid col-md-4"
+			style="background-color: rgba(0, 0, 0, 0.0); position: relative; margin: 0; position: absolute;   top: 50%; left: 50%; margin-right: -50%; transform: translate(-50%, -50%);">
+			<div class="row-fluid">
+				<div class="col-md-12" id="box">
+					<vlayout sclass="boxe">
+						<div class="form-group" align="center"
+							style="padding: 20px 20px 0px 20px;">
+							<vlayout style="align:center;">
+								<div class="form-group center">
+									<div class="col-md-12"
+										align="center">
+										<div class="input-group">
+											<label
+												style="font-size:1.7em;" sclass="h1"
+												value="@bind(vm.labeltitulo)">
+											</label>
+										</div>
+									</div>
+								</div>
+								<!-- Form Name -->
+							</vlayout>
+							<!-- Text input -->
+							<vlayout>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="input-group">
+											<span
+												class="input-group-addon">
+												<n:i class="fa fa-user-circle-o"
+													aria-hidden="true" />
+											</span>
+											<textbox
+												value="@save(vm.newuser.nombres)" id="nombres"
+												placeholder="@bind(vm.labelname)" class="form-control" />
+										</div>
+									</div>
+								</div>
+							</vlayout><!-- Text input -->
+							<vlayout>
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="input-group">
+											<span
+												class="input-group-addon">
+												<n:i class="fa fa-user-circle-o"
+													aria-hidden="true" />
+											</span>
+											<textbox
+												value="@save(vm.newuser.apellidos)" id="lastname"
+												placeholder="@bind(vm.labellastname)" class="form-control" />
+										</div>
+									</div>
+								</div>
+							</vlayout>
+							<vlayout>
+								<!-- Text input -->
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="input-group">
+											<span
+												class="input-group-addon">
+												<n:i
+													class="fa fa-envelope-o" aria-hidden="true" />
+											</span>
+											<textbox type="text"
+												value="@save(vm.newuser.email)" id="email"
+												placeholder="@bind(vm.labelemail)" class="form-control" />
+										</div>
+									</div>
+								</div>
+							</vlayout>
+							<vlayout>
+								<!-- Text input -->
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="input-group">
+											<span
+												class="input-group-addon">
+												<n:i class="fa fa-users"
+													aria-hidden="true" />
+											</span>
+											<textbox type="text"
+												value="@save(vm.newuser.username)" id="username"
+												placeholder="@bind(vm.labelusername)" class="form-control" />
+										</div>
+									</div>
+								</div>
+							</vlayout>
+							<vlayout>
+								<!-- Text input -->
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="input-group">
+											<span
+												class="input-group-addon">
+												<span
+													class="glyphicon glyphicon-lock" />
+											</span>
+											<textbox type="password"
+												value="@save(vm.newuser.password)" id="password"
+												placeholder="@bind(vm.labelpassword)" class="form-control" />
+										</div>
+									</div>
+								</div>
+							</vlayout>
+							<vlayout>
+								<!-- Text input -->
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="input-group">
+											<span
+												class="input-group-addon">
+												<span
+													class="glyphicon glyphicon-lock" />
+											</span>
+											<textbox type="password"
+												value="@save(vm.valuecpassword)" id="cpassword"
+												placeholder="@bind(vm.labelcpassword)" class="form-control" />
+										</div>
+									</div>
+								</div>
+							</vlayout>
+							<vlayout>
+								<!-- Text input -->
+								<div class="form-group">
+									<div class="col-md-12">
+										<separator />
+
+										<div class="alert-danger"
+											height="25px" align="center"
+											visible="@bind(vm.visiblemessage)">
+											<label id="message"
+												visible="@bind(vm.visiblemessage)" sclass="warn"
+												value="@bind(vm.labelerror)" />
+										</div>
+										<space />
+										<button id="signup" width="100%"
+											iconSclass="z-icon-check-square-o"
+											onClick="@command('register')"
+											zclass="btn btn-success btn-lg" label="@bind(vm.action)">
+										</button>
+										<space />
+
+										<div class="form-group"
+											align="center">
+											<a id="login"
+												style="font-size:1.0em;" href="/login.zul"
+												label="@bind(vm.labellogin)" />
+										</div>
+									</div>
+								</div>
+							</vlayout>
+						</div>
+					</vlayout>
+				</div>
+			</div>
+		</div>
+	</window>
+</zk>

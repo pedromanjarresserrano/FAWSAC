@@ -11,8 +11,11 @@ import java.util.List;
 public interface StorageService {
 
     String APP_VAR_NAME = "STORAGE_DIR";
+    String APP_TEMP_VAR_NAME ="TEMP_STORAGE_DIR" ;
 
     String getStorageLocation();
+
+    String getTempStorageLocation();
 
     String getUrlStorageLocation();
 
@@ -29,6 +32,8 @@ public interface StorageService {
     FileEntity saveFile(InputStream inputstream);
 
     FileEntity saveFileToFileEntity(String filename, InputStream inputstream);
+
+    List<FileEntity> saveZipFileToFileEntity(String filename, InputStream inputstream);
 
     FileEntity saveFileImage(BufferedImage bufferedImage, String fileName);
 

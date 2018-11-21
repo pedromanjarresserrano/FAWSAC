@@ -18,10 +18,7 @@ import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = false)
@@ -84,7 +81,8 @@ public class CrudGrid extends Grid {
             Map<String, Object> map = Validate.getGridViewFieldPreview(klass);
             Object value = map.get("value");
             String gridViewFieldName = Validate.getGridViewFieldName(klass);
-            for (int i = 0; i < listitems.size(); i++) {
+            int size = listitems.size();
+            for (int i = 0; i < size; i++) {
                 Vlayout child = new Vlayout();
                 Object obj = listitems.get(i);
 
@@ -94,7 +92,7 @@ public class CrudGrid extends Grid {
                     List<FileEntity> listfiles = (List) valueFieldObject;
                     if (!listfiles.isEmpty()) {
                         Carousel carousel = new Carousel();
-                        carousel.setCarouselItems(listfiles.stream().map(e -> {
+                        carousel.setCarouselItems(listfiles.stream().sorted(Comparator.comparingLong(x -> x.getId())).map(e -> {
                             CarouselItem carouselItem = new CarouselItem();
                             String url = ApplicationContextUtils.getBean(StorageService.class).getUrlFile(e.getFilename());
                             carouselItem.setEnlargedSrc(url);
@@ -108,6 +106,8 @@ public class CrudGrid extends Grid {
                         String urlFile = "/statics/files/" + ReflectionJavaUtil.getValueFieldObject((String) map.get("replaceValue"), obj);
                         if (urlFile.endsWith(".gif")) {
                             Image image = new Image();
+                            image.setClass("img-responsive");
+                            image.setStyle("margin: auto;");
                             image.setSrc(urlFile);
                             image.setHeight(imageHeight.toString() + "px");
                             child.appendChild(image);
@@ -124,7 +124,9 @@ public class CrudGrid extends Grid {
                 } else {
                     String urlFile = storageService.getUrlFile(((FileEntity) valueFieldObject));
                     Image image = new Image();
+                    image.setClass("img-responsive");
                     image.setSrc(urlFile);
+                    image.setStyle("margin: auto;");
                     image.setHeight(imageHeight.toString() + "px");
                     child.appendChild(image);
                 }
@@ -150,7 +152,7 @@ public class CrudGrid extends Grid {
                 row.setHeight("auto");
                 counter++;
 
-                if (counter == this.cellsInRow || listitems.size() < this.cellsInRow || (i == listitems.size() - 1)) {
+                if (counter == this.cellsInRow || (size < this.cellsInRow && counter == size) || (i == size - 1)) {
                     rows.appendChild(row);
                     row = new Row();
                     counter = 0;
