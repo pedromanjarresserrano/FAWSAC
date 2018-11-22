@@ -8,6 +8,8 @@
         <option value="reformat" />
         <option value="reformatChangedCode" />
         <option value="compile" />
+        <option value="unnecessarySemicolon" />
+        <option value="accessCanBeTightened" />
       </set>
     </option>
     <option name="configurationPath" value="" />

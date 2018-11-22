@@ -27,6 +27,7 @@ import java.util.List;
 public class VideoServiceImpl implements VideoService {
 
 
+    private static final String JGP = ".jpg";
     @Autowired
     private CrudService crudService;
     @Autowired
@@ -54,14 +55,16 @@ public class VideoServiceImpl implements VideoService {
                 AWTFrameGrab awtFrameGrab = AWTFrameGrab.createAWTFrameGrab(ch);
                 for (int i = 0; i < previewCount; i++) {
                     String name1 = DigestUtils.md5DigestAsHex(("pv_" + file.getName() + "-" + i).getBytes());
-                    File output = new File(name.getValue() + "\\" + name1 + ".jpg");
+                    File output = new File(name.getValue() + "\\" + name1 + JGP);
 
                     BufferedImage dst = null;
-                    if (storageService.existFileEntity(name1 + ".jpg")) {
+                    boolean existFileEntity = storageService.existFileEntity(name1 + JGP);
+                    if (existFileEntity) {
                         if (!output.exists()) {
                             dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
                             storageService.writeImage(output, dst, "jpg");
                         }
+                        fileEntities.add(storageService.getFileEntity(name1 + JGP));
                     } else {
                         dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
                         fileEntities.add(storageService.saveFileImage(dst, name1));

@@ -1,60 +1,60 @@
 .tns-outer {
-    padding: 0 !important
+    padding: 0 !important;
 }
 
 .tns-outer [hidden] {
-    display: none !important
+    display: none !important;
 }
 
 .tns-outer [aria-controls], .tns-outer [data-action] {
-    cursor: pointer
+    cursor: pointer;
 }
 
 .tns-slider {
     -webkit-transition: all 0s;
     -moz-transition: all 0s;
-    transition: all 0s
+    transition: all 0s;
 }
 
 .tns-slider > .tns-item {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 .tns-horizontal.tns-subpixel {
-    white-space: nowrap
+    white-space: nowrap;
 }
 
 .tns-horizontal.tns-subpixel > .tns-item {
     display: inline-block;
     vertical-align: top;
-    white-space: normal
+    white-space: normal;
 }
 
 .tns-horizontal.tns-no-subpixel:after {
     content: '';
     display: table;
-    clear: both
+    clear: both;
 }
 
 .tns-horizontal.tns-no-subpixel > .tns-item {
-    float: left
+    float: left;
 }
 
 .tns-horizontal.tns-carousel.tns-no-subpixel > .tns-item {
-    margin-right: -100%
+    margin-right: -100%;
 }
 
 .tns-no-calc {
     position: relative;
-    left: 0
+    left: 0;
 }
 
 .tns-gallery {
     position: relative;
     left: 0;
-    min-height: 1px
+    min-height: 1px;
 }
 
 .tns-gallery > .tns-item {
@@ -62,33 +62,34 @@
     left: -100%;
     -webkit-transition: transform 0s, opacity 0s;
     -moz-transition: transform 0s, opacity 0s;
-    transition: transform 0s, opacity 0s
+    transition: transform 0s, opacity 0s;
 }
 
 .tns-gallery > .tns-slide-active {
     position: relative;
-    left: auto !important
+    left: auto !important;
 }
 
 .tns-gallery > .tns-moving {
     -webkit-transition: all 0.25s;
     -moz-transition: all 0.25s;
-    transition: all 0.25s
+    transition: all 0.25s;
 }
 
 .tns-autowidth {
-    display: inline-block
+    display: inline-block;
 }
 
 .tns-lazy-img {
     -webkit-transition: opacity 0.6s;
     -moz-transition: opacity 0.6s;
     transition: opacity 0.6s;
-    opacity: 0.6
+    opacity: 0.6;
+    margin: auto;
 }
 
 .tns-lazy-img.loaded {
-    opacity: 1
+    opacity: 1;
 }
 .tns-image{
     margin: auto;
@@ -97,33 +98,33 @@
 .tns-ah {
     -webkit-transition: height 0s;
     -moz-transition: height 0s;
-    transition: height 0s
+    transition: height 0s;
 }
 
 .tns-ovh {
-    overflow: hidden
+    overflow: hidden;
 }
 
 .tns-visually-hidden {
     position: absolute;
-    left: -10000em
+    left: -10000em;
 }
 
 .tns-transparent {
     opacity: 0;
-    visibility: hidden
+    visibility: hidden;
 }
 
 .tns-fadeIn {
     opacity: 1;
     filter: alpha(opacity=100);
-    z-index: 0
+    z-index: 0;
 }
 
 .tns-normal, .tns-fadeOut {
     opacity: 0;
     filter: alpha(opacity=0);
-    z-index: -1
+    z-index: -1;
 }
 
 .tns-t-subp2 {
@@ -131,7 +132,7 @@
     width: 310px;
     position: relative;
     height: 10px;
-    overflow: hidden
+    overflow: hidden;
 }
 
 .tns-t-ct {
@@ -140,13 +141,13 @@
     width: -moz-calc(100% * 70 / 3);
     width: calc(100% * 70 / 3);
     position: absolute;
-    right: 0
+    right: 0;
 }
 
 .tns-t-ct:after {
     content: '';
     display: table;
-    clear: both
+    clear: both;
 }
 
 .tns-t-ct > div {
@@ -155,7 +156,7 @@
     width: -moz-calc(100% / 70);
     width: calc(100% / 70);
     height: 10px;
-    float: left
+    float: left;
 }
 /* nav */
 .nav.active ul { left: 0; }

@@ -43,7 +43,23 @@ a:hover,
 a:focus {
     text-decoration: none;
 }
+.z-tab-icon a [class^="z-icon-"], a [class*=" z-icon-"] {
 
+    display: inline;
+    font-size: 18px;
+
+}
+.z-tab-icon {
+
+    display: block;
+    margin-top: 0px;
+    line-height: normal;
+    position: absolute;
+    top: 8px;
+    left: 5px;
+    cursor: pointer;
+
+}
 .z-loading {
     top: 50% !important;
     left: 45% !important;

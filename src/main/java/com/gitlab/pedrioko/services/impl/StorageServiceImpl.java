@@ -220,6 +220,12 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
+    public FileEntity getFileEntity(String fileName) {
+        List<FileEntity> likePrecise = getFileEntities(fileName);
+        return !(likePrecise == null || likePrecise.isEmpty()) ? likePrecise.get(0) : null;
+    }
+
+    @Override
     public List<FileEntity> getFileEntities(String fileName) {
         return crudService.getLikePrecise(FileEntity.class, fileName);
     }

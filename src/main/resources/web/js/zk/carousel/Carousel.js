@@ -2,20 +2,29 @@ zk.carousel.Carousel = zk.$extends(zk.Widget, {
 
     _carouselItems: '',
     _carouselItemsJson: '',
+    _lazyload: '',
     getCarouselItems: function () {
         return this._carouselItems;
     },
-    setCarouselItems: function (src) {
-        if (this._carouselItems != src) {
-            this._carouselItems = src;
+    setCarouselItems: function (value) {
+        if (this._carouselItems != value) {
+            this._carouselItems = value;
+        }
+    },
+    getLazyload: function () {
+        return this._carouselItems;
+    },
+    setLazyload: function (value) {
+        if (this._carouselItems != value) {
+            this._carouselItems = value;
         }
     },
     getCarouselItemsJson: function () {
         return this._carouselItemsJson;
     },
-    setCarouselItemsJson: function (src) {
-        if (this._carouselItemsJson != src) {
-            this._carouselItemsJson = src;
+    setCarouselItemsJson: function (value) {
+        if (this._carouselItemsJson != value) {
+            this._carouselItemsJson = value;
         }
     },
     bind_: function () {
@@ -28,6 +37,7 @@ zk.carousel.Carousel = zk.$extends(zk.Widget, {
                 slideBy: 1,
                 nav: true,
                 navPosition: "bottom",
+                lazyload: this.getLazyload(),
                 controls: false,
                 autoplay: true,
                 autoplayTimeout: 1000,
@@ -53,9 +63,13 @@ zk.carousel.Carousel = zk.$extends(zk.Widget, {
         this.$supers('unbind_', arguments);
     },
     domCarouselContent_: function () {
+        var loadingImage = "data:image/gif;base64,\R0lGODlhAQABAPAAAMzMzAAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==";
+
+
         var obj = JSON.parse(this.getCarouselItemsJson());
-        for (var b = obj.length, c = "", d = 0; d < b; d++)
-            c += '<span><img class="tns-image img-responsive " style="height: ' + obj[d].enlargedHeight + ';" src="' + obj[d].enlargedSrc + '"></span>';
+        for (var b = obj.length, c = "", d = 0; d < b; d++) {
+            c += '<span><img class="' + ((this.getLazyload() == "false") ? 'tns-image' : 'tns-lazy-img') + ' img-responsive " style="height: ' + obj[d].enlargedHeight + ';" src={' + ((this.getLazyload() == "false") ? obj[d].enlargedSrc : loadingImage) + '}  ' + ((this.getLazyload() == "false") ?  '':'data-src=' + obj[d].enlargedSrc  ) + '></span>';
+        }
         return c;
 
     },

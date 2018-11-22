@@ -1,9 +1,12 @@
 package com.gitlab.pedrioko.core.view.viewers;
 
 import com.gitlab.pedrioko.core.view.action.api.Action;
+import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.enums.AplicateAllClass;
 import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import org.apache.commons.collections4.CollectionUtils;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Menuitem;
 import org.zkoss.zul.Menupopup;
 
@@ -17,6 +20,7 @@ public class CrudMenuContext extends Menupopup {
 
     private final Class klass;
     private List<Action> actions = new ArrayList<>();
+    private Object valueSelect;
 
     public CrudMenuContext(Class klass, List<Action> actions) {
         this.klass = klass;
@@ -33,6 +37,7 @@ public class CrudMenuContext extends Menupopup {
             menuitem.setLabel(e.getLabel());
             menuitem.setParent(this);
             menuitem.setValue(e.getLabel());
+            menuitem.addEventListener(Events.ON_CLICK, (w) -> e.actionPerform(new CrudActionEvent(valueSelect)));
             appendChild(menuitem);
         });
     }
@@ -40,5 +45,10 @@ public class CrudMenuContext extends Menupopup {
     public void setActions(List<Action> actions) {
         this.actions = actions;
         this.init();
+    }
+
+    public void open(Component c, String position, Object data) {
+        valueSelect = data;
+        open(c, position);
     }
 }

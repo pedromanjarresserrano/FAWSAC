@@ -5,6 +5,7 @@ import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.controllers.CrudController;
 import com.gitlab.pedrioko.core.view.enums.CrudEvents;
 import com.gitlab.pedrioko.core.view.enums.CrudMode;
+import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +48,7 @@ public class CrudView extends Tabpanel {
     CrudMode crudviewmode;
     private @Getter
     East east;
+    private CrudMenuContext popup;
 
     public CrudView(Class<?> klass) {
         super();
@@ -93,7 +95,9 @@ public class CrudView extends Tabpanel {
         actions.setStyle("margin-top:10px;margin-bottom:10px;");
         setStyle("height:100%;");
         reloadable = crudviewmode != CrudMode.SUBCRUD;
-
+        popup = new CrudMenuContext(klass, ApplicationContextUtils.getBeans(Action.class));
+        this.appendChild(popup);
+        gridTable.addEventOnEvent(CrudEvents.ON_RIGHT_CLICK, () -> popup.open(gridTable.getRows(), "at_pointer", gridTable.getSelectedValue()));
         crudController = new CrudController(klass, gridTable.getValue());
         crudController.addEventPostQuery(() -> gridTable.update());
         crudController.doQuery();
@@ -257,7 +261,7 @@ public class CrudView extends Tabpanel {
      * @return
      * @see CrudTable#getSelectedValue()
      */
-    public <T> T getSelectedValue() {
+    private <T> T getSelectedValue() {
         return crudTable.getSelectedValue();
     }
 
@@ -282,7 +286,7 @@ public class CrudView extends Tabpanel {
     }
 
 
-    public void addParams(String key, Object value) {
+    void addParams(String key, Object value) {
         crudController.put(key, value);
     }
 
@@ -290,7 +294,7 @@ public class CrudView extends Tabpanel {
         crudController.get(key);
     }
 
-    public void clearParams() {
+    void clearParams() {
         crudController.clearParams();
     }
 

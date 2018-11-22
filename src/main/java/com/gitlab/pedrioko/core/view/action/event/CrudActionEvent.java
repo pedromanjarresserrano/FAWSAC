@@ -12,4 +12,10 @@ class CrudActionEvent {
     private CrudView crudViewParent;
     private FormStates formstate;
 
+    public CrudActionEvent() {
+    }
+
+    public CrudActionEvent(Object value) {
+        this.value = value;
+    }
 }

@@ -45,6 +45,8 @@ public interface StorageService {
 
     boolean existFileEntity(String fileName);
 
+    FileEntity getFileEntity(String fileName);
+
     List<FileEntity> getFileEntities(String fileName);
 
     File saveFile(String name, InputStream inputstream);
