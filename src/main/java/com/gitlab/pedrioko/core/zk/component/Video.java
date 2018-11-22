@@ -1,6 +1,7 @@
 package com.gitlab.pedrioko.core.zk.component;
 
 import lombok.Data;
+import org.zkoss.zk.au.out.AuInvoke;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.sys.ContentRenderer;
 
@@ -16,6 +17,8 @@ class Video extends HtmlBasedComponent {
     private String preload = "";
     private String poster = "";
     private String crossorigin = "";
+    private double playbackRate = 1.0D;
+
 
     public Video() {
     }
@@ -35,7 +38,9 @@ class Video extends HtmlBasedComponent {
         render(renderer, "preload", preload);
         render(renderer, "poster", poster);
         render(renderer, "crossorigin", crossorigin);
-    }
+        if (this.playbackRate != 1.0D) {
+            this.render(renderer, "playbackRate", this.playbackRate);
+        }}
 
     public void setSrc(String src) {
         this.src = src;
@@ -43,6 +48,13 @@ class Video extends HtmlBasedComponent {
 
     }
 
+    public void setMute(boolean muted) {
+        this.response((String)null, new AuInvoke(this, "setMuted", muted));
+    }
+
+    public void setPlaying(boolean playing) {
+        this.response((String) null, new AuInvoke(this, "setPlaying", playing));
+    }
 
     public void setCrossorigin(String crossorigin) {
         this.crossorigin = "use-credentials".equalsIgnoreCase(crossorigin) ? "use-credentials" : "anonymous";
@@ -92,6 +104,13 @@ class Video extends HtmlBasedComponent {
         if (this.muted != muted) {
             this.muted = muted;
             this.smartUpdate("muted", this.muted);
+        }
+    }
+
+    public void setPlaybackRate(double playbackRate) {
+        if (this.playbackRate != playbackRate) {
+            this.playbackRate = playbackRate;
+            this.smartUpdate("playbackRate", this.playbackRate);
         }
     }
 }
