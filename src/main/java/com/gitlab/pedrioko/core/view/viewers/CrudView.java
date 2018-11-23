@@ -91,10 +91,10 @@ public class CrudView extends Tabpanel {
         actions = new Div();
         toolbar = new CrudViewBar(this.klass, this, (CrudDisplayTable) table);
         divbar.appendChild(toolbar);
-        appendChild(divbar);
         child.setStyle("height:95%;");
         east = new East();
         north = new North();
+        north.appendChild(divbar);
         child.appendChild(north);
         east.setCollapsible(true);
         east.setTitle("Filters");

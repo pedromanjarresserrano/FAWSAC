@@ -129,7 +129,8 @@ public class CrudGrid extends Grid implements CrudDisplayTable {
                 }
 
                 child.setClass("crud-grid-item");
-                child.appendChild(new Label(obj.getVisualName().isEmpty() ? obj.getName() : obj.getVisualName()));
+                String visualName = obj.getVisualName();
+                child.appendChild(new Label(visualName == null || visualName.isEmpty() ? obj.getName() : visualName));
                 child.setHeight("auto");
                 int finalI = i;
                 child.addEventListener(Events.ON_CLICK, (e) -> {
@@ -209,7 +210,7 @@ public class CrudGrid extends Grid implements CrudDisplayTable {
     }
 
 
-    public void addEventOnEvent(CrudEvents e, OnEvent o) {
+    void addEventOnEvent(CrudEvents e, OnEvent o) {
         List<OnEvent> onEvents = this.onEvent.get(e);
         if (onEvents == null) {
             onEvents = new ArrayList<>();
