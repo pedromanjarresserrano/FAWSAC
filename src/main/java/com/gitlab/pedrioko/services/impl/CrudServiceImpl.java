@@ -179,5 +179,9 @@ public class CrudServiceImpl implements CrudService {
     public JPAQuery<?> query() {
         return cruddao.query();
     }
-
+    @Transactional
+    @Override
+    public JPAQuery<?> queryRand() {
+        return cruddao.query();
+    }
 }

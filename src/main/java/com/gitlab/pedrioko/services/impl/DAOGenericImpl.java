@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.services.impl;
 
+import com.gitlab.pedrioko.core.hibernate.MySQLJPATemplates;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.services.DAOGeneric;
 import com.querydsl.core.types.dsl.PathBuilder;
@@ -57,6 +58,11 @@ public class DAOGenericImpl<T> implements DAOGeneric {
     @Override
     public JPAQuery<?> query() {
         return new JPAQuery<>(entityManager);
+    }
+
+    @Override
+    public JPAQuery<?> queryRand() {
+        return new JPAQuery<>(entityManager, MySQLJPATemplates.DEFAULT);
     }
 
     /*

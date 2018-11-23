@@ -43,12 +43,34 @@ a:hover,
 a:focus {
     text-decoration: none;
 }
+
+.crud-grid-item  {
+    background: black;
+}
+.z-menuitem-text{
+
+    margin-left: 10px;
+    margin-bottom: 5px;
+
+}
+
+.video-view .z-east-body,
+.video-view .z-center-body{
+    background: #1b1e21;
+}
+.crud-grid-item .z-vlayout-inner .z-label {
+    color: white;
+}
+.crud-grid-item .z-vlayout-inner {
+    text-align: center;
+}
 .z-tab-icon a [class^="z-icon-"], a [class*=" z-icon-"] {
 
     display: inline;
     font-size: 18px;
 
 }
+
 .z-tab-icon {
 
     display: block;
@@ -60,6 +82,7 @@ a:focus {
     cursor: pointer;
 
 }
+
 .z-loading {
     top: 50% !important;
     left: 45% !important;

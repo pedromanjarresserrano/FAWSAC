@@ -35,6 +35,8 @@ public interface CrudService {
 
     JPAQuery<?> query();
 
+    JPAQuery<?> queryRand();
+
     /**
      * Gets the entity by ID.
      *
