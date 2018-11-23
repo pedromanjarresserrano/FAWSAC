@@ -37,6 +37,9 @@ public interface CrudService {
 
     JPAQuery<?> queryRand();
 
+    @Transactional(readOnly = true)
+    <T> List<T> getAll(Class<T> klass, int firstResult, int maxResults);
+
     /**
      * Gets the entity by ID.
      *

@@ -17,6 +17,7 @@ import org.zkoss.zk.ui.event.EventQueues;
 import javax.persistence.EntityManager;
 import javax.persistence.ManyToOne;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -75,6 +76,16 @@ public class DAOGenericImpl<T> implements DAOGeneric {
     public <T> List<T> getAll(Class<T> klass) {
         PathBuilder<?> path = getPathBuilder(klass);
         return (List<T>) query().from(path).fetch();
+    }
+
+    @Override
+    public <T> List<T> getAll(Class<T> klass, int firstResult, int maxResults) {
+        PathBuilder<?> path = getPathBuilder(klass);
+        CriteriaQuery<T> criteriaBuilder = getCriteriaBuilder(klass);
+        TypedQuery<T> query = entityManager.createQuery(criteriaBuilder);
+        query.setFirstResult(firstResult);
+        query.setMaxResults(maxResults);
+        return query.getResultList();
     }
 
     @Override

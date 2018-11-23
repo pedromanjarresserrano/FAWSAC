@@ -55,6 +55,12 @@ public class CrudServiceImpl implements CrudService {
         return cruddao.getAll(klass);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public <T> List<T> getAll(Class<T> klass, int firstResult, int maxResults) {
+        return cruddao.getAll(klass, firstResult, maxResults);
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -179,6 +185,7 @@ public class CrudServiceImpl implements CrudService {
     public JPAQuery<?> query() {
         return cruddao.query();
     }
+
     @Transactional
     @Override
     public JPAQuery<?> queryRand() {

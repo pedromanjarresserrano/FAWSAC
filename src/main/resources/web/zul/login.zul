@@ -52,9 +52,8 @@
     	left: 4px;
     	right: 0;">
     	<n:i class="fa fa-leaf" style="font-size:3em;"></n:i>
-			<label  style="font-size:3em;" >
-				               Alert System
-				
+			<label  style="font-size:3em;" value="@bind(vm.appName)">
+
 			</label>
 		</div>
 		<div class="container-fluid col-md-4"

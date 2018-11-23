@@ -30,6 +30,8 @@ public interface DAOGeneric {
      */
     <T> List<T> getAll(Class<T> klass);
 
+    <T> List<T> getAll(Class<T> klass, int firstResult, int maxResults);
+
     <T> PathBuilder<?> getPathBuilder(Class<T> klass);
 
     JPAQuery<?> query();
