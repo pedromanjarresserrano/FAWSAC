@@ -40,7 +40,8 @@ class Video extends HtmlBasedComponent {
         render(renderer, "crossorigin", crossorigin);
         if (this.playbackRate != 1.0D) {
             this.render(renderer, "playbackRate", this.playbackRate);
-        }}
+        }
+    }
 
     public void setSrc(String src) {
         this.src = src;
@@ -49,7 +50,7 @@ class Video extends HtmlBasedComponent {
     }
 
     public void setMute(boolean muted) {
-        this.response((String)null, new AuInvoke(this, "setMuted", muted));
+        this.response((String) null, new AuInvoke(this, "setMuted", muted));
     }
 
     public void setPlaying(boolean playing) {

@@ -138,12 +138,25 @@ class Carousel extends HtmlBasedComponent {
         render(renderer, "carouselItems", carouselItems);
         render(renderer, "carouselItemsJson", getCarouselItemsJson());
         render(renderer, "lazyload", getLazyload());
+        render(renderer, "slideBy", getSlideBy());
+        render(renderer, "controls", getControls());
     }
 
 
     private String getCarouselItemsJson() {
         String s = new Gson().toJson(carouselItems != null ? carouselItems : new ArrayList());
         return s;
+    }
+
+    public void setControls(Boolean controls) {
+        this.controls = controls;
+        smartUpdate("controls", controls);
+    }
+
+    public void setSlideBy(String slideBy) {
+        this.slideBy = slideBy;
+        smartUpdate("slideBy", slideBy);
+
     }
 
     public void setCarouselItemsJson(String galleryItemsJson) {

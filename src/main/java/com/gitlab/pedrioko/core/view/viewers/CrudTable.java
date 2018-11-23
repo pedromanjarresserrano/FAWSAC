@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.core.view.viewers;
 
+import com.gitlab.pedrioko.core.view.api.CrudDisplayTable;
 import com.gitlab.pedrioko.core.view.api.ListCellCustomizer;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class CrudTable extends Listbox {
+public class CrudTable extends Listbox implements CrudDisplayTable {
 
     private static final long serialVersionUID = 1L;
     private final transient List listitems = new ArrayList();
@@ -102,21 +103,29 @@ public class CrudTable extends Listbox {
         loadHeads();
     }
 
+    @Override
     public <T> T getSelectedValue() {
         return getSelectedItem() == null ? null : getSelectedItem().getValue();
     }
 
+    @Override
     public List getValue() {
         return listitems;
     }
 
+    @Override
     public void setValue(List<?> all) {
         listitems.clear();
         listitems.addAll(all);
         loadItems();
     }
 
+    @Override
+    public void clearSelection() {
+        this.getSelectedItems().clear();
+    }
 
+    @Override
     public void update() {
         loadItems();
 

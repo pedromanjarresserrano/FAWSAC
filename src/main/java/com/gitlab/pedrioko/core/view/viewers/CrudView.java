@@ -2,6 +2,7 @@ package com.gitlab.pedrioko.core.view.viewers;
 
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
+import com.gitlab.pedrioko.core.view.api.CrudDisplayTable;
 import com.gitlab.pedrioko.core.view.controllers.CrudController;
 import com.gitlab.pedrioko.core.view.enums.CrudEvents;
 import com.gitlab.pedrioko.core.view.enums.CrudMode;
@@ -49,10 +50,11 @@ public class CrudView extends Tabpanel {
     private @Getter
     East east;
     private CrudMenuContext popup;
+    private North north;
 
     public CrudView(Class<?> klass) {
         super();
-        crudviewmode = CrudMode.MAINCRUD;
+        this.crudviewmode = CrudMode.MAINCRUD;
         view(klass, getBean(PropertiesUtil.class).getFieldTable(klass));
 
     }
@@ -67,17 +69,33 @@ public class CrudView extends Tabpanel {
         super();
         crudviewmode = CrudMode.MAINCRUD;
         this.klass = klass;
-        gridTable = new CrudGrid(klass);
+        if (useGrid) {
+            gridTable = new CrudGrid(klass);
+            createUI(gridTable);
+        } else {
+            crudTable = new CrudTable(klass);
+            createUI(crudTable);
+        }
+        crudController = new CrudController(klass, gridTable.getValue());
+        crudController.addEventPostQuery(() -> gridTable.update());
+        crudController.doQuery();
+        crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> gridTable.update());
+        popup = new CrudMenuContext(klass, ApplicationContextUtils.getBeans(Action.class));
+        this.appendChild(popup);
+        gridTable.addEventOnEvent(CrudEvents.ON_RIGHT_CLICK, () -> popup.open(gridTable.getRows(), "at_pointer", gridTable.getSelectedValue()));
+    }
+
+    private void createUI(Component table) {
         Borderlayout child = new Borderlayout();
-        this.klass = klass;
         divbar = new Div();
         actions = new Div();
-        toolbar = new CrudViewBar(this.klass, this, this.gridTable);
+        toolbar = new CrudViewBar(this.klass, this, (CrudDisplayTable) table);
         divbar.appendChild(toolbar);
         appendChild(divbar);
         child.setStyle("height:95%;");
         east = new East();
-        child.appendChild(new North());
+        north = new North();
+        child.appendChild(north);
         east.setCollapsible(true);
         east.setTitle("Filters");
         east.setVisible(false);
@@ -86,22 +104,14 @@ public class CrudView extends Tabpanel {
         child.appendChild(new Center());
         appendChild(child);
         Center center = child.getCenter();
-        center.appendChild(gridTable);
-//        center.setHeight("95%");
+        center.appendChild(table);
         child.getEast().appendChild(new CrudFilters(klass, this));
-//        appendChild(crudTable);
         appendChild(actions);
         actions.setClass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
         actions.setStyle("margin-top:10px;margin-bottom:10px;");
         setStyle("height:100%;");
         reloadable = crudviewmode != CrudMode.SUBCRUD;
-        popup = new CrudMenuContext(klass, ApplicationContextUtils.getBeans(Action.class));
-        this.appendChild(popup);
-        gridTable.addEventOnEvent(CrudEvents.ON_RIGHT_CLICK, () -> popup.open(gridTable.getRows(), "at_pointer", gridTable.getSelectedValue()));
-        crudController = new CrudController(klass, gridTable.getValue());
-        crudController.addEventPostQuery(() -> gridTable.update());
-        crudController.doQuery();
-        crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> gridTable.update());
+        configController(klass, (CrudDisplayTable) table);
     }
 
     public CrudView(Class<?> klass, Object obj) {
@@ -110,56 +120,26 @@ public class CrudView extends Tabpanel {
         this.klass = klass;
         crudTable = new CrudTable(klass, (List<Class<?>>) obj);
         crudController = new CrudController(klass, crudTable.getValue());
-        create(klass, crudTable);
+        createUI(crudTable);
     }
 
     private void view(Class<?> klass, List<String> fields) {
-
         this.klass = klass;
         listActions = new ArrayList<>();
-        divbar = new Div();
         crudTable = new CrudTable(fields, klass);
-        create(klass, crudTable);
+        createUI(crudTable);
     }
 
     public Class<?> getTypeClass() {
         return klass;
     }
 
-    private void create(Class<?> klass, CrudTable crudTable) {
-        Borderlayout child = new Borderlayout();
-        this.crudTable = crudTable;
-        this.klass = klass;
-        divbar = new Div();
-        actions = new Div();
-        toolbar = new CrudViewBar(this.klass, this, this.crudTable);
-        divbar.appendChild(toolbar);
-        appendChild(divbar);
-        child.setStyle("height:95%;");
-        east = new East();
-        child.appendChild(new North());
-        east.setCollapsible(true);
-        east.setTitle("Filters");
-        east.setVisible(false);
-        east.setStyle(" overflow-y:auto !important; width:350px;");
-        child.appendChild(east);
-        child.appendChild(new Center());
-        appendChild(child);
-        Center center = child.getCenter();
-        center.appendChild(crudTable);
-//        center.setHeight("95%");
-        child.getEast().appendChild(new CrudFilters(klass, this));
-//        appendChild(crudTable);
-        appendChild(actions);
-        actions.setClass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
-        actions.setStyle("margin-top:10px;margin-bottom:10px;");
-        setStyle("height:100%;");
-        reloadable = crudviewmode != CrudMode.SUBCRUD;
+    private void configController(Class<?> klass, CrudDisplayTable table) {
         if (crudController == null) {
-            crudController = new CrudController(klass, crudTable.getValue());
-            crudController.addEventPostQuery(() -> crudTable.update());
+            crudController = new CrudController(klass, table.getValue());
+            crudController.addEventPostQuery(() -> table.update());
             crudController.doQuery();
-            crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> crudTable.update());
+            crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> table.update());
         }
     }
 
@@ -193,7 +173,7 @@ public class CrudView extends Tabpanel {
     public void setValue(List<?> value) {
         crudController.setValue(value);
         if (gridTable != null)
-            gridTable.clearSelecion();
+            gridTable.clearSelection();
     }
 
     public void setValue(ArrayList<?> value) {

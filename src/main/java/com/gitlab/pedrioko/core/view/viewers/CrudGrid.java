@@ -1,12 +1,12 @@
 package com.gitlab.pedrioko.core.view.viewers;
 
 import com.gitlab.pedrioko.core.lang.FileEntity;
+import com.gitlab.pedrioko.core.view.api.CrudDisplayTable;
+import com.gitlab.pedrioko.core.view.api.CrudGridItem;
 import com.gitlab.pedrioko.core.view.api.OnEvent;
 import com.gitlab.pedrioko.core.view.enums.CrudEvents;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
-import com.gitlab.pedrioko.core.view.util.Validate;
 import com.gitlab.pedrioko.core.zk.component.Carousel;
 import com.gitlab.pedrioko.core.zk.component.Video;
 import com.gitlab.pedrioko.core.zk.component.model.CarouselItem;
@@ -21,7 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = false)
-public class CrudGrid extends Grid {
+public class CrudGrid extends Grid implements CrudDisplayTable {
 
     private static final long serialVersionUID = 1L;
     private final transient List listitems = new ArrayList();
@@ -51,23 +51,27 @@ public class CrudGrid extends Grid {
     }
 
     private void init(Class<?> klass) {
-        columns = new Columns();
-        columns.setParent(this);
-        rows = new Rows();
-        rows.setParent(this);
-        columns.appendChild(new Column("Prueba"));
-        this.klass = klass;
-        if (ReflectionZKUtil.isInEventListener()) {
-            setAutopaging(true);
-            setMold("paging");
-            setPageSize(16);
+        if (CrudGridItem.class.isAssignableFrom(klass)) {
+            columns = new Columns();
+            columns.setParent(this);
+            rows = new Rows();
+            rows.setParent(this);
+            columns.appendChild(new Column("Prueba"));
+            this.klass = klass;
+            if (ReflectionZKUtil.isInEventListener()) {
+                setAutopaging(true);
+                setMold("paging");
+                setPageSize(25);
+            }
+            setVflex("1");
+            setHflex("1");
+            setStyle("height:98;");
+            rows.setHeight("135px");
+            storageService = ApplicationContextUtils.getBean(StorageService.class);
+            imageHeight = 100L;
+        } else {
+            throw new IllegalArgumentException("Class " + klass + " not implement interface CrudGridItem");
         }
-        setVflex("1");
-        setHflex("1");
-        setStyle("height:98;");
-        rows.setHeight("135px");
-        storageService = ApplicationContextUtils.getBean(StorageService.class);
-        imageHeight = 100L;
     }
 
     private void loadItems() {
@@ -75,18 +79,12 @@ public class CrudGrid extends Grid {
             this.getRows().getChildren().clear();
             int counter = 0;
             Row row = new Row();
-            Map<String, Object> map = Validate.getGridViewFieldPreview(klass);
-            Object value = map.get("value");
-            String gridViewFieldName = Validate.getGridViewFieldName(klass);
             int size = listitems.size();
             for (int i = 0; i < size; i++) {
                 Vlayout child = new Vlayout();
-                Object obj = listitems.get(i);
-
-                Object valueFieldObject = ReflectionJavaUtil.getValueFieldObject((String) value, obj);
-
-                if ((boolean) map.get("isList")) {
-                    List<FileEntity> listfiles = (List) valueFieldObject;
+                CrudGridItem obj = (CrudGridItem) listitems.get(i);
+                List<FileEntity> listfiles = obj.getFilesEntities();
+                if (obj.isCarrouselPreview()) {
                     if (!listfiles.isEmpty()) {
                         Carousel carousel = new Carousel();
                         carousel.setLazyload(true);
@@ -101,7 +99,7 @@ public class CrudGrid extends Grid {
                         child.appendChild(carousel);
 
                     } else {
-                        String urlFile = "/statics/files/" + ReflectionJavaUtil.getValueFieldObject((String) map.get("replaceValue"), obj);
+                        String urlFile = "/statics/files/" + obj.getName();
                         if (urlFile.endsWith(".gif")) {
                             Image image = new Image();
                             image.setClass("img-responsive");
@@ -114,29 +112,28 @@ public class CrudGrid extends Grid {
 
                             Video image = new Video();
                             image.setSrc(urlFile);
-                            //image.setClass("img-responsive");
-                            //image.setStyle("margin: 0 auto; background: black;");
                             image.setHeight(imageHeight.toString() + "px");
                             child.appendChild(image);
                         }
                     }
                 } else {
-                    String urlFile = storageService.getUrlFile(((FileEntity) valueFieldObject));
-                    Image image = new Image();
-                    image.setClass("img-responsive");
-                    image.setSrc(urlFile);
-                    image.setStyle("margin: auto;");
-                    image.setHeight(imageHeight.toString() + "px");
-                    child.appendChild(image);
+                    if (!listfiles.isEmpty()) {
+                        String urlFile = storageService.getUrlFile(listfiles.get(0));
+                        Image image = new Image();
+                        image.setClass("img-responsive");
+                        image.setSrc(urlFile);
+                        image.setStyle("margin: auto;");
+                        image.setHeight(imageHeight.toString() + "px");
+                        child.appendChild(image);
+                    }
                 }
 
                 child.setClass("crud-grid-item");
-                child.appendChild(new Label((String) ReflectionJavaUtil.getValueFieldObject(gridViewFieldName, obj)));
+                child.appendChild(new Label(obj.getVisualName().isEmpty() ? obj.getName() : obj.getVisualName()));
                 child.setHeight("auto");
                 int finalI = i;
                 child.addEventListener(Events.ON_CLICK, (e) -> {
                     onClick(child, finalI);
-                    //    getEvent(CrudEvents.ON_CLICK).forEach(OnEvent::doSomething);
                 });
                 child.addEventListener(Events.ON_RIGHT_CLICK, (e) -> {
                     onClick(child, finalI);
@@ -189,18 +186,22 @@ public class CrudGrid extends Grid {
         return onEvents == null ? new ArrayList<>() : onEvents;
     }
 
-    <T> T getSelectedValue() {
+    @Override
+    public <T> T getSelectedValue() {
         return (T) selectValue;
     }
 
-    void clearSelecion() {
+    @Override
+    public void clearSelection() {
         selectValue = null;
     }
 
+    @Override
     public List getValue() {
         return listitems;
     }
 
+    @Override
     public void setValue(List<?> all) {
         listitems.clear();
         listitems.addAll(all);
@@ -208,7 +209,7 @@ public class CrudGrid extends Grid {
     }
 
 
-    void addEventOnEvent(CrudEvents e, OnEvent o) {
+    public void addEventOnEvent(CrudEvents e, OnEvent o) {
         List<OnEvent> onEvents = this.onEvent.get(e);
         if (onEvents == null) {
             onEvents = new ArrayList<>();
@@ -217,9 +218,9 @@ public class CrudGrid extends Grid {
         this.onEvent.put(e, onEvents);
     }
 
+    @Override
     public void update() {
         loadItems();
-
     }
 
 

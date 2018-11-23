@@ -2,6 +2,7 @@ package com.gitlab.pedrioko.core.view.viewers;
 
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
+import com.gitlab.pedrioko.core.view.api.CrudDisplayTable;
 import com.gitlab.pedrioko.core.view.enums.*;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
@@ -38,7 +39,7 @@ public class CrudViewBar extends Toolbar {
     private Menupopup menupopup;
     private CrudView parent;
 
-    public CrudViewBar(Class<?> klass, CrudView parent, CrudTable crudTable) {
+    public CrudViewBar(Class<?> klass, CrudView parent, CrudDisplayTable crudTable) {
         super();
         this.parent = parent;
         if (ZKUtil.isMobile()) {
@@ -93,68 +94,13 @@ public class CrudViewBar extends Toolbar {
 
     }
 
-    public CrudViewBar(Class<?> klass, CrudView parent, CrudGrid crudTable) {
-        super();
-        if (ZKUtil.isMobile()) {
-            Menubar mb = new Menubar();
-            Menu menu = new Menu();
-            mb.appendChild(menu);
-            menu.setIconSclass("fas fa-caret-square-down fa-2x");
-            menupopup = new Menupopup();
-            menu.appendChild(menupopup);
-            appendChild(mb);
-        }
-        enableCommonActionsClass = getBean(PropertiesUtil.class).getEnableCommonActionsClass(klass);
-        crudService = getBean(CrudService.class);
-        setOrient("horizontal");
-        this.klass = klass;
-        Map<Integer, List<Action>> listMap = getBeansOfType(Action.class).stream().sorted(Comparator.comparing(Action::position)).collect(groupingBy(Action::getGroup));
-        listMap.forEach((k, v) -> {
-            v.forEach(e -> {
-                Class<?> subCrudViewClass = parent.getCrudviewmode() == CrudMode.SUBCRUD ? SubCrudView.class : ApplicationContextUtils.class;
-                if (CollectionUtils.containsAny(e.getAplicateClass(), Arrays.asList(CrudAction.class, klass, AplicateAllClass.class, subCrudViewClass))) {
-                    Component button;
-                    if (ZKUtil.isMobile()) {
-                        button = addMenuitemAction(e, parent, crudTable);
-                    } else {
-                        button = addToolbarAction(e, parent, crudTable);
-                    }
-                    if (e.isDefault() && k == 0) {
-                        crudsActions.add(button);
-                    }
-                    actions.add(button);
-                    button.setVisible(e.visibleByDefault());
-                }
-
-            });
-
-            if (!ZKUtil.isMobile())
-                appendChild(getSpace());
-        });
-
-        if (!enableCommonActionsClass) {
-            crudsActions.forEach(e -> e.setVisible(false));
-        }
-
-        setStyle("background: white; width:100%;");
-        Textbox textbox = new Textbox();
-        textbox.setClass("pull-right");
-        textbox.setHeight("33px");
-        textbox.setPlaceholder(getLabel("buscar"));
-        textbox.addEventListener(Events.ON_OK, e -> crudTable.setValue(crudService.getLike(klass, textbox.getValue())));
-        if (!ZKUtil.isMobile()) {
-            appendChild(textbox);
-        }
-    }
-
-
     private Space getSpace() {
         Space separator = new Space();
         separator.setSclass("toolbar-separator");
         return separator;
     }
 
-    public ActionMobileButton addMenuitemAction(Action v, CrudView parent, CrudTable crudTable) {
+    public ActionMobileButton addMenuitemAction(Action v, CrudView parent, CrudDisplayTable crudTable) {
         ActionMobileButton mi = new ActionMobileButton();
         mi.setKlass(v.getClass());
         mi.setIconSclass(v.getIcon());
@@ -169,22 +115,8 @@ public class CrudViewBar extends Toolbar {
         return mi;
     }
 
-    public ActionMobileButton addMenuitemAction(Action v, CrudView parent, CrudGrid crudTable) {
-        ActionMobileButton mi = new ActionMobileButton();
-        mi.setKlass(v.getClass());
-        mi.setIconSclass(v.getIcon());
-        String label = v.getTooltipText();
-        mi.setLabel(label);
-        mi.setValue(label);
-        CrudActionEvent event = new CrudActionEvent();
-        event.setTabpanel(parent);
-        event.setCrudViewParent(parent);
-        mi.addEventListener(Events.ON_CLICK, e -> onClickListener(v, crudTable, event));
-        menupopup.appendChild(mi);
-        return mi;
-    }
 
-    public ActionButton addToolbarAction(Action v, CrudView parent, CrudGrid crudTable) {
+    public ActionButton addToolbarAction(Action v, CrudView parent, CrudDisplayTable crudTable) {
         ActionButton btn = new ActionButton();
         btn.setId(klass.getSimpleName() + "-" + v.getClass().getSimpleName() + "-" + UUID.randomUUID().toString());
         btn.setKlass(v.getClass());
@@ -214,37 +146,7 @@ public class CrudViewBar extends Toolbar {
         return btn;
     }
 
-    public ActionButton addToolbarAction(Action v, CrudView parent, CrudTable crudTable) {
-        ActionButton btn = new ActionButton();
-        btn.setId(klass.getSimpleName() + "-" + v.getClass().getSimpleName() + "-" + UUID.randomUUID().toString());
-        btn.setKlass(v.getClass());
-        btn.setIconSclass(v.getIcon() + " fa-lg");
-        String color = v.getColor();
-        String classes = "";
-        if (v.getLabel() != null && !v.getLabel().isEmpty()) {
-            btn.setLabel(v.getLabel());
-            classes = "zk-btn-toolbar-text";
-        } else
-            classes = "zk-btn-toolbar";
-
-        btn.setSclass(" " + classes + "  ");
-        Popup popup = new Popup();
-        popup.appendChild(new Label(v.getLabel()));
-        btn.setPopup(popup);
-
-        btn.setStyle(" background:" + (color == null || color.isEmpty() ? "#000" : color) + ";");
-        CrudActionEvent event = new CrudActionEvent();
-        event.setTabpanel(parent);
-        event.setCrudViewParent(parent);
-        btn.addEventListener(Events.ON_CLICK, e -> onClickListener(v, crudTable, event));
-        String tooltipText = v.getTooltipText();
-        btn.setTooltiptext(tooltipText != null ? tooltipText : "");
-
-        appendChild(btn);
-        return btn;
-    }
-
-    public void onClickListener(Action v, CrudTable crudTable, CrudActionEvent event) throws InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException, NoSuchMethodException {
+    public void onClickListener(Action v, CrudDisplayTable crudTable, CrudActionEvent event) throws InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException, NoSuchMethodException {
         Object selectedValue = crudTable.getSelectedValue();
         if (v.getFormState() == FormStates.CREATE)
             event.setValue(klass.getConstructor().newInstance());
@@ -255,16 +157,6 @@ public class CrudViewBar extends Toolbar {
         v.actionPerform(event);
     }
 
-    public void onClickListener(Action v, CrudGrid crudTable, CrudActionEvent event) throws InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException, NoSuchMethodException {
-        Object selectedValue = crudTable.getSelectedValue();
-        if (v.getFormState() == FormStates.CREATE)
-            event.setValue(klass.getConstructor().newInstance());
-        else {
-            event.setValue(selectedValue);
-        }
-        event.setFormstate(v.getFormState());
-        v.actionPerform(event);
-    }
 
     public void onlyEnable(List<String> actions) {
         this.actions.stream().forEach(e -> {
