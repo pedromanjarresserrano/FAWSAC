@@ -1,8 +1,10 @@
 package com.gitlab.pedrioko.core.view.api.impl;
 
 import com.gitlab.pedrioko.core.lang.annotation.FieldFilter;
+import com.gitlab.pedrioko.core.lang.annotation.UseChosenFileEntity;
 import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.zk.component.ChosenFileEntityBox;
 import com.gitlab.pedrioko.services.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zk.ui.Component;
@@ -33,13 +35,21 @@ public class ListFieldFilter implements FieldFilterComponent {
             ReflectionZKUtil.populate(combobox, Arrays.asList(klass.getEnumConstants()), false);
             return combobox;
         } else {
-            if (getEntities().contains(klass)) {
-                Combobox combobox = new Combobox();
-                ReflectionZKUtil.populate(combobox, crudService.getAll(klass), false);
-                return combobox;
-            }
 
+            if (getEntities().contains(klass)) {
+                if (field.isAnnotationPresent(UseChosenFileEntity.class)) {
+                    ChosenFileEntityBox chosenFileEntityBox = new ChosenFileEntityBox();
+                    chosenFileEntityBox.setModel(crudService.getAll(klass));
+                    return chosenFileEntityBox;
+                } else {
+                    Combobox combobox = new Combobox();
+                    ReflectionZKUtil.populate(combobox, crudService.getAll(klass), false);
+                    return combobox;
+                }
+            }
         }
+
+    
         return null;
     }
 

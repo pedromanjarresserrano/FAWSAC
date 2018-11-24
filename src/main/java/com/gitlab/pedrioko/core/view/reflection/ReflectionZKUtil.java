@@ -7,6 +7,7 @@ import com.gitlab.pedrioko.core.view.reflection.enums.ClassMethod;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.StringUtil;
 import com.gitlab.pedrioko.core.zk.component.ChosenBox;
+import com.gitlab.pedrioko.core.zk.component.ChosenFileEntityBox;
 import org.hibernate.collection.internal.PersistentBag;
 import org.hibernate.collection.internal.PersistentSet;
 import org.slf4j.Logger;
@@ -44,7 +45,7 @@ public class ReflectionZKUtil {
                     Method method = component.getClass().getMethod("getSelectedItem");
                     Object invoke = method.invoke(component);
                     return getValueComponent((Component) invoke);
-                } else if (class1 == ChosenBox.class) {
+                } else if (class1 == ChosenBox.class || class1 == ChosenFileEntityBox.class) {
                     Method method = component.getClass().getMethod("getValueSelection");
                     Object invoke = method.invoke(component);
                     if (invoke instanceof ArrayList)

@@ -23,7 +23,7 @@ import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBeansOfType;
 import static java.util.stream.Collectors.groupingBy;
 
-public class CrudViewBar extends Toolbar {
+class CrudViewBar extends Toolbar {
 
     private static final long serialVersionUID = 1L;
     private final boolean enableCommonActionsClass;
@@ -38,14 +38,16 @@ public class CrudViewBar extends Toolbar {
     private final transient CrudService crudService;
     private Menupopup menupopup;
     private CrudView parent;
+    private Menubar mb = null;
 
-    public CrudViewBar(Class<?> klass, CrudView parent, CrudDisplayTable crudTable) {
+    CrudViewBar(Class<?> klass, CrudView parent, CrudDisplayTable crudTable) {
         super();
         this.parent = parent;
         if (ZKUtil.isMobile()) {
-            Menubar mb = new Menubar();
+            mb = new Menubar();
             Menu menu = new Menu();
             mb.appendChild(menu);
+            mb.setStyle("width:100px;");
             menu.setIconSclass("fas fa-caret-square-down fa-2x");
             menupopup = new Menupopup();
             menu.appendChild(menupopup);
@@ -89,9 +91,7 @@ public class CrudViewBar extends Toolbar {
         textbox.setHeight("33px");
         textbox.setPlaceholder(getLabel("buscar"));
         textbox.addEventListener(Events.ON_OK, e -> parent.setValue(crudService.getLike(klass, textbox.getValue())));
-
         appendChild(textbox);
-
     }
 
     private Space getSpace() {
@@ -100,7 +100,7 @@ public class CrudViewBar extends Toolbar {
         return separator;
     }
 
-    public ActionMobileButton addMenuitemAction(Action v, CrudView parent, CrudDisplayTable crudTable) {
+    private ActionMobileButton addMenuitemAction(Action v, CrudView parent, CrudDisplayTable crudTable) {
         ActionMobileButton mi = new ActionMobileButton();
         mi.setKlass(v.getClass());
         mi.setIconSclass(v.getIcon());
@@ -116,7 +116,7 @@ public class CrudViewBar extends Toolbar {
     }
 
 
-    public ActionButton addToolbarAction(Action v, CrudView parent, CrudDisplayTable crudTable) {
+    private ActionButton addToolbarAction(Action v, CrudView parent, CrudDisplayTable crudTable) {
         ActionButton btn = new ActionButton();
         btn.setId(klass.getSimpleName() + "-" + v.getClass().getSimpleName() + "-" + UUID.randomUUID().toString());
         btn.setKlass(v.getClass());
@@ -146,7 +146,7 @@ public class CrudViewBar extends Toolbar {
         return btn;
     }
 
-    public void onClickListener(Action v, CrudDisplayTable crudTable, CrudActionEvent event) throws InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException, NoSuchMethodException {
+    private void onClickListener(Action v, CrudDisplayTable crudTable, CrudActionEvent event) throws InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException, NoSuchMethodException {
         Object selectedValue = crudTable.getSelectedValue();
         if (v.getFormState() == FormStates.CREATE)
             event.setValue(klass.getConstructor().newInstance());
@@ -158,14 +158,14 @@ public class CrudViewBar extends Toolbar {
     }
 
 
-    public void onlyEnable(List<String> actions) {
+    void onlyEnable(List<String> actions) {
         this.actions.stream().forEach(e -> {
             if (!e.getId().isEmpty())
                 e.setVisible(actions.contains(e.getId().split("-")[1]));
         });
     }
 
-    public void enableAction(Class<? extends Action> action, boolean enable) {
+    void enableAction(Class<? extends Action> action, boolean enable) {
         if (ZKUtil.isMobile()) {
             actions.stream().map(e -> (ActionMobileButton) e).filter(e -> e.getKlass() == action).forEach(e -> e.setVisible(enable));
         } else {

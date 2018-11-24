@@ -51,6 +51,7 @@ public class CrudView extends Tabpanel {
     East east;
     private CrudMenuContext popup;
     private North north;
+    private CrudFilters crudFilters;
 
     public CrudView(Class<?> klass) {
         super();
@@ -82,7 +83,7 @@ public class CrudView extends Tabpanel {
         crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> gridTable.update());
         popup = new CrudMenuContext(klass, ApplicationContextUtils.getBeans(Action.class));
         this.appendChild(popup);
-        gridTable.addEventOnEvent(CrudEvents.ON_RIGHT_CLICK, () -> popup.open(gridTable.getRows(), "at_pointer", gridTable.getSelectedValue()));
+        gridTable.addEventOnEvent(CrudEvents.ON_RIGHT_CLICK, () -> popup.open(gridTable, "at_pointer", gridTable.getSelectedValue()));
     }
 
     private void createUI(Component table) {
@@ -91,7 +92,7 @@ public class CrudView extends Tabpanel {
         actions = new Div();
         toolbar = new CrudViewBar(this.klass, this, (CrudDisplayTable) table);
         divbar.appendChild(toolbar);
-        child.setStyle("height:95%;");
+        child.setStyle("height:100%;");
         east = new East();
         north = new North();
         north.appendChild(divbar);
@@ -105,13 +106,20 @@ public class CrudView extends Tabpanel {
         appendChild(child);
         Center center = child.getCenter();
         center.appendChild(table);
-        child.getEast().appendChild(new CrudFilters(klass, this));
+        crudFilters = new CrudFilters(klass, this);
+        east.appendChild(crudFilters);
         appendChild(actions);
         actions.setClass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
         actions.setStyle("margin-top:10px;margin-bottom:10px;");
         setStyle("height:100%;");
         reloadable = crudviewmode != CrudMode.SUBCRUD;
         configController(klass, (CrudDisplayTable) table);
+        east.addEventListener(Events.ON_VISIBILITY_CHANGE, e -> {
+            if (!east.isVisible()) {
+                clearParams();
+                crudController.doQuery();
+            }
+        });
     }
 
     public CrudView(Class<?> klass, Object obj) {

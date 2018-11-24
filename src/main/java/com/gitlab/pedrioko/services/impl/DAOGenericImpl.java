@@ -168,7 +168,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
      */
     @Override
     public <T> T getEntityByQueryUnique(String query, Object... params) {
-        Query q = getCurrentSession().createQuery(query);
+        org.hibernate.query.Query q = getCurrentSession().createQuery(query);
         int i = 0;
         for (Object o : params) {
             q.setParameter(i, o);

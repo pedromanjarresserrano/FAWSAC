@@ -48,7 +48,7 @@ public class CrudController {
         this.values = values;
     }
 
-    public Class<?> getTypeClass() {
+    private Class<?> getTypeClass() {
         return klass;
     }
 
@@ -76,7 +76,7 @@ public class CrudController {
         return (List<String>) values.stream().map(ReflectionJavaUtil::getIdValue).map(Object::toString).collect(Collectors.toList());
     }
 
-    public void setValueIds(Collection<Long> value) {
+    private void setValueIds(Collection<Long> value) {
         CrudService crudService = getBean(CrudService.class);
         PathBuilder<?> pathBuilder = crudService.getPathBuilder(getTypeClass());
         String idPropertyName = crudService.getIdPropertyName(klass);
@@ -118,29 +118,41 @@ public class CrudController {
         Predicate where = null;
         map.putAll(paramsroot);
         for (Map.Entry<String, Object> v : map.entrySet()) {
+            Object value = v.getValue();
             switch (paramMode) {
                 case AND:
-                    if (v.getValue() instanceof DateRange) {
+                    if (value instanceof DateRange) {
                         DatePath<Date> date = pathBuilder.getDate(v.getKey(), Date.class);
-                        where = where != null ? date.between(((DateRange) v.getValue()).getInicio(), ((DateRange) v.getValue()).getFin()).and(where) : date.between(((DateRange) v.getValue()).getInicio(), ((DateRange) v.getValue()).getFin());
+                        where = where != null ? date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin()).and(where) : date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin());
                     } else {
-                        CollectionPath collection = pathBuilder.getCollection(v.getKey(), v.getValue().getClass());
+                        CollectionPath collection = pathBuilder.getCollection(v.getKey(), value.getClass());
                         if (collection != null) {
-                            where = where != null ? collection.contains(v.getValue()).and(where) : collection.contains(v.getValue());
+                            if (!(value instanceof Collection))
+                                where = where != null ? collection.contains(value).and(where) : collection.contains(value);
+                            else {
+                                for (Object val : (Collection) value) {
+                                    where = where != null ? collection.contains(val).and(where) : collection.contains(val);
+                                }
+                            }
                         } else
-                            where = where != null ? pathBuilder.get(v.getKey()).eq(v.getValue()).and(where) : pathBuilder.get(v.getKey()).eq(v.getValue());
+                            where = where != null ? pathBuilder.get(v.getKey()).eq(value).and(where) : pathBuilder.get(v.getKey()).eq(value);
                     }
                     break;
                 case OR:
-                    if (v.getValue() instanceof DateRange) {
+                    if (value instanceof DateRange) {
                         DatePath<Date> date = pathBuilder.getDate(v.getKey(), Date.class);
-                        where = where != null ? date.between(((DateRange) v.getValue()).getInicio(), ((DateRange) v.getValue()).getFin()).or(where) : date.between(((DateRange) v.getValue()).getInicio(), ((DateRange) v.getValue()).getFin());
+                        where = where != null ? date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin()).or(where) : date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin());
                     } else {
-                        CollectionPath collection = pathBuilder.getCollection(v.getKey(), v.getValue().getClass());
+                        CollectionPath collection = pathBuilder.getCollection(v.getKey(), value.getClass());
                         if (collection != null) {
-                            where = where != null ? collection.contains(v.getValue()).and(where) : collection.contains(v.getValue());
+                            if (!(value instanceof Collection))
+                                where = where != null ? collection.contains(value).or(where) : collection.contains(value);
+                            else
+                                for (Object val : (Collection) value) {
+                                    where = where != null ? collection.contains(val).or(where) : collection.contains(val);
+                                }
                         } else
-                            where = where != null ? pathBuilder.get(v.getKey()).eq(v.getValue()).or(where) : pathBuilder.get(v.getKey()).eq(v.getValue());
+                            where = where != null ? pathBuilder.get(v.getKey()).eq(value).or(where) : pathBuilder.get(v.getKey()).eq(value);
                     }
                     break;
             }

@@ -34,7 +34,7 @@ class Carousel extends HtmlBasedComponent {
 
     private String slideBy = "1";
 
-    private Boolean controls = true;
+    private Boolean controls = false;
 
     private String controlsPosition = "top";
 
