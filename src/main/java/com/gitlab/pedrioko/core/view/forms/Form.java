@@ -62,6 +62,7 @@ class Form extends Window {
             CrudActionEvent event = new CrudActionEvent();
             event.setValue(getValue());
             event.setFormstate(estado);
+            event.setSource(this);
             action.actionPerform(event);
 
         });
@@ -151,6 +152,7 @@ class Form extends Window {
             try {
                 if (!(action instanceof CancelAction)) {
                     Object value = getValue();
+                    event.setSource(this);
                     event.setValue(value);
                 }
                 action.actionPerform(event);

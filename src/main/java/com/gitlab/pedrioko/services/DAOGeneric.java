@@ -30,6 +30,10 @@ public interface DAOGeneric {
      */
     <T> List<T> getAll(Class<T> klass);
 
+    <T> List<T> getAllOrder(Class<T> klass);
+
+    <T> List<T> getAllOrderBy(Class<T> klass, String orderby);
+
     <T> List<T> getAll(Class<T> klass, int firstResult, int maxResults);
 
     <T> PathBuilder<?> getPathBuilder(Class<T> klass);

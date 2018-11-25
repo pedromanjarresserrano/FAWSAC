@@ -20,6 +20,7 @@ public class ChosenFileEntityBox extends Bandbox {
     private transient Set<?> model;
     private Listbox list;
     private List<Listitem> listsitems;
+    private boolean checkmark = true;
 
     public ChosenFileEntityBox() {
         valueSelection = new HashSet<>();
@@ -32,8 +33,10 @@ public class ChosenFileEntityBox extends Bandbox {
         getChildren().clear();
         Bandpopup popup = new Bandpopup();
         list = new Listbox();
-        list.setCheckmark(true);
+        list.setCheckmark(checkmark);
         list.setMultiple(true);
+        listsitems.clear();
+        list.getChildren().clear();
         model.forEach(e -> {
             Listitem listitem = new Listitem();
             listitem.setValue(e);
@@ -102,6 +105,15 @@ public class ChosenFileEntityBox extends Bandbox {
         valueSelection = new HashSet<>(value);
         load();
 
+    }
+
+    public boolean isCheckmark() {
+        return checkmark;
+    }
+
+    public void setCheckmark(boolean checkmark) {
+        this.checkmark = checkmark;
+        load();
     }
 
     /**

@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @ToolAction
-public class SaveAction implements Action {
+public class SaveAndNewAction implements Action {
 
     @Autowired
     private CrudService crudservice;
@@ -44,18 +44,8 @@ public class SaveAction implements Action {
             ZKUtil.showMessage(noDuplicateValue + " - " + ReflectionZKUtil.getLabel("onlist"), MessageType.WARNING);
         } else {
             ReflectionJavaUtil.removeById(list, ReflectionJavaUtil.getIdValue(val));
-            crudservice.saveOrUpdate(val);
-            crudViewParent.previusState();
-            boolean a = event.getFormstate() == FormStates.CREATE || event.getFormstate() == FormStates.UPDATE;
-            if (a && crudViewParent.getReloadable()) {
-                crudViewParent.getCrudController().doQuery();
-            }
-            crudViewParent.update();
-
-        /*    if (!event.getCrudViewParent().getReloadable()) {
-
-                crudViewParent.setValue(list);
-            }*/
+            crudViewParent.addValue(crudservice.saveOrUpdate(val));
+            event.getSource().setValueForm(ReflectionJavaUtil.getNewInstace(val.getClass()));
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("userbasicform.guardar"), MessageType.SUCCESS);
         }
     }

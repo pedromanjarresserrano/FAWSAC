@@ -7,6 +7,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.sys.ExecutionsCtrl;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.LayoutRegion;
 import org.zkoss.zul.Window;
 
 public class ZKUtil {
@@ -52,7 +53,22 @@ public class ZKUtil {
         }
         return typetoast;
     }
-
+public  static  void tootgleRegion(LayoutRegion region)
+{
+    if (ZKUtil.isMobile()) {
+        boolean open = !region.isSlide();
+        region.setSlide(open);
+        if (!open) {
+            region.setWidth("220px");
+        }
+    } else {
+        boolean open = !region.isOpen();
+        region.setOpen(open);
+        if (!open) {
+            region.setWidth("220px");
+        }
+    }
+}
     public static boolean isMobile() {
         Execution current = Executions.getCurrent();
         return current != null && current.getBrowser("mobile") != null;

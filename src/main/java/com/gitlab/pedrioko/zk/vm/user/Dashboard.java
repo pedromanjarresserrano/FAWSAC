@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.zk.vm.user;
 
+import com.gitlab.pedrioko.core.view.forms.LoginForm;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
@@ -93,6 +94,7 @@ public class Dashboard extends SelectorComposer<Window> {
                 }
             }
         }
+        col1.appendChild(new LoginForm());
     }
 
     public boolean isMobile() {

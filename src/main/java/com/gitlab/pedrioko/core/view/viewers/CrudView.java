@@ -6,8 +6,10 @@ import com.gitlab.pedrioko.core.view.api.CrudDisplayTable;
 import com.gitlab.pedrioko.core.view.controllers.CrudController;
 import com.gitlab.pedrioko.core.view.enums.CrudEvents;
 import com.gitlab.pedrioko.core.view.enums.CrudMode;
+import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
+import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.zkoss.zk.ui.Component;
@@ -83,7 +85,12 @@ public class CrudView extends Tabpanel {
         crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> gridTable.update());
         popup = new CrudMenuContext(klass, ApplicationContextUtils.getBeans(Action.class));
         this.appendChild(popup);
-        gridTable.addEventOnEvent(CrudEvents.ON_RIGHT_CLICK, () -> popup.open(gridTable, "at_pointer", gridTable.getSelectedValue()));
+        gridTable.addEventOnEvent(CrudEvents.ON_RIGHT_CLICK, () -> {
+            CrudActionEvent data = new CrudActionEvent(gridTable.getSelectedValue());
+            data.setCrudViewParent(this);
+            data.setFormstate(FormStates.READ);
+            popup.open(gridTable, "at_pointer", data);
+        });
     }
 
     private void createUI(Component table) {
@@ -97,10 +104,17 @@ public class CrudView extends Tabpanel {
         north = new North();
         north.appendChild(divbar);
         child.appendChild(north);
-        east.setCollapsible(true);
         east.setTitle("Filters");
-        east.setVisible(false);
         east.setStyle(" overflow-y:auto !important; width:350px;");
+        if (ZKUtil.isMobile()) {
+            east.setOpen(false);
+            east.setCollapsible(false);
+            east.setSlide(true);
+        } else {
+            east.setCollapsible(true);
+            east.setVisible(false);
+            east.setSlide(false);
+        }
         child.appendChild(east);
         child.appendChild(new Center());
         appendChild(child);
@@ -157,7 +171,7 @@ public class CrudView extends Tabpanel {
             previusChilderns.forEach(this::appendChild);
         }
         if (reloadable)
-            crudTable.update();
+            update();
     }
 
     public List<String> getValueIds() {
@@ -242,7 +256,11 @@ public class CrudView extends Tabpanel {
     }
 
     public void update() {
-        crudTable.update();
+        if (crudTable == null) {
+            gridTable.update();
+        } else {
+            crudTable.update();
+        }
     }
 
     /**

@@ -6,6 +6,7 @@ import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.services.CrudService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +36,7 @@ public class SearchAction implements Action {
     @Override
     public void actionPerform(CrudActionEvent event) {
         East east = event.getCrudViewParent().getEast();
-        boolean visible = east.isVisible();
-        east.setVisible(!visible);
+        ZKUtil.tootgleRegion(east);
     }
 
     @Override

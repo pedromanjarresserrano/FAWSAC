@@ -22,13 +22,13 @@ public class CrudTable extends Listbox implements CrudDisplayTable {
     private Class<?> klass;
     private List<String> fields;
 
-    public CrudTable(Class<?> klass) {
+    CrudTable(Class<?> klass) {
         super();
         init(klass);
         loadfields(klass);
     }
 
-    public CrudTable(Class<?> klass, List<Class<?>> all) {
+    CrudTable(Class<?> klass, List<Class<?>> all) {
         super();
         listitems.clear();
         listitems.addAll(all);
@@ -36,7 +36,7 @@ public class CrudTable extends Listbox implements CrudDisplayTable {
         loadfields(klass);
     }
 
-    public CrudTable(List<String> fields, Class<?> klass) {
+    CrudTable(List<String> fields, Class<?> klass) {
         super();
         init(klass);
         this.fields = fields;
@@ -122,7 +122,7 @@ public class CrudTable extends Listbox implements CrudDisplayTable {
 
     @Override
     public void clearSelection() {
-        this.getSelectedItems().clear();
+        super.clearSelection();
     }
 
     @Override

@@ -158,9 +158,12 @@ public class NavbarComposer extends SelectorComposer<Component> {
         HtmlBasedComponent comp = (HtmlBasedComponent) component;
         String scls = comp.getSclass();
         if (open) {
-            comp.setSclass(scls + " open");
+            //comp.setSclass(scls + " open");
+            comp.setStyle("display:block;");
+
         } else {
-            comp.setSclass(scls.replace(" open", ""));
+            comp.setStyle("display:none;");
+            //comp.setSclass(scls.replace(" open", ""));
         }
     }
 

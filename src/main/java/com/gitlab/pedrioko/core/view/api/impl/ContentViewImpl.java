@@ -3,6 +3,7 @@ package com.gitlab.pedrioko.core.view.api.impl;
 import com.gitlab.pedrioko.core.view.api.ContentView;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
+import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.CrudView;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class ContentViewImpl implements ContentView {
         tabpanels.setParent(tab);
         tab.appendChild(tabs);
         tab.appendChild(tabpanels);
-
+        if (ZKUtil.isMobile()) tabs.setStyle("overflow-x: auto !important;");
     }
 
     @Override
@@ -62,6 +63,8 @@ public class ContentViewImpl implements ContentView {
                     tab.setSelectedTab((Tab) existtab.get());
             } else {
                 Tab tab = new Tab(label);
+                //    tab.setDraggable("true");
+                //     tab.setDroppable("true");
                 tab.setId(id);
                 list.add(tab);
                 tab.setClosable(true);

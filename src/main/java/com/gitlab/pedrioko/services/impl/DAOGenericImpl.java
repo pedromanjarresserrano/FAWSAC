@@ -1,8 +1,11 @@
 package com.gitlab.pedrioko.services.impl;
 
 import com.gitlab.pedrioko.core.hibernate.MySQLJPATemplates;
+import com.gitlab.pedrioko.core.lang.annotation.CrudOrderBy;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.services.DAOGeneric;
+import com.querydsl.core.types.OrderSpecifier;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.hibernate.Query;
@@ -79,6 +82,42 @@ public class DAOGenericImpl<T> implements DAOGeneric {
     }
 
     @Override
+    public <T> List<T> getAllOrder(Class<T> klass) {
+        PathBuilder pathBuilder = getPathBuilder(klass);
+        String orderBy = getOrderBy(klass);
+        if (orderBy != null && !orderBy.isEmpty()) {
+            OrderSpecifier asc = getOrderSpecifier(klass, orderBy, pathBuilder);
+            return (List<T>) query().from(pathBuilder).orderBy(asc).fetch();
+
+        }
+        return (List<T>) query().from(pathBuilder).fetch();
+    }
+
+    @Override
+    public <T> List<T> getAllOrderBy(Class<T> klass, String orderby) {
+        PathBuilder pathBuilder = getPathBuilder(klass);
+        if (orderby != null) {
+            OrderSpecifier asc = getOrderSpecifier(klass, orderby, pathBuilder);
+            return (List<T>) query().from(pathBuilder).orderBy(asc).fetch();
+
+        }
+        return (List<T>) query().from(pathBuilder).fetch();
+    }
+
+    private <T> OrderSpecifier getOrderSpecifier(Class<T> klass, String orderby, PathBuilder pathBuilder) {
+        Field field = ReflectionJavaUtil.getField(klass, orderby);
+        return pathBuilder.getComparable(orderby, field.getType()).asc();
+    }
+
+    private <T> String getOrderBy(Class<T> klass) {
+        String orderBy = "";
+        if (klass.isAnnotationPresent(CrudOrderBy.class)) {
+            orderBy = klass.getAnnotation(CrudOrderBy.class).value();
+        }
+        return orderBy;
+    }
+
+    @Override
     public <T> List<T> getAll(Class<T> klass, int firstResult, int maxResults) {
         PathBuilder<?> path = getPathBuilder(klass);
         CriteriaQuery<T> criteriaBuilder = getCriteriaBuilder(klass);
@@ -98,7 +137,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
      *
      * @return the current session
      */
-    protected final Session getCurrentSession() {
+    private final Session getCurrentSession() {
         return (Session) entityManager.getDelegate();
     }
 
@@ -211,7 +250,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
         return merge;
     }
 
-    public <T> void publishEvent(T klass, String event) {
+    private <T> void publishEvent(T klass, String event) {
         try {
             EventQueues.lookup(event + klass.getClass().getSimpleName(), EventQueues.APPLICATION, true).publish(new Event(event + klass.getClass().getSimpleName(), null, null));
         } catch (Exception e) {
@@ -272,7 +311,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
         if (!text.isEmpty()) {
             return like(klass, "?" + text + "?");
         } else
-            return getAll(klass);
+            return getAllOrder(klass);
     }
 
     @Override
@@ -280,13 +319,24 @@ public class DAOGenericImpl<T> implements DAOGeneric {
         if (!text.isEmpty()) {
             return like(klass, text);
         } else
-            return getAll(klass);
+            return getAllOrder(klass);
     }
 
     private <T> List<T> like(Class<T> klass, String text) {
         List<Field> fields = ReflectionJavaUtil.getStringFields(klass);
         PathBuilder<?> pathBuilder = getPathBuilder(klass);
-        com.querydsl.core.types.Predicate like = null;
+        Predicate like = getLikePredicate(text, fields, pathBuilder);
+        String orderBy = (String) getOrderBy(klass);
+        if (orderBy != null && !orderBy.isEmpty()) {
+            OrderSpecifier orderSpecifier = getOrderSpecifier(klass, orderBy, pathBuilder);
+            return (List<T>) query().from(pathBuilder).where(like).orderBy(orderSpecifier).fetch();
+        } else
+            return (List<T>) query().from(pathBuilder).where(like).fetch();
+    }
+
+
+    private Predicate getLikePredicate(String text, List<Field> fields, PathBuilder<?> pathBuilder) {
+        Predicate like = null;
         if (!text.endsWith("?") && !text.startsWith("?"))
             for (Field f : fields) {
                 String name = f.getName();
@@ -305,7 +355,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
                     like = pathBuilder.getString(name).eq(aux).or(like);
             }
         }
-        return (List<T>) query().from(pathBuilder).where(like).fetch();
+        return like;
     }
 
 }

@@ -157,8 +157,11 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
                 child.appendChild(new Label(visualName == null || visualName.isEmpty() ? obj.getName() : visualName));
                 child.setHeight("auto");
                 int finalI = i + firstResult;
+
                 child.addEventListener(Events.ON_CLICK, (e) -> {
                     onClick(child, finalI);
+                    if (ZKUtil.isMobile())
+                        getEvent(CrudEvents.ON_RIGHT_CLICK).forEach(OnEvent::doSomething);
                 });
                 child.addEventListener(Events.ON_RIGHT_CLICK, (e) -> {
                     onClick(child, finalI);
@@ -242,7 +245,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
     public void update() {
         paging.setTotalSize(listitems.size());
         paging.setPageSize(PAGE_SIZE);
-        redraw(0, PAGE_SIZE);
+        redraw(paging.getActivePage() * PAGE_SIZE, PAGE_SIZE);
     }
 
 

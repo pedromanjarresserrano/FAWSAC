@@ -39,6 +39,7 @@ class CrudViewBar extends Toolbar {
     private Menupopup menupopup;
     private CrudView parent;
     private Menubar mb = null;
+    private Hlayout hlayout = new Hlayout();
 
     CrudViewBar(Class<?> klass, CrudView parent, CrudDisplayTable crudTable) {
         super();
@@ -47,12 +48,14 @@ class CrudViewBar extends Toolbar {
             mb = new Menubar();
             Menu menu = new Menu();
             mb.appendChild(menu);
-            mb.setStyle("width:100px;");
             menu.setIconSclass("fas fa-caret-square-down fa-2x");
             menupopup = new Menupopup();
             menu.appendChild(menupopup);
-            appendChild(mb);
+            hlayout.appendChild(mb);
+            hlayout.setSpacing("0px");
+
         }
+
         enableCommonActionsClass = getBean(PropertiesUtil.class).getEnableCommonActionsClass(klass);
         crudService = getBean(CrudService.class);
         setOrient("horizontal");
@@ -91,7 +94,11 @@ class CrudViewBar extends Toolbar {
         textbox.setHeight("33px");
         textbox.setPlaceholder(getLabel("buscar"));
         textbox.addEventListener(Events.ON_OK, e -> parent.setValue(crudService.getLike(klass, textbox.getValue())));
-        appendChild(textbox);
+        if (ZKUtil.isMobile()) {
+            hlayout.appendChild(textbox);
+            appendChild(hlayout);
+        } else
+            appendChild(textbox);
     }
 
     private Space getSpace() {
@@ -123,7 +130,7 @@ class CrudViewBar extends Toolbar {
         btn.setIconSclass(v.getIcon() + " fa-lg");
         String color = v.getColor();
         String classes = "";
-        if (v.getLabel() != null && !v.getLabel().isEmpty()) {
+        if (v.getLabel() != null && !v.getLabel().isEmpty() && v.showLabel()) {
             btn.setLabel(v.getLabel());
             classes = "zk-btn-toolbar-text";
         } else
@@ -141,7 +148,6 @@ class CrudViewBar extends Toolbar {
         btn.addEventListener(Events.ON_CLICK, e -> onClickListener(v, crudTable, event));
         String tooltipText = v.getTooltipText();
         btn.setTooltiptext(tooltipText != null ? tooltipText : "");
-
         appendChild(btn);
         return btn;
     }

@@ -1,13 +1,11 @@
 package com.gitlab.pedrioko.core.lang.annotation;
 
-import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface UseChosenFileEntity {
-    String orderBy();
+
+public @interface CrudOrderBy {
+    String value();
 
 }

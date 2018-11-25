@@ -61,6 +61,19 @@ public class CrudServiceImpl implements CrudService {
         return cruddao.getAll(klass, firstResult, maxResults);
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public <T> List<T> getAllOrderBy(Class<T> klass, String orderby) {
+        return cruddao.getAllOrderBy(klass, orderby);
+    }
+
+
+    @Transactional(readOnly = true)
+    @Override
+    public <T> List<T> getAllOrder(Class<T> klass) {
+        return cruddao.getAllOrder(klass);
+    }
+
     /*
      * (non-Javadoc)
      *

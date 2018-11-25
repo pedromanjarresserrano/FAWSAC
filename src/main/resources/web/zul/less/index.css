@@ -44,10 +44,11 @@ a:focus {
     text-decoration: none;
 }
 
-.crud-grid-item  {
+.crud-grid-item {
     background: black;
 }
-.z-menuitem-text{
+
+.z-menuitem-text {
 
     margin-left: 10px;
     margin-bottom: 5px;
@@ -55,15 +56,18 @@ a:focus {
 }
 
 .video-view .z-east-body,
-.video-view .z-center-body{
+.video-view .z-center-body {
     background: #1b1e21;
 }
+
 .crud-grid-item .z-vlayout-inner .z-label {
     color: white;
 }
+
 .crud-grid-item .z-vlayout-inner {
     text-align: center;
 }
+
 .z-tab-icon a [class^="z-icon-"], a [class*=" z-icon-"] {
 
     display: inline;
@@ -3377,10 +3381,7 @@ weather {
 
 .z-popup,
 .z-menupopup {
-    ${ t:boxShadow('0 2px 4px rgba(0, 0, 0, 0.2)') };
-    background: none;
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-    background-color: #FFF;
+
 }
 
 .z-popup-content,
@@ -3390,26 +3391,12 @@ weather {
 
 .z-popup:before,
 .z-menupopup:before {
-    border-bottom: 7px solid rgba(0, 0, 0, 0.2);
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    content: "";
-    display: inline-block;
-    right: 9px;
-    position: absolute;
-    top: -7px;
+
 }
 
 .z-popup:after,
 .z-menupopup:after {
-    border-bottom: 6px solid #FFFFFF;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    content: "";
-    display: inline-block;
-    right: 10px;
-    position: absolute;
-    top: -6px;
+
 }
 
 .z-popup {
@@ -3532,7 +3519,7 @@ weather {
 
 .z-menupopup {
     padding: 0;
-    width: 160px;
+    width: 300px;
 }
 
 .z-menupopup * {
@@ -3545,26 +3532,22 @@ weather {
 .z-menupopup .z-menuitem-content:hover,
 .z-menupopup .z-menuitem:active,
 .z-menupopup .z-menuitem-content:active {
-    background-image: none;
-    ${ t:boxShadow('none') };
+    background: #a81537;
+    color: #fff;
 }
 
 .z-menupopup .z-menupopup-separator {
-    display: none;
 }
 
 .z-menupopup .z-menuitem-content {
-    padding: 4px 11px;
-    margin: 1px 4px;
-    line-height: 14px;
-    color: #333;
+    padding: 10px;
+    border-bottom: solid 1px #ccc;
 }
 
 .z-menupopup .z-menuitem-content:hover,
 .z-menupopup .z-menuitem-content:focus {
-    background-color: #FEE188;
-    color: #444;
-    ${ t:borderRadius('0') };
+    background: #a81537;
+    color: #fff;
 }
 
 .z-menupopup .z-menuitem-content [class*="z-icon-"] {
@@ -3572,6 +3555,7 @@ weather {
     font-size: 20px;
     display: inline-block;
     text-align: center;
+    color: #fff;
 }
 
 .z-menupopup .z-menuseparator {
@@ -3579,8 +3563,22 @@ weather {
 }
 
 .z-menupopup .z-menupopup-content {
-    padding: 5px 0;
-    margin: 2px 0 0;
+    position: absolute;
+    z-index: 999;
+    width: 300px;
+    margin: 0;
+    padding: 10px;
+    list-style: none;
+    background: #fff;
+    color: #333;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0 0 5px #999;
+    -webkit-box-shadow: 0 0 5px #999;
+    box-shadow: 0 0 5px #999
+}
+
 }
 
 .date.z-popup .z-listbox .z-listitem:hover .z-listcell-content {

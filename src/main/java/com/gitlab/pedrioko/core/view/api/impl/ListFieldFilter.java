@@ -38,8 +38,9 @@ public class ListFieldFilter implements FieldFilterComponent {
 
             if (getEntities().contains(klass)) {
                 if (field.isAnnotationPresent(UseChosenFileEntity.class)) {
+                    String orderBy = field.getAnnotation(UseChosenFileEntity.class).orderBy();
                     ChosenFileEntityBox chosenFileEntityBox = new ChosenFileEntityBox();
-                    chosenFileEntityBox.setModel(crudService.getAll(klass));
+                    chosenFileEntityBox.setModel(crudService.getAllOrderBy(klass, orderBy));
                     return chosenFileEntityBox;
                 } else {
                     Combobox combobox = new Combobox();
@@ -49,7 +50,7 @@ public class ListFieldFilter implements FieldFilterComponent {
             }
         }
 
-    
+
         return null;
     }
 

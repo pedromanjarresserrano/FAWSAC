@@ -20,7 +20,7 @@ public class CrudMenuContext extends Menupopup {
 
     private final Class klass;
     private List<Action> actions = new ArrayList<>();
-    private Object valueSelect;
+    private CrudActionEvent valueSelect;
 
     public CrudMenuContext(Class klass, List<Action> actions) {
         this.klass = klass;
@@ -37,7 +37,7 @@ public class CrudMenuContext extends Menupopup {
             menuitem.setLabel(e.getLabel());
             menuitem.setParent(this);
             menuitem.setValue(e.getLabel());
-            menuitem.addEventListener(Events.ON_CLICK, (w) -> e.actionPerform(new CrudActionEvent(valueSelect)));
+            menuitem.addEventListener(Events.ON_CLICK, (w) -> e.actionPerform(valueSelect));
             appendChild(menuitem);
         });
     }
@@ -47,7 +47,7 @@ public class CrudMenuContext extends Menupopup {
         this.init();
     }
 
-    public void open(Component c, String position, Object data) {
+    public void open(Component c, String position, CrudActionEvent data) {
         valueSelect = data;
         open(c, position);
     }

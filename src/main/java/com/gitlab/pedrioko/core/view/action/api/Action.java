@@ -39,4 +39,8 @@ public interface Action {
     default boolean MenuSupported() {
         return false;
     }
+
+    default boolean showLabel() {
+        return false;
+    }
 }

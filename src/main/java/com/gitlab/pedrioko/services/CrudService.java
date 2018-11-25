@@ -40,6 +40,12 @@ public interface CrudService {
     @Transactional(readOnly = true)
     <T> List<T> getAll(Class<T> klass, int firstResult, int maxResults);
 
+    @Transactional(readOnly = true)
+    <T> List<T> getAllOrderBy(Class<T> klass, String orderby);
+
+    @Transactional(readOnly = true)
+    <T> List<T> getAllOrder(Class<T> klass);
+
     /**
      * Gets the entity by ID.
      *

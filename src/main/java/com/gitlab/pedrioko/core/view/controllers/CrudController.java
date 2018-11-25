@@ -1,6 +1,7 @@
 package com.gitlab.pedrioko.core.view.controllers;
 
 import com.gitlab.pedrioko.core.lang.DateRange;
+import com.gitlab.pedrioko.core.lang.annotation.CrudOrderBy;
 import com.gitlab.pedrioko.core.view.api.OnEvent;
 import com.gitlab.pedrioko.core.view.api.OnQuery;
 import com.gitlab.pedrioko.core.view.enums.CrudEvents;
@@ -11,6 +12,7 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.services.CrudService;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.CollectionPath;
 import com.querydsl.core.types.dsl.DatePath;
@@ -18,6 +20,7 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -114,7 +117,7 @@ public class CrudController {
     }
 
     public void doQuery() {
-        PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
+        PathBuilder pathBuilder = crudService.getPathBuilder(klass);
         Predicate where = null;
         map.putAll(paramsroot);
         for (Map.Entry<String, Object> v : map.entrySet()) {
@@ -157,8 +160,16 @@ public class CrudController {
                     break;
             }
         }
-
-        setValue(map.isEmpty() ? (ArrayList) crudService.getAll(klass) : (ArrayList) crudService.query().from(pathBuilder).where(where).fetch());
+        if (klass.isAnnotationPresent(CrudOrderBy.class)) {
+            String value = klass.getAnnotation(CrudOrderBy.class).value();
+            if (value != null) {
+                Field field = ReflectionJavaUtil.getField(klass, value);
+                OrderSpecifier asc = pathBuilder.getComparable(value, field.getType()).asc();
+                setValue(map.isEmpty() ? (ArrayList) crudService.query().from(pathBuilder).orderBy(asc).fetch() :
+                        (ArrayList) crudService.query().from(pathBuilder).where(where).fetch());
+            }
+        } else
+            setValue(map.isEmpty() ? (ArrayList) crudService.getAll(klass) : (ArrayList) crudService.query().from(pathBuilder).where(where).fetch());
 
     }
 

@@ -51,13 +51,17 @@ public class BarsComposer extends SelectorComposer<Component> {
 
         West west = borderlayout.getWest();
         setIcon(collapser);
+        if (ZKUtil.isMobile()) {
+            west.setOpen(false);
+            west.setCollapsible(false);
+        }
         collapser.setClass("btn-siderbar-collapser pull-left height100");
         collapser.setWidth("60px");
         collapser.setHeight("54px");
-        collapser.setStyle("margin-top:-3px;");
+        collapser.setStyle("margin-top:-10px;");
         setOnClickEvent(collapser, west);
         collapser.setIconSclass("fa fa-bars");
-        collapser.addEventListener(Events.ON_MOUSE_OVER, e -> collapser.setIconSclass(west.isOpen() ? "z-icon-arrow-left" : "z-icon-arrow-right"));
+        collapser.addEventListener(Events.ON_MOUSE_OVER, e -> collapser.setIconSclass(west.isSlide() ? "z-icon-arrow-left" : "z-icon-arrow-right"));
         collapser.addEventListener(Events.ON_MOUSE_OUT, e -> setIcon(collapser));
         borderlayout.addEventListener(Events.ON_MOUSE_OVER, e -> borderlayout.resize());
         collapser.setVisible(ZKUtil.isMobile());
@@ -73,11 +77,7 @@ public class BarsComposer extends SelectorComposer<Component> {
 
     private void setOnClickEvent(Button b, West west) {
         b.addEventListener(Events.ON_CLICK, w -> {
-            boolean open = !west.isOpen();
-            west.setOpen(open);
-            if (!open) {
-                west.setWidth("220px");
-            }
+            ZKUtil.tootgleRegion(west);
         });
     }
 }

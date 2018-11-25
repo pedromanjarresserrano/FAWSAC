@@ -4,6 +4,7 @@ import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
+import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import lombok.Getter;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Events;
@@ -15,7 +16,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class CrudFilters extends Window {
+class CrudFilters extends Window {
     private static final String CLASSES = "col-xs-12 col-sm-12 col-md-12 col-lg-12";
     private final String reglonClass = "control-group col-sm-12 col-md-12 col-lg-12";
     private final transient Map<Field, Component> binding = new LinkedHashMap<>();
@@ -23,7 +24,7 @@ public class CrudFilters extends Window {
     final Class<?> klass;
     private List<String> fieldsfilters;
 
-    public CrudFilters(Class<?> klass, CrudView parent) {
+    CrudFilters(Class<?> klass, CrudView parent) {
         this.klass = klass;
         List<Field> listfield = ReflectionJavaUtil.getFields(getKlass()).stream()
                 .filter(e -> !e.isAnnotationPresent(Version.class) && !e.getName().equalsIgnoreCase("serialVersionUID")
@@ -51,6 +52,7 @@ public class CrudFilters extends Window {
 
             });
             parent.getCrudController().doQuery();
+            if (ZKUtil.isMobile()) ZKUtil.tootgleRegion(parent.getEast());
         });
         buttons.appendChild(child);
         appendChild(filters);
@@ -85,11 +87,11 @@ public class CrudFilters extends Window {
         return renglon;
     }
 
-    public Component putBinding(Field key, Component value) {
+    private Component putBinding(Field key, Component value) {
         return binding.put(key, value);
     }
 
-    public void loadReglon(Div renglon, Div labeldiv, Label label, Div campo) {
+    private void loadReglon(Div renglon, Div labeldiv, Label label, Div campo) {
         labeldiv.appendChild(label);
         renglon.appendChild(labeldiv);
         renglon.setStyle("margin-top:10px;margin-bottom:10px;");
