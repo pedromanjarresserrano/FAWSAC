@@ -169,7 +169,7 @@ public class CrudController {
                         (ArrayList) crudService.query().from(pathBuilder).where(where).fetch());
             }
         } else
-            setValue(map.isEmpty() ? (ArrayList) crudService.getAll(klass) : (ArrayList) crudService.query().from(pathBuilder).where(where).fetch());
+            setValue(map.isEmpty() ? (ArrayList) crudService.getAllOrder(klass) : (ArrayList) crudService.query().from(pathBuilder).where(where).fetch());
 
     }
 

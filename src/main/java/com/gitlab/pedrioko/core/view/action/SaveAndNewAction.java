@@ -26,7 +26,7 @@ public class SaveAndNewAction implements Action {
 
     @Override
     public String getLabel() {
-        return ReflectionZKUtil.getLabel("guardar");
+        return ReflectionZKUtil.getLabel("Save and new");
     }
 
     @Override
@@ -45,6 +45,12 @@ public class SaveAndNewAction implements Action {
         } else {
             ReflectionJavaUtil.removeById(list, ReflectionJavaUtil.getIdValue(val));
             crudViewParent.addValue(crudservice.saveOrUpdate(val));
+            boolean a = event.getFormstate() == FormStates.CREATE || event.getFormstate() == FormStates.UPDATE;
+            if (a && crudViewParent.getReloadable()) {
+                crudViewParent.getCrudController().doQuery();
+            }
+            crudViewParent.update();
+
             event.getSource().setValueForm(ReflectionJavaUtil.getNewInstace(val.getClass()));
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("userbasicform.guardar"), MessageType.SUCCESS);
         }

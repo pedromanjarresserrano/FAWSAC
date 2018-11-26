@@ -25,7 +25,7 @@ public class SearchAction implements Action {
 
     @Override
     public String getLabel() {
-        return "";
+        return "Filtrar";
     }
 
     @Override
@@ -72,5 +72,15 @@ public class SearchAction implements Action {
     @Override
     public String getTooltipText() {
         return ReflectionZKUtil.getLabel("filtrar");
+    }
+
+    @Override
+    public boolean showLabel() {
+        return false;
+    }
+
+    @Override
+    public boolean MenuSupported() {
+        return true;
     }
 }

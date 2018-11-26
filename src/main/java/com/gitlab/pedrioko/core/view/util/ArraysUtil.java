@@ -3,7 +3,7 @@ package com.gitlab.pedrioko.core.view.util;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +16,7 @@ public class ArraysUtil {
 
         if (toremove != null)
             if (!toremove.isEmpty()) {
-                List<? extends Object> aux = new ArrayList<>(fulllist);
+                List<? extends Object> aux = new LinkedList<>(fulllist);
                 for (int i = 0; i < fulllist.size(); i++) {
                     for (int x = 0; x < toremove.size(); x++) {
                         if (String.valueOf(ReflectionJavaUtil.getIdValue(toremove.get(x))).trim().equalsIgnoreCase(

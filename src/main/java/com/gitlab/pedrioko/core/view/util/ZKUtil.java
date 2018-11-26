@@ -53,22 +53,34 @@ public class ZKUtil {
         }
         return typetoast;
     }
-public  static  void tootgleRegion(LayoutRegion region)
-{
-    if (ZKUtil.isMobile()) {
-        boolean open = !region.isSlide();
-        region.setSlide(open);
-        if (!open) {
-            region.setWidth("220px");
-        }
-    } else {
-        boolean open = !region.isOpen();
-        region.setOpen(open);
-        if (!open) {
-            region.setWidth("220px");
+
+    public static void tootgleRegion(LayoutRegion region) {
+        if (isMobile())
+            tootgleRegion(region, "220px");
+        else
+            tootgleRegion(region, "320px");
+    }
+
+    private static void tootgleRegion(LayoutRegion region, String width) {
+        String widthaux = width == null || width.isEmpty() ? "220px" : width;
+        if (ZKUtil.isMobile()) {
+            boolean open = !region.isSlide();
+            region.setSlide(open);
+            if (!open) {
+                region.setWidth(widthaux);
+            }
+        } else {
+            boolean open = !region.isOpen();
+            if (open) {
+                region.setStyle("width:" + widthaux + ";");
+            }
+            region.setOpen(open);
+            region.setCollapsible(true);
+            if (!region.isVisible()) region.setVisible(true);
+
         }
     }
-}
+
     public static boolean isMobile() {
         Execution current = Executions.getCurrent();
         return current != null && current.getBrowser("mobile") != null;

@@ -9,12 +9,21 @@ zk.video.Video = zk.$extends(zk.Widget, {
     _poster: '',
     _crossorigin: '',
     _playbackRate: 1,
+    _currentTime: '',
     getSrc: function () {
         return this._src;
     },
     setSrc: function (value) {
         if (this._src != value) {
             this._src = value;
+        }
+    },
+    getCurrentTime: function () {
+        return this._currentTime;
+    },
+    setCurrentTime: function (value) {
+        if (this._currentTime != value) {
+            this._currentTime = value;
         }
     },
     getPreload: function () {
@@ -28,10 +37,10 @@ zk.video.Video = zk.$extends(zk.Widget, {
     getPoster: function () {
         return this._poster;
     },
-    getPlaybackRate: function(a) {
+    getPlaybackRate: function (a) {
         return this._playbackRate;
     },
-    setPlaybackRate: function(a) {
+    setPlaybackRate: function (a) {
         try {
             var ctx = document.getElementById(this.uuid + '-video');
             if (ctx) {
@@ -92,13 +101,13 @@ zk.video.Video = zk.$extends(zk.Widget, {
             ctx.currentTime = value;
         }
     },
-    setVolume: function(a) {
+    setVolume: function (a) {
         var ctx = document.getElementById(this.uuid + '-video');
         if (ctx) {
             ctx.volume = value;
         }
     },
-    setMuted: function(a) {
+    setMuted: function (a) {
         var ctx = document.getElementById(this.uuid + '-video');
         if (ctx) {
             ctx.muted = value;
@@ -107,12 +116,13 @@ zk.video.Video = zk.$extends(zk.Widget, {
     setCurrentTime: function (value) {
         var ctx = document.getElementById(this.uuid + '-video');
         if (ctx) {
-            ctx[value ? 'play' : 'pause']();
+            ctx.currentTime = value;
         }
     },
     bind_: function () {
         this.$supers('bind_', arguments);
-        var ctx = document.getElementById(this.uuid + '-video');
+        var elementId = this.uuid + '-video';
+        var ctx = document.getElementById(elementId);
         if (this._src) {
             ctx.src = this._src;
             ctx.classList.add("pagination-centered");
@@ -121,7 +131,17 @@ zk.video.Video = zk.$extends(zk.Widget, {
             ctx.classList.add("col-lg-12");
             ctx.classList.add("col-xs-12");
             ctx.style.height = this.getHeight();
+            ctx.currentTime = this.getCurrentTime();
             this.setPlaybackRate(this._playbackRate);
+            var widget = zk.Widget.$('#' + this.uuid + '-video');
+            ctx.onplay = function () {
+              // zAu.send(new zk.Event(widget, "setPlaying", {playing: "true"}, {toServer: true}));
+            };
+            ctx.onpause = function () {
+                var currentTime = document.getElementById(elementId).currentTime;
+                //zAu.send(new zk.Event(widget, "setPlaying", {playing: "false", currentTime: currentTime}, {toServer: true}));
+                ctx.currentTime = currentTime;
+            };
         }
     },
     unbind_: function () {

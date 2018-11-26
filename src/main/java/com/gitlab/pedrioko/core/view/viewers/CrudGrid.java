@@ -75,6 +75,9 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
             storageService = ApplicationContextUtils.getBean(StorageService.class);
             imageHeight = 100L;
             paging = new Paging();
+            paging.setDetailed(true);
+            if (ZKUtil.isMobile())
+                paging.setMold("os");
             paging.setPageSize(PAGE_SIZE);
             paging.addEventListener("onPaging", (Event event) -> {
                 PagingEvent pe = (PagingEvent) event;

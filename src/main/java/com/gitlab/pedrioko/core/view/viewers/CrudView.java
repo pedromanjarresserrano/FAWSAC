@@ -89,7 +89,8 @@ public class CrudView extends Tabpanel {
             CrudActionEvent data = new CrudActionEvent(gridTable.getSelectedValue());
             data.setCrudViewParent(this);
             data.setFormstate(FormStates.READ);
-            popup.open(gridTable, "at_pointer", data);
+            String position = ZKUtil.isMobile() ? "overlap_before" : "at_pointer";
+            popup.open(gridTable.getCenter(), position, data);
         });
     }
 
@@ -107,12 +108,15 @@ public class CrudView extends Tabpanel {
         east.setTitle("Filters");
         east.setStyle(" overflow-y:auto !important; width:350px;");
         if (ZKUtil.isMobile()) {
-            east.setOpen(false);
             east.setCollapsible(false);
+            east.setSplittable(false);
+            east.setOpen(false);
             east.setSlide(true);
         } else {
+            east.setSplittable(false);
             east.setCollapsible(true);
-            east.setVisible(false);
+            east.setOpen(false);
+            east.setVisible(true);
             east.setSlide(false);
         }
         child.appendChild(east);
@@ -276,8 +280,12 @@ public class CrudView extends Tabpanel {
      * @see CrudViewBar#onlyEnable(java.util.List)
      */
     public void onlyEnable(List<String> actions) {
-        toolbar.onlyEnable(actions);
+        if (actions.isEmpty())
+            north.getChildren().clear();
+        else
+            toolbar.onlyEnable(actions);
     }
+
 
     public void setHeightTable(String height) {
         crudTable.setHeight(height);

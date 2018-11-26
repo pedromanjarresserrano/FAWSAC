@@ -1,14 +1,20 @@
 package com.gitlab.pedrioko.core.zk.component;
 
 import lombok.Data;
+import org.zkoss.json.JSONObject;
 import org.zkoss.zk.au.out.AuInvoke;
 import org.zkoss.zk.ui.HtmlBasedComponent;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.sys.ContentRenderer;
 
 import java.io.IOException;
 
 public @Data
 class Video extends HtmlBasedComponent {
+    private static final String ON_PLAY = "onPlaying";
+    private static final String ON_PAUSE = "onPause";
+    private static final String ON_RESUME = "onResume";
     private String src = "";
     private boolean controls = false;
     private boolean muted = false;
@@ -18,7 +24,10 @@ class Video extends HtmlBasedComponent {
     private String poster = "";
     private String crossorigin = "";
     private double playbackRate = 1.0D;
-
+    private String currentTime = "0";
+    private String playing = "";
+    private EventListener<? extends Event> playingListener;
+    private EventListener<? extends Event> pauseListener;
 
     public Video() {
     }
@@ -38,6 +47,7 @@ class Video extends HtmlBasedComponent {
         render(renderer, "preload", preload);
         render(renderer, "poster", poster);
         render(renderer, "crossorigin", crossorigin);
+        render(renderer, "currentTime", currentTime);
         if (this.playbackRate != 1.0D) {
             this.render(renderer, "playbackRate", this.playbackRate);
         }
@@ -73,6 +83,13 @@ class Video extends HtmlBasedComponent {
         }
     }
 
+    public void setCurrentTime(String currentTime) {
+        if (currentTime != null && !currentTime.equals(this.currentTime)) {
+            this.currentTime = currentTime;
+            this.smartUpdate("currentTime", (Object) this.currentTime);
+        }
+    }
+
     public void setPoster(String poster) {
         if (poster != null && !poster.equals(this.poster)) {
             this.poster = poster;
@@ -91,6 +108,52 @@ class Video extends HtmlBasedComponent {
         if (this.controls != controls) {
             this.controls = controls;
             this.smartUpdate("controls", this.controls);
+        }
+    }
+
+    public void setPlaying(Event evt) throws Exception {
+        Object data = evt.getData();
+        if (data != null) {
+            JSONObject jsonObject = (JSONObject) data;
+            String playing = (String) jsonObject.get("playing");
+            switch (playing) {
+                case "true": {
+                    setPlaying(true);
+                    if (playingListener != null)
+                        playingListener.onEvent(null);
+                    break;
+                }
+                case "false": {
+                    setPlaying(false);
+                    if (playingListener != null)
+                        pauseListener.onEvent(null);
+                    break;
+                }
+            }
+        }
+        Video target = (Video) evt.getTarget();
+        setCurrentTime(target.getCurrentTime());
+    }
+
+
+    @Override
+    public boolean addEventListener(String evtnm, EventListener<? extends Event> listener) {
+        switch (evtnm) {
+            case Video.ON_PLAY: {
+                playingListener = listener;
+                return true;
+            }
+            case Video.ON_PAUSE: {
+                pauseListener = listener;
+                return true;
+            }
+            case Video.ON_RESUME: {
+                playingListener = listener;
+                return true;
+            }
+            default: {
+                return super.addEventListener(evtnm, listener);
+            }
         }
     }
 

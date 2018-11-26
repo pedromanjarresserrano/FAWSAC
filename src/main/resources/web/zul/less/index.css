@@ -104,7 +104,7 @@ a:focus {
     background-color: white;
 }
 
-.z-borderlayout-icon, .z-west-collapsed, z-center, z-center-noborder {
+.z-borderlayout-icon, .z-west-collapsed, z-center, z-center-noborder , .z-east-collapsed {
     display: none;
     width: 0px;
     left: 0px;
@@ -558,6 +558,10 @@ weather {
 
 .btn-action {
     margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+
+
 }
 
 .paging, z-grid-paging-bottom {

@@ -9,6 +9,7 @@ import com.gitlab.pedrioko.core.view.exception.ValidationException;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
+import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.dsl.PathBuilder;
 import lombok.Data;
@@ -172,7 +173,7 @@ class Form extends Window {
         Button btn = new Button();
         btn.setLabel(labelaction);
         btn.setIconSclass(icon);
-        btn.setClass("btn-action " + classes);
+        btn.setClass("btn-action " + classes + (ZKUtil.isMobile() ? " col-sm-12 " : ""));
         btn.addEventListener(Events.ON_CLICK, event);
         getActions().appendChild(btn);
     }
@@ -180,7 +181,7 @@ class Form extends Window {
     /**
      * @return the estado
      */
-    public FormStates getEstado() {
+    FormStates getEstado() {
         return estado;
     }
 

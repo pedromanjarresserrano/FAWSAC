@@ -7,10 +7,7 @@ import com.gitlab.pedrioko.services.StorageService;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ChosenFileEntityBox extends Bandbox {
@@ -18,14 +15,34 @@ public class ChosenFileEntityBox extends Bandbox {
     private static final long serialVersionUID = 1L;
     private transient Set<?> valueSelection;
     private transient Set<?> model;
+    private transient Set<?> auxmodel;
     private Listbox list;
     private List<Listitem> listsitems;
     private boolean checkmark = true;
 
     public ChosenFileEntityBox() {
-        valueSelection = new HashSet<>();
-        model = new HashSet<>();
+        valueSelection = new LinkedHashSet<>();
+        model = new LinkedHashSet<>();
+        auxmodel = new LinkedHashSet<>();
         listsitems = new ArrayList<>();
+        setInstant(true);
+        this.setAutodrop(true);
+        this.addEventListener(Events.ON_CHANGING, e -> {
+
+            String value = getValue();
+            if (value == null || value.isEmpty()) {
+                model = new LinkedHashSet<>(auxmodel);
+                load();
+            } else {
+                model = auxmodel.stream().filter(w -> ((ChosenItem) w).getVisualName().toLowerCase().contains(value.toLowerCase())).collect(Collectors.toSet());
+                LinkedList<?> list = new LinkedList<>(model);
+                Collections.sort(list, (x, y) -> ((ChosenItem) x).getVisualName().toLowerCase().compareToIgnoreCase(((ChosenItem) y).getVisualName().toLowerCase()));
+                model = new LinkedHashSet<>(list);
+                load();
+            }
+            
+            this.open();
+        });
         load();
     }
 
@@ -123,7 +140,8 @@ public class ChosenFileEntityBox extends Bandbox {
         if (model != null && !model.isEmpty()) {
             Class<?> aClass = model.get(0).getClass();
             if (ChosenItem.class.isAssignableFrom(aClass)) {
-                this.model = new HashSet<>(model);
+                this.model = new LinkedHashSet<>(model);
+                this.auxmodel = new LinkedHashSet<>(model);
                 load();
             } else {
                 throw new IllegalArgumentException("Class " + aClass + " not implement interface CrudGridItem");

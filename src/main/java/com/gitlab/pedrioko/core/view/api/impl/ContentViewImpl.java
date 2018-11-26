@@ -63,29 +63,12 @@ public class ContentViewImpl implements ContentView {
                     tab.setSelectedTab((Tab) existtab.get());
             } else {
                 Tab tab = new Tab(label);
-                //    tab.setDraggable("true");
-                //     tab.setDroppable("true");
                 tab.setId(id);
                 list.add(tab);
                 tab.setClosable(true);
                 this.tab.getTabs().appendChild(tab);
                 Component view = provider.getView();
-                if (!(view instanceof Tabpanel)) {
-                    Tabpanel tabpanel = new Tabpanel();
-                    tab.setLabel(label);
-                    tabpanel.appendChild(view);
-                    tabpanel.setStyle("overflow:auto;");
-                    this.tab.getTabpanels().getChildren().add(tabpanel);
-
-                } else {
-                    CrudView crudView = (CrudView) view;
-                    if (fhSessionUtil.getCurrentUser().getTipo() != TipoUsuario.ROLE_ADMIN) {
-                        crudView.onlyEnable(fhSessionUtil.getCurrentUser().getUserprofiles().stream().flatMap(e -> e.getProvidersaccess().stream())
-                                .filter(e -> e.getMenuprovider().equalsIgnoreCase(id))
-                                .flatMap(e -> e.getActions().stream()).collect(Collectors.toList()));
-                    }
-                    this.tab.getTabpanels().getChildren().add(crudView);
-                }
+                loadView(id, label, tab, view);
                 this.tab.setSelectedTab(tab);
 
             }
@@ -114,13 +97,28 @@ public class ContentViewImpl implements ContentView {
             tab.setClosable(true);
             this.tab.getTabs().appendChild(tab);
             org.zkoss.zk.ui.Component view = component;
+            loadView(id, label, tab, view);
+            this.tab.setSelectedTab(tab);
+
+        }
+    }
+
+    private void loadView(String id, String label, Tab tab, Component view) {
+        if (!(view instanceof Tabpanel)) {
             Tabpanel tabpanel = new Tabpanel();
             tab.setLabel(label);
             tabpanel.appendChild(view);
             tabpanel.setStyle("overflow:auto;");
             this.tab.getTabpanels().getChildren().add(tabpanel);
-            this.tab.setSelectedTab(tab);
 
+        } else {
+            CrudView crudView = (CrudView) view;
+            if (fhSessionUtil.getCurrentUser().getTipo() != TipoUsuario.ROLE_ADMIN) {
+                crudView.onlyEnable(fhSessionUtil.getCurrentUser().getUserprofiles().stream().flatMap(e -> e.getProvidersaccess().stream())
+                        .filter(e -> e.getMenuprovider().equalsIgnoreCase(id))
+                        .flatMap(e -> e.getActions().stream()).collect(Collectors.toList()));
+            }
+            this.tab.getTabpanels().getChildren().add(crudView);
         }
     }
 

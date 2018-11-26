@@ -44,7 +44,7 @@ public class SaveAction implements Action {
             ZKUtil.showMessage(noDuplicateValue + " - " + ReflectionZKUtil.getLabel("onlist"), MessageType.WARNING);
         } else {
             ReflectionJavaUtil.removeById(list, ReflectionJavaUtil.getIdValue(val));
-            crudservice.saveOrUpdate(val);
+            crudViewParent.addValue(crudservice.saveOrUpdate(val));
             crudViewParent.previusState();
             boolean a = event.getFormstate() == FormStates.CREATE || event.getFormstate() == FormStates.UPDATE;
             if (a && crudViewParent.getReloadable()) {
