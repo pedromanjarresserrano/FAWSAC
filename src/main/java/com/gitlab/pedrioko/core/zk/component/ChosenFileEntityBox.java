@@ -40,7 +40,7 @@ public class ChosenFileEntityBox extends Bandbox {
                 model = new LinkedHashSet<>(list);
                 load();
             }
-            
+
             this.open();
         });
         load();
@@ -94,6 +94,8 @@ public class ChosenFileEntityBox extends Bandbox {
     public List<?> getValueSelection() {
         valueSelection.clear();
         new ArrayList<>(list.getSelectedItems()).forEach(e -> valueSelection.add(e.getValue()));
+        if (valueSelection.isEmpty())
+            return null;
         return new ArrayList<>(valueSelection);
     }
 

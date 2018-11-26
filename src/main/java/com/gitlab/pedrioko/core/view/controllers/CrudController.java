@@ -165,8 +165,8 @@ public class CrudController {
             if (value != null) {
                 Field field = ReflectionJavaUtil.getField(klass, value);
                 OrderSpecifier asc = pathBuilder.getComparable(value, field.getType()).asc();
-                setValue(map.isEmpty() ? (ArrayList) crudService.query().from(pathBuilder).orderBy(asc).fetch() :
-                        (ArrayList) crudService.query().from(pathBuilder).where(where).fetch());
+                setValue(where == null ? (ArrayList) crudService.query().from(pathBuilder).orderBy(asc).fetch() :
+                        (ArrayList) crudService.query().from(pathBuilder).where(where).orderBy(asc).fetch());
             }
         } else
             setValue(map.isEmpty() ? (ArrayList) crudService.getAllOrder(klass) : (ArrayList) crudService.query().from(pathBuilder).where(where).fetch());

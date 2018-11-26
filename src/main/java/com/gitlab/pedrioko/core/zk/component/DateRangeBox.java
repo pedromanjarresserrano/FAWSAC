@@ -4,6 +4,8 @@ import com.gitlab.pedrioko.core.lang.DateRange;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Div;
 
+import java.util.Date;
+
 public class DateRangeBox extends Div {
     Datebox fin = new Datebox();
     Datebox inicio = new Datebox();
@@ -22,9 +24,16 @@ public class DateRangeBox extends Div {
     }
 
     public DateRange getValue() {
-        value.setInicio(inicio.getValue());
-        value.setFin(fin.getValue());
-        return value;
+        Date inicio = this.inicio.getValue();
+
+        Date fin = this.fin.getValue();
+        if (inicio != null && fin != null) {
+            this.value.setInicio(inicio);
+            this.value.setFin(fin);
+            return this.value;
+        } else {
+            return null;
+        }
     }
 
     public void setValue(DateRange value) {
