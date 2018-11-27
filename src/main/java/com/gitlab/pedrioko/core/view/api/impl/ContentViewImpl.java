@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.*;
+import org.zkoss.zul.impl.LabelImageElement;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -55,8 +56,7 @@ public class ContentViewImpl implements ContentView {
         if (tabs != null) {
             list = tabs.getChildren();
         }
-        Optional<Component> existtab = list.stream()
-                .filter(e -> e.getId().equalsIgnoreCase(id)).findFirst();
+        Optional<Component> existtab = getTab(id);
         try {
             if (existtab.isPresent()) {
                 if (tab != null)
@@ -79,21 +79,20 @@ public class ContentViewImpl implements ContentView {
     }
 
     @Override
-    public void addView(Component component, String id, String label) {
-        Tabs tabs = tab.getTabs();
-        List<Component> list = new ArrayList<>();
-        if (tabs != null) {
-            list = tabs.getChildren();
-        }
-        Optional<Component> existtab = list.stream()
-                .filter(e -> e.getId().equalsIgnoreCase(id)).findFirst();
+    public void changeLabel(String id, String newLabel) {
+        Optional<Component> tab = getTab(id);
+        if (tab.isPresent())
+            ((LabelImageElement) tab.get()).setLabel(newLabel);
+    }
 
+    @Override
+    public void addView(Component component, String id, String label) {
+        Optional<Component> existtab = getTab(id);
         if (existtab.isPresent()) {
             tab.setSelectedTab((Tab) existtab.get());
         } else {
             Tab tab = new Tab(label);
             tab.setId(id);
-            list.add(tab);
             tab.setClosable(true);
             this.tab.getTabs().appendChild(tab);
             org.zkoss.zk.ui.Component view = component;
@@ -101,6 +100,19 @@ public class ContentViewImpl implements ContentView {
             this.tab.setSelectedTab(tab);
 
         }
+    }
+
+    protected Optional<Component> getTab(String id) {
+        List<Component> list = tab.getTabs().getChildren();
+        return list.stream()
+                .filter(e -> e.getId().equalsIgnoreCase(id)).findFirst();
+    }
+
+    @Override
+    public Component getTabView(String id) {
+        Optional<Component> tab = getTab(id);
+        return tab.isPresent() ? tab.get() : null;
+
     }
 
     private void loadView(String id, String label, Tab tab, Component view) {

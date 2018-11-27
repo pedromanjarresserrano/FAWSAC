@@ -8,7 +8,11 @@ public interface ContentView {
 
     void addContent(MenuProvider component);
 
+    void changeLabel(String id, String newLabel);
+
     void addView(Component component, String id, String label);
+
+    Component getTabView(String id);
 
     void closeCurrent();
 

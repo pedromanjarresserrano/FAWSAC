@@ -48,6 +48,7 @@ public class ReflectionZKUtil {
                 } else if (class1 == ChosenBox.class || class1 == ChosenFileEntityBox.class) {
                     Method method = component.getClass().getMethod("getValueSelection");
                     Object invoke = method.invoke(component);
+                    if (invoke == null) return invoke;
                     if (invoke instanceof ArrayList)
                         return new ArrayList<>((ArrayList) invoke);
                     else
@@ -195,7 +196,7 @@ public class ReflectionZKUtil {
         }
     }
 
-    public static Object isChecked(Component component)
+    private static Object isChecked(Component component)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Method method = component.getClass().getMethod("isChecked");
         return method.invoke(component);
@@ -226,14 +227,14 @@ public class ReflectionZKUtil {
         method.invoke(component, true);
     }
 
-    public static void readOnlyComponent(Component component)
+    private static void readOnlyComponent(Component component)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         Method method = component.getClass().getMethod("setReadonly", boolean.class);
         method.invoke(component, true);
     }
 
 
-    public static <T> void setSelectedItem(Component component, T object)
+    private static <T> void setSelectedItem(Component component, T object)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         if (object != null) {
             Method method = component.getClass().getMethod("setSelectedItem", object.getClass());

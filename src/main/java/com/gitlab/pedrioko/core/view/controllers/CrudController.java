@@ -128,13 +128,15 @@ public class CrudController {
                         DatePath<Date> date = pathBuilder.getDate(v.getKey(), Date.class);
                         where = where != null ? date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin()).and(where) : date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin());
                     } else {
-                        CollectionPath collection = pathBuilder.getCollection(v.getKey(), value.getClass());
-                        if (collection != null) {
-                            if (!(value instanceof Collection))
-                                where = where != null ? collection.contains(value).and(where) : collection.contains(value);
-                            else {
-                                for (Object val : (Collection) value) {
-                                    where = where != null ? collection.contains(val).and(where) : collection.contains(val);
+                        if (value instanceof Collection) {
+                            CollectionPath collection = pathBuilder.getCollection(v.getKey(), value.getClass());
+                            if (collection != null) {
+                                if (!(value instanceof Collection))
+                                    where = where != null ? collection.contains(value).and(where) : collection.contains(value);
+                                else {
+                                    for (Object val : (Collection) value) {
+                                        where = where != null ? collection.contains(val).and(where) : collection.contains(val);
+                                    }
                                 }
                             }
                         } else
@@ -146,14 +148,16 @@ public class CrudController {
                         DatePath<Date> date = pathBuilder.getDate(v.getKey(), Date.class);
                         where = where != null ? date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin()).or(where) : date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin());
                     } else {
-                        CollectionPath collection = pathBuilder.getCollection(v.getKey(), value.getClass());
-                        if (collection != null) {
-                            if (!(value instanceof Collection))
-                                where = where != null ? collection.contains(value).or(where) : collection.contains(value);
-                            else
-                                for (Object val : (Collection) value) {
-                                    where = where != null ? collection.contains(val).or(where) : collection.contains(val);
-                                }
+                        if (value instanceof Collection) {
+                            CollectionPath collection = pathBuilder.getCollection(v.getKey(), value.getClass());
+                            if (collection != null) {
+                                if (!(value instanceof Collection))
+                                    where = where != null ? collection.contains(value).or(where) : collection.contains(value);
+                                else
+                                    for (Object val : (Collection) value) {
+                                        where = where != null ? collection.contains(val).or(where) : collection.contains(val);
+                                    }
+                            }
                         } else
                             where = where != null ? pathBuilder.get(v.getKey()).eq(value).or(where) : pathBuilder.get(v.getKey()).eq(value);
                     }

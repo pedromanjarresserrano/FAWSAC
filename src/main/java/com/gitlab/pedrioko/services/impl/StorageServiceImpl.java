@@ -108,7 +108,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public String getUrlFile(FileEntity filename) {
-        return getUrlFile(filename.getFilename());
+        return filename != null ? getUrlFile(filename.getFilename()) : "";
     }
 
     @Override

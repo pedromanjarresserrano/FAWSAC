@@ -116,7 +116,7 @@ zk.video.Video = zk.$extends(zk.Widget, {
     setCurrentTime: function (value) {
         var ctx = document.getElementById(this.uuid + '-video');
         if (ctx) {
-            ctx.currentTime = value;
+            ctx.currentTime = parseFloat(value);
         }
     },
     bind_: function () {
@@ -130,17 +130,16 @@ zk.video.Video = zk.$extends(zk.Widget, {
             ctx.classList.add("col-md-12");
             ctx.classList.add("col-lg-12");
             ctx.classList.add("col-xs-12");
-            ctx.style.height = this.getHeight();
-            ctx.currentTime = this.getCurrentTime();
+            ctx.style.height = this._height;
             this.setPlaybackRate(this._playbackRate);
             var widget = zk.Widget.$('#' + this.uuid + '-video');
             ctx.onplay = function () {
-              // zAu.send(new zk.Event(widget, "setPlaying", {playing: "true"}, {toServer: true}));
+                var currentTime = document.getElementById(elementId).currentTime;
+                zAu.send(new zk.Event(widget, "setPlaying", {playing: "true", currentTime: currentTime}, {toServer: true}));
             };
             ctx.onpause = function () {
                 var currentTime = document.getElementById(elementId).currentTime;
-                //zAu.send(new zk.Event(widget, "setPlaying", {playing: "false", currentTime: currentTime}, {toServer: true}));
-                ctx.currentTime = currentTime;
+                zAu.send(new zk.Event(widget, "setPlaying", {playing: "false", currentTime: currentTime}, {toServer: true}));
             };
         }
     },
@@ -148,7 +147,7 @@ zk.video.Video = zk.$extends(zk.Widget, {
         this.$supers('unbind_', arguments);
     },
     _videoDomAttrs: function () {
-        var a = "";
+        var a = '';
         this._muted && (a += ' muted');
         this._autoplay && (a += ' autoplay');
         this._controls && (a += ' controls');
@@ -158,6 +157,8 @@ zk.video.Video = zk.$extends(zk.Widget, {
             this._preload);
         this._poster && (a += ' poster=' + this._poster);
         this._crossorigin && (a += ' crossorigin=' + this._crossorigin);
+        this._style && (a += ' style=' + this._style);
+        this._height && (a += ' height=' + this._height);
         return a
     },
 });

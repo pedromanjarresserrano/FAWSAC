@@ -12,9 +12,9 @@ import java.io.IOException;
 
 public @Data
 class Video extends HtmlBasedComponent {
-    private static final String ON_PLAY = "onPlaying";
-    private static final String ON_PAUSE = "onPause";
-    private static final String ON_RESUME = "onResume";
+    public static final String ON_PLAY = "onPlaying";
+    public static final String ON_PAUSE = "onPause";
+    public static final String ON_RESUME = "onResume";
     private String src = "";
     private boolean controls = false;
     private boolean muted = false;
@@ -63,7 +63,7 @@ class Video extends HtmlBasedComponent {
         this.response((String) null, new AuInvoke(this, "setMuted", muted));
     }
 
-    public void setPlaying(boolean playing) {
+    private void setPlaying(boolean playing) {
         this.response((String) null, new AuInvoke(this, "setPlaying", playing));
     }
 
@@ -125,14 +125,19 @@ class Video extends HtmlBasedComponent {
                 }
                 case "false": {
                     setPlaying(false);
-                    if (playingListener != null)
+                    if (pauseListener != null)
                         pauseListener.onEvent(null);
                     break;
                 }
             }
+            Object currentTime = jsonObject.get("currentTime");
+            if (currentTime != null) {
+                this.currentTime = currentTime.toString();
+                this.smartUpdate("currentTime", currentTime);
+            }
         }
-        Video target = (Video) evt.getTarget();
-        setCurrentTime(target.getCurrentTime());
+
+
     }
 
 
