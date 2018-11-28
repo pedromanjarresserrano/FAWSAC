@@ -8,6 +8,7 @@
                iconSclass="z-icon-angle-double-right" sclass="subtitle"/>
         </div>
     </vlayout>
+
     <window
             apply="com.gitlab.pedrioko.zk.vm.user.Dashboard">
         <div sclass="col-md-12 col-sm-12 col-lg-12">

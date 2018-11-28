@@ -1,4 +1,4 @@
-package com.gitlab.pedrioko.core.view.viewers;
+package com.gitlab.pedrioko.core.view.viewers.crud.table;
 
 import com.gitlab.pedrioko.core.view.api.CrudDisplayTable;
 import com.gitlab.pedrioko.core.view.api.ListCellCustomizer;
@@ -22,13 +22,13 @@ public class CrudTable extends Listbox implements CrudDisplayTable {
     private Class<?> klass;
     private List<String> fields;
 
-    CrudTable(Class<?> klass) {
+    public CrudTable(Class<?> klass) {
         super();
         init(klass);
         loadfields(klass);
     }
 
-    CrudTable(Class<?> klass, List<Class<?>> all) {
+    public CrudTable(Class<?> klass, List<Class<?>> all) {
         super();
         listitems.clear();
         listitems.addAll(all);
@@ -36,7 +36,7 @@ public class CrudTable extends Listbox implements CrudDisplayTable {
         loadfields(klass);
     }
 
-    CrudTable(List<String> fields, Class<?> klass) {
+    public CrudTable(List<String> fields, Class<?> klass) {
         super();
         init(klass);
         this.fields = fields;

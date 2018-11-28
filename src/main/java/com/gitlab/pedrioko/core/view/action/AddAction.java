@@ -11,7 +11,7 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ArraysUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
-import com.gitlab.pedrioko.core.view.viewers.CrudView;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;
 import org.springframework.core.annotation.Order;
 import org.zkoss.zul.Combobox;

@@ -1522,18 +1522,20 @@ weather {
     padding-top: 0px;
 }
 
-.z-groupbox-content {
+.menu-groupbox .z-groupbox-content {
     background: #212121 !important;
     border-color: #212121;
     border-bottom: solid white;
 }
 
-.z-groupbox, .z-groupbox-3d, .z-groupbox .z-groupbox-3d, .z-groupbox .z-groupbox-3d .z-groupbox-header, .z-groupbox .z-groupbox-header {
+
+.menu-groupbox,
+.menu-groupbox .z-groupbox-header {
     background: #212121 !important;
     border-color: #212121;
 }
 
-.z-caption-content {
+.menu-groupbox .z-caption-content {
     background-color: #212121 !important;
     border-color: #212121;
     color: #ffffff;
@@ -1551,7 +1553,8 @@ weather {
     width: 100%;
 }
 
-.z-groupbox-header .z-caption .z-caption-content, .z-groupbox-header .z-caption, .z-caption {
+.menu-groupbox .z-groupbox-header .z-caption .z-caption-content
+{
     background-color: #212121 !important;
     border-color: #212121;
     color: #ffffff;

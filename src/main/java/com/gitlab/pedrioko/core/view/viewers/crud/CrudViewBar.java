@@ -1,4 +1,4 @@
-package com.gitlab.pedrioko.core.view.viewers;
+package com.gitlab.pedrioko.core.view.viewers.crud;
 
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;

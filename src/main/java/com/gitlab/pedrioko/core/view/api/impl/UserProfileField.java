@@ -8,7 +8,7 @@ import com.gitlab.pedrioko.core.view.forms.EntityForm;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
-import com.gitlab.pedrioko.core.view.viewers.CrudView;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Tab;
 

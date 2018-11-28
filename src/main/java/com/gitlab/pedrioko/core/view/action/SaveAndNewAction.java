@@ -10,7 +10,7 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.Validate;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
-import com.gitlab.pedrioko.core.view.viewers.CrudView;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 

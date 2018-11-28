@@ -133,6 +133,7 @@ public class NavbarComposer extends SelectorComposer<Component> {
             Clients.evalJavaScript("disconnect()");
         }
         SecurityContextHolder.getContext().setAuthentication(null);
+        fhsessionutil.setCurrentUser(null);
         Messagebox.show("Bye");
         Executions.sendRedirect("/");
     }
@@ -154,7 +155,7 @@ public class NavbarComposer extends SelectorComposer<Component> {
      * @param component the component
      */
     // Toggle open class to the component
-    public void toggleOpenClass(Boolean open, Component component) {
+    private void toggleOpenClass(Boolean open, Component component) {
         HtmlBasedComponent comp = (HtmlBasedComponent) component;
         String scls = comp.getSclass();
         if (open) {

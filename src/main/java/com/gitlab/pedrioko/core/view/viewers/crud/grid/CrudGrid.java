@@ -1,15 +1,11 @@
-package com.gitlab.pedrioko.core.view.viewers;
+package com.gitlab.pedrioko.core.view.viewers.crud.grid;
 
-import com.gitlab.pedrioko.core.lang.FileEntity;
 import com.gitlab.pedrioko.core.view.api.CrudDisplayTable;
 import com.gitlab.pedrioko.core.view.api.CrudGridItem;
 import com.gitlab.pedrioko.core.view.api.OnEvent;
 import com.gitlab.pedrioko.core.view.enums.CrudEvents;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
-import com.gitlab.pedrioko.core.zk.component.Carousel;
-import com.gitlab.pedrioko.core.zk.component.Video;
-import com.gitlab.pedrioko.core.zk.component.model.CarouselItem;
 import com.gitlab.pedrioko.services.StorageService;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,8 +15,10 @@ import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.*;
 import org.zkoss.zul.event.PagingEvent;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @EqualsAndHashCode(callSuper = false)
 public class CrudGrid extends Borderlayout implements CrudDisplayTable {
@@ -41,7 +39,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
     private int PAGE_SIZE = 16;
     private Paging paging;
 
-    CrudGrid(Class<?> klass) {
+    public CrudGrid(Class<?> klass) {
         super();
         this.klass = klass;
         init(klass);
@@ -109,56 +107,8 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
             Row row = new Row();
             int size = page.size();
             for (int i = 0; i < size; i++) {
-                Vlayout child = new Vlayout();
                 CrudGridItem obj = (CrudGridItem) page.get(i);
-                List<FileEntity> listfiles = obj.getFilesEntities();
-                if (obj.isCarrouselPreview()) {
-                    if (!listfiles.isEmpty()) {
-                        Carousel carousel = new Carousel();
-                        carousel.setLazyload(true);
-                        carousel.setControls(false);
-                        carousel.setSlideBy("1");
-                        carousel.setCarouselItems(listfiles.stream().sorted(Comparator.comparingLong(x -> x.getId())).map(e -> {
-                            CarouselItem carouselItem = new CarouselItem();
-                            String url = ApplicationContextUtils.getBean(StorageService.class).getUrlFile(e.getFilename());
-                            carouselItem.setEnlargedSrc(url);
-                            carouselItem.setEnlargedHeight(imageHeight + "px");
-                            return carouselItem;
-                        }).collect(Collectors.toList()));
-                        child.appendChild(carousel);
-                    } else {
-                        String urlFile = "/statics/files/" + obj.getName();
-                        if (urlFile.endsWith(".gif")) {
-                            Image image = new Image();
-                            image.setClass("img-responsive");
-                            image.setStyle("margin: auto;");
-                            image.setSrc(urlFile);
-                            image.setHeight(imageHeight.toString() + "px");
-                            child.appendChild(image);
-                        }
-                        if (urlFile.endsWith(".webm")) {
-                            Video image = new Video();
-                            image.setSrc(urlFile);
-                            image.setHeight(imageHeight.toString() + "px");
-                            child.appendChild(image);
-                        }
-                    }
-                } else {
-                    if (!listfiles.isEmpty()) {
-                        String urlFile = storageService.getUrlFile(listfiles.get(0));
-                        Image image = new Image();
-                        image.setClass("img-responsive");
-                        image.setSrc(urlFile);
-                        image.setStyle("margin: auto;");
-                        image.setHeight(imageHeight.toString() + "px");
-                        child.appendChild(image);
-                    }
-                }
-
-                child.setClass("crud-grid-item");
-                String visualName = obj.getVisualName();
-                child.appendChild(new Label(visualName == null || visualName.isEmpty() ? obj.getName() : visualName));
-                child.setHeight("auto");
+                GridItem child =  new GridItem(obj,imageHeight);
                 int finalI = i + firstResult;
 
                 child.addEventListener(Events.ON_CLICK, (e) -> {
@@ -189,6 +139,8 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
             }
         }
     }
+
+
 
     private void onClick(Vlayout child, int finalI) {
         selectValue = listitems.get(finalI);
@@ -235,7 +187,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
     }
 
 
-    void addEventOnEvent(CrudEvents e, OnEvent o) {
+    public void addEventOnEvent(CrudEvents e, OnEvent o) {
         List<OnEvent> onEvents = this.onEvent.get(e);
         if (onEvents == null) {
             onEvents = new ArrayList<>();

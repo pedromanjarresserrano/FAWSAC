@@ -8,7 +8,7 @@ import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.SubCrudView;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.StringUtil;
-import com.gitlab.pedrioko.core.view.viewers.CrudView;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.core.zk.component.ChosenBox;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Events;

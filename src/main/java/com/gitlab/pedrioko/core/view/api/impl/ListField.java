@@ -8,7 +8,7 @@ import com.gitlab.pedrioko.core.view.forms.EntityForm;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
-import com.gitlab.pedrioko.core.view.viewers.CrudView;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.core.zk.component.ChosenBox;
 import com.gitlab.pedrioko.core.zk.component.StringListBox;
 import org.zkoss.zk.ui.Component;

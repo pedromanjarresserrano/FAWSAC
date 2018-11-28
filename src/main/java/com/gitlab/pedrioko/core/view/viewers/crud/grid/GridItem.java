@@ -1,0 +1,70 @@
+package com.gitlab.pedrioko.core.view.viewers.crud.grid;
+
+import com.gitlab.pedrioko.core.lang.FileEntity;
+import com.gitlab.pedrioko.core.view.api.CrudGridItem;
+import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
+import com.gitlab.pedrioko.core.zk.component.Carousel;
+import com.gitlab.pedrioko.core.zk.component.Video;
+import com.gitlab.pedrioko.core.zk.component.model.CarouselItem;
+import com.gitlab.pedrioko.services.StorageService;
+import org.zkoss.zul.Image;
+import org.zkoss.zul.Label;
+import org.zkoss.zul.Vlayout;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class GridItem extends Vlayout {
+
+    public GridItem(CrudGridItem obj, Long imageHeight) {
+        List<FileEntity> listfiles = obj.getFilesEntities();
+        if (obj.isCarrouselPreview()) {
+            if (!listfiles.isEmpty()) {
+                Carousel carousel = new Carousel();
+                carousel.setLazyload(true);
+                carousel.setControls(false);
+                carousel.setSlideBy("1");
+                carousel.setCarouselItems(listfiles.stream().sorted(Comparator.comparingLong(x -> x.getId())).map(e -> {
+                    CarouselItem carouselItem = new CarouselItem();
+                    String url = ApplicationContextUtils.getBean(StorageService.class).getUrlFile(e.getFilename());
+                    carouselItem.setEnlargedSrc(url);
+                    carouselItem.setEnlargedHeight(imageHeight + "px");
+                    return carouselItem;
+                }).collect(Collectors.toList()));
+                appendChild(carousel);
+            } else {
+                String urlFile = "/statics/files/" + obj.getName();
+                if (urlFile.endsWith(".gif")) {
+                    Image image = new Image();
+                    image.setClass("img-responsive");
+                    image.setStyle("margin: auto;");
+                    image.setSrc(urlFile);
+                    image.setHeight(imageHeight.toString() + "px");
+                    appendChild(image);
+                }
+                if (urlFile.endsWith(".webm")) {
+                    Video image = new Video();
+                    image.setSrc(urlFile);
+                    image.setHeight(imageHeight.toString() + "px");
+                    appendChild(image);
+                }
+            }
+        } else {
+            if (!listfiles.isEmpty()) {
+                String urlFile = ApplicationContextUtils.getBean(StorageService.class).getUrlFile(listfiles.get(0));
+                Image image = new Image();
+                image.setClass("img-responsive");
+                image.setSrc(urlFile);
+                image.setStyle("margin: auto;");
+                image.setHeight(imageHeight.toString() + "px");
+                appendChild(image);
+            }
+        }
+
+        setClass("crud-grid-item");
+        String visualName = obj.getVisualName();
+        appendChild(new Label(visualName == null || visualName.isEmpty() ? obj.getName() : visualName));
+        setHeight("auto");
+    }
+}

@@ -53,7 +53,17 @@
             <css-uri>css/layout.css.dsp</css-uri>
         </mold>
     </component>
+    <component>
+        <component-name>crudview</component-name>
+        <component-class>com.gitlab.pedrioko.core.view.viewers.crud.CrudView</component-class>
+        <extends>tabpanel</extends>
 
+    </component>
+    <component>
+        <component-name>navfilters</component-name>
+        <component-class>com.gitlab.pedrioko.core.view.navegation.NavegationFilters</component-class>
+        <extends>vlayout</extends>
+    </component>
     <component>
         <component-name>chart</component-name>
         <component-class>com.gitlab.pedrioko.core.zk.component.Chart</component-class>

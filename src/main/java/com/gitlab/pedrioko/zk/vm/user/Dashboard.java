@@ -1,6 +1,7 @@
 package com.gitlab.pedrioko.zk.vm.user;
 
 import com.gitlab.pedrioko.core.view.forms.LoginForm;
+import com.gitlab.pedrioko.core.view.navegation.NavegationFilters;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
@@ -44,6 +45,7 @@ public class Dashboard extends SelectorComposer<Window> {
     public void doAfterCompose(Window window) throws Exception {
         super.doAfterCompose(window);
         Div component = (Div) window.getChildren().get(0);
+        component.appendChild(new NavegationFilters(new String[]{"com.gitlab.domain.Categoria"}));
         component.appendChild(col1);
         component.appendChild(col2);
         col1.setClass("col-lg-6 col-md-6 col-sm-6");

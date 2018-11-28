@@ -1,5 +1,7 @@
 package com.gitlab.pedrioko.spring.security;
 
+import com.gitlab.pedrioko.core.api.StaticResouceLocation;
+import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,9 +11,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The Class WebSecurityConfig.
@@ -54,10 +61,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/ws/**").permitAll().and().authorizeRequests()
-                .antMatchers("/css/**", "/signaling", "/components/**", "/bootstrap/**", "/fonts/**", "/js/**",
+        List<StaticResouceLocation> beans = ApplicationContextUtils.getBeans(StaticResouceLocation.class);
+        String[] strings = beans.stream().map(e -> e.getPath()).collect(Collectors.toSet()).toArray(new String[]{});
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry and = http.authorizeRequests().antMatchers("/ws/**").permitAll().and().authorizeRequests()
+                .antMatchers("/videos", "/css/**", "/signaling", "/components/**", "/bootstrap/**", "/fonts/**", "/js/**",
                         "/images/**", "/zkau/**", "/login", "/recovery", "/register")
-                .permitAll().antMatchers("/content/admin/**").hasAuthority(TipoUsuario.ROLE_ADMIN.name())
+                .permitAll().and().authorizeRequests();
+        for (String e : Arrays.asList(strings)) {
+            and = and.antMatchers(e).permitAll();
+        }
+        and.antMatchers("/content/admin/**").hasAuthority(TipoUsuario.ROLE_ADMIN.name())
                 .antMatchers("/content/usercrue/**")
                 .hasAnyAuthority(TipoUsuario.ROLE_ADMIN.name(), TipoUsuario.ROLE_ENTIDAD.name(),
                         TipoUsuario.ROLE_ENTIDADCONTROL.name(), TipoUsuario.ROLE_ENTIDADESTATAL.name())

@@ -2,7 +2,7 @@ package com.gitlab.pedrioko.core.view.action.event;
 
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.forms.Form;
-import com.gitlab.pedrioko.core.view.viewers.CrudView;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import lombok.Data;
 import org.zkoss.zul.Tabpanel;
 

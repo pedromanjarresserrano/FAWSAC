@@ -3,7 +3,7 @@ package com.gitlab.pedrioko.providers;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
-import com.gitlab.pedrioko.core.view.viewers.CrudView;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.domain.Usuario;
 import org.zkoss.zk.ui.Component;
 

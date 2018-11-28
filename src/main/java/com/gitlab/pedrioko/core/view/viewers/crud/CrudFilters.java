@@ -1,4 +1,4 @@
-package com.gitlab.pedrioko.core.view.viewers;
+package com.gitlab.pedrioko.core.view.viewers.crud;
 
 import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;

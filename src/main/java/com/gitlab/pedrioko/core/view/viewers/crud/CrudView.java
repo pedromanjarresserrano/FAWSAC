@@ -1,4 +1,4 @@
-package com.gitlab.pedrioko.core.view.viewers;
+package com.gitlab.pedrioko.core.view.viewers.crud;
 
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
@@ -10,6 +10,8 @@ import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
+import com.gitlab.pedrioko.core.view.viewers.crud.grid.CrudGrid;
+import com.gitlab.pedrioko.core.view.viewers.crud.table.CrudTable;
 import lombok.Getter;
 import lombok.Setter;
 import org.zkoss.zk.ui.Component;
@@ -55,6 +57,9 @@ public class CrudView extends Tabpanel {
     private North north;
     private CrudFilters crudFilters;
 
+    public CrudView() {
+    }
+
     public CrudView(Class<?> klass) {
         super();
         this.crudviewmode = CrudMode.MAINCRUD;
@@ -70,6 +75,10 @@ public class CrudView extends Tabpanel {
 
     public CrudView(Class<?> klass, Boolean useGrid) {
         super();
+        init(klass, useGrid);
+    }
+
+    protected void init(Class<?> klass, Boolean useGrid) {
         crudviewmode = CrudMode.MAINCRUD;
         this.klass = klass;
         if (useGrid) {
@@ -79,10 +88,16 @@ public class CrudView extends Tabpanel {
             crudTable = new CrudTable(klass);
             createUI(crudTable);
         }
-        crudController = new CrudController(klass, gridTable.getValue());
-        crudController.addEventPostQuery(() -> gridTable.update());
+        if (gridTable != null) {
+            crudController = new CrudController(klass, gridTable.getValue());
+            crudController.addEventPostQuery(() -> gridTable.update());
+            crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> gridTable.update());
+        } else {
+            crudController = new CrudController(klass, crudTable.getValue());
+            crudController.addEventPostQuery(() -> crudTable.update());
+            crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> crudTable.update());
+        }
         crudController.doQuery();
-        crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> gridTable.update());
         popup = new CrudMenuContext(klass, ApplicationContextUtils.getBeans(Action.class));
         this.appendChild(popup);
         gridTable.addEventOnEvent(CrudEvents.ON_RIGHT_CLICK, () -> {
@@ -226,6 +241,30 @@ public class CrudView extends Tabpanel {
         if (disable)
             divbar.setVisible(!disable);
     }
+
+    public String getKlass() {
+        return klass.getName();
+    }
+
+    public void setKlass(String klass) throws ClassNotFoundException {
+        String[] split = klass.split(":");
+        if (split.length > 1) {
+            String s = split[0];
+            Class<?> aClass = Class.forName(s);
+            this.klass = aClass;
+            boolean aBoolean = new Boolean(split[1]);
+            init(aClass, aBoolean);
+        } else {
+            if (split.length > 3) {
+                String s = split[0];
+                Class<?> aClass = Class.forName(s);
+                this.klass = aClass;
+                this.crudviewmode = CrudMode.MAINCRUD;
+                view(aClass, getBean(PropertiesUtil.class).getFieldTable(aClass));
+            }
+        }
+    }
+
 
     public void enableCommonCrudActions(boolean disable) {
         toolbar.getCrudsActions().forEach(e -> e.setVisible(disable));

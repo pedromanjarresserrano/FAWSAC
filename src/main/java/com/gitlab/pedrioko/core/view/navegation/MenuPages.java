@@ -111,6 +111,7 @@ class MenuPages extends Layout {
         Groupbox gb = new Groupbox();
         gb.setId(k);
         gb.setMold("3d");
+        gb.setClass("menu-groupbox");
         Caption c = new Caption(ReflectionZKUtil.getLabel(k));
         c.setId("caption" + k);
         c.setIconSclass("fa fa-chevron-down pull-right");
