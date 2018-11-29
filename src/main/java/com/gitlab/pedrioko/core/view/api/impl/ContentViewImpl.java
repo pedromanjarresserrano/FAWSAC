@@ -102,7 +102,7 @@ public class ContentViewImpl implements ContentView {
         }
     }
 
-    protected Optional<Component> getTab(String id) {
+    private Optional<Component> getTab(String id) {
         List<Component> list = tab.getTabs().getChildren();
         return list.stream()
                 .filter(e -> e.getId().equalsIgnoreCase(id)).findFirst();
@@ -119,9 +119,10 @@ public class ContentViewImpl implements ContentView {
         if (!(view instanceof Tabpanel)) {
             Tabpanel tabpanel = new Tabpanel();
             tab.setLabel(label);
+            tabpanel.setStyle("overflow-y:auto;");
+            tabpanel.setHeight("100%");
             tabpanel.appendChild(view);
-            tabpanel.setStyle("overflow:auto;");
-            this.tab.getTabpanels().getChildren().add(tabpanel);
+            this.tab.getTabpanels().appendChild(tabpanel);
 
         } else {
             CrudView crudView = (CrudView) view;

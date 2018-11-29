@@ -50,7 +50,6 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
         super();
         listitems.clear();
         listitems.addAll(all);
-
         init(klass);
     }
 
@@ -108,7 +107,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
             int size = page.size();
             for (int i = 0; i < size; i++) {
                 CrudGridItem obj = (CrudGridItem) page.get(i);
-                GridItem child =  new GridItem(obj,imageHeight);
+                GridItem child = new GridItem(obj, imageHeight);
                 int finalI = i + firstResult;
 
                 child.addEventListener(Events.ON_CLICK, (e) -> {
@@ -139,7 +138,6 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
             }
         }
     }
-
 
 
     private void onClick(Vlayout child, int finalI) {
@@ -203,6 +201,10 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
         redraw(paging.getActivePage() * PAGE_SIZE, PAGE_SIZE);
     }
 
+    public void setPageSize(int pagesize) {
+        this.PAGE_SIZE = pagesize;
+        update();
+    }
 
     public void setImageHeight(long imageHeight) {
         this.imageHeight = imageHeight;

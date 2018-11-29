@@ -564,11 +564,11 @@ weather {
 
 }
 .chosenbox-file-item .z-listcell .z-listcell-content .z-listcell-checkable,
-.chosenbox-file-item .z-listcell .z-listcell-content.z-listitem-checkbox,
+.chosenbox-file-item .z-listcell .z-listcell-content .z-listitem-checkbox
 {
     display: none;
 }
-.paging, z-grid-paging-bottom {
+.paging, .z-grid-paging-bottom {
     background: #000000;
 }
 

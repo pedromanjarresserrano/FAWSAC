@@ -109,6 +109,10 @@ public class CrudView extends Tabpanel {
         });
     }
 
+    public void setPageSize(int PAGE_SIZE) {
+        if (gridTable != null) gridTable.setPageSize(PAGE_SIZE);
+    }
+
     private void createUI(Component table) {
         Borderlayout child = new Borderlayout();
         divbar = new Div();
