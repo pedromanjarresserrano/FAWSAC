@@ -121,6 +121,11 @@ public class CrudTable extends Listbox implements CrudDisplayTable {
     }
 
     @Override
+    public void updateValue(Object value) {
+
+    }
+
+    @Override
     public void clearSelection() {
         super.clearSelection();
     }

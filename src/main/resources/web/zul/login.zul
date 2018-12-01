@@ -43,7 +43,7 @@
 	<window border="none"
 		contentStyle=" 
 	position: fixed; top: 0; right: 0; bottom: 0; left: 0;	
-	background: #F2F2F2;"
+	background: #252525;"
 		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') @init('com.gitlab.pedrioko.zk.vm.login.LoginVM')">
 		<div

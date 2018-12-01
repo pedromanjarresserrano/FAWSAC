@@ -556,6 +556,9 @@ weather {
     color: #111111;
 }
 
+.color-system{
+    background: #252525;
+}
 .btn-action {
     margin-right: 5px;
     margin-top: 5px;

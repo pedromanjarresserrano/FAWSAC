@@ -16,13 +16,8 @@
     <stylesheet href="~./zul/less/index.css" type="text/css"/>
     <stylesheet href="~./css/bootstrap/bootstrap.min.css" type="text/css"/>
 
-    <!--<stylesheet href="https://cdn.plyr.io/3.4.6/plyr.css" type="text/css"/>-->
-    <!--<stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" type="text/css"/>-->
-    <javascript src="~./js/jscolor.js"/>
+   <javascript src="~./js/jscolor.js"/>
 
-    <javascript src="/webjars/jquery/jquery.min.js"/>
-    <javascript src="/webjars/sockjs-client/sockjs.min.js"/>
-    <javascript src="/webjars/stomp-websocket/stomp.min.js"/>
     <javascript src="~./js/jquery.simpleWeather.min.js"/>
     <javascript src="~./js/toastr.js"/>
     <javascript src="~./js/fontawesome.js"/>
@@ -32,12 +27,10 @@
     <javascript src="~./js/Chart.js"/>
     <javascript src="~./js/Chart.min.js"/>
     <javascript src="~./js/chartjs-plugin-datalabels.min.js"/>
-    <!--<javascript src="https://cdn.plyr.io/3.4.6/plyr.js"/>-->
 
     <javascript src="~./js/jspdf.min.js"/>
     <javascript src="~./js/jspdf.plugin.autotable.js"/>
     <javascript src="~./js/html2canvas.js"/>
-    <javascript src="~./js/loading-bar.js"/>
 
     <javascript src="~./js/addons.js"/>
 

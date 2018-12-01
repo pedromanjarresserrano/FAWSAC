@@ -358,4 +358,12 @@ public class CrudView extends Tabpanel {
     public void enableAction(Class<? extends Action> action, boolean enable) {
         toolbar.enableAction(action, enable);
     }
+
+    public void simpleUpdate(Object value) {
+        if (crudTable == null) {
+            gridTable.updateValue(value);
+        } else {
+            crudTable.update();
+        }
+    }
 }

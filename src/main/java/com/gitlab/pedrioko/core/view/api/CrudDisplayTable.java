@@ -9,4 +9,6 @@ public interface CrudDisplayTable {
     void clearSelection();
     void update();
     void setValue(List<?> all);
+
+    void updateValue(Object value);
 }

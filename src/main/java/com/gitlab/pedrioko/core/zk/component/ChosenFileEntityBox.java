@@ -29,19 +29,18 @@ public class ChosenFileEntityBox extends Bandbox {
         this.setAutodrop(true);
         this.addEventListener(Events.ON_CHANGING, e -> {
 
-            String value = getValue();
-            if (value == null || value.isEmpty()) {
+            String valuex = getValue();
+            if (valuex == null || valuex.isEmpty()) {
                 model = new LinkedHashSet<>(auxmodel);
                 load();
             } else {
+                String value = valuex.substring(valuex.lastIndexOf(',') + 1).trim();
                 model = auxmodel.stream().filter(w -> ((ChosenItem) w).getVisualName().toLowerCase().contains(value.toLowerCase())).collect(Collectors.toSet());
                 LinkedList<?> list = new LinkedList<>(model);
                 Collections.sort(list, (x, y) -> ((ChosenItem) x).getVisualName().toLowerCase().compareToIgnoreCase(((ChosenItem) y).getVisualName().toLowerCase()));
                 model = new LinkedHashSet<>(list);
                 load();
             }
-
-            this.open();
         });
         load();
     }

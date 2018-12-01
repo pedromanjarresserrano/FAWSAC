@@ -4,11 +4,13 @@ import com.gitlab.pedrioko.core.view.api.CrudDisplayTable;
 import com.gitlab.pedrioko.core.view.api.CrudGridItem;
 import com.gitlab.pedrioko.core.view.api.OnEvent;
 import com.gitlab.pedrioko.core.view.enums.CrudEvents;
+import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.services.StorageService;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.apache.commons.collections4.map.LinkedMap;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
@@ -38,6 +40,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
     Long imageHeight;
     private int PAGE_SIZE = 16;
     private Paging paging;
+    private Map<Float, GridItem> gridItemMap = new LinkedMap<Float, GridItem>();
 
     public CrudGrid(Class<?> klass) {
         super();
@@ -108,6 +111,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
             for (int i = 0; i < size; i++) {
                 CrudGridItem obj = (CrudGridItem) page.get(i);
                 GridItem child = new GridItem(obj, imageHeight);
+                gridItemMap.put(Float.parseFloat(ReflectionJavaUtil.getIdValue(obj).toString()), child);
                 int finalI = i + firstResult;
 
                 child.addEventListener(Events.ON_CLICK, (e) -> {
@@ -182,6 +186,16 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
         paging.setTotalSize(all.size());
         paging.setPageSize(PAGE_SIZE);
         update();
+    }
+
+    @Override
+    public void updateValue(Object value) {
+        if (CrudGridItem.class.isAssignableFrom(value.getClass())) {
+            float key = Float.parseFloat(ReflectionJavaUtil.getIdValue(value).toString());
+            GridItem gridItem = gridItemMap.get(key);
+            listitems.set(listitems.indexOf(gridItem.getValue()), value);
+            gridItem.update((CrudGridItem) value);
+        }
     }
 
 
