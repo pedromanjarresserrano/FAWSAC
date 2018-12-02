@@ -74,7 +74,7 @@ public class ChosenFileEntityBox extends Bandbox {
             list.getChildren().add(listitem);
             listitem.addEventListener(Events.ON_CLICK, w -> {
                 List<Listitem> listselected = new ArrayList<>(list.getSelectedItems());
-                valueSelection.clear();
+                //valueSelection.clear();
                 listselected.forEach(x -> valueSelection.add(x.getValue()));
                 setLabel();
             });
