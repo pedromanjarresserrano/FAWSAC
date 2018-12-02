@@ -52,6 +52,7 @@ public class ChosenFileEntityBox extends Bandbox {
         list.setCheckmark(checkmark);
         list.setMultiple(true);
         listsitems.clear();
+        list.setStyle("overflow-y: auto !important;");
         list.getChildren().clear();
         model.forEach(e -> {
             Listitem listitem = new Listitem();
@@ -62,6 +63,7 @@ public class ChosenFileEntityBox extends Bandbox {
             Image image = new Image(filesEntities != null && !filesEntities.isEmpty() ? ApplicationContextUtils.getBean(StorageService.class).getUrlFile(filesEntities.get(0).getFilename()) : "");
             image.setWidth("40px");
             image.setHeight("40px");
+            listitem.setStyle("width:90%");
             hl.appendChild(image);
             String visualName = ((ChosenItem) e).getVisualName();
             hl.appendChild(new Label(visualName));
@@ -76,6 +78,9 @@ public class ChosenFileEntityBox extends Bandbox {
                 listselected.forEach(x -> valueSelection.add(x.getValue()));
                 setLabel();
             });
+            if (valueSelection.contains(e)) {
+                list.setSelectedItem(listitem);
+            }
         });
         popup.getChildren().add(list);
         getChildren().add(popup);

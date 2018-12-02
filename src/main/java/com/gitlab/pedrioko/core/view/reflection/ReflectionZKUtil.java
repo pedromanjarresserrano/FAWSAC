@@ -1,8 +1,8 @@
 package com.gitlab.pedrioko.core.view.reflection;
 
 import com.gitlab.pedrioko.core.lang.annotation.Reference;
+import com.gitlab.pedrioko.core.view.api.TransformerAnnotation;
 import com.gitlab.pedrioko.core.view.api.ValidateAnnotation;
-import com.gitlab.pedrioko.core.view.api.impl.PasswordTransformerAnnotation;
 import com.gitlab.pedrioko.core.view.reflection.enums.ClassMethod;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.StringUtil;
@@ -88,9 +88,12 @@ public class ReflectionZKUtil {
                 Object valueComponent = getValueComponent(v);
                 ApplicationContextUtils.getBeans(ValidateAnnotation.class).forEach(e -> e.Validate(k, valueComponent));
                 try {
-                    Object aux = ApplicationContextUtils.getBean(PasswordTransformerAnnotation.class).Validate(k, valueComponent);
+                    final Object[] aux = {null};
+                    ApplicationContextUtils.getBeans(TransformerAnnotation.class).forEach(e -> {
+                        aux[0] = e.Validate(k, valueComponent);
+                    });
                     Method methodSetProperty = klass.getMethod(methodName, k.getType());
-                    methodSetProperty.invoke(newInstance, k.getType() == Set.class ? new HashSet((Collection) aux) : aux);
+                    methodSetProperty.invoke(newInstance, k.getType() == Set.class ? new HashSet((Collection) aux[0]) : aux[0]);
                 } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
                         | NoSuchMethodException | SecurityException e) {
                     LOGGER.error(ERROR_ON_GET_BINDING_VALUE, e);
