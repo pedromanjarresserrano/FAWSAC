@@ -2,6 +2,7 @@ package com.gitlab.pedrioko.services.impl;
 
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.DAOGeneric;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -185,6 +186,23 @@ public class CrudServiceImpl implements CrudService {
     @Override
     public <T> List<T> getLikePrecise(Class<T> klass, String text) {
         return cruddao.getLikePrecise(klass, text);
+    }
+
+    @Override
+    public <T> List<T> getLikePrecise(Class<T> klass, String text, Predicate where) {
+        return cruddao.getLikePrecise(klass, text, where);
+    }
+
+    @Transactional
+    @Override
+    public <T> List<T> getLike(Class<?> klass, String value, Predicate where) {
+        return (List<T>) cruddao.getLike(klass, value, where);
+    }
+
+    @Transactional
+    @Override
+    public <T> List<T> getBeginString(Class<T> klass, String text, String field, Predicate aditional) {
+        return cruddao.getBeginString(klass, text, field, aditional);
     }
 
     @Transactional

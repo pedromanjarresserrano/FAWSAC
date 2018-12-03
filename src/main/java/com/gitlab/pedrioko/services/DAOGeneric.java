@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.services;
 
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 
@@ -107,6 +108,11 @@ public interface DAOGeneric {
 
     <T> List<T> getLikePrecise(Class<T> klass, String text);
 
+    <T> List<T> getLikePrecise(Class<T> klass, String text, Predicate aditional);
+
+    <T> List<T> getBeginString(Class<T> klass, String text, String field, Predicate aditional);
+
     <T> List<T> getLike(Class<T> klass, String text);
 
+    <T> List<T> getLike(Class<T> klass, String text, Predicate aditional);
 }

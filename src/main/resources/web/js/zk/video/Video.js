@@ -132,14 +132,13 @@ zk.video.Video = zk.$extends(zk.Widget, {
             ctx.classList.add("col-xs-12");
             ctx.style.height = this._height;
             this.setPlaybackRate(this._playbackRate);
-            var widget = zk.Widget.$('#' + this.uuid + '-video');
             ctx.onplay = function () {
-                var currentTime = document.getElementById(elementId).currentTime;
-                zAu.send(new zk.Event(widget, "setPlaying", {playing: "true", currentTime: currentTime}, {toServer: true}));
+                var currentTime = this.currentTime;
+                zAu.send(new zk.Event(zk.Widget.$('#' + this.uuid + '-video'), 'setPlaying', {playing: 'true', currentTime: currentTime}, {toServer: true}));
             };
             ctx.onpause = function () {
-                var currentTime = document.getElementById(elementId).currentTime;
-                zAu.send(new zk.Event(widget, "setPlaying", {playing: "false", currentTime: currentTime}, {toServer: true}));
+                var currentTime = this.currentTime;
+                zAu.send(new zk.Event(zk.Widget.$('#' + this.uuid + '-video'), 'setPlaying', {playing: 'false', currentTime: currentTime}, {toServer: true}));
             };
         }
     },

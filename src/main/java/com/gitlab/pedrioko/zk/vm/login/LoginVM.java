@@ -111,6 +111,8 @@ class LoginVM {
         visiblemessage = false;
         try {
             final SecurityContext sc = SecurityContextHolder.createEmptyContext();
+            if (valueuser == null || valueuser.isEmpty() || valuepass == null || valuepass.isEmpty())
+                throw new IllegalArgumentException();
             sc.setAuthentication(new UsernamePasswordAuthenticationToken(valueuser, valuepass));
             SecurityContextHolder.setContext(sc);
             final PathBuilder<?> builder = crudService.getPathBuilder(Usuario.class);
@@ -138,7 +140,8 @@ class LoginVM {
      */
     @Init
     public void init() {
-        if (fhsessionutil.getCurrentUser() != null) Executions.sendRedirect("/index");
+        Usuario currentUser = fhsessionutil.getCurrentUser();
+        if (currentUser != null) Executions.sendRedirect("/index");
 
         account = Labels.getLabel("loginform.usuario");
         password = Labels.getLabel("loginform.contrasena");

@@ -118,6 +118,21 @@ public class CrudController {
 
     public void doQuery() {
         PathBuilder pathBuilder = crudService.getPathBuilder(klass);
+        Predicate where = getPredicate(pathBuilder);
+        if (klass.isAnnotationPresent(CrudOrderBy.class)) {
+            String value = klass.getAnnotation(CrudOrderBy.class).value();
+            if (value != null) {
+                Field field = ReflectionJavaUtil.getField(klass, value);
+                OrderSpecifier asc = pathBuilder.getComparable(value, field.getType()).asc();
+                setValue(where == null ? (ArrayList) crudService.query().from(pathBuilder).orderBy(asc).fetch() :
+                        (ArrayList) crudService.query().from(pathBuilder).where(where).orderBy(asc).fetch());
+            }
+        } else
+            setValue(map.isEmpty() ? (ArrayList) crudService.getAllOrder(klass) : (ArrayList) crudService.query().from(pathBuilder).where(where).fetch());
+
+    }
+
+    private Predicate getPredicate(PathBuilder pathBuilder) {
         Predicate where = null;
         map.putAll(paramsroot);
         for (Map.Entry<String, Object> v : map.entrySet()) {
@@ -135,7 +150,10 @@ public class CrudController {
                                     where = where != null ? collection.contains(value).and(where) : collection.contains(value);
                                 else {
                                     for (Object val : (Collection) value) {
-                                        where = where != null ? collection.contains(val).and(where) : collection.contains(val);
+                                        if (val == null)
+                                            where = where != null ? collection.isEmpty().and(where) : collection.isEmpty();
+                                        else
+                                            where = where != null ? collection.contains(val).and(where) : collection.contains(val);
                                     }
                                 }
                             }
@@ -155,7 +173,10 @@ public class CrudController {
                                     where = where != null ? collection.contains(value).or(where) : collection.contains(value);
                                 else
                                     for (Object val : (Collection) value) {
-                                        where = where != null ? collection.contains(val).or(where) : collection.contains(val);
+                                        if (val == null)
+                                            where = where != null ? collection.isEmpty().or(where) : collection.isEmpty();
+                                        else
+                                            where = where != null ? collection.contains(val).or(where) : collection.contains(val);
                                     }
                             }
                         } else
@@ -164,17 +185,7 @@ public class CrudController {
                     break;
             }
         }
-        if (klass.isAnnotationPresent(CrudOrderBy.class)) {
-            String value = klass.getAnnotation(CrudOrderBy.class).value();
-            if (value != null) {
-                Field field = ReflectionJavaUtil.getField(klass, value);
-                OrderSpecifier asc = pathBuilder.getComparable(value, field.getType()).asc();
-                setValue(where == null ? (ArrayList) crudService.query().from(pathBuilder).orderBy(asc).fetch() :
-                        (ArrayList) crudService.query().from(pathBuilder).where(where).orderBy(asc).fetch());
-            }
-        } else
-            setValue(map.isEmpty() ? (ArrayList) crudService.getAllOrder(klass) : (ArrayList) crudService.query().from(pathBuilder).where(where).fetch());
-
+        return where;
     }
 
     public void addEventOnEvent(CrudEvents e, OnEvent o) {
@@ -190,5 +201,23 @@ public class CrudController {
     public void addEventPostQuery(OnQuery o) {
         this.postEvent.add(o);
 
+    }
+
+    public void doQueryString(String value) {
+        PathBuilder pathBuilder = crudService.getPathBuilder(klass);
+        Predicate where = getPredicate(pathBuilder);
+
+        setValue(map.isEmpty() ? (ArrayList) crudService.getLike(klass, value) : (ArrayList) crudService.getLike(klass, value, where));
+
+    }
+
+    public void doQueryStringBegin(String field, String value) {
+        if (value.isEmpty())
+            doQuery();
+        else {
+            PathBuilder pathBuilder = crudService.getPathBuilder(klass);
+            Predicate where = getPredicate(pathBuilder);
+            setValue(crudService.getBeginString(klass, value, field, where));
+        }
     }
 }

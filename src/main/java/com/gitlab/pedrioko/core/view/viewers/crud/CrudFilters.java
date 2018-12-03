@@ -61,6 +61,7 @@ class CrudFilters extends Window {
         buttons.setStyle("padding:8px;");
         appendChild(buttons);
         // setHeight("100%");
+        this.setStyle("overflow-y: auto;");
         buttons.setWidth("100%");
     }
 

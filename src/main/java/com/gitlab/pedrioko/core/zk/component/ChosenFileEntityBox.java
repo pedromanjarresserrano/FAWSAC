@@ -19,6 +19,7 @@ public class ChosenFileEntityBox extends Bandbox {
     private Listbox list;
     private List<Listitem> listsitems;
     private boolean checkmark = true;
+    private final Bandpopup popup;
 
     public ChosenFileEntityBox() {
         valueSelection = new LinkedHashSet<>();
@@ -42,18 +43,30 @@ public class ChosenFileEntityBox extends Bandbox {
                 load();
             }
         });
+        popup = new Bandpopup();
+        popup.setSclass("chosen-file-entity-popup");
+        getChildren().add(popup);
         load();
     }
 
     private void load() {
-        getChildren().clear();
-        Bandpopup popup = new Bandpopup();
+        popup.getChildren().clear();
         list = new Listbox();
         list.setCheckmark(checkmark);
         list.setMultiple(true);
         listsitems.clear();
         list.setStyle("overflow-y: auto !important;");
         list.getChildren().clear();
+        Listitem linull = new Listitem();
+        Listcell child = new Listcell();
+        child.setLabel("Unassaignment");
+        child.setHeight("50px");
+        linull.appendChild(child);
+        linull.setValue(null);
+        setListener(linull);
+        linull.setClass("chosenbox-file-item");
+        listsitems.add(linull);
+        list.getChildren().add(linull);
         model.forEach(e -> {
             Listitem listitem = new Listitem();
             listitem.setValue(e);
@@ -62,7 +75,7 @@ public class ChosenFileEntityBox extends Bandbox {
             List<FileEntity> filesEntities = ((ChosenItem) e).getFilesEntities();
             Image image = new Image(filesEntities != null && !filesEntities.isEmpty() ? ApplicationContextUtils.getBean(StorageService.class).getUrlFile(filesEntities.get(0).getFilename()) : "");
             image.setWidth("40px");
-            image.setHeight("40px");
+            image.setHeight("50px");
             listitem.setStyle("width:90%");
             hl.appendChild(image);
             String visualName = ((ChosenItem) e).getVisualName();
@@ -72,23 +85,31 @@ public class ChosenFileEntityBox extends Bandbox {
             listitem.appendChild(cell);
             listsitems.add(listitem);
             list.getChildren().add(listitem);
-            listitem.addEventListener(Events.ON_CLICK, w -> {
-                List<Listitem> listselected = new ArrayList<>(list.getSelectedItems());
-                //valueSelection.clear();
-                listselected.forEach(x -> valueSelection.add(x.getValue()));
-                setLabel();
-            });
+            setListener(listitem);
             if (valueSelection.contains(e)) {
                 list.setSelectedItem(listitem);
             }
         });
+        this.setStyle("overflow-x:hidden;");
         popup.getChildren().add(list);
-        getChildren().add(popup);
+    }
+
+    private void setListener(Listitem listitem) {
+        listitem.addEventListener(Events.ON_CLICK, w -> {
+            List<Listitem> listselected = new ArrayList<>(list.getSelectedItems());
+            //valueSelection.clear();
+            listselected.forEach(x -> valueSelection.add(x.getValue()));
+            setLabel();
+        });
     }
 
 
     private void setLabel() {
-        List<String> collect = list.getSelectedItems().stream().map(Listitem::getValue).map(Object::toString).collect(Collectors.toList());
+        List<String> collect = list.getSelectedItems().stream().map(Listitem::getValue).map(e -> {
+            if (e == null) {
+                return "Unassaignment";
+            } else return e.toString();
+        }).collect(Collectors.toList());
         String join = String.join(", ", collect);
         setValue(join);
     }

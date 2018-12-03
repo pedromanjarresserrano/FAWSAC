@@ -6,7 +6,9 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.services.DAOGeneric;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
+import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -315,6 +317,31 @@ public class DAOGenericImpl<T> implements DAOGeneric {
     }
 
     @Override
+    public <T> List<T> getLikePrecise(Class<T> klass, String text, Predicate aditional) {
+        if (!text.isEmpty()) {
+            return getLike(klass, "?" + text + "?", aditional);
+        } else
+            return getAllOrder(klass);
+    }
+
+    @Override
+    public <T> List<T> getBeginString(Class<T> klass, String text, String field, Predicate aditional) {
+        if (!text.isEmpty()) {
+            PathBuilder pathBuilder = getPathBuilder(klass);
+            StringPath stringPath = pathBuilder.getString(field);
+            BooleanExpression and = stringPath.startsWith(text).and(aditional);
+            String orderBy = getOrderBy(klass);
+            if (orderBy != null && !orderBy.isEmpty()) {
+                OrderSpecifier orderSpecifier = getOrderSpecifier(klass, orderBy, pathBuilder);
+                return (List<T>) query().from(pathBuilder).where(and).orderBy(orderSpecifier).fetch();
+
+            } else
+                return (List<T>) query().from(pathBuilder).where(and).fetch();
+        } else
+            return getAllOrder(klass);
+    }
+
+    @Override
     public <T> List<T> getLike(Class<T> klass, String text) {
         if (!text.isEmpty()) {
             return like(klass, text);
@@ -322,10 +349,28 @@ public class DAOGenericImpl<T> implements DAOGeneric {
             return getAllOrder(klass);
     }
 
+    @Override
+    public <T> List<T> getLike(Class<T> klass, String text, Predicate aditional) {
+        List<Field> fields = ReflectionJavaUtil.getStringFields(klass);
+        PathBuilder<?> pathBuilder = getPathBuilder(klass);
+        Predicate like = null;
+        if (aditional == null) {
+            like = getLikePredicate(text, fields, pathBuilder, null);
+        } else {
+            like = getLikePredicate(text, fields, pathBuilder, aditional);
+        }
+        String orderBy = (String) getOrderBy(klass);
+        if (orderBy != null && !orderBy.isEmpty()) {
+            OrderSpecifier orderSpecifier = getOrderSpecifier(klass, orderBy, pathBuilder);
+            return (List<T>) query().from(pathBuilder).where(like).orderBy(orderSpecifier).fetch();
+        } else
+            return (List<T>) query().from(pathBuilder).where(like).fetch();
+    }
+
     private <T> List<T> like(Class<T> klass, String text) {
         List<Field> fields = ReflectionJavaUtil.getStringFields(klass);
         PathBuilder<?> pathBuilder = getPathBuilder(klass);
-        Predicate like = getLikePredicate(text, fields, pathBuilder);
+        Predicate like = getLikePredicate(text, fields, pathBuilder, null);
         String orderBy = (String) getOrderBy(klass);
         if (orderBy != null && !orderBy.isEmpty()) {
             OrderSpecifier orderSpecifier = getOrderSpecifier(klass, orderBy, pathBuilder);
@@ -335,7 +380,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
     }
 
 
-    private Predicate getLikePredicate(String text, List<Field> fields, PathBuilder<?> pathBuilder) {
+    private Predicate getLikePredicate(String text, List<Field> fields, PathBuilder<?> pathBuilder, Predicate aditional) {
         Predicate like = null;
         if (!text.endsWith("?") && !text.startsWith("?"))
             for (Field f : fields) {
@@ -355,7 +400,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
                     like = pathBuilder.getString(name).eq(aux).or(like);
             }
         }
-        return like;
+        return ((BooleanExpression) like).and(aditional);
     }
 
 }

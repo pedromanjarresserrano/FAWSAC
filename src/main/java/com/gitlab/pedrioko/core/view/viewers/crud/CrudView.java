@@ -12,6 +12,7 @@ import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.grid.CrudGrid;
 import com.gitlab.pedrioko.core.view.viewers.crud.table.CrudTable;
+import com.gitlab.pedrioko.core.zk.component.model.AlphabetFilter;
 import lombok.Getter;
 import lombok.Setter;
 import org.zkoss.zk.ui.Component;
@@ -76,6 +77,14 @@ public class CrudView extends Tabpanel {
     public CrudView(Class<?> klass, Boolean useGrid) {
         super();
         init(klass, useGrid);
+    }
+
+    public void useAlphabetFilter() {
+        if (gridTable != null) {
+            North north = new North();
+            north.appendChild(new AlphabetFilter(crudController, this.klass));
+            gridTable.appendChild(north);
+        }
     }
 
     protected void init(Class<?> klass, Boolean useGrid) {

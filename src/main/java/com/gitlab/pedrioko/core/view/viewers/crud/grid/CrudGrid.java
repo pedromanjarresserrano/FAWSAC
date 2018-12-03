@@ -92,6 +92,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
             South south = new South();
             south.appendChild(paging);
             this.appendChild(south);
+
         } else {
             throw new IllegalArgumentException("Class " + klass + " not implement interface CrudGridItem");
         }

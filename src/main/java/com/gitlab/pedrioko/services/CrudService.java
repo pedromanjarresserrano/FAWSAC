@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.services;
 
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,9 @@ public interface CrudService {
      * @return the all
      */
     <T> List<T> getAll(Class<T> klass);
+
+    @Transactional
+    <T> List<T> getBeginString(Class<T> klass, String text, String field, Predicate aditional);
 
     <T> PathBuilder<?> getPathBuilder(Class<T> klass);
 
@@ -115,4 +119,7 @@ public interface CrudService {
 
     <T> List<T> getLikePrecise(Class<T> klass, String text);
 
+    <T> List<T> getLikePrecise(Class<T> klass, String text, Predicate where);
+
+    <T> List<T> getLike(Class<?> klass, String value, Predicate where);
 }

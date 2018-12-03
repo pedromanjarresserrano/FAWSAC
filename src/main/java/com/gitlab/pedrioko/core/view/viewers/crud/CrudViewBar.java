@@ -93,12 +93,13 @@ class CrudViewBar extends Toolbar {
         textbox.setClass("pull-right");
         textbox.setHeight("33px");
         textbox.setPlaceholder(getLabel("buscar"));
-        textbox.addEventListener(Events.ON_OK, e -> parent.setValue(crudService.getLike(klass, textbox.getValue())));
+        textbox.addEventListener(Events.ON_OK, e -> parent.getCrudController().doQueryString(textbox.getValue()));
         if (ZKUtil.isMobile()) {
             hlayout.appendChild(textbox);
             appendChild(hlayout);
         } else
             appendChild(textbox);
+
     }
 
     private Space getSpace() {
@@ -115,7 +116,7 @@ class CrudViewBar extends Toolbar {
         mi.setLabel(label);
         mi.setValue(label);
         CrudActionEvent event = new CrudActionEvent();
-      //  event.setTabpanel(parent);
+        //  event.setTabpanel(parent);
         event.setCrudViewParent(parent);
         mi.addEventListener(Events.ON_CLICK, e -> onClickListener(v, crudTable, event));
         menupopup.appendChild(mi);
@@ -143,7 +144,7 @@ class CrudViewBar extends Toolbar {
 
         btn.setStyle(" background:" + (color == null || color.isEmpty() ? "#000" : color) + ";");
         CrudActionEvent event = new CrudActionEvent();
-    //    event.setTabpanel(parent);
+        //    event.setTabpanel(parent);
         event.setCrudViewParent(parent);
         btn.addEventListener(Events.ON_CLICK, e -> onClickListener(v, crudTable, event));
         String tooltipText = v.getTooltipText();
