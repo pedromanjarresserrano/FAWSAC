@@ -56,12 +56,12 @@ public class ZKUtil {
 
     public static void tootgleRegion(LayoutRegion region) {
         if (isMobile())
-            tootgleRegion(region, "220px");
+            tootgleRegion(region, "100%");
         else
             tootgleRegion(region, "320px");
     }
 
-    private static void tootgleRegion(LayoutRegion region, String width) {
+    public static void tootgleRegion(LayoutRegion region, String width) {
         String widthaux = width == null || width.isEmpty() ? "220px" : width;
         if (ZKUtil.isMobile()) {
             boolean open = !region.isSlide();

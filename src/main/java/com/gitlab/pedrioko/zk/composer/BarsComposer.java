@@ -77,7 +77,7 @@ public class BarsComposer extends SelectorComposer<Component> {
 
     private void setOnClickEvent(Button b, West west) {
         b.addEventListener(Events.ON_CLICK, w -> {
-            ZKUtil.tootgleRegion(west);
+            ZKUtil.tootgleRegion(west,"220px");
         });
     }
 }
