@@ -1,4 +1,4 @@
-<vlayout style="overflow-y:auto !important;" spacing="0">
+<vlayout sclass="color-system " style="overflow-y:auto !important;" spacing="0">
 
     <vlayout sclass="page-content" spacing="0"
              width="100%">
@@ -11,7 +11,7 @@
 
     <window
             apply="com.gitlab.pedrioko.zk.vm.user.Dashboard">
-        <div sclass="col-md-12 col-sm-12 col-lg-12">
+        <div sclass="color-system col-md-12 col-sm-12 col-lg-12">
         </div>
     </window>
 </vlayout>

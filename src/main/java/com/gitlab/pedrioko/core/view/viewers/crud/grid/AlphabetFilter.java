@@ -1,4 +1,4 @@
-package com.gitlab.pedrioko.core.zk.component.model;
+package com.gitlab.pedrioko.core.view.viewers.crud.grid;
 
 import com.gitlab.pedrioko.core.lang.annotation.AlphabetSearch;
 import com.gitlab.pedrioko.core.view.controllers.CrudController;
@@ -27,6 +27,7 @@ public class AlphabetFilter extends Div {
             });
             this.appendChild(a);
         }
+        this.setSclass("color-system");
         this.setStyle("justify-content: center; display: flex;flex-direction: row;flex-wrap: wrap;padding-top: 10px; padding-bottom: 10px;");
     }
 }

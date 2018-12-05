@@ -121,6 +121,7 @@ public class ContentViewImpl implements ContentView {
             tab.setLabel(label);
             tabpanel.setStyle("overflow-y:auto;");
             tabpanel.setHeight("100%");
+            tabpanel.setSclass("color-system");
             tabpanel.appendChild(view);
             this.tab.getTabpanels().appendChild(tabpanel);
 
@@ -131,6 +132,7 @@ public class ContentViewImpl implements ContentView {
                         .filter(e -> e.getMenuprovider().equalsIgnoreCase(id))
                         .flatMap(e -> e.getActions().stream()).collect(Collectors.toList()));
             }
+            crudView.setSclass("color-system");
             this.tab.getTabpanels().getChildren().add(crudView);
         }
     }

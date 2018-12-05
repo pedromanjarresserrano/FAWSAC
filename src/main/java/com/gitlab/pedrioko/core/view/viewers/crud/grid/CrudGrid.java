@@ -58,14 +58,17 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
 
     private void init(Class<?> klass) {
         if (CrudGridItem.class.isAssignableFrom(klass)) {
-
+            grid.setOddRowSclass("color-system");
             columns = new Columns();
             columns.setParent(grid);
             rows = new Rows();
             rows.setParent(grid);
+            rows.setSclass("color-system");
+            columns.setSclass("color-system");
             columns.appendChild(new Column(""));
             grid.appendChild(columns);
             grid.appendChild(rows);
+            grid.setSclass("color-system");
             this.klass = klass;
             setVflex("1");
             setHflex("1");
@@ -108,6 +111,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
             grid.getRows().getChildren().clear();
             int counter = 0;
             Row row = new Row();
+            row.setSclass("color-system");
             int size = page.size();
             for (int i = 0; i < size; i++) {
                 CrudGridItem obj = (CrudGridItem) page.get(i);
