@@ -560,7 +560,7 @@ weather {
     color: #111111;
 }
 
-.color-system,.color-system .z-row{
+.color-system,.color-system .z-row,.color-system .z-row .z-row-inner{
     background: #252525;
 }
 .btn-action {

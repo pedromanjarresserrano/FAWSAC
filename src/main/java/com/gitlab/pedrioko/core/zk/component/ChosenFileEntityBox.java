@@ -133,13 +133,16 @@ public class ChosenFileEntityBox extends Bandbox {
      * @param valueSelection
      */
     public void setValueSelection(List<?> valueSelection) {
-        this.valueSelection = new HashSet<>(valueSelection);
-        Set<Listitem> set = new HashSet<>();
-        valueSelection.forEach(e -> listsitems.stream()
-                .filter(w -> w.getValue().toString().trim().equalsIgnoreCase(e.toString().trim()))
-                .forEach(set::add));
-        list.setSelectedItems(set);
-        setLabel();
+        if (valueSelection != null) {
+            this.valueSelection = new HashSet<>(valueSelection);
+            Set<Listitem> set = new HashSet<>();
+            valueSelection.forEach(e -> listsitems.stream()
+                    .filter(w -> w.getValue() != null)
+                    .filter(w -> w.getValue().toString().trim().equalsIgnoreCase(e.toString().trim()))
+                    .forEach(set::add));
+            list.setSelectedItems(set);
+            setLabel();
+        }
     }
 
     /**
