@@ -63,6 +63,7 @@ class Video extends HtmlBasedComponent {
         this.response((String) null, new AuInvoke(this, "setMuted", muted));
     }
 
+
     private void setPlaying(boolean playing) {
         this.response((String) null, new AuInvoke(this, "setPlaying", playing));
     }
@@ -97,6 +98,13 @@ class Video extends HtmlBasedComponent {
         }
     }
 
+    public void setPlay(Boolean autoplay) {
+        if (this.playing != autoplay.toString()) {
+            this.playing = autoplay.toString();
+            this.smartUpdate("playing", this.playing);
+        }
+    }
+
     public void setAutoplay(boolean autoplay) {
         if (this.autoplay != autoplay) {
             this.autoplay = autoplay;
@@ -119,12 +127,14 @@ class Video extends HtmlBasedComponent {
             switch (playing) {
                 case "true": {
                     setPlaying(true);
+                    setPlay(true);
                     if (playingListener != null)
                         playingListener.onEvent(null);
                     break;
                 }
                 case "false": {
                     setPlaying(false);
+                    setPlay(false);
                     if (pauseListener != null)
                         pauseListener.onEvent(null);
                     break;

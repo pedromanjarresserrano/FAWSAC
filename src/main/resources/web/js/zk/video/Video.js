@@ -98,7 +98,7 @@ zk.video.Video = zk.$extends(zk.Widget, {
     setPlaying: function (value) {
         var ctx = document.getElementById(this.uuid + '-video');
         if (ctx) {
-            ctx.currentTime = value;
+       //     ctx.currentTime = value;
         }
     },
     setVolume: function (a) {
@@ -134,11 +134,15 @@ zk.video.Video = zk.$extends(zk.Widget, {
             this.setPlaybackRate(this._playbackRate);
             ctx.onplay = function () {
                 var currentTime = this.currentTime;
-                zAu.send(new zk.Event(zk.Widget.$('#' + this.uuid + '-video'), 'setPlaying', {playing: 'true', currentTime: currentTime}, {toServer: true}));
+                var n = '#' + this.id + '-video';
+                var widget = zk.Widget.$(n);
+                zAu.send(new zk.Event(widget, 'setPlaying', {playing: 'true', currentTime: currentTime}, {toServer: true}));
             };
             ctx.onpause = function () {
                 var currentTime = this.currentTime;
-                zAu.send(new zk.Event(zk.Widget.$('#' + this.uuid + '-video'), 'setPlaying', {playing: 'false', currentTime: currentTime}, {toServer: true}));
+                var n = '#' + this.id + '-video';
+                var widget = zk.Widget.$(n);
+                zAu.send(new zk.Event(widget, 'setPlaying', {playing: 'false', currentTime: currentTime}, {toServer: true}));
             };
         }
     },

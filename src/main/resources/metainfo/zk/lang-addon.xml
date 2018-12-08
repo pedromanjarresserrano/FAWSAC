@@ -23,6 +23,8 @@
     <javascript src="~./js/fontawesome.js"/>
     <javascript src="~./js/jquery-2.1.1.min.js"/>
     <javascript src="~./js/slider.js"/>
+
+    <javascript src="https://unpkg.com/popper.js/dist/umd/popper.min.js"/>
     <javascript src="~./js/bootstrap/bootstrap.min.js"/>
     <javascript src="~./js/Chart.js"/>
     <javascript src="~./js/Chart.min.js"/>
@@ -81,7 +83,7 @@
         </mold>
     </component>
     <component>
-        <component-name>video</component-name>
+        <component-name>gallery</component-name>
         <component-class>com.gitlab.pedrioko.core.zk.component.Gallery</component-class>
         <widget-class>zk.gallery.Gallery</widget-class>
         <mold>
@@ -91,7 +93,7 @@
         </mold>
     </component>
     <component>
-        <component-name>video</component-name>
+        <component-name>carousel</component-name>
         <component-class>com.gitlab.pedrioko.core.zk.component.Carousel</component-class>
         <widget-class>zk.carousel.Carousel</widget-class>
         <mold>
@@ -101,7 +103,7 @@
         </mold>
     </component>
     <component>
-        <component-name>video</component-name>
+        <component-name>progresstask</component-name>
         <component-class>com.gitlab.pedrioko.core.zk.component.ProgressTask</component-class>
         <widget-class>zk.progresstask.ProgressTask</widget-class>
         <mold>
@@ -116,7 +118,7 @@
         <widget-class>zk.video.Video</widget-class>
         <mold>
             <mold-name>default</mold-name>
-            <mold-uri>mold/Video.js</mold-uri>
+            <mold-uri>mold/video.js</mold-uri>
             <css-uri>css/video.css.dsp</css-uri>
         </mold>
     </component>
