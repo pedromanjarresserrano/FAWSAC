@@ -8,6 +8,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.Progressmeter;
 import org.zkoss.zul.Timer;
 import org.zkoss.zul.Window;
 
@@ -32,11 +33,16 @@ public class TaskMenuProvider implements MenuProvider {
         Label label = new Label();
         window.appendChild(label);
         Timer timer = new Timer();
+        Progressmeter progressmeter = new Progressmeter();
         label.setValue("Task at " + getProcent() + "%");
         timer.addEventListener(Events.ON_TIMER, e -> {
-            label.setValue("Task at " + getProcent() + "%");
+            long procent = getProcent();
+            label.setValue("Task at " + procent + "%");
+            progressmeter.setValue((int) procent);
         });
+        progressmeter.setWidth("100%");
         window.appendChild(timer);
+        window.appendChild(progressmeter);
         timer.start();
         timer.setDelay(1000);
         timer.setRepeats(true);

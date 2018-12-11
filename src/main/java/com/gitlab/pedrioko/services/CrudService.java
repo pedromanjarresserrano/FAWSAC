@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaQuery;
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -122,4 +123,7 @@ public interface CrudService {
     <T> List<T> getLikePrecise(Class<T> klass, String text, Predicate where);
 
     <T> List<T> getLike(Class<?> klass, String value, Predicate where);
+
+    Predicate getLikePredicate(String text, List<Field> fields, PathBuilder<?> pathBuilder, Predicate aditional);
+
 }

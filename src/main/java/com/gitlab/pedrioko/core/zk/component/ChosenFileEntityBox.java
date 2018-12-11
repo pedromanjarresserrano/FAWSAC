@@ -4,6 +4,8 @@ import com.gitlab.pedrioko.core.lang.FileEntity;
 import com.gitlab.pedrioko.core.view.api.ChosenItem;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.services.StorageService;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
 
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 public class ChosenFileEntityBox extends Bandbox {
 
     private static final long serialVersionUID = 1L;
+
     private transient Set<?> valueSelection;
     private transient Set<?> model;
     private transient Set<?> auxmodel;
@@ -20,6 +23,21 @@ public class ChosenFileEntityBox extends Bandbox {
     private List<Listitem> listsitems;
     private boolean checkmark = true;
     private final Bandpopup popup;
+    private final EventListener<Event> eventEventListener = e -> {
+
+        String valuex = getValue();
+        if (valuex == null || valuex.isEmpty()) {
+            model = new LinkedHashSet<>(auxmodel);
+            load();
+        } else {
+            String value = valuex.substring(valuex.lastIndexOf(',') + 1).trim();
+            model = auxmodel.stream().filter(w -> ((ChosenItem) w).getVisualName().toLowerCase().startsWith(value.toLowerCase())).collect(Collectors.toSet());
+            LinkedList<?> list = new LinkedList<>(model);
+            Collections.sort(list, (x, y) -> ((ChosenItem) x).getVisualName().toLowerCase().compareToIgnoreCase(((ChosenItem) y).getVisualName().toLowerCase()));
+            model = new LinkedHashSet<>(list);
+            load();
+        }
+    };
 
     public ChosenFileEntityBox() {
         valueSelection = new LinkedHashSet<>();
@@ -28,21 +46,9 @@ public class ChosenFileEntityBox extends Bandbox {
         listsitems = new ArrayList<>();
         setInstant(true);
         this.setAutodrop(true);
-        this.addEventListener(Events.ON_CHANGING, e -> {
 
-            String valuex = getValue();
-            if (valuex == null || valuex.isEmpty()) {
-                model = new LinkedHashSet<>(auxmodel);
-                load();
-            } else {
-                String value = valuex.substring(valuex.lastIndexOf(',') + 1).trim();
-                model = auxmodel.stream().filter(w -> ((ChosenItem) w).getVisualName().toLowerCase().contains(value.toLowerCase())).collect(Collectors.toSet());
-                LinkedList<?> list = new LinkedList<>(model);
-                Collections.sort(list, (x, y) -> ((ChosenItem) x).getVisualName().toLowerCase().compareToIgnoreCase(((ChosenItem) y).getVisualName().toLowerCase()));
-                model = new LinkedHashSet<>(list);
-                load();
-            }
-        });
+        this.addEventListener(Events.ON_CHANGING, eventEventListener);
+        this.addEventListener(Events.ON_CHANGE,eventEventListener);
         popup = new Bandpopup();
         popup.setSclass("chosen-file-entity-popup");
         getChildren().add(popup);
@@ -88,6 +94,7 @@ public class ChosenFileEntityBox extends Bandbox {
             setListener(listitem);
             if (valueSelection.contains(e)) {
                 list.setSelectedItem(listitem);
+                setLabel();
             }
         });
         this.setStyle("overflow-x:hidden;");

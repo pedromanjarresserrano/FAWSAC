@@ -11,11 +11,9 @@ import com.gitlab.pedrioko.services.StorageService;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.apache.commons.collections4.map.LinkedMap;
-import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.*;
-import org.zkoss.zul.event.PagingEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,8 +36,8 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
     private Grid grid = new Grid();
     private @Getter
     Long imageHeight;
-    private int PAGE_SIZE = 16;
-    private Paging paging;
+    //private int PAGE_SIZE = 16;
+    //private Paging paging;
     private Map<Float, GridItem> gridItemMap = new LinkedMap<Float, GridItem>();
 
     public CrudGrid(Class<?> klass) {
@@ -77,7 +75,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
             rows.setHeight("135px");
             storageService = ApplicationContextUtils.getBean(StorageService.class);
             imageHeight = 100L;
-            paging = new Paging();
+          /*  paging = new Paging();
             paging.setDetailed(true);
             if (ZKUtil.isMobile())
                 paging.setMold("os");
@@ -87,13 +85,13 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
                 int pgno = pe.getActivePage();
                 int ofs = pgno * PAGE_SIZE;
                 redraw(ofs, PAGE_SIZE);
-            });
+            });*/
             Center center = new Center();
             center.appendChild(grid);
             center.setStyle("overflow-y:auto !important;");
             this.appendChild(center);
             South south = new South();
-            south.appendChild(paging);
+            //     south.appendChild(paging);
             this.appendChild(south);
 
         } else {
@@ -102,36 +100,33 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
 
     }
 
-    private void redraw(int firstResult, int maxResults) {
+    private void redraw(List<?> page) {
         if (listitems != null) {
             cellsInRow = ZKUtil.isMobile() ? 1 : cellsInRow;
-            int fm = firstResult + maxResults;
-            List page = listitems.subList(firstResult, listitems.size() < fm ?
-                    listitems.size() : fm);
+
             grid.getRows().getChildren().clear();
             int counter = 0;
             Row row = new Row();
             row.setSclass("color-system");
             int size = page.size();
-            for (int i = 0; i < size; i++) {
-                CrudGridItem obj = (CrudGridItem) page.get(i);
+            for (Object i : page) {
+                CrudGridItem obj = (CrudGridItem) i;
                 GridItem child = new GridItem(obj, imageHeight);
                 gridItemMap.put(Float.parseFloat(ReflectionJavaUtil.getIdValue(obj).toString()), child);
-                int finalI = i + firstResult;
 
                 child.addEventListener(Events.ON_CLICK, (e) -> {
-                    onClick(child, finalI);
+                    onClick(child, obj);
                     if (ZKUtil.isMobile())
                         getEvent(CrudEvents.ON_RIGHT_CLICK).forEach(OnEvent::doSomething);
                 });
                 child.addEventListener(Events.ON_RIGHT_CLICK, (e) -> {
-                    onClick(child, finalI);
+                    onClick(child, obj);
                     getEvent(CrudEvents.ON_RIGHT_CLICK).forEach(OnEvent::doSomething);
                 });
                 Div div = new Div();
                 div.appendChild(child);
                 rows.addEventListener(Events.ON_RIGHT_CLICK, (e) -> {
-                    onClick(child, finalI);
+                    onClick(child, obj);
                     getEvent(CrudEvents.ON_RIGHT_CLICK).forEach(OnEvent::doSomething);
                 });
 
@@ -139,7 +134,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
                 row.setHeight("auto");
                 counter++;
 
-                if (counter == this.cellsInRow || (size < this.cellsInRow && counter == size) || (i == size - 1)) {
+                if (counter == this.cellsInRow || (size < this.cellsInRow && counter == size)) {
                     rows.appendChild(row);
                     row = new Row();
                     counter = 0;
@@ -149,8 +144,8 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
     }
 
 
-    private void onClick(Vlayout child, int finalI) {
-        selectValue = listitems.get(finalI);
+    private void onClick(Vlayout child, Object obj) {
+        selectValue = obj;
         if (!selectValueUUID.isEmpty())
             Clients.evalJavaScript("var var1 = document.getElementById('" + selectValueUUID + "');" +
                     "if(var1 != null) {" +
@@ -188,8 +183,8 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
     public void setValue(List<?> all) {
         listitems.clear();
         listitems.addAll(all);
-        paging.setTotalSize(all.size());
-        paging.setPageSize(PAGE_SIZE);
+      /*  paging.setTotalSize(all.size());
+        paging.setPageSize(PAGE_SIZE);*/
         update();
     }
 
@@ -215,13 +210,13 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
 
     @Override
     public void update() {
-        paging.setTotalSize(listitems.size());
-        paging.setPageSize(PAGE_SIZE);
-        redraw(paging.getActivePage() * PAGE_SIZE, PAGE_SIZE);
+        //  paging.setTotalSize(listitems.size());
+        //   paging.setPageSize(PAGE_SIZE);
+        redraw(listitems);
     }
 
     public void setPageSize(int pagesize) {
-        this.PAGE_SIZE = pagesize;
+        //    this.PAGE_SIZE = pagesize;
         update();
     }
 

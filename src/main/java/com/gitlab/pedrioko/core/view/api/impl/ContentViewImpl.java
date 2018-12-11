@@ -69,6 +69,7 @@ public class ContentViewImpl implements ContentView {
                 this.tab.getTabs().appendChild(tab);
                 Component view = provider.getView();
                 loadView(id, label, tab, view);
+                tab.setIconSclass(provider.getIcon());
                 this.tab.setSelectedTab(tab);
 
             }
@@ -83,6 +84,13 @@ public class ContentViewImpl implements ContentView {
         Optional<Component> tab = getTab(id);
         if (tab.isPresent())
             ((LabelImageElement) tab.get()).setLabel(newLabel);
+    }
+
+    @Override
+    public void changeIcon(String id, String icon) {
+        Optional<Component> tab = getTab(id);
+        if (tab.isPresent())
+            ((Tab) tab.get()).setIconSclass(icon);
     }
 
     @Override

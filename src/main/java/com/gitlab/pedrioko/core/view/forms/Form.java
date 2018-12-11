@@ -181,7 +181,7 @@ class Form extends Window {
     /**
      * @return the estado
      */
-    FormStates getEstado() {
+    public FormStates getEstado() {
         return estado;
     }
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaQuery;
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -197,6 +198,11 @@ public class CrudServiceImpl implements CrudService {
     @Override
     public <T> List<T> getLike(Class<?> klass, String value, Predicate where) {
         return (List<T>) cruddao.getLike(klass, value, where);
+    }
+
+    @Override
+    public Predicate getLikePredicate(String text, List<Field> fields, PathBuilder<?> pathBuilder, Predicate aditional) {
+        return cruddao.getLikePredicate(text, fields, pathBuilder, aditional);
     }
 
     @Transactional

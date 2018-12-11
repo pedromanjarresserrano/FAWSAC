@@ -13,10 +13,15 @@ class CrudActionEvent {
     private CrudView crudViewParent;
     private FormStates formstate;
     private Form source;
+
     public CrudActionEvent() {
     }
 
     public CrudActionEvent(Object value) {
         this.value = value;
+    }
+
+    public FormStates getFormstate() {
+        return source.getEstado();
     }
 }

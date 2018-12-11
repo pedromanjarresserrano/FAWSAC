@@ -93,7 +93,7 @@ class CrudViewBar extends Toolbar {
         textbox.setClass("pull-right");
         textbox.setHeight("33px");
         textbox.setPlaceholder(getLabel("buscar"));
-        textbox.addEventListener(Events.ON_OK, e -> parent.getCrudController().doQueryString(textbox.getValue()));
+        textbox.addEventListener(Events.ON_OK, e -> parent.getCrudController().setContainsString(textbox.getValue()));
         if (ZKUtil.isMobile()) {
             hlayout.appendChild(textbox);
             appendChild(hlayout);

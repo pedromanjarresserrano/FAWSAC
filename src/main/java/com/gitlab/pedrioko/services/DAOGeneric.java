@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 
 import javax.persistence.criteria.CriteriaQuery;
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -115,4 +116,6 @@ public interface DAOGeneric {
     <T> List<T> getLike(Class<T> klass, String text);
 
     <T> List<T> getLike(Class<T> klass, String text, Predicate aditional);
+
+    Predicate getLikePredicate(String text, List<Field> fields, PathBuilder<?> pathBuilder, Predicate aditional);
 }

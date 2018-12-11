@@ -331,22 +331,16 @@ public class DAOGenericImpl<T> implements DAOGeneric {
             StringPath stringPath = pathBuilder.getString(field);
             BooleanExpression and = stringPath.startsWith(text).and(aditional);
             String orderBy = getOrderBy(klass);
-            if (orderBy != null && !orderBy.isEmpty()) {
-                OrderSpecifier orderSpecifier = getOrderSpecifier(klass, orderBy, pathBuilder);
-                return (List<T>) query().from(pathBuilder).where(and).orderBy(orderSpecifier).fetch();
-
-            } else
-                return (List<T>) query().from(pathBuilder).where(and).fetch();
+            return (orderBy != null && !orderBy.isEmpty()) ?
+                    (List<T>) query().from(pathBuilder).where(and).orderBy(getOrderSpecifier(klass, orderBy, pathBuilder)).fetch()
+                    : (List<T>) query().from(pathBuilder).where(and).fetch();
         } else
             return getAllOrder(klass);
     }
 
     @Override
     public <T> List<T> getLike(Class<T> klass, String text) {
-        if (!text.isEmpty()) {
-            return like(klass, text);
-        } else
-            return getAllOrder(klass);
+        return !text.isEmpty() ? like(klass, text) : getAllOrder(klass);
     }
 
     @Override
@@ -360,11 +354,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
             like = getLikePredicate(text, fields, pathBuilder, aditional);
         }
         String orderBy = (String) getOrderBy(klass);
-        if (orderBy != null && !orderBy.isEmpty()) {
-            OrderSpecifier orderSpecifier = getOrderSpecifier(klass, orderBy, pathBuilder);
-            return (List<T>) query().from(pathBuilder).where(like).orderBy(orderSpecifier).fetch();
-        } else
-            return (List<T>) query().from(pathBuilder).where(like).fetch();
+        return orderBy != null && !orderBy.isEmpty() ? (List<T>) query().from(pathBuilder).where(like).orderBy(getOrderSpecifier(klass, orderBy, pathBuilder)).fetch() : (List<T>) query().from(pathBuilder).where(like).fetch();
     }
 
     private <T> List<T> like(Class<T> klass, String text) {
@@ -379,8 +369,8 @@ public class DAOGenericImpl<T> implements DAOGeneric {
             return (List<T>) query().from(pathBuilder).where(like).fetch();
     }
 
-
-    private Predicate getLikePredicate(String text, List<Field> fields, PathBuilder<?> pathBuilder, Predicate aditional) {
+    @Override
+    public Predicate getLikePredicate(String text, List<Field> fields, PathBuilder<?> pathBuilder, Predicate aditional) {
         Predicate like = null;
         if (!text.endsWith("?") && !text.startsWith("?"))
             for (Field f : fields) {

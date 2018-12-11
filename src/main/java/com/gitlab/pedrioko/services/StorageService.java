@@ -52,4 +52,6 @@ public interface StorageService {
     File saveFile(String name, InputStream inputstream);
 
     void saveFile(MultipartFile file);
+
+    File getNewFile(String s);
 }

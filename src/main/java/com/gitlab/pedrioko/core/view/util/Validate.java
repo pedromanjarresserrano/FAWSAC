@@ -16,6 +16,8 @@ public class Validate {
     public static boolean noDuplicate(Object val, List<?> list) {
         if (val.getClass().isAnnotationPresent(NoDuplicate.class)) {
             String split = getNoDuplicateValue(val);
+            if (split.isEmpty())
+                return false;
             Object valueFieldObject = ReflectionJavaUtil.getValueFieldObject(split, val);
             return !list.stream().filter(e -> ReflectionJavaUtil.getValueFieldObject(split, e).equals(valueFieldObject))
                     .collect(Collectors.toList()).isEmpty();
@@ -25,11 +27,11 @@ public class Validate {
 
     }
 
-    public static Annotation getAnnotation(Object val, Class class1) {
+    private static Annotation getAnnotation(Object val, Class class1) {
         return val.getClass().getAnnotation(class1);
     }
 
-    public static Annotation getAnnotation(Class getClass1, Class AnotateClass) {
+    private static Annotation getAnnotation(Class getClass1, Class AnotateClass) {
         return getClass1.getAnnotation(AnotateClass);
     }
 
@@ -41,7 +43,7 @@ public class Validate {
         return getGridViewFieldName(val.getClass());
     }
 
-    public static String getGridViewFieldName(Class val) {
+    private static String getGridViewFieldName(Class val) {
         return ((GridViewFieldName) getAnnotation(val, GridViewFieldName.class)).value();
     }
 
@@ -49,7 +51,7 @@ public class Validate {
         return getGridViewFieldPreview(val.getClass());
     }
 
-    public static Map<String, Object> getGridViewFieldPreview(Class val) {
+    private static Map<String, Object> getGridViewFieldPreview(Class val) {
         GridViewFieldPreview annotation = (GridViewFieldPreview) getAnnotation(val, GridViewFieldPreview.class);
         HashMap map = new HashMap();
         map.put("value", annotation.value());

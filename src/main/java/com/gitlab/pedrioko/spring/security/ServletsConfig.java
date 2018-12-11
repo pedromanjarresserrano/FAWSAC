@@ -33,6 +33,7 @@ public class ServletsConfig {
     private static String ZUL_VIEW_RESOLVER_PREFIX = UPDATE_URI + ClassWebResource.PATH_PREFIX + "/zul/";
     @Autowired
     private List<StaticResouceLocation> staticResouceLocations;
+    public static ResourceHandlerRegistry registry;
 
     @Bean
     public ViewResolver zulViewResolver() {
@@ -87,6 +88,8 @@ public class ServletsConfig {
                     staticResouceLocations.forEach(e -> {
                         registry.addResourceHandler(e.getPath()).addResourceLocations(e.getLocations());
                     });
+
+                ServletsConfig.registry = registry;
             }
         };
     }

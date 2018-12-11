@@ -25,6 +25,7 @@ public class NewAction implements Action {
         EntityForm formUtilsnew = new EntityForm(event.getCrudViewParent().getTypeClass());
         formUtilsnew.addAction(ApplicationContextUtils.getBean(SaveAction.class), event);
         formUtilsnew.addAction(ApplicationContextUtils.getBean(SaveAndNewAction.class), event);
+        formUtilsnew.addAction(ApplicationContextUtils.getBean(SaveAndEditAction.class), event);
         formUtilsnew.addAction(ApplicationContextUtils.getBean(CancelAction.class), event);
         formUtilsnew.setEstado(FormStates.CREATE);
         event.getCrudViewParent().setContent(formUtilsnew);

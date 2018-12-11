@@ -235,7 +235,7 @@ public class StorageServiceImpl implements StorageService {
     public File saveFile(String filename, InputStream inputstream) {
         String value = getAppParam().getValue();
         OutputStream outputStream = null;
-        File banner = new File(value + "/"/* + filename.split(".")[0] + "/"*/ + filename);
+        File banner = new File(value + "/" + filename);
         try (FileOutputStream fos = new FileOutputStream(banner)) {
             InputStream inputStream = inputstream;
             outputStream = fos;
@@ -271,5 +271,10 @@ public class StorageServiceImpl implements StorageService {
         } catch (IOException e) {
             //   throw new StorageException("Failed to store file " + filename, e);
         }
+    }
+
+    @Override
+    public File getNewFile(String s) {
+        return new File(getStorageLocation() + "\\" + s);
     }
 }

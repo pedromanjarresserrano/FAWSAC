@@ -16,12 +16,13 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class CrudFilters extends Window {
+class CrudFilters extends Borderlayout {
     private static final String CLASSES = "col-xs-12 col-sm-12 col-md-12 col-lg-12";
     private final String reglonClass = "control-group col-sm-12 col-md-12 col-lg-12";
     private final transient Map<Field, Component> binding = new LinkedHashMap<>();
     private @Getter
     final Class<?> klass;
+    private final Random random = new Random();
     private List<String> fieldsfilters;
 
     CrudFilters(Class<?> klass, CrudView parent) {
@@ -34,12 +35,10 @@ class CrudFilters extends Window {
         Vlayout filters = new Vlayout();
 
         listfield.forEach(e -> filters.appendChild(fieldToUiField(e)));
-        appendChild(filters);
         Div buttons = new Div();
         Button child = new Button(ReflectionZKUtil.getLabel("buscarbtn"));
         child.setClass("btn btn-primary pull-left");
-        child.setId(new Random().toString());
-        child.setStyle("margin-top:15px; margin-left:20px; margin-bottom:20px;");
+        child.setId(random.toString());
         child.addEventListener(Events.ON_CLICK, (event) -> {
             parent.clearParams();
             binding.forEach((k, v) -> {
@@ -55,19 +54,22 @@ class CrudFilters extends Window {
             if (ZKUtil.isMobile()) ZKUtil.tootgleRegion(parent.getEast());
         });
         buttons.appendChild(child);
-        appendChild(filters);
+        Center center = new Center();
+        center.appendChild(filters);
+        appendChild(center);
         filters.setStyle("overflow-y: auto !important;");
-        filters.setHeight("80%");
-        buttons.setStyle("padding:8px;");
-        appendChild(buttons);
-        // setHeight("100%");
-        this.setStyle("overflow-y: auto;");
+        filters.setHeight("100%");
+        buttons.setStyle("padding-top:8px;padding-left:10px;");
+        South south = new South();
+        south.appendChild(buttons);
+        appendChild(south);
+        center.setStyle("overflow-y: auto;");
         buttons.setWidth("100%");
     }
 
     private Component fieldToUiField(Field e) {
         Div renglon = new Div();
-        renglon.setId("Reglon" + e.getType().toGenericString());
+        renglon.setId("Reglon-" + e.getName() + random.toString());
         Div labeldiv = new Div();
         Label label = new Label(ReflectionZKUtil.getLabel(e));
 

@@ -3,13 +3,13 @@ package com.gitlab.pedrioko.core.view.viewers.crud;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.api.CrudDisplayTable;
-import com.gitlab.pedrioko.core.view.controllers.CrudController;
 import com.gitlab.pedrioko.core.view.enums.CrudEvents;
 import com.gitlab.pedrioko.core.view.enums.CrudMode;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
+import com.gitlab.pedrioko.core.view.viewers.crud.controllers.CrudController;
 import com.gitlab.pedrioko.core.view.viewers.crud.grid.AlphabetFilter;
 import com.gitlab.pedrioko.core.view.viewers.crud.grid.CrudGrid;
 import com.gitlab.pedrioko.core.view.viewers.crud.table.CrudTable;
@@ -20,6 +20,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
+import org.zkoss.zul.event.PagingEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,9 @@ public class CrudView extends Tabpanel {
     private CrudMenuContext popup;
     private North north;
     private CrudFilters crudFilters;
+    private Borderlayout borderlayout;
+    private int PAGE_SIZE = 16;
+    private Paging paging;
 
     public CrudView() {
     }
@@ -93,6 +97,21 @@ public class CrudView extends Tabpanel {
         if (useGrid) {
             gridTable = new CrudGrid(klass);
             createUI(gridTable);
+            South south = new South();
+            paging = new Paging();
+            paging.setDetailed(true);
+            if (ZKUtil.isMobile())
+                paging.setMold("os");
+            paging.setPageSize(PAGE_SIZE);
+            paging.addEventListener("onPaging", (Event event) -> {
+                PagingEvent pe = (PagingEvent) event;
+                int pgno = pe.getActivePage();
+                int ofs = pgno * PAGE_SIZE;
+                crudController.setPage(ofs, PAGE_SIZE);
+            });
+            south.appendChild(paging);
+
+            borderlayout.appendChild(south);
         } else {
             crudTable = new CrudTable(klass);
             createUI(crudTable);
@@ -100,6 +119,12 @@ public class CrudView extends Tabpanel {
         if (gridTable != null) {
             crudController = new CrudController(klass, gridTable.getValue());
             crudController.addEventPostQuery(() -> gridTable.update());
+            crudController.addEventPostQuery(() -> {
+                paging.setTotalSize((int) crudController.getCount());
+                paging.setPageSize(PAGE_SIZE);
+            });
+            crudController.setPage(0, PAGE_SIZE);
+
             crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> gridTable.update());
         } else {
             crudController = new CrudController(klass, crudTable.getValue());
@@ -119,20 +144,23 @@ public class CrudView extends Tabpanel {
     }
 
     public void setPageSize(int PAGE_SIZE) {
-        if (gridTable != null) gridTable.setPageSize(PAGE_SIZE);
+        this.PAGE_SIZE = PAGE_SIZE;
+        int activePage = paging.getActivePage();
+        crudController.setPage(activePage * PAGE_SIZE, PAGE_SIZE);
+        crudController.doQuery();
     }
 
     private void createUI(Component table) {
-        Borderlayout child = new Borderlayout();
+        borderlayout = new Borderlayout();
         divbar = new Div();
         actions = new Div();
         toolbar = new CrudViewBar(this.klass, this, (CrudDisplayTable) table);
         divbar.appendChild(toolbar);
-        child.setStyle("height:100%;");
+        borderlayout.setStyle("height:100%;");
         east = new East();
         north = new North();
         north.appendChild(divbar);
-        child.appendChild(north);
+        borderlayout.appendChild(north);
         east.setTitle("Filters");
         east.setStyle(" overflow-y:auto !important; width:350px;");
         if (ZKUtil.isMobile()) {
@@ -147,10 +175,10 @@ public class CrudView extends Tabpanel {
             east.setVisible(true);
             east.setSlide(false);
         }
-        child.appendChild(east);
-        child.appendChild(new Center());
-        appendChild(child);
-        Center center = child.getCenter();
+        borderlayout.appendChild(east);
+        borderlayout.appendChild(new Center());
+        appendChild(borderlayout);
+        Center center = borderlayout.getCenter();
         center.appendChild(table);
         crudFilters = new CrudFilters(klass, this);
         east.appendChild(crudFilters);
@@ -166,6 +194,7 @@ public class CrudView extends Tabpanel {
                 crudController.doQuery();
             }
         });
+
     }
 
     public CrudView(Class<?> klass, Object obj) {
@@ -226,8 +255,11 @@ public class CrudView extends Tabpanel {
 
     public void setValue(List<?> value) {
         crudController.setValue(value);
-        if (gridTable != null)
+        if (gridTable != null) {
+            paging.setTotalSize(value.size());
+            paging.setPageSize(PAGE_SIZE);
             gridTable.clearSelection();
+        }
     }
 
     public void setValue(ArrayList<?> value) {
