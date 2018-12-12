@@ -93,7 +93,7 @@ public class CrudView extends Tabpanel {
 
     protected void init(Class<?> klass, Boolean useGrid) {
         crudviewmode = CrudMode.MAINCRUD;
-        this.klass = klass;
+            this.klass = klass;
         if (useGrid) {
             gridTable = new CrudGrid(klass);
             createUI(gridTable);
@@ -110,24 +110,17 @@ public class CrudView extends Tabpanel {
                 crudController.setPage(ofs, PAGE_SIZE);
             });
             south.appendChild(paging);
-
             borderlayout.appendChild(south);
-        } else {
-            crudTable = new CrudTable(klass);
-            createUI(crudTable);
-        }
-        if (gridTable != null) {
-            crudController = new CrudController(klass, gridTable.getValue());
             crudController.addEventPostQuery(() -> gridTable.update());
             crudController.addEventPostQuery(() -> {
                 paging.setTotalSize((int) crudController.getCount());
                 paging.setPageSize(PAGE_SIZE);
             });
             crudController.setPage(0, PAGE_SIZE);
-
             crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> gridTable.update());
         } else {
-            crudController = new CrudController(klass, crudTable.getValue());
+            crudTable = new CrudTable(klass);
+            createUI(crudTable);
             crudController.addEventPostQuery(() -> crudTable.update());
             crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> crudTable.update());
         }

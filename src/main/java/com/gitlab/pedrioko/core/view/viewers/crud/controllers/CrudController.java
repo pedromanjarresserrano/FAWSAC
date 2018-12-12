@@ -47,7 +47,7 @@ public class CrudController {
     @Setter
     Boolean reloadable;
     private int offSet = 0;
-    private int limit = 0;
+    private int limit = 16;
 
     public CrudController(Class<?> klass, List<?> values) {
         super();
@@ -197,7 +197,7 @@ public class CrudController {
     }
 
     public void doQueryStringBegin(String field, String value) {
-        if (value.isEmpty())
+        if (value.isEmpty() || value.compareToIgnoreCase("ALL") == 0)
             doQuery();
         else {
             PathBuilder pathBuilder = crudService.getPathBuilder(klass);
@@ -207,9 +207,11 @@ public class CrudController {
     }
 
     public void setPage(int offSet, int limit) {
-        this.offSet = offSet;
-        this.limit = limit;
-        doQuery();
+        if (this.offSet != offSet || this.limit != limit) {
+            this.offSet = offSet;
+            this.limit = limit;
+            doQuery();
+        }
     }
 
     public long getCount() {
