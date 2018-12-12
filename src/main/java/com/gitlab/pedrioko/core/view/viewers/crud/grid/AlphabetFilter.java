@@ -9,6 +9,7 @@ import org.zkoss.zul.Div;
 public class AlphabetFilter extends Div {
 
     private final char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+    public static final String STARTWITH = "*STARTWITH*-";
 
     public AlphabetFilter(CrudController controlle, Class klass) {
         String field = null;
@@ -30,7 +31,7 @@ public class AlphabetFilter extends Div {
         a.setStyle("padding-bottom: 14px; padding-left: 10px;padding-right: 10px;font-size:25px;");
         String finalField = field;
         a.addEventListener(Events.ON_CLICK, e -> {
-            controlle.doQueryStringBegin(finalField, letter);
+            controlle.doQueryStringBegin(finalField, STARTWITH + letter);
 
         });
         this.appendChild(a);
