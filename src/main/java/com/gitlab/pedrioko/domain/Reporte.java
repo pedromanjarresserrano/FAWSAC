@@ -8,14 +8,13 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @NoDuplicate(value = "SQLquery")
 public @Data
-class Reporte implements Serializable {
+class Reporte extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;

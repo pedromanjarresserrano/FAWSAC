@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Component
-class UserInterceptor extends EmptyInterceptor {
+public class UserInterceptor extends EmptyInterceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmptyInterceptor.class);
 
     @Override

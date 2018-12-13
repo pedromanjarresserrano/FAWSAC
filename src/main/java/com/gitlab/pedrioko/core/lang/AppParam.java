@@ -1,18 +1,18 @@
 package com.gitlab.pedrioko.core.lang;
 
 import com.gitlab.pedrioko.core.lang.annotation.NoEmpty;
+import com.gitlab.pedrioko.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public @Data
-class AppParam implements Serializable {
+class AppParam extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(nullable = false)

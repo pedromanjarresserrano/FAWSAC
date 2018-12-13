@@ -1,19 +1,9 @@
 package com.gitlab.pedrioko.core.hibernate.config;
 
-//@Configuration
-public class HibernateConfiguration/* extends HibernateJpaAutoConfiguration */ {
+import org.springframework.context.annotation.Configuration;
 
-/*
-    @Autowired
-    Interceptor userInterceptor;
-
-    public HibernateConfiguration(DataSource dataSource, JpaProperties jpaProperties, ObjectProvider<JtaTransactionManager> jtaTransactionManager, ObjectProvider<TransactionManagerCustomizers> transactionManagerCustomizers) {
-        super(dataSource, jpaProperties, jtaTransactionManager, transactionManagerCustomizers);
-    }
+@Configuration
+public class HibernateConfiguration  {
 
 
-    @Override
-    public void customizeVendorProperties(Map<String, Object> vendorProperties) {
-        vendorProperties.put("hibernate.ejb.interceptor", userInterceptor);
-    }*/
 }

@@ -1,6 +1,7 @@
 package com.gitlab.pedrioko.core.lang;
 
 import com.gitlab.pedrioko.core.lang.annotation.UIEntity;
+import com.gitlab.pedrioko.domain.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -8,12 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Digits;
-import java.io.Serializable;
 
 @Entity
 @UIEntity
 public @Data
-class Point implements Serializable {
+class Point extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 

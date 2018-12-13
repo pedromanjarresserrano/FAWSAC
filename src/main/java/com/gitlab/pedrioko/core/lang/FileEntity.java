@@ -1,16 +1,16 @@
 package com.gitlab.pedrioko.core.lang;
 
 import com.gitlab.pedrioko.core.lang.annotation.UIEntity;
+import com.gitlab.pedrioko.domain.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @UIEntity
 public @Data
-class FileEntity implements Serializable {
+class FileEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

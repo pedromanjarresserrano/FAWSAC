@@ -8,13 +8,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @EqualsAndHashCode(callSuper = false)
 public @Data
-class Anuncio implements Serializable {
+class Anuncio extends BaseEntity {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

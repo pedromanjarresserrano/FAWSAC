@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoDuplicate(value = "tipo")
 @EqualsAndHashCode(callSuper = false)
 public @Data
-class EmailTemplate {
+class EmailTemplate extends BaseEntity {
     /**
      * The iddiagnostico.
      */

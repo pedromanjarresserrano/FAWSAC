@@ -1,16 +1,16 @@
 package com.gitlab.pedrioko.core.lang;
 
+import com.gitlab.pedrioko.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 @Entity
 @AllArgsConstructor
 public @Data
-class AuditLog implements Serializable {
+class AuditLog extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(nullable = false)

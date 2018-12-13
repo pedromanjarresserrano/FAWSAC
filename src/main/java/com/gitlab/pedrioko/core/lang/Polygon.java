@@ -2,17 +2,17 @@ package com.gitlab.pedrioko.core.lang;
 
 import com.gitlab.pedrioko.core.lang.annotation.NoEmpty;
 import com.gitlab.pedrioko.core.lang.annotation.UIEntity;
+import com.gitlab.pedrioko.domain.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 import java.util.StringJoiner;
 
 @Entity
 @UIEntity
 public @Data
-class Polygon implements Serializable {
+class Polygon extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
     @Id

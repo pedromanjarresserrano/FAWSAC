@@ -1,6 +1,5 @@
 package com.gitlab.pedrioko.core.view.viewers.crud.controllers
 
-
 import com.gitlab.pedrioko.core.lang.DateRange
 import com.gitlab.pedrioko.core.lang.annotation.CrudOrderBy
 import com.gitlab.pedrioko.core.view.api.OnEvent
@@ -20,7 +19,6 @@ import com.querydsl.core.types.dsl.CollectionPath
 import com.querydsl.core.types.dsl.DatePath
 import com.querydsl.core.types.dsl.PathBuilder
 import com.querydsl.core.types.dsl.StringPath
-import com.querydsl.jpa.impl.JPAQuery
 import lombok.Getter
 import lombok.Setter
 
@@ -126,14 +124,23 @@ public class CrudController {
     void doQuery() {
         PathBuilder pathBuilder = crudService.getPathBuilder(klass)
         Predicate where = getPredicate(pathBuilder)
-        JPAQuery<?> jpaQuery = crudService.query().from(pathBuilder).where(where)
         if (klass.isAnnotationPresent(CrudOrderBy.class)) {
             String value = klass.getAnnotation(CrudOrderBy.class).value()
             if (value != null) {
                 Field field = ReflectionJavaUtil.getField(klass, value)
                 OrderSpecifier asc = pathBuilder.getComparable(value, field.getType()).asc()
-                List<?> objects
-                setValue(where == null ? (ArrayList) ((limit != 0) ? crudService.query().from(pathBuilder).orderBy(asc).offset(offSet).limit(limit).fetch() : crudService.query().from(pathBuilder).orderBy(asc).fetch()) : (ArrayList) ((limit != 0) ? objects = jpaQuery.offset(offSet).limit(limit).orderBy(asc).fetch() : jpaQuery.orderBy(asc).fetch()))
+                setValue(where == null ?
+                        (ArrayList)
+                                ((limit != 0) ?
+                                        crudService.query().from(pathBuilder).orderBy(asc).offset(offSet).limit(limit).fetch()
+                                        :
+                                        crudService.query().from(pathBuilder).orderBy(asc).fetch())
+                        :
+                        (ArrayList)
+                                ((limit != 0) ?
+                                        crudService.query().from(pathBuilder).where(where).offset(offSet).limit(limit).orderBy(asc).fetch()
+                                        :
+                                        crudService.query().from(pathBuilder).where(where).orderBy(asc).fetch()))
             }
         } else {
             List<?> fetch = limit != 0 ? jpaQuery.offset(offSet).limit(limit).fetch() : jpaQuery.fetch()
@@ -159,21 +166,22 @@ public class CrudController {
                     def lowerCase = substring.toLowerCase()
                     where = where != null ? paramMode == ParamMode.AND ? stringPath.startsWith(substring).or(stringPath.startsWith(lowerCase)).and(where) : stringPath.startsWith((value as String).substring(AlphabetFilter.STARTWITH.length() - 1)).or(stringPath.startsWith(lowerCase)).or(where) : stringPath.startsWith(substring).or(stringPath.startsWith(lowerCase))
                     break
-                case (value instanceof DateRange):
+                case { value instanceof DateRange }:
                     DatePath<Date> date = pathBuilder.getDate(v.getKey(), Date.class)
                     where = where != null ? paramMode == ParamMode.AND ? date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin()).and(where) : date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin()).or(where) : date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin())
                     break
 
-                case (value instanceof Collection):
+                case { value instanceof Collection }:
                     CollectionPath collection = pathBuilder.getCollection(v.getKey(), value.getClass())
                     if (collection != null) {
                         if (!(value instanceof Collection))
                             where = where != null ? paramMode == ParamMode.AND ? collection.contains(value).and(where) : collection.contains(value).or(where) : collection.contains(value)
                         else
                             for (Object val : (Collection) value) {
-                                if (val == null)
+                                if (val == null) {
                                     where = where != null ? paramMode == ParamMode.AND ? collection.isEmpty().and(where) : collection.isEmpty().or(where) : collection.isEmpty()
-                                else
+                                    break
+                                } else
                                     where = where != null ? paramMode == ParamMode.AND ? collection.contains(val).and(where) : collection.contains(val).or(where) : collection.contains(val)
                             }
                     }

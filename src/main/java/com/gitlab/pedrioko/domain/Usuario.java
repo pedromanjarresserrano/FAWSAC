@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -23,7 +22,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @NoDuplicate(values = {"username", "email", "cedula"})
 public @Data
-class Usuario implements Serializable {
+class Usuario extends BaseEntity {
 
     /**
      * The Constant serialVersionUID.

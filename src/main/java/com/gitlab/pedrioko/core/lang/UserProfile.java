@@ -3,16 +3,16 @@ package com.gitlab.pedrioko.core.lang;
 import com.gitlab.pedrioko.core.lang.annotation.NoDuplicate;
 import com.gitlab.pedrioko.core.lang.annotation.NoEmpty;
 import com.gitlab.pedrioko.core.lang.annotation.TextArea;
+import com.gitlab.pedrioko.domain.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @NoDuplicate("nombre")
 public @Data
-class UserProfile implements Serializable {
+class UserProfile extends BaseEntity {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

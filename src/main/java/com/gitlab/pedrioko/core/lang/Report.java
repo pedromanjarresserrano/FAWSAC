@@ -2,15 +2,15 @@ package com.gitlab.pedrioko.core.lang;
 
 import com.gitlab.pedrioko.core.lang.annotation.NoDuplicate;
 import com.gitlab.pedrioko.core.lang.annotation.NoEmpty;
+import com.gitlab.pedrioko.domain.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @NoDuplicate(values = {"nombre"})
 public @Data
-class Report implements Serializable {
+class Report extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;

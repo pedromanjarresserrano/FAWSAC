@@ -5,11 +5,10 @@ import com.gitlab.pedrioko.core.zk.component.model.enums.ChartType;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 public @Data
-class Grafico implements Serializable {
+class Grafico extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

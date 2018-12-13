@@ -1,8 +1,10 @@
 package com.gitlab.pedrioko.spring.security;
 
 import com.gitlab.pedrioko.core.api.StaticResouceLocation;
+import com.gitlab.pedrioko.core.hibernate.interceptors.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +44,15 @@ public class ServletsConfig {
         return resolver;
     }
 
+    @Bean
+    public HibernatePropertiesCustomizer getInterceptor(UserInterceptor userInterceptor) {
+        return new HibernatePropertiesCustomizer() {
+            @Override
+            public void customize(Map<String, Object> hibernateProperties) {
+                hibernateProperties.put("hibernate.ejb.interceptor", userInterceptor);
+            }
+        };
+    }
 
     @Bean
     public ServletRegistrationBean dHtmlLayoutServlet() {
