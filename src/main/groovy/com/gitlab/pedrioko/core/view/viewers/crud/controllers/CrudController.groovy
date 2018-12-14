@@ -21,11 +21,13 @@ import com.querydsl.core.types.dsl.PathBuilder
 import com.querydsl.core.types.dsl.StringPath
 import lombok.Getter
 import lombok.Setter
+import org.apache.commons.collections4.CollectionUtils
 
 import java.lang.reflect.Field
 import java.util.function.Function
 import java.util.stream.Collectors
 
+import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.getIdValue
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean
 
 public class CrudController {
@@ -70,20 +72,20 @@ public class CrudController {
     }
 
     void setValue(List value) {
-        values.clear()
-        values.addAll(value)
-        postEvent.forEach { it -> it.doSomething() }
+        if (!CollectionUtils.isEqualCollection(values, value)) {
+            values.clear()
+            values.addAll(value)
+            postEvent.forEach { it -> it.doSomething() }
+        }
 
     }
 
     void setValue(ArrayList value) {
-        values.clear()
-        values.addAll(value)
-        postEvent.forEach { it -> it.doSomething() }
+        setValue((List) value)
     }
 
     List<String> getValueIds() {
-        return (List<String>) values.stream().map { it -> ReflectionJavaUtil.getIdValue(it) }.map { it -> it.toString() }.collect(Collectors.toList())
+        return (List<String>) values.stream().map { it -> getIdValue(it) }.map { it -> it.toString() }.collect(Collectors.toList())
     }
 
 
@@ -129,18 +131,13 @@ public class CrudController {
             if (value != null) {
                 Field field = ReflectionJavaUtil.getField(klass, value)
                 OrderSpecifier asc = pathBuilder.getComparable(value, field.getType()).asc()
-                setValue(where == null ?
-                        (ArrayList)
-                                ((limit != 0) ?
-                                        crudService.query().from(pathBuilder).orderBy(asc).offset(offSet).limit(limit).fetch()
-                                        :
-                                        crudService.query().from(pathBuilder).orderBy(asc).fetch())
-                        :
-                        (ArrayList)
-                                ((limit != 0) ?
-                                        crudService.query().from(pathBuilder).where(where).offset(offSet).limit(limit).orderBy(asc).fetch()
-                                        :
-                                        crudService.query().from(pathBuilder).where(where).orderBy(asc).fetch()))
+                setValue((ArrayList) (
+                        where == null ?
+                                crudService.query().from(pathBuilder).orderBy(asc).offset(offSet).limit(limit).fetch()
+                                :
+                                crudService.query().from(pathBuilder).where(where).offset(offSet).limit(limit).orderBy(asc).fetch())
+                )
+
             }
         } else {
             List<?> fetch = limit != 0 ? jpaQuery.offset(offSet).limit(limit).fetch() : jpaQuery.fetch()
@@ -229,6 +226,8 @@ public class CrudController {
     }
 
     void setPage(int offSet, int limit) {
+        if (limit == 0)
+            throw new IllegalArgumentException("Limit can't be 0")
         if (this.offSet != offSet || this.limit != limit) {
             this.offSet = offSet
             this.limit = limit

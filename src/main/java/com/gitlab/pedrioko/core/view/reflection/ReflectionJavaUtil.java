@@ -9,6 +9,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.Id;
+import javax.persistence.Version;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -33,6 +34,19 @@ public class ReflectionJavaUtil {
         List<Field> fields = getFields(obj.getClass());
         Optional<Field> optional = fields.stream().filter(e -> e.isAnnotationPresent(Id.class)).findFirst();
         return optional.isPresent() ? getValueFieldObject(optional.get().getName(), obj) : null;
+    }
+
+    public static Object getVersionValue(Object obj) {
+        List<Field> fields = getFields(obj.getClass());
+        Optional<Field> optional = fields.stream().filter(e -> e.isAnnotationPresent(Version.class)).findFirst();
+        return optional.isPresent() ? getValueFieldObject(optional.get().getName(), obj) : null;
+    }
+
+    public static boolean newsIsUpdate(Object news, Object old) {
+        if (getIdValue(news).equals(getIdValue(old))) {
+            throw new IllegalArgumentException("Different Id value");
+        }
+        return Long.parseLong(getVersionValue(news).toString()) > Long.parseLong(getVersionValue(old).toString());
     }
 
     public static void removeById(List<?> list, Object id) {
