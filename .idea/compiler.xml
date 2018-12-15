@@ -10,8 +10,5 @@
         <module name="e-reader" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="dante" target="1.5" />
-    </bytecodeTargetLevel>
   </component>
 </project>

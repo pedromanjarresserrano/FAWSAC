@@ -8,8 +8,15 @@
         <option value="reformat" />
         <option value="reformatChangedCode" />
         <option value="compile" />
+        <option value="unqualifiedFieldAccess" />
+        <option value="unqualifiedMethodAccess" />
+        <option value="missingOverrideAnnotation" />
+        <option value="generateSerialVersionUID" />
+        <option value="unnecessaryThis" />
+        <option value="unnecessaryFinalOnLocalVariableOrParameter" />
+        <option value="explicitTypeCanBeDiamond" />
+        <option value="suppressAnnotation" />
         <option value="unnecessarySemicolon" />
-        <option value="accessCanBeTightened" />
       </set>
     </option>
     <option name="configurationPath" value="" />
