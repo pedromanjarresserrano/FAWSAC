@@ -52,9 +52,9 @@
             <url>http://mavensync.zkoss.org/maven2</url>
         </repository>
         <repository>
-        <id>Central</id>
-        <url>http://central.maven.org/maven2/</url>
-    </repository>
+            <id>Central</id>
+            <url>http://central.maven.org/maven2/</url>
+        </repository>
 
     </repositories>
     <dependencies>
