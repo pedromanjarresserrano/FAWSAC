@@ -45,10 +45,10 @@ public class ChosenFileEntityBox extends Bandbox {
         auxmodel = new LinkedHashSet<>();
         listsitems = new ArrayList<>();
         setInstant(true);
-        this.setAutodrop(true);
+        setAutodrop(true);
 
-        this.addEventListener(Events.ON_CHANGING, eventEventListener);
-        this.addEventListener(Events.ON_CHANGE,eventEventListener);
+        addEventListener(Events.ON_CHANGING, eventEventListener);
+        addEventListener(Events.ON_CHANGE, eventEventListener);
         popup = new Bandpopup();
         popup.setSclass("chosen-file-entity-popup");
         getChildren().add(popup);
@@ -97,7 +97,7 @@ public class ChosenFileEntityBox extends Bandbox {
                 setLabel();
             }
         });
-        this.setStyle("overflow-x:hidden;");
+        setStyle("overflow-x:hidden;");
         popup.getChildren().add(list);
     }
 
@@ -112,7 +112,7 @@ public class ChosenFileEntityBox extends Bandbox {
 
 
     private void setLabel() {
-        List<String> collect = list.getSelectedItems().stream().map(Listitem::getValue).map(e -> {
+        List<String> collect = valueSelection.stream().map(e -> {
             if (e == null) {
                 return "Unassaignment";
             } else return e.toString();
@@ -179,7 +179,7 @@ public class ChosenFileEntityBox extends Bandbox {
             Class<?> aClass = model.get(0).getClass();
             if (ChosenItem.class.isAssignableFrom(aClass)) {
                 this.model = new LinkedHashSet<>(model);
-                this.auxmodel = new LinkedHashSet<>(model);
+                auxmodel = new LinkedHashSet<>(model);
                 load();
             } else {
                 throw new IllegalArgumentException("Class " + aClass + " not implement interface CrudGridItem");
