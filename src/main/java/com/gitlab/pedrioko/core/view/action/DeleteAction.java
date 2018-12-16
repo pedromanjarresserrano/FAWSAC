@@ -80,7 +80,7 @@ public class DeleteAction implements Action {
 
     @Override
     public FormStates getFormState() {
-        return null;
+        return FormStates.DELETE;
     }
 
     @Override

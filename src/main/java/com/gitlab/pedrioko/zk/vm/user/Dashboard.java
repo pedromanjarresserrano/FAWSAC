@@ -3,6 +3,7 @@ package com.gitlab.pedrioko.zk.vm.user;
 import com.gitlab.pedrioko.core.view.forms.LoginForm;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
+import com.gitlab.pedrioko.core.zk.component.Video;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import com.gitlab.pedrioko.zk.composer.interfaces.DashBoardComponent;
 import org.zkoss.zk.ui.Executions;
@@ -44,6 +45,10 @@ public class Dashboard extends SelectorComposer<Window> {
     public void doAfterCompose(Window window) throws Exception {
         super.doAfterCompose(window);
         Div component = (Div) window.getChildren().get(0);
+        Video video = new Video();
+        //video.setSrc("http://localhost:8080/file?filename=F:/Cache-Media/private-victoria-pure-horny-blonde-takes-on-four-bl2_2160p.mp4");
+        //  video.setSrc("http://localhost:8080/file?filename=F:/Cache-Media/kendra-sensual_1080p.mp4");
+        //  component.appendChild(video);
         component.appendChild(col1);
         component.appendChild(col2);
         col1.setClass("col-lg-6 col-md-6 col-sm-6");

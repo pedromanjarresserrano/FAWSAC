@@ -1,9 +1,11 @@
 package com.gitlab.pedrioko.core.view.api.impl;
 
 import com.gitlab.pedrioko.core.lang.annotation.FieldFilter;
+import com.gitlab.pedrioko.core.lang.annotation.FileSize;
 import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
+import com.gitlab.pedrioko.core.zk.component.FileSizeRangeBox;
+import com.gitlab.pedrioko.core.zk.component.LongRangeBox;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zul.Longbox;
 
 import java.lang.reflect.Field;
 
@@ -17,7 +19,7 @@ public class LongFieldFilter implements FieldFilterComponent {
 
     @Override
     public Component getComponent(Field field) {
-        return new Longbox();
+        return field.isAnnotationPresent(FileSize.class) ? new FileSizeRangeBox() : new LongRangeBox();
     }
 
 }

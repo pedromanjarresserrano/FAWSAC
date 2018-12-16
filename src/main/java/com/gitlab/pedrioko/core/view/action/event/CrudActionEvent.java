@@ -22,6 +22,6 @@ class CrudActionEvent {
     }
 
     public FormStates getFormstate() {
-        return source.getEstado();
+        return formstate;
     }
 }

@@ -25,10 +25,12 @@ import java.util.List;
  */
 public class MultipartFileSender {
 
-    private static final int DEFAULT_BUFFER_SIZE = 20480; // ..bytes = 20KB.
-    private static final long DEFAULT_EXPIRE_TIME = 604800000L; // ..ms = 1 week.
-    private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private static final int DEFAULT_BUFFER_SIZE = 2048000; // ..bytes = 20KB.
+    private static final long DEFAULT_EXPIRE_TIME = 60480000L; // ..ms = 1 week.
+    private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
+
     Path filepath;
     HttpServletRequest request;
     HttpServletResponse response;
@@ -172,7 +174,7 @@ public class MultipartFileSender {
                         return;
                     }
 
-                    // Add range.                    
+                    // Add range.
                     ranges.add(new Range(start, end, length));
                 }
             }
@@ -272,9 +274,8 @@ public class MultipartFileSender {
 
         /**
          * Construct a byte range.
-         *
          * @param start Start of the byte range.
-         * @param end   End of the byte range.
+         * @param end End of the byte range.
          * @param total Total length of the byte source.
          */
         public Range(long start, long end, long total) {
@@ -316,14 +317,12 @@ public class MultipartFileSender {
             }
         }
     }
-
     private static class HttpUtils {
 
         /**
          * Returns true if the given accept header accepts the given value.
-         *
          * @param acceptHeader The accept header.
-         * @param toAccept     The value to be accepted.
+         * @param toAccept The value to be accepted.
          * @return True if the given accept header accepts the given value.
          */
         public static boolean accepts(String acceptHeader, String toAccept) {
@@ -337,9 +336,8 @@ public class MultipartFileSender {
 
         /**
          * Returns true if the given match header matches the given value.
-         *
          * @param matchHeader The match header.
-         * @param toMatch     The value to be matched.
+         * @param toMatch The value to be matched.
          * @return True if the given match header matches the given value.
          */
         public static boolean matches(String matchHeader, String toMatch) {

@@ -38,7 +38,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
     Long imageHeight;
     //private int PAGE_SIZE = 16;
     //private Paging paging;
-    private Map<Float, GridItem> gridItemMap = new LinkedMap<Float, GridItem>();
+    private Map<Float, GridItem> gridItemMap = new LinkedMap<>();
 
     public CrudGrid(Class<?> klass) {
         super();
@@ -89,10 +89,10 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
             Center center = new Center();
             center.appendChild(grid);
             center.setStyle("overflow-y:auto !important;");
-            this.appendChild(center);
+            appendChild(center);
             South south = new South();
             //     south.appendChild(paging);
-            this.appendChild(south);
+            appendChild(south);
 
         } else {
             throw new IllegalArgumentException("Class " + klass + " not implement interface CrudGridItem");
@@ -134,7 +134,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
                 row.setHeight("auto");
                 counter++;
 
-                if (counter == this.cellsInRow || (size < this.cellsInRow && counter == size)) {
+                if (counter == cellsInRow || (size < cellsInRow && counter == size) || page.indexOf(i) + 1 == page.size()) {
                     rows.appendChild(row);
                     row = new Row();
                     counter = 0;
@@ -160,7 +160,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
     }
 
     private List<OnEvent> getEvent(CrudEvents events) {
-        List<OnEvent> onEvents = this.onEvent.get(CrudEvents.ON_RIGHT_CLICK);
+        List<OnEvent> onEvents = onEvent.get(CrudEvents.ON_RIGHT_CLICK);
         return onEvents == null ? new ArrayList<>() : onEvents;
     }
 
@@ -200,12 +200,12 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
 
 
     public void addEventOnEvent(CrudEvents e, OnEvent o) {
-        List<OnEvent> onEvents = this.onEvent.get(e);
+        List<OnEvent> onEvents = onEvent.get(e);
         if (onEvents == null) {
             onEvents = new ArrayList<>();
         }
         onEvents.add(o);
-        this.onEvent.put(e, onEvents);
+        onEvent.put(e, onEvents);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.core.view.viewers.crud.controllers;
 
-import com.gitlab.pedrioko.core.lang.DateRange;
+import com.gitlab.pedrioko.core.api.RangeValue;
 import com.gitlab.pedrioko.core.lang.annotation.CrudOrderBy;
 import com.gitlab.pedrioko.core.view.api.OnEvent;
 import com.gitlab.pedrioko.core.view.api.OnQuery;
@@ -15,10 +15,7 @@ import com.gitlab.pedrioko.core.view.viewers.crud.grid.AlphabetFilter;
 import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.CollectionPath;
-import com.querydsl.core.types.dsl.DatePath;
-import com.querydsl.core.types.dsl.PathBuilder;
-import com.querydsl.core.types.dsl.StringPath;
+import com.querydsl.core.types.dsl.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -65,7 +62,7 @@ public class CrudController {
     public void addValue(Object value) {
         if (!values.contains(value)) {
             ((ArrayList) values).add(value);
-            this.onEvent.get(CrudEvents.ON_ADD).forEach(it -> it.doSomething());
+            onEvent.get(CrudEvents.ON_ADD).forEach(it -> it.doSomething());
         } else
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("onlist"), MessageType.WARNING);
     }
@@ -161,9 +158,9 @@ public class CrudController {
                         stringPath.startsWith(substring).or(stringPath.startsWith(lowerCase));
                 continue;
             }
-            if (value instanceof DateRange) {
-                DatePath<Date> date = pathBuilder.getDate(v.getKey(), Date.class);
-                where = where != null ? paramMode == ParamMode.AND ? date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin()).and(where) : date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin()).or(where) : date.between(((DateRange) value).getInicio(), ((DateRange) value).getFin());
+            if (value instanceof RangeValue) {
+                NumberPath date = pathBuilder.getNumber(v.getKey(), ((RangeValue) value).getInicio().getClass());
+                where = where != null ? paramMode == ParamMode.AND ? date.between((Number) ((RangeValue) value).getInicio(), (Number) ((RangeValue) value).getFin()).and(where) : date.between((Number) ((RangeValue) value).getInicio(), (Number) ((RangeValue) value).getFin()).or(where) : date.between((Number) ((RangeValue) value).getInicio(), (Number) ((RangeValue) value).getFin());
                 continue;
             }
             if (value instanceof Collection) {
@@ -188,19 +185,24 @@ public class CrudController {
         return where;
     }
 
+    private Predicate getRange(Predicate where, BooleanExpression between) {
+        where = where != null ? paramMode == ParamMode.AND ? between.and(where) : between.or(where) : between;
+        return where;
+    }
+
 
     public void addEventOnEvent(CrudEvents e, OnEvent o) {
-        List<OnEvent> onEvents = this.onEvent.get(e);
+        List<OnEvent> onEvents = onEvent.get(e);
         if (onEvents == null) {
             onEvents = new ArrayList<>();
         }
         onEvents.add(o);
-        this.onEvent.put(e, onEvents);
+        onEvent.put(e, onEvents);
     }
 
 
     public void addEventPostQuery(OnQuery o) {
-        this.postEvent.add(o);
+        postEvent.add(o);
 
     }
 
@@ -232,7 +234,7 @@ public class CrudController {
     public long getCount() {
         map.putAll(paramsroot);
         PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
-        return crudService.query().from(pathBuilder).where(getPredicate(map, pathBuilder, null)).fetchCount();
+        return crudService.query().from(pathBuilder).where(getPredicate(pathBuilder)).fetchCount();
 
 
     }

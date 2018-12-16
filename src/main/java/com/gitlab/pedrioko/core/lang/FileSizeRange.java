@@ -5,13 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 @AllArgsConstructor
 @NoArgsConstructor
 public @Data
-class DateRange implements RangeValue {
-    private Date inicio;
-    private Date fin;
+class FileSizeRange implements RangeValue {
+    private BigDecimal inicio;
+    private BigDecimal fin;
 }
 

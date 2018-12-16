@@ -17,8 +17,8 @@ public class ChosenFileEntityBox extends Bandbox {
     private static final long serialVersionUID = 1L;
 
     private transient Set<?> valueSelection;
-    private transient Set<?> model;
-    private transient Set<?> auxmodel;
+    private transient LinkedList<?> model;
+    private transient LinkedList<?> auxmodel;
     private Listbox list;
     private List<Listitem> listsitems;
     private boolean checkmark = true;
@@ -27,22 +27,22 @@ public class ChosenFileEntityBox extends Bandbox {
 
         String valuex = getValue();
         if (valuex == null || valuex.isEmpty()) {
-            model = new LinkedHashSet<>(auxmodel);
+            model = new LinkedList<>(auxmodel);
             load();
         } else {
             String value = valuex.substring(valuex.lastIndexOf(',') + 1).trim();
-            model = auxmodel.stream().filter(w -> ((ChosenItem) w).getVisualName().toLowerCase().startsWith(value.toLowerCase())).collect(Collectors.toSet());
+            model = new LinkedList<>(auxmodel.stream().filter(w -> ((ChosenItem) w).getVisualName().toLowerCase().startsWith(value.toLowerCase())).collect(Collectors.toList()));
             LinkedList<?> list = new LinkedList<>(model);
             Collections.sort(list, (x, y) -> ((ChosenItem) x).getVisualName().toLowerCase().compareToIgnoreCase(((ChosenItem) y).getVisualName().toLowerCase()));
-            model = new LinkedHashSet<>(list);
+            model = new LinkedList<>(list);
             load();
         }
     };
 
     public ChosenFileEntityBox() {
         valueSelection = new LinkedHashSet<>();
-        model = new LinkedHashSet<>();
-        auxmodel = new LinkedHashSet<>();
+        model = new LinkedList<>();
+        auxmodel = new LinkedList<>();
         listsitems = new ArrayList<>();
         setInstant(true);
         setAutodrop(true);
@@ -104,7 +104,7 @@ public class ChosenFileEntityBox extends Bandbox {
     private void setListener(Listitem listitem) {
         listitem.addEventListener(Events.ON_CLICK, w -> {
             List<Listitem> listselected = new ArrayList<>(list.getSelectedItems());
-            //valueSelection.clear();
+            valueSelection.clear();
             listselected.forEach(x -> valueSelection.add(x.getValue()));
             setLabel();
         });
@@ -118,7 +118,7 @@ public class ChosenFileEntityBox extends Bandbox {
             } else return e.toString();
         }).collect(Collectors.toList());
         String join = String.join(", ", collect);
-        setValue(join);
+        setValue(join + (collect.isEmpty() ? "" : ", "));
     }
 
     /**
@@ -156,10 +156,8 @@ public class ChosenFileEntityBox extends Bandbox {
      * @param value the value to set
      */
     public void setValue(List<?> value) {
-
         valueSelection = new HashSet<>(value);
         load();
-
     }
 
     public boolean isCheckmark() {
@@ -178,8 +176,9 @@ public class ChosenFileEntityBox extends Bandbox {
         if (model != null && !model.isEmpty()) {
             Class<?> aClass = model.get(0).getClass();
             if (ChosenItem.class.isAssignableFrom(aClass)) {
-                this.model = new LinkedHashSet<>(model);
-                auxmodel = new LinkedHashSet<>(model);
+                LinkedList<?> model1 = new LinkedList<>(model);
+                this.model = model1;
+                auxmodel = new LinkedList<>(model);
                 load();
             } else {
                 throw new IllegalArgumentException("Class " + aClass + " not implement interface CrudGridItem");

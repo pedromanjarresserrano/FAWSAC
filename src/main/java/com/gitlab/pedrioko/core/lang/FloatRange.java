@@ -5,13 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @AllArgsConstructor
 @NoArgsConstructor
 public @Data
-class DateRange implements RangeValue {
-    private Date inicio;
-    private Date fin;
+class FloatRange implements RangeValue {
+    private Float inicio;
+    private Float fin;
 }
 
