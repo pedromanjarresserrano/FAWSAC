@@ -42,6 +42,9 @@ gen/
 doc/
 .classpath
 .project
+.idea
+gradle/
+.gradle
 .directory
 .idea
 *.iml
