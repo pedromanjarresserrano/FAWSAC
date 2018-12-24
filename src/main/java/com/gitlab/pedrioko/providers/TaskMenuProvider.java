@@ -21,6 +21,7 @@ public class TaskMenuProvider implements MenuProvider {
     private ThreadPoolTaskExecutor taskExecutor;
 
     private static int totalCount = 0;
+    private ThreadPoolExecutor threadPoolExecutor;
 
     @Override
     public String getLabel() {
@@ -29,6 +30,7 @@ public class TaskMenuProvider implements MenuProvider {
 
     @Override
     public Component getView() {
+        this.threadPoolExecutor = taskExecutor.getThreadPoolExecutor();
         Window window = new Window();
         Label label = new Label();
         window.appendChild(label);
@@ -37,7 +39,7 @@ public class TaskMenuProvider implements MenuProvider {
         label.setValue("Task at " + getProcent() + "%");
         timer.addEventListener(Events.ON_TIMER, e -> {
             long procent = getProcent();
-            label.setValue("Task at " + procent + "%");
+            label.setValue("Task at " + procent + "% - " + (threadPoolExecutor.getCompletedTaskCount() - totalCount) + "/" + (threadPoolExecutor.getTaskCount() - totalCount) + "");
             progressmeter.setValue((int) procent);
         });
         progressmeter.setWidth("100%");
@@ -50,7 +52,6 @@ public class TaskMenuProvider implements MenuProvider {
     }
 
     private long getProcent() {
-        ThreadPoolExecutor threadPoolExecutor = taskExecutor.getThreadPoolExecutor();
         long taskCount = threadPoolExecutor.getTaskCount();
         long completedTaskCount = threadPoolExecutor.getCompletedTaskCount();
         int Qusize = threadPoolExecutor.getQueue().size();

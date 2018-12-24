@@ -133,7 +133,15 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
                 row.appendChild(div);
                 row.setHeight("auto");
                 counter++;
-
+                if (page.indexOf(i) + 1 == page.size() && counter < cellsInRow) {
+                    int left = counter - cellsInRow;
+                    if (left < 0)
+                        left = left * -1;
+                    for (int w = 0; w < left; w++) {
+                        row.appendChild(new Div());
+                        counter++;
+                    }
+                }
                 if (counter == cellsInRow || (size < cellsInRow && counter == size) || page.indexOf(i) + 1 == page.size()) {
                     rows.appendChild(row);
                     row = new Row();
