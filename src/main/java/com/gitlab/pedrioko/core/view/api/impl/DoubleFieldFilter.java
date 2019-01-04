@@ -1,9 +1,11 @@
 package com.gitlab.pedrioko.core.view.api.impl;
 
+import com.gitlab.pedrioko.core.lang.annotation.Duration;
 import com.gitlab.pedrioko.core.lang.annotation.FieldFilter;
 import com.gitlab.pedrioko.core.lang.annotation.FileSize;
 import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
 import com.gitlab.pedrioko.core.zk.component.DoubleRangeBox;
+import com.gitlab.pedrioko.core.zk.component.DurationRangeBox;
 import com.gitlab.pedrioko.core.zk.component.FileSizeRangeBox;
 import org.zkoss.zk.ui.Component;
 
@@ -19,7 +21,7 @@ public class DoubleFieldFilter implements FieldFilterComponent {
 
     @Override
     public Component getComponent(Field field) {
-        return field.isAnnotationPresent(FileSize.class) ? new FileSizeRangeBox() : new DoubleRangeBox();
+        return field.isAnnotationPresent(FileSize.class) ? new FileSizeRangeBox() : field.isAnnotationPresent(Duration.class) ? new DurationRangeBox() : new DoubleRangeBox();
     }
 
 }

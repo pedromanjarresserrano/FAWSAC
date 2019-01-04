@@ -85,7 +85,20 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public List<FileEntity> generatePreviewImage(String filePath) {
-        return this.generatePreviewImage(filePath, 10);
+        return generatePreviewImage(filePath, 10);
+    }
+
+    @Override
+    public double getTime(String filePath) {
+        try {
+            SeekableByteChannel bc = NIOUtils.readableFileChannel(filePath);
+            MP4Demuxer dm = MP4Demuxer.createMP4Demuxer(bc);
+            DemuxerTrack vt = dm.getVideoTrack();
+            DemuxerTrackMeta meta = vt.getMeta();
+            return meta.getTotalDuration();
+        } catch (Exception e) {
+            return 0D;
+        }
     }
 
 }

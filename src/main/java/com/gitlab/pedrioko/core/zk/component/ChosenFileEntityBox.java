@@ -102,10 +102,12 @@ public class ChosenFileEntityBox extends Bandbox {
     }
 
     private void setListener(Listitem listitem) {
-        listitem.addEventListener(Events.ON_CLICK, w -> {
-            List<Listitem> listselected = new ArrayList<>(list.getSelectedItems());
-            valueSelection.clear();
-            listselected.forEach(x -> valueSelection.add(x.getValue()));
+        listitem.addEventListener(Events.ON_CLICK, evt -> {
+            if (valueSelection.contains(listitem.getValue())) {
+                valueSelection.remove(listitem.getValue());
+            } else {
+                valueSelection.add(listitem.getValue());
+            }
             setLabel();
         });
     }
@@ -125,8 +127,6 @@ public class ChosenFileEntityBox extends Bandbox {
      * @return the value
      */
     public List<?> getValueSelection() {
-        valueSelection.clear();
-        new ArrayList<>(list.getSelectedItems()).forEach(e -> valueSelection.add(e.getValue()));
         if (valueSelection.isEmpty())
             return null;
         return new ArrayList<>(valueSelection);

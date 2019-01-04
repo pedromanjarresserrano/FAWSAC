@@ -1,25 +1,24 @@
 package com.gitlab.pedrioko.spring;
 
+import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-//@Configuration
-public class PortConfig {
+@Component
+public class PortConfig implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
     @Value("#{'${server.ports}'.split(',')}")
     private List<String> myList;
 
-   /*@Bean
-    public EmbeddedServletContainerCustomizer containerCustomizer() {
-        return container -> {
-            if (container instanceof TomcatEmbeddedServletContainerFactory) {
-                TomcatEmbeddedServletContainerFactory containerFactory = (TomcatEmbeddedServletContainerFactory) container;
-                myList.forEach(e -> {
-                    Connector connector = new Connector(TomcatEmbeddedServletContainerFactory.DEFAULT_PROTOCOL);
-                    connector.setPort(Integer.valueOf(e));
-                    containerFactory.addAdditionalTomcatConnectors(connector);
-                });
-            }
-        };
-    }*/
+    @Override
+    public void customize(TomcatServletWebServerFactory factory) {
+        myList.forEach(e -> {
+            Connector connector = new Connector(TomcatServletWebServerFactory.DEFAULT_PROTOCOL);
+            connector.setPort(Integer.valueOf(e));
+            factory.addAdditionalTomcatConnectors(connector);
+        });
+    }
 }

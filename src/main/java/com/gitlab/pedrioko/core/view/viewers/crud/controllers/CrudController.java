@@ -159,8 +159,8 @@ public class CrudController {
                 continue;
             }
             if (value instanceof RangeValue) {
-                NumberPath date = pathBuilder.getNumber(v.getKey(), ((RangeValue) value).getInicio().getClass());
-                where = where != null ? paramMode == ParamMode.AND ? date.between((Number) ((RangeValue) value).getInicio(), (Number) ((RangeValue) value).getFin()).and(where) : date.between((Number) ((RangeValue) value).getInicio(), (Number) ((RangeValue) value).getFin()).or(where) : date.between((Number) ((RangeValue) value).getInicio(), (Number) ((RangeValue) value).getFin());
+                ComparablePath date = pathBuilder.getComparable(v.getKey(), ((RangeValue) value).getInicio().getClass());
+                where = where != null ? paramMode == ParamMode.AND ? date.between((Comparable) ((RangeValue) value).getInicio(), (Comparable) ((RangeValue) value).getFin()).and(where) : date.between((Comparable) ((RangeValue) value).getInicio(), (Comparable) ((RangeValue) value).getFin()).or(where) : date.between((Comparable) ((RangeValue) value).getInicio(), (Comparable) ((RangeValue) value).getFin());
                 continue;
             }
             if (value instanceof Collection) {

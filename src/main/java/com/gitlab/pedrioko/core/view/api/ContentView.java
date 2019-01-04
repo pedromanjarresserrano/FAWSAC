@@ -10,6 +10,8 @@ public interface ContentView {
 
     void changeLabel(String id, String newLabel);
 
+    void loadView(String id, String menu);
+
     void changeIcon(String id, String newLabel);
 
     void addView(Component component, String id, String label);

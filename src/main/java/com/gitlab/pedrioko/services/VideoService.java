@@ -9,4 +9,7 @@ public interface VideoService {
     List<FileEntity> generatePreviewImage(String filePath, int previewCount);
 
     List<FileEntity> generatePreviewImage(String filePath);
+
+    double getTime(String filePath);
+
 }

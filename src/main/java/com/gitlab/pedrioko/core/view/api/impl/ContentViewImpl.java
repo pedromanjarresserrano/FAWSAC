@@ -25,6 +25,8 @@ public class ContentViewImpl implements ContentView {
     private Tabbox tab;
     @Autowired
     private FHSessionUtil fhSessionUtil;
+    @Autowired
+    private List<MenuProvider> menuProviders;
 
     @PostConstruct
     private void init() {
@@ -84,6 +86,11 @@ public class ContentViewImpl implements ContentView {
         Optional<Component> tab = getTab(id);
         if (tab.isPresent())
             ((LabelImageElement) tab.get()).setLabel(newLabel);
+    }
+
+    @Override
+    public void loadView(String id, String menu) {
+        menuProviders.stream().filter(e -> e.getGroup().compareToIgnoreCase(id)==0).filter(e -> e.getLabel().compareToIgnoreCase(menu)==0).forEach(this::addContent);
     }
 
     @Override

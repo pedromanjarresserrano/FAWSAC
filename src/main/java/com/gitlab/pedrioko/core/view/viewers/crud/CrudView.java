@@ -67,7 +67,7 @@ public class CrudView extends Tabpanel {
 
     public CrudView(Class<?> klass) {
         super();
-        this.crudviewmode = CrudMode.MAINCRUD;
+        crudviewmode = CrudMode.MAINCRUD;
         view(klass, getBean(PropertiesUtil.class).getFieldTable(klass));
 
     }
@@ -86,14 +86,14 @@ public class CrudView extends Tabpanel {
     public void useAlphabetFilter() {
         if (gridTable != null) {
             North north = new North();
-            north.appendChild(new AlphabetFilter(crudController, this.klass));
+            north.appendChild(new AlphabetFilter(crudController, klass));
             gridTable.appendChild(north);
         }
     }
 
     protected void init(Class<?> klass, Boolean useGrid) {
         crudviewmode = CrudMode.MAINCRUD;
-            this.klass = klass;
+        this.klass = klass;
         if (useGrid) {
             gridTable = new CrudGrid(klass);
             createUI(gridTable);
@@ -113,8 +113,14 @@ public class CrudView extends Tabpanel {
             borderlayout.appendChild(south);
             crudController.addEventPostQuery(() -> gridTable.update());
             crudController.addEventPostQuery(() -> {
-                paging.setTotalSize((int) crudController.getCount());
+                int pc = paging.getActivePage();
+                int count = (int) crudController.getCount();
+                paging.setTotalSize(count);
                 paging.setPageSize(PAGE_SIZE);
+                int i = count / PAGE_SIZE;
+                if (i <= pc)
+                    crudController.setPage(i * PAGE_SIZE, PAGE_SIZE);
+
             });
             crudController.setPage(0, PAGE_SIZE);
             crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> gridTable.update());
@@ -126,7 +132,7 @@ public class CrudView extends Tabpanel {
         }
         crudController.doQuery();
         popup = new CrudMenuContext(klass, ApplicationContextUtils.getBeans(Action.class));
-        this.appendChild(popup);
+        appendChild(popup);
         gridTable.addEventOnEvent(CrudEvents.ON_RIGHT_CLICK, () -> {
             CrudActionEvent data = new CrudActionEvent(gridTable.getSelectedValue());
             data.setCrudViewParent(this);
@@ -147,7 +153,7 @@ public class CrudView extends Tabpanel {
         borderlayout = new Borderlayout();
         divbar = new Div();
         actions = new Div();
-        toolbar = new CrudViewBar(this.klass, this, (CrudDisplayTable) table);
+        toolbar = new CrudViewBar(klass, this, (CrudDisplayTable) table);
         divbar.appendChild(toolbar);
         borderlayout.setStyle("height:100%;");
         east = new East();
@@ -297,7 +303,7 @@ public class CrudView extends Tabpanel {
                 String s = split[0];
                 Class<?> aClass = Class.forName(s);
                 this.klass = aClass;
-                this.crudviewmode = CrudMode.MAINCRUD;
+                crudviewmode = CrudMode.MAINCRUD;
                 view(aClass, getBean(PropertiesUtil.class).getFieldTable(aClass));
             }
         }
