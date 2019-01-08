@@ -1,4 +1,4 @@
-package com.ats.config;
+package com.gitlab.pedrioko.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
@@ -22,7 +22,6 @@ public class ZKCEConfig {
     private static String UPDATE_URI = "/zkau"; //servlet mapping for ZK's update servlet
     private static String ZUL_VIEW_RESOLVER_PREFIX = UPDATE_URI + ClassWebResource.PATH_PREFIX + "/zul/";
 
-    //private WebManager webManager;
 
     @Bean
     public ViewResolver zulViewResolver() {

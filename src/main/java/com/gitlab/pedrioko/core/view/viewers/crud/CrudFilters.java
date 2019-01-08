@@ -25,7 +25,7 @@ class CrudFilters extends Borderlayout {
     private final Random random = new Random();
     private List<String> fieldsfilters;
 
-    CrudFilters(Class<?> klass, CrudView parent) {
+    public CrudFilters(Class<?> klass, CrudView parent) {
         this.klass = klass;
         List<Field> listfield = ReflectionJavaUtil.getFields(getKlass()).stream()
                 .filter(e -> !e.isAnnotationPresent(Version.class) && !e.getName().equalsIgnoreCase("serialVersionUID")
@@ -53,7 +53,21 @@ class CrudFilters extends Borderlayout {
             parent.getCrudController().doQuery();
             if (ZKUtil.isMobile()) ZKUtil.tootgleRegion(parent.getEast());
         });
+        child.setIconSclass("fas fa-search-plus");
         buttons.appendChild(child);
+
+        Button clsbutton = new Button();
+        clsbutton.setLabel("Clear");
+        clsbutton.setClass("btn btn-warning pull-right");
+        clsbutton.setIconSclass("fas fa-redo-alt");
+        clsbutton.addEventListener(Events.ON_CLICK, (e) -> {
+            binding.forEach((k, v) -> {
+                ReflectionZKUtil.setValueComponent(v, null);
+            });
+            parent.clearParams();
+            parent.getCrudController().doQuery();
+        });
+        buttons.appendChild(clsbutton);
         Center center = new Center();
         center.appendChild(filters);
         appendChild(center);

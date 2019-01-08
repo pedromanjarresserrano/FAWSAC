@@ -31,6 +31,7 @@ public class ReflectionJavaUtil {
     }
 
     public static Object getIdValue(Object obj) {
+        if (obj == null) return obj;
         List<Field> fields = getFields(obj.getClass());
         Optional<Field> optional = fields.stream().filter(e -> e.isAnnotationPresent(Id.class)).findFirst();
         return optional.isPresent() ? getValueFieldObject(optional.get().getName(), obj) : null;

@@ -1,4 +1,4 @@
-package com.ats.config;
+package com.gitlab.pedrioko.config;
 
 import org.springframework.context.annotation.Import;
 

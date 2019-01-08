@@ -4,6 +4,7 @@ import com.gitlab.pedrioko.core.api.StaticResouceLocation;
 import com.gitlab.pedrioko.core.hibernate.interceptors.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernatePropertiesCustomizer;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +21,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.zkoss.web.util.resource.ClassWebResource;
 import org.zkoss.zk.au.http.DHtmlUpdateServlet;
-import org.zkoss.zk.ui.http.DHtmlLayoutServlet;
+import org.zkoss.zk.ui.http.HttpSessionListener;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * The Class ServletsConfig.
@@ -45,6 +49,18 @@ public class ServletsConfig {
     }
 
     @Bean
+    @ConditionalOnMissingClass("org.zkoss.zats.mimic.Zats") //only allow custom update URI outside Zats testcases.
+    public ServletRegistrationBean customizableDHtmlUpdateServlet() {
+        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new DHtmlUpdateServlet(), UPDATE_URI + "/*");
+        servletRegistrationBean.setLoadOnStartup(1);
+        return servletRegistrationBean;
+    }
+
+    @Bean
+    public HttpSessionListener httpSessionListener() {
+        return new HttpSessionListener();
+    }
+    @Bean
     public HibernatePropertiesCustomizer getInterceptor(UserInterceptor userInterceptor) {
         return new HibernatePropertiesCustomizer() {
             @Override
@@ -52,27 +68,6 @@ public class ServletsConfig {
                 hibernateProperties.put("hibernate.ejb.interceptor", userInterceptor);
             }
         };
-    }
-
-    @Bean
-    public ServletRegistrationBean dHtmlLayoutServlet() {
-        Map<String, String> params = new HashMap<>();
-        params.put("update-uri", "/zkau");
-        DHtmlLayoutServlet dHtmlLayoutServlet = new DHtmlLayoutServlet();
-        ServletRegistrationBean reg = new ServletRegistrationBean(dHtmlLayoutServlet, "*.zul", "*.zhtml");
-        reg.setLoadOnStartup(1);
-        reg.setInitParameters(params);
-        return reg;
-    }
-
-    @Bean
-    public ServletRegistrationBean dHtmlUpdateServlet() {
-        Map<String, String> params = new HashMap<>();
-        params.put("update-uri", "/zkau/*");
-        ServletRegistrationBean reg = new ServletRegistrationBean(new DHtmlUpdateServlet(), "/zkau/*");
-        reg.setLoadOnStartup(2);
-        reg.setInitParameters(params);
-        return reg;
     }
 
     /**

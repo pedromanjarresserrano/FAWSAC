@@ -30,7 +30,7 @@ public class TaskMenuProvider implements MenuProvider {
 
     @Override
     public Component getView() {
-        this.threadPoolExecutor = taskExecutor.getThreadPoolExecutor();
+        threadPoolExecutor = taskExecutor.getThreadPoolExecutor();
         Window window = new Window();
         Label label = new Label();
         window.appendChild(label);
@@ -57,7 +57,7 @@ public class TaskMenuProvider implements MenuProvider {
         int Qusize = threadPoolExecutor.getQueue().size();
         long realTotal = taskCount - totalCount;
         long l = ((completedTaskCount - totalCount) * 100) / (realTotal == 0L ? 1 : realTotal);
-        if (l == 100) {
+        if (l == 100 && Qusize == 0) {
             totalCount += taskCount;
         }
         return taskCount > 0 ? l : 0;

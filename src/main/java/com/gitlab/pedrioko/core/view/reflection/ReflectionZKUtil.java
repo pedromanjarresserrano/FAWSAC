@@ -16,9 +16,7 @@ import org.zkoss.gmaps.Gmaps;
 import org.zkoss.util.resource.Labels;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zul.Checkbox;
-import org.zkoss.zul.Combobox;
-import org.zkoss.zul.Comboitem;
+import org.zkoss.zul.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -88,7 +86,7 @@ public class ReflectionZKUtil {
                 Object valueComponent = getValueComponent(v);
                 ApplicationContextUtils.getBeans(ValidateAnnotation.class).forEach(e -> e.Validate(k, valueComponent));
                 try {
-                    final Object[] aux = {null};
+                    Object[] aux = {null};
                     ApplicationContextUtils.getBeans(TransformerAnnotation.class).forEach(e -> {
                         aux[0] = e.Validate(k, valueComponent);
                     });
@@ -123,44 +121,56 @@ public class ReflectionZKUtil {
 
     }
 
-    public static void setValueComponent(Component component, Object obj)
-            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Class<? extends Component> class1 = component.getClass();
-        if (class1 == Combobox.class) {
-            Method method = component.getClass().getMethod("getItems");
-            Object invoke = method.invoke(component);
-            List<Comboitem> list = (List<Comboitem>) invoke;
-            Object idvalue = ReflectionJavaUtil.getIdValue(obj);
-            list.stream().filter(e -> {
-                Object idValue = ReflectionJavaUtil.getIdValue(e.getValue());
-                boolean b = idvalue != null && idvalue.equals(idValue);
-                Object eValue = e.getValue();
-                boolean b1 = eValue.equals(obj);
-                return (b1 && idValue == null) || b;
-            }).forEach(e -> {
-                try {
-                    setSelectedItem(component, e);
-                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e1) {
-                    LOGGER.error("ERROR on setValueComponent()", e1);
+    public static void setValueComponent(Component component, Object obj) {
+        try {
+            Class<? extends Component> class1 = component.getClass();
+            if (class1 == Combobox.class) {
+                if (obj == null) {
+                    ListModel<Object> model = new ListModelList((Collection) ((Combobox) component).getModel());
+                    ((Combobox) component).setModel(new ListModelList<>(new ArrayList()));
+                    ((Combobox) component).setModel(model);
+                } else {
+                    Method method = component.getClass().getMethod("getItems");
+                    Object invoke = method.invoke(component);
+                    List<Comboitem> list = (List<Comboitem>) invoke;
+                    Object idvalue = ReflectionJavaUtil.getIdValue(obj);
+                    list.stream().filter(e -> {
+                        Object idValue = ReflectionJavaUtil.getIdValue(e.getValue());
+                        boolean b = idvalue != null && idvalue.equals(idValue);
+                        Object eValue = e.getValue();
+                        boolean b1 = eValue.equals(obj);
+                        return (b1 && idValue == null) || b;
+                    }).forEach(e -> {
+                        try {
+                            setSelectedItem(component, e);
+                        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e1) {
+                            LOGGER.error("ERROR on setValueComponent()", e1);
+                        }
+                    });
                 }
-            });
-
-        } else if (class1 == Checkbox.class) {
-            Checkbox c = (Checkbox) component;
-            c.setChecked((Boolean) obj);
-        } else if (class1 == ChosenBox.class) {
-            ChosenBox c = (ChosenBox) component;
-            c.setValueSelection((List) obj);
-        } else if (obj != null && obj.getClass() == PersistentBag.class) {
-            setValue(component, new ArrayList((PersistentBag) obj));
-        } else if (obj != null && obj.getClass() == PersistentSet.class) {
-            setValue(component, new ArrayList((PersistentSet) obj));
-        } else {
-            if (class1 != Gmaps.class) {
-                setValue(component, obj);
+            } else if (class1 == Checkbox.class) {
+                Checkbox c = (Checkbox) component;
+                if (obj == null) c.setChecked(false);
+                else c.setChecked((Boolean) obj);
+            } else if (class1 == ChosenBox.class) {
+                ChosenBox c = (ChosenBox) component;
+                if (obj == null) c.setValueSelection(new ArrayList<>());
+                else c.setValueSelection((List) obj);
+            } else if (obj != null && obj.getClass() == PersistentBag.class) {
+                if (obj == null) setValue(component, new ArrayList<>());
+                else setValue(component, new ArrayList((PersistentBag) obj));
+            } else if (obj != null && obj.getClass() == PersistentSet.class) {
+                if (obj == null) setValue(component, new ArrayList<>());
+                else setValue(component, new ArrayList((PersistentSet) obj));
+            } else {
+                if (class1 != Gmaps.class) {
+                    setValue(component, obj);
+                }
             }
-        }
+        } catch (Exception e) {
+            LOGGER.error("ERROR on setValueComponent()", e);
 
+        }
     }
 
     public static void disableBinding(Map<Field, Component> binding) {

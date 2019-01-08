@@ -54,14 +54,14 @@ public class ZKUtil {
         return typetoast;
     }
 
-    public static void tootgleRegion(LayoutRegion region) {
+    public static boolean tootgleRegion(LayoutRegion region) {
         if (isMobile())
-            tootgleRegion(region, "100%");
+            return tootgleRegion(region, "100%");
         else
-            tootgleRegion(region, "320px");
+            return tootgleRegion(region, "320px");
     }
 
-    public static void tootgleRegion(LayoutRegion region, String width) {
+    public static boolean tootgleRegion(LayoutRegion region, String width) {
         String widthaux = width == null || width.isEmpty() ? "220px" : width;
         if (ZKUtil.isMobile()) {
             boolean open = !region.isSlide();
@@ -69,6 +69,7 @@ public class ZKUtil {
             if (!open) {
                 region.setWidth(widthaux);
             }
+            return open;
         } else {
             boolean open = !region.isOpen();
             if (open) {
@@ -77,7 +78,7 @@ public class ZKUtil {
             region.setOpen(open);
             region.setCollapsible(true);
             if (!region.isVisible()) region.setVisible(true);
-
+            return open;
         }
     }
 

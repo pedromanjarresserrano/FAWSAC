@@ -114,6 +114,7 @@ public class CrudController {
 
     public void clearParams() {
         map.clear();
+        doQuery();
     }
 
     public void doQuery() {
@@ -164,17 +165,27 @@ public class CrudController {
                 continue;
             }
             if (value instanceof Collection) {
-                CollectionPath collection = pathBuilder.getCollection(v.getKey(), value.getClass());
-                if (collection != null) {
-                    if (!(value instanceof Collection))
-                        where = where != null ? paramMode == ParamMode.AND ? collection.contains(value).and(where) : collection.contains(value).or(where) : collection.contains(value);
-                    else
-                        for (Object val : (Collection) value) {
-                            if (val == null) {
-                                where = where != null ? paramMode == ParamMode.AND ? collection.isEmpty().and(where) : collection.isEmpty().or(where) : collection.isEmpty();
-                            } else
-                                where = where != null ? paramMode == ParamMode.AND ? collection.contains(val).and(where) : collection.contains(val).or(where) : collection.contains(val);
-                        }
+                Class type = pathBuilder.getType();
+                Field field = ReflectionJavaUtil.getField(type, v.getKey());
+                Class aClass = field.getType();
+                boolean assignableFrom = Arrays.asList(aClass.getInterfaces()).contains(Collection.class);
+                if (assignableFrom) {
+                    CollectionPath collection = pathBuilder.getCollection(v.getKey(), value.getClass());
+                    if (collection != null) {
+                        if (!(value instanceof Collection))
+                            where = where != null ? paramMode == ParamMode.AND ? collection.contains(value).and(where) : collection.contains(value).or(where) : collection.contains(value);
+                        else
+                            for (Object val : (Collection) value) {
+                                if (val == null) {
+                                    where = where != null ? paramMode == ParamMode.AND ? collection.isEmpty().and(where) : collection.isEmpty().or(where) : collection.isEmpty();
+                                } else
+                                    where = where != null ? paramMode == ParamMode.AND ? collection.contains(val).and(where) : collection.contains(val).or(where) : collection.contains(val);
+                            }
+                    }
+                } else {
+                    for (Object val : (Collection) value) {
+                        where = where != null ? pathBuilder.get(v.getKey()).eq(val).or(where) : pathBuilder.get(v.getKey()).eq(val);
+                    }
                 }
                 continue;
             }
