@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.services.impl;
 
+import com.gitlab.pedrioko.core.api.impl.FilesStaticResourceLocationsImpl;
 import com.gitlab.pedrioko.core.api.impl.StorageStaticResourceLocationsImpl;
 import com.gitlab.pedrioko.core.lang.AppParam;
 import com.gitlab.pedrioko.core.lang.FileEntity;
@@ -92,7 +93,7 @@ public class StorageServiceImpl implements StorageService {
     public File getFile(String filename) {
         String value = getAppParam().getValue();
 
-        return new File(value + filename);
+        return new File(value + filename.replace(value, ""));
     }
 
     @Override
@@ -103,23 +104,39 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public File getFile(FileEntity filename) {
-        return getFile(filename.getFilename());
+        return getFile(filename.getUrl());
     }
 
     @Override
     public String getUrlFile(FileEntity filename) {
-        return filename != null ? getUrlFile(filename.getFilename()) : "";
+        String url = filename.getUrl();
+        String replace = url.replace(getStorageLocation(), "");
+        if (replace.equalsIgnoreCase(url))
+            replace = url.replace(getTempStorageLocation(), "");
+        replace = replace.replace("\\", "/");
+        if (replace.indexOf("/") == 0) {
+            replace = replace.substring(1);
+        }
+        return filename != null ? getUrlFile(replace) : "";
     }
 
     @Override
     public String getUrlFile(String filename) {
-        return getUrlStorageLocation() + filename;
+        return getUrlFile(filename, false);
+    }
+
+    @Override
+    public String getUrlFile(String filename, Boolean statics) {
+        String replace = filename.replace(getStorageLocation(), "").replace("\\", "/");
+        if (replace.startsWith("\\"))
+            replace = replace.substring(1);
+        return ((statics ? FilesStaticResourceLocationsImpl.STATIC_FILES_PATH : getUrlStorageLocation()) + replace).replace("//", "/");
     }
 
     @Override
     public FileEntity saveFile(InputStream inputstream) {
         String uuid = getUUID();
-        File file = this.saveFile(uuid, inputstream);
+        File file = saveFile(uuid, inputstream);
         FileEntity fileEntity = new FileEntity();
         fileEntity.setFilename(uuid);
         fileEntity.setUrl(file.getAbsolutePath());
@@ -128,7 +145,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public FileEntity saveFileToFileEntity(String filename, InputStream inputstream) {
-        File file = this.saveFile(filename, inputstream);
+        File file = saveFile(filename, inputstream);
         FileEntity fileEntity = new FileEntity();
         fileEntity.setFilename(filename);
         fileEntity.setUrl(file.getAbsolutePath());
@@ -172,7 +189,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public FileEntity saveFileImage(BufferedImage bufferedImage, String fileName) {
-        return this.saveFileImage(bufferedImage, fileName, "jpg");
+        return saveFileImage(bufferedImage, fileName, "jpg");
     }
 
     @Override

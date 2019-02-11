@@ -116,7 +116,7 @@ class Usuario extends BaseEntity {
     @Column(length = 50000)
     private String webSocketId;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "USR_PFS",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "idusuario"),

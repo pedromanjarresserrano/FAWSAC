@@ -23,7 +23,7 @@ class Anuncio extends BaseEntity {
     @NoEmpty
     private String nombre;
 
-    @ElementCollection(targetClass = TipoUsuario.class, fetch = FetchType.EAGER)
+    @ElementCollection(targetClass = TipoUsuario.class, fetch = FetchType.LAZY)
     @JoinTable(name = "anuncio_tipo_usuario", joinColumns = @JoinColumn(name = "id_anuncio"))
     @Column(name = "value", nullable = false)
     @Enumerated(EnumType.STRING)

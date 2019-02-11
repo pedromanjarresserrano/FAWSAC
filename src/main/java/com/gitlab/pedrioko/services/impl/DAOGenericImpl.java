@@ -3,6 +3,7 @@ package com.gitlab.pedrioko.services.impl;
 import com.gitlab.pedrioko.core.hibernate.MySQLJPATemplates;
 import com.gitlab.pedrioko.core.lang.annotation.CrudOrderBy;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.view.reflection.enums.ClassMethod;
 import com.gitlab.pedrioko.services.DAOGeneric;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
@@ -10,6 +11,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQuery;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -27,8 +29,12 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.util.Collection;
 import java.util.List;
+
+import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.getNameMethod;
 
 /**
  * The Class GenericJPAImpl.
@@ -56,9 +62,24 @@ public class DAOGenericImpl<T> implements DAOGeneric {
 
     @Override
     public <T> T refresh(T klass) {
-        if (klass != null)
-            entityManager.refresh(klass);
+        if (klass != null) {
+            T klass2 = (T) entityManager.find(klass.getClass(), ReflectionJavaUtil.getIdValue(klass));
+            entityManager.refresh(klass2);
+            List<Field> fields = ReflectionJavaUtil.getFields(klass.getClass());
+            fields.stream().filter(e -> Collection.class.isAssignableFrom(e.getType())).forEach(e -> {
+                try {
+                    String methodname = getNameMethod(e.getName(), ClassMethod.GET);
+                    Method method = klass2.getClass().getMethod(methodname);
+                    Hibernate.initialize(method.invoke(klass2));
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            });
+            return klass2;
+
+        }
         return klass;
+
     }
 
     @Override
@@ -139,7 +160,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
      *
      * @return the current session
      */
-    private final Session getCurrentSession() {
+    private Session getCurrentSession() {
         return (Session) entityManager.getDelegate();
     }
 

@@ -21,7 +21,7 @@ class ProviderAccess extends BaseEntity {
     @NoEmpty
     private String menuprovider;
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.LAZY)
     @NoEmpty
     private List<String> actions;
 

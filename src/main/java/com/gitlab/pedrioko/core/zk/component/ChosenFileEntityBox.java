@@ -78,6 +78,7 @@ public class ChosenFileEntityBox extends Bandbox {
             listitem.setValue(e);
             listitem.setClass("chosenbox-file-item");
             Hlayout hl = new Hlayout();
+
             List<FileEntity> filesEntities = ((ChosenItem) e).getFilesEntities();
             Image image = new Image(filesEntities != null && !filesEntities.isEmpty() ? ApplicationContextUtils.getBean(StorageService.class).getUrlFile(filesEntities.get(0).getFilename()) : "");
             image.setWidth("40px");
@@ -103,10 +104,11 @@ public class ChosenFileEntityBox extends Bandbox {
 
     private void setListener(Listitem listitem) {
         listitem.addEventListener(Events.ON_CLICK, evt -> {
-            if (valueSelection.contains(listitem.getValue())) {
-                valueSelection.remove(listitem.getValue());
+            Listitem target = (Listitem) evt.getTarget();
+            if (target.isSelected()) {
+                valueSelection.add(target.getValue());
             } else {
-                valueSelection.add(listitem.getValue());
+                valueSelection.remove(target.getValue());
             }
             setLabel();
         });

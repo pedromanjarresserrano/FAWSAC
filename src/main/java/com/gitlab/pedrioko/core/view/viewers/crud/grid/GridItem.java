@@ -23,6 +23,7 @@ public class GridItem extends Vlayout {
     private @Getter
     @Setter
     CrudGridItem value;
+    private StorageService storageService;
 
     public GridItem(CrudGridItem value) {
         setClass("crud-grid-item");
@@ -35,24 +36,25 @@ public class GridItem extends Vlayout {
         this.imageHeight = imageHeight;
         setClass("crud-grid-item");
         setHeight("auto");
-        this.value = obj;
+        value = obj;
         load();
     }
 
     public void update(CrudGridItem crudGridItem, Long imageHeight) {
         this.imageHeight = imageHeight;
-        this.value = crudGridItem;
+        value = crudGridItem;
         load();
     }
 
     public void update(CrudGridItem crudGridItem) {
-        this.value = crudGridItem;
+        value = crudGridItem;
         load();
     }
 
     protected void load() {
-        this.getChildren().clear();
+        getChildren().clear();
         List<FileEntity> listfiles = value.getFilesEntities();
+        storageService = ApplicationContextUtils.getBean(StorageService.class);
         if (value.isCarrouselPreview()) {
             if (!listfiles.isEmpty()) {
                 Carousel carousel = new Carousel();
@@ -61,14 +63,14 @@ public class GridItem extends Vlayout {
                 carousel.setSlideBy("1");
                 carousel.setCarouselItems(listfiles.stream().sorted(Comparator.comparingLong(x -> x.getId())).map(e -> {
                     CarouselItem carouselItem = new CarouselItem();
-                    String url = ApplicationContextUtils.getBean(StorageService.class).getUrlFile(e.getFilename());
+                    String url = storageService.getUrlFile(e);
                     carouselItem.setEnlargedSrc(url);
-                    carouselItem.setEnlargedHeight(this.imageHeight + "px");
+                    carouselItem.setEnlargedHeight(imageHeight + "px");
                     return carouselItem;
                 }).collect(Collectors.toList()));
                 appendChild(carousel);
             } else {
-                String urlFile = "/statics/files/" + value.getName();
+                String urlFile = (storageService.getUrlFile(value.getURL(), true)).replace("//", "/");
                 if (urlFile.endsWith(".gif")) {
                     Image image = new Image();
                     image.setClass("img-responsive");
@@ -86,7 +88,7 @@ public class GridItem extends Vlayout {
             }
         } else {
             if (!listfiles.isEmpty()) {
-                String urlFile = ApplicationContextUtils.getBean(StorageService.class).getUrlFile(listfiles.get(0));
+                String urlFile = storageService.getUrlFile(listfiles.get(0));
                 Image image = new Image();
                 image.setClass("img-responsive");
                 image.setSrc(urlFile);

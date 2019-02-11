@@ -29,6 +29,8 @@ public interface StorageService {
 
     String getUrlFile(String filename);
 
+    String getUrlFile(String filename, Boolean statics);
+
     FileEntity saveFile(InputStream inputstream);
 
     FileEntity saveFileToFileEntity(String filename, InputStream inputstream);

@@ -7,6 +7,7 @@ import com.gitlab.pedrioko.core.view.enums.CrudEvents;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
+import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.StorageService;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -110,7 +111,7 @@ public class CrudGrid extends Borderlayout implements CrudDisplayTable {
             row.setSclass("color-system");
             int size = page.size();
             for (Object i : page) {
-                CrudGridItem obj = (CrudGridItem) i;
+                CrudGridItem obj = ApplicationContextUtils.getBean(CrudService.class).refresh((CrudGridItem) i);
                 GridItem child = new GridItem(obj, imageHeight);
                 gridItemMap.put(Float.parseFloat(ReflectionJavaUtil.getIdValue(obj).toString()), child);
 

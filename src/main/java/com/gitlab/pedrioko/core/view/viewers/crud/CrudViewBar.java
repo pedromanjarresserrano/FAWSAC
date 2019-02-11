@@ -154,7 +154,7 @@ class CrudViewBar extends Toolbar {
     }
 
     private void onClickListener(Action v, CrudDisplayTable crudTable, CrudActionEvent event) throws InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException, NoSuchMethodException {
-        Object selectedValue = crudTable.getSelectedValue();
+        Object selectedValue = crudService.refresh(crudTable.getSelectedValue());
         if (v.getFormState() == FormStates.CREATE)
             event.setValue(klass.getConstructor().newInstance());
         else {

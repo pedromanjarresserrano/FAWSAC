@@ -19,7 +19,7 @@ class Polygon extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "polygon_points", joinColumns = @JoinColumn(name = "poligon_id"), inverseJoinColumns = @JoinColumn(name = "point_id"))
     @NoEmpty
     private List<Point> points;

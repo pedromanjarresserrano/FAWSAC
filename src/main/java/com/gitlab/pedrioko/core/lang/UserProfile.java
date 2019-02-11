@@ -27,7 +27,7 @@ class UserProfile extends BaseEntity {
     private String descripcion;
     private boolean pordefectorgistro;
 
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "userprofile_provideraccess", joinColumns = @JoinColumn(name = "iduserprofile"), inverseJoinColumns = @JoinColumn(name = "idprovideraccess"))
     private List<ProviderAccess> providersaccess;
 

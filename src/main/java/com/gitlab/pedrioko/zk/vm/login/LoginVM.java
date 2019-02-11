@@ -9,7 +9,9 @@ import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.zkoss.bind.annotation.Command;
@@ -97,7 +99,8 @@ class LoginVM {
 
     @WireVariable
     private CrudService crudService;
-
+    @WireVariable
+    protected AuthenticationManager authenticationManager;
 
     private String appName;
 
@@ -110,14 +113,20 @@ class LoginVM {
         labelerror = "";
         visiblemessage = false;
         try {
-            final SecurityContext sc = SecurityContextHolder.createEmptyContext();
+            SecurityContext sc = SecurityContextHolder.getContext();
             if (valueuser == null || valueuser.isEmpty() || valuepass == null || valuepass.isEmpty())
                 throw new IllegalArgumentException();
             sc.setAuthentication(new UsernamePasswordAuthenticationToken(valueuser, valuepass));
             SecurityContextHolder.setContext(sc);
-            final PathBuilder<?> builder = crudService.getPathBuilder(Usuario.class);
-            final Usuario user = (Usuario) crudService.query().from(builder).where(builder.get("username", String.class).eq(valueuser)).fetchFirst();
-            fhsessionutil.setCurrentUser(user);
+
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+            String name = authentication.getName();
+            if (name != null) {
+                PathBuilder<?> builder = crudService.getPathBuilder(Usuario.class);
+                Usuario user = (Usuario) crudService.query().from(builder).where(builder.get("username", String.class).eq(valueuser)).fetchFirst();
+                fhsessionutil.setCurrentUser(user);
+            }
 
         } catch (Exception e) {
             LOGGER.error("Error on doLogin()", e);
@@ -125,10 +134,15 @@ class LoginVM {
             visiblemessage = true;
             return;
         }
-        if (fhsessionutil.getCurrentUser().getEnable())
-            Executions.sendRedirect("/index");
-        else {
-            labelerror = Labels.getLabel("login.userenable");
+        if (fhsessionutil.getCurrentUser() != null) {
+            if (fhsessionutil.getCurrentUser().getEnable()) {
+                Executions.sendRedirect("/index");
+            } else {
+                labelerror = Labels.getLabel("login.userenable");
+                visiblemessage = true;
+            }
+        } else {
+            labelerror = Labels.getLabel("login.error");
             visiblemessage = true;
         }
 

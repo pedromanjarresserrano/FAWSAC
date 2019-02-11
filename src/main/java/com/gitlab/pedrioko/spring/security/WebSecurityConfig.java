@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,6 +17,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService customUserDetailsService;
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     /**
      * The auth provider.
@@ -54,6 +58,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+
     /*
      * (non-Javadoc)
      *
@@ -66,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         List<StaticResouceLocation> beans = ApplicationContextUtils.getBeans(StaticResouceLocation.class);
         String[] strings = beans.stream().map(e -> e.getPath()).collect(Collectors.toSet()).toArray(new String[]{});
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry and = http.authorizeRequests().antMatchers("/ws/**").permitAll().and().authorizeRequests()
-                .antMatchers("/videos", "/css/**", "/signaling", "/components/**", "/bootstrap/**", "/fonts/**", "/js/**",
+                .antMatchers("/test/**", "/tester/**", "/videos", "/css/**", "/signaling", "/components/**", "/bootstrap/**", "/fonts/**", "/js/**",
                         "/images/**", "/zkau/**", "/login", "/recovery", "/register")
                 .permitAll().and().authorizeRequests();
         for (String e : Arrays.asList(strings)) {
@@ -80,7 +91,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAnyAuthority(TipoUsuario.ROLE_ADMIN.name(), TipoUsuario.ROLE_ENTIDAD.name(),
                         TipoUsuario.ROLE_ENTIDADCONTROL.name(), TipoUsuario.ROLE_ENTIDADESTATAL.name(),
                         TipoUsuario.ROLE_ENTIDADCONTROL.name(), TipoUsuario.ROLE_TURISTA.name())
-                .and().formLogin().loginPage("/login").permitAll().and().logout().permitAll().and().csrf().disable()
+                .and().formLogin().loginPage("/login").loginProcessingUrl("/login")
+                .successHandler(authenticationSuccessHandler).permitAll().and().logout().permitAll().and().csrf().disable()
                 .headers().frameOptions().sameOrigin().httpStrictTransportSecurity().disable();
     }
 

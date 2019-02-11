@@ -56,7 +56,7 @@ public class TaskMenuProvider implements MenuProvider {
         long completedTaskCount = threadPoolExecutor.getCompletedTaskCount();
         int Qusize = threadPoolExecutor.getQueue().size();
         long realTotal = taskCount - totalCount;
-        long l = ((completedTaskCount - totalCount) * 100) / (realTotal == 0L ? 1 : realTotal);
+        long l = ((completedTaskCount - totalCount) * 100) / (realTotal <= 0L ? 1 : realTotal);
         if (l == 100 && Qusize == 0) {
             totalCount += taskCount;
         }

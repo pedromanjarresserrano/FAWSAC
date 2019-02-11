@@ -1,6 +1,7 @@
 package com.gitlab.pedrioko.core.lang.annotation;
 
-import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
+
+import com.gitlab.pedrioko.core.hibernate.validator.EmailValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
