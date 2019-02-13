@@ -1,5 +1,7 @@
 package com.gitlab.pedrioko.controllers.storage;
 
+import com.gitlab.pedrioko.core.view.api.CrudGridItem;
+import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +14,29 @@ import reactor.core.publisher.Mono;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController("/sc")
 public class StorageController {
 
     @Autowired
     private StorageService storageService;
+    @Autowired
     private CrudService crudService;
 
     @RequestMapping(value = "/file", method = RequestMethod.GET)
-    public Mono<?> handleRequest(@RequestParam String filename) throws Exception {
-        File file = new File(filename);
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-        return Mono.justOrEmpty(resource);
+    public Mono<?> handleRequest(@RequestParam String id, @RequestParam String clase) throws Exception {
+        List<?> entities = ApplicationContextUtils.getEntities();
+        List<?> collect = entities.stream().filter(e -> (((Class) e).getSimpleName().equalsIgnoreCase(clase))).collect(Collectors.toList());
+        if (!collect.isEmpty()) {
+            Object o = collect.get(0);
+            CrudGridItem byId = (CrudGridItem) crudService.getById((Class) o, Long.parseLong(id));
+            File file = new File(byId.getLocal());
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+            return Mono.justOrEmpty(resource);
+        } else
+            return null;
       /*  File file = new File(filename);
         long len = 0;
         try {

@@ -15,7 +15,10 @@ public interface CrudGridItem {
     default  FileEntity getFile(){
         return null;
     }
-    String getURL();
+
+    String getLocal();
+
+    String getWebServiceURL();
 
     String getVisualName();
 

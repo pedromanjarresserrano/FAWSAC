@@ -77,7 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         List<StaticResouceLocation> beans = ApplicationContextUtils.getBeans(StaticResouceLocation.class);
         String[] strings = beans.stream().map(e -> e.getPath()).collect(Collectors.toSet()).toArray(new String[]{});
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry and = http.authorizeRequests().antMatchers("/ws/**").permitAll().and().authorizeRequests()
-                .antMatchers("/test/**", "/tester/**", "/videos", "/css/**", "/signaling", "/components/**", "/bootstrap/**", "/fonts/**", "/js/**",
+                .antMatchers("/test/**", "/file/**", "/tester/**", "/videos", "/css/**", "/signaling", "/components/**", "/bootstrap/**", "/fonts/**", "/js/**",
                         "/images/**", "/zkau/**", "/login", "/recovery", "/register")
                 .permitAll().and().authorizeRequests();
         for (String e : Arrays.asList(strings)) {

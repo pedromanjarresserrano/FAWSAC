@@ -70,7 +70,7 @@ public class GridItem extends Vlayout {
                 }).collect(Collectors.toList()));
                 appendChild(carousel);
             } else {
-                String urlFile = (storageService.getUrlFile(value.getURL(), true)).replace("//", "/");
+                String urlFile = (storageService.getUrlFile(value.getWebServiceURL(), true)).replace("//", "/");
                 if (urlFile.endsWith(".gif")) {
                     Image image = new Image();
                     image.setClass("img-responsive");
@@ -78,8 +78,7 @@ public class GridItem extends Vlayout {
                     image.setSrc(urlFile);
                     image.setHeight(imageHeight.toString() + "px");
                     appendChild(image);
-                }
-                if (urlFile.endsWith(".webm")) {
+                } else {
                     Video image = new Video();
                     image.setSrc(urlFile);
                     image.setHeight(imageHeight.toString() + "px");
