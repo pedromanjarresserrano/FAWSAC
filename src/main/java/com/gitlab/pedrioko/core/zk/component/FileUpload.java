@@ -36,12 +36,11 @@ public class FileUpload extends Fileupload {
             }
             photo = upEvent.getMedia();
             String name = photo.getName();
-            this.setLabel(name);
-            this.setValue(storageService.saveFileToFileEntity(photo.getName(), photo.getStreamData()));
+            setLabel(name);
+            setValue(storageService.saveFileToFileEntity(photo.getName(), photo.getStreamData()));
 
         }
     };
-    ;
 
     public FileUpload(String label, Boolean multiple, int count) {
         super(label);
@@ -112,7 +111,7 @@ public class FileUpload extends Fileupload {
 
     private void onUpload() {
 
-        this.addEventListener("onUpload", eventEventListener);
+        addEventListener("onUpload", eventEventListener);
     }
 
     public FileUpload(String label) {
@@ -127,6 +126,8 @@ public class FileUpload extends Fileupload {
         this.value = value;
         String filename = value.getFilename();
         setLabel(filename != null ? filename : "File");
+        Events.postEvent(Events.ON_CHANGE, this, null);
+
     }
 
 }

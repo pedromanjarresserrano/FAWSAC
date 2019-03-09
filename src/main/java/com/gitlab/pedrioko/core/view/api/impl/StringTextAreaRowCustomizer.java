@@ -20,9 +20,9 @@ public class StringTextAreaRowCustomizer implements RowCustomizer {
     @Override
     public void customizer(Div div, Field f) {
         if (f != null && f.isAnnotationPresent(TextArea.class)) {
-            div.setZclass("col-sm-10 col-md-10 col-lg-10");
-            ((Div) div.getChildren().get(0)).setZclass("col-md-2");
-            ((Div) div.getChildren().get(1)).setZclass("col-md-10");
+            // div.setZclass("col-sm-10 col-md-10 col-lg-10");
+            // ((Div) div.getChildren().get(0)).setZclass("col-md-2");
+            //((Div) div.getChildren().get(1)).setZclass("col-md-10");
         }
     }
 

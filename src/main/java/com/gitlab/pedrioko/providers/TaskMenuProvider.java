@@ -40,7 +40,7 @@ public class TaskMenuProvider implements MenuProvider {
         timer.addEventListener(Events.ON_TIMER, e -> {
             long procent = getProcent();
             label.setValue("Task at " + procent + "% - " + (threadPoolExecutor.getCompletedTaskCount() - totalCount) + "/" + (threadPoolExecutor.getTaskCount() - totalCount) + "");
-            progressmeter.setValue((int) procent);
+            progressmeter.setValue((int) (procent < 0 ? 0 : procent));
         });
         progressmeter.setWidth("100%");
         window.appendChild(timer);

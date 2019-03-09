@@ -48,6 +48,14 @@ a:focus {
     background: black;
 }
 
+.z-tabpanel {
+    overflow-y: scroll !important;
+    overflow-x: hidden;
+}
+.hidden-scroll, .hidden-scroll .z-tabpanels .z-panel{
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+    }
 .z-menuitem-text {
 
     margin-left: 10px;

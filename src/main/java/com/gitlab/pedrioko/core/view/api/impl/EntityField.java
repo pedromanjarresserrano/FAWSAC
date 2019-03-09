@@ -26,7 +26,7 @@ public class EntityField implements FieldComponent {
     }
 
     @Override
-    public Component getComponent(Field e, EntityForm f) {
+    public Component getComponent(Field e) {
         Class<?> declaringClass = e.getDeclaringClass();
         Class<?> type = e.getType();
         if (ApplicationContextUtils.getEntities().contains(type)) {

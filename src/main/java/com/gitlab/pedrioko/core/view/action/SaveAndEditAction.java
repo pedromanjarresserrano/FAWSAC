@@ -3,6 +3,7 @@ package com.gitlab.pedrioko.core.view.action;
 import com.gitlab.pedrioko.core.lang.annotation.ToolAction;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
+import com.gitlab.pedrioko.core.view.api.Valuable;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
 import com.gitlab.pedrioko.core.view.forms.Form;
@@ -52,7 +53,7 @@ public class SaveAndEditAction implements Action {
             }
             crudViewParent.update();
 
-            Form source = event.getSource();
+            Valuable source = event.getSource();
             source.setValueForm(value);
             source.setEstado(FormStates.UPDATE);
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("userbasicform.guardar"), MessageType.SUCCESS);

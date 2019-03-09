@@ -39,7 +39,8 @@ public class EntityForm extends Form {
     @Setter
     Tabs tabs = new Tabs();
     private boolean window;
-    private String formSclass = "container form-horizontal";
+    private String formSclass = "container";
+    private Div row = new Div();
 
 
     public EntityForm(Class<?> klass) {
@@ -89,22 +90,23 @@ public class EntityForm extends Form {
         Div div = new Div();
         setStyle("overflow-y:auto !important;height: 99%; width: 100%;");
         div.getChildren().clear();
-        div.setClass("entity-form " + CLASSES);
         Tabpanel tabpanel = new Tabpanel();
         tabpanel.setHflex("1");
         tabpanel.setStyle("overflow-y:auto !important;");
         tabpanels.appendChild(tabpanel);
         tabpanels.setHeight("95%");
         tabpanel.setHeight("100%");
-        listfield.forEach(e -> div.appendChild(fieldToUiField(e)));
-        div.appendChild(getActions());
+        listfield.forEach(e -> row.appendChild(fieldToUiField(e)));
+        row.appendChild(getActions());
         tabbox.appendChild(tabs);
         tabbox.appendChild(tabpanels);
         tabbox.setStyle("height: 100%;");
         if (getEstado() == FormStates.CREATE)
             setValueForm(getNewInstance());
         if (!window) {
-            div.setClass("container form-horizontal");
+            row.setZclass("row");
+            div.setZclass("container");
+            div.appendChild(row);
             tabpanel.appendChild(div);
             appendChild(tabbox);
         } else {
@@ -141,7 +143,7 @@ public class EntityForm extends Form {
         }
         ApplicationContextUtils.getBeansOfType(FieldComponent.class).stream().filter(v -> v.getToClass() == null
                 || v.getToClass().length == 0 || Arrays.asList(v.getToClass()).contains(type)).forEach(w -> {
-            Component component = w.getComponent(e, this);
+            Component component = w.getComponent(e);
             if (component != null) {
                 putBinding(e, component);
                 ReflectionZKUtil.widthComponent(component);

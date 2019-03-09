@@ -9,5 +9,5 @@ public interface FieldComponent {
 
     public Class[] getToClass();
 
-    public Component getComponent(Field e, EntityForm f);
+    public Component getComponent(Field e);
 }

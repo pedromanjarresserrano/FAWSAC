@@ -23,7 +23,7 @@ public class PointField implements FieldComponent {
     }
 
     @Override
-    public Component getComponent(Field e, EntityForm f) {
+    public Component getComponent(Field e) {
         PointGmap maps = new PointGmap();
         maps.setValue(new Point());
         maps.addEventListener("onMapClick", x -> {

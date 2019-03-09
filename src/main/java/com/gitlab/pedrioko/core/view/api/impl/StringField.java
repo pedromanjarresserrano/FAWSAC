@@ -19,7 +19,7 @@ public class StringField implements FieldComponent {
     }
 
     @Override
-    public Component getComponent(Field e, EntityForm f) {
+    public Component getComponent(Field e) {
         Textbox textbox = new Textbox();
         if (e.isAnnotationPresent(Email.class)) {
             textbox.setType("email");

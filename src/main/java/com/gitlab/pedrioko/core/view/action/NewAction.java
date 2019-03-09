@@ -8,8 +8,10 @@ import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.forms.EntityForm;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
+import org.zkoss.zk.ui.Executions;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @ToolAction
@@ -28,7 +30,14 @@ public class NewAction implements Action {
         formUtilsnew.addAction(ApplicationContextUtils.getBean(SaveAndEditAction.class), event);
         formUtilsnew.addAction(ApplicationContextUtils.getBean(CancelAction.class), event);
         formUtilsnew.setEstado(FormStates.CREATE);
-        event.getCrudViewParent().setContent(formUtilsnew);
+        HashMap<Object, Object> arg = new HashMap<>();
+        try {
+            arg.put("value", event.getCrudViewParent().getTypeClass().getConstructor().newInstance());
+            arg.put("event-crud", event);
+            arg.put("estado-form", FormStates.CREATE);
+        } catch (Exception e) {
+        }
+        event.getCrudViewParent().setContent(Executions.createComponents("~./zul/form.zul", null, arg));
     }
 
     @Override

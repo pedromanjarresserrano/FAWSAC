@@ -6,12 +6,12 @@ import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
-import com.gitlab.pedrioko.core.view.forms.EntityForm;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
-import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
+import org.zkoss.zk.ui.Executions;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @ToolAction
@@ -28,12 +28,21 @@ public class EditAction implements Action {
         if (value == null) {
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("seleccione"), MessageType.WARNING);
         } else {
-            EntityForm formUtilsnew = new EntityForm(value.getClass());
+           /* EntityForm formUtilsnew = new EntityForm(value.getClass());
             formUtilsnew.addAction(ApplicationContextUtils.getBean(SaveAction.class), event);
             formUtilsnew.addAction(ApplicationContextUtils.getBean(CancelAction.class), event);
             formUtilsnew.setEstado(FormStates.UPDATE);
-            formUtilsnew.setValueForm(value);
-            event.getCrudViewParent().setContent(formUtilsnew);
+            formUtilsnew.setValueForm(value);*/
+            HashMap<Object, Object> arg = new HashMap<>();
+            try {
+                arg.put("value", value);
+                arg.put("event-crud", event);
+                arg.put("estado-form", FormStates.UPDATE);
+            } catch (Exception e) {
+            }
+            event.getCrudViewParent().setContent(Executions.createComponents("~./zul/form.zul", null, arg));
+            //event.getCrudViewParent().setContent(formUtilsnew);
+
         }
     }
 

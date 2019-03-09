@@ -17,7 +17,7 @@ public class DoubleField implements FieldComponent {
     }
 
     @Override
-    public Component getComponent(Field e, EntityForm f) {
+    public Component getComponent(Field e) {
         return new Doublebox();
     }
 

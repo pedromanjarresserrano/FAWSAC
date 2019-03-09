@@ -21,6 +21,7 @@ import org.zkoss.zul.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -164,7 +165,7 @@ public class ReflectionZKUtil {
                 else setValue(component, new ArrayList((PersistentSet) obj));
             } else {
                 if (class1 != Gmaps.class) {
-                    setValue(component, obj);
+                    setValue(component, obj.getClass() == Timestamp.class ? new Date(((Timestamp) obj).getTime()) : obj);
                 }
             }
         } catch (Exception e) {

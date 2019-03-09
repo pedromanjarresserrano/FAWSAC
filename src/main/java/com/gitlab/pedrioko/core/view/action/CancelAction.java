@@ -35,7 +35,7 @@ public class CancelAction implements Action {
 
     @Override
     public String getClasses() {
-        return "pull-left btn-danger";
+        return "order-12 btn-danger";
     }
 
     @Override

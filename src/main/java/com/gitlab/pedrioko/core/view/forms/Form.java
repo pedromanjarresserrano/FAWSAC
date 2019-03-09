@@ -4,6 +4,7 @@ import com.gitlab.pedrioko.core.lang.annotation.Reference;
 import com.gitlab.pedrioko.core.view.action.CancelAction;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
+import com.gitlab.pedrioko.core.view.api.Valuable;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.exception.ValidationException;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = false)
 public @Data
-class Form extends Window {
+class Form extends Window implements Valuable {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LoggerFactory.getLogger(Form.class);
@@ -46,11 +47,14 @@ class Form extends Window {
     private transient Map<Field, Component> binding = new LinkedHashMap<>();
     private Class<?> klass;
     private String reglonClass = "col-sm-12 col-md-6 col-lg-6";
+    private Div row = new Div();
 
     public Form() {
         super();
         actions.setClass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
         actions.setStyle("margin-top:40px;margin-bottom:10px;");
+        row.setClass("row");
+        appendChild(row);
     }
 
     public void addAction(Action action) {
@@ -79,6 +83,7 @@ class Form extends Window {
         }
     }
 
+    @Override
     public void setValueForm(Object obj) {
         CrudService crudService = ApplicationContextUtils.getBean(CrudService.class);
         if (ReflectionJavaUtil.getIdValue(obj) != null && ((long) ReflectionJavaUtil.getIdValue(obj)) != 0)
@@ -122,12 +127,18 @@ class Form extends Window {
 
     public void loadReglon(Div renglon, Div labeldiv, Label label, Div campo) {
         labeldiv.appendChild(label);
-        renglon.appendChild(labeldiv);
-        renglon.setStyle("margin-top:10px;margin-bottom:10px;");
         renglon.setZclass(reglonClass);
         labeldiv.setZclass("col-sm-4");
         campo.setZclass("col-sm-8");
-        renglon.appendChild(campo);
+        Div container = new Div();
+        container.setZclass("container");
+        Div row = new Div();
+        row.setZclass("row");
+        container.appendChild(row);
+        row.appendChild(labeldiv);
+        row.appendChild(campo);
+
+        renglon.appendChild(container);
     }
 
     /**
@@ -181,6 +192,7 @@ class Form extends Window {
     /**
      * @return the estado
      */
+    @Override
     public FormStates getEstado() {
         return estado;
     }
@@ -188,6 +200,7 @@ class Form extends Window {
     /**
      * @param estado the estado to set
      */
+    @Override
     public void setEstado(FormStates estado) {
         this.estado = estado;
         switch (estado) {

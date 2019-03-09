@@ -16,7 +16,7 @@
     <stylesheet href="~./zul/less/index.css" type="text/css"/>
     <stylesheet href="~./css/bootstrap/bootstrap.min.css" type="text/css"/>
 
-   <javascript src="~./js/jscolor.js"/>
+    <javascript src="~./js/jscolor.js"/>
 
     <javascript src="~./js/jquery.simpleWeather.min.js"/>
     <javascript src="~./js/toastr.js"/>
@@ -170,6 +170,103 @@
         </mold>
         <preserve-blank/>
     </component>
-
-
+    <component>
+        <component-name>valuewindow</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.Window</component-class>
+        <widget-class>zul.wgt.Div</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/div.js</mold-uri>
+        </mold>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>value</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+    </component>
+    <component>
+        <component-name>renglon</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.Renglon</component-class>
+        <widget-class>zul.wgt.Div</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/div.js</mold-uri>
+        </mold>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>label</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>input</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+    </component>
+    <component>
+        <component-name>renglonview</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.RenglonView</component-class>
+        <widget-class>zul.wgt.Div</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/div.js</mold-uri>
+        </mold>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>label</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>view</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>aclass</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+    </component>
 </language-addon>

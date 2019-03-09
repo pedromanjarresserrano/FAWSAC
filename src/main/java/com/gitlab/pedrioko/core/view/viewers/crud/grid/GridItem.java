@@ -71,7 +71,7 @@ public class GridItem extends Vlayout {
                 appendChild(carousel);
             } else {
                 String urlFile = (storageService.getUrlFile(value.getWebServiceURL(), true)).replace("//", "/");
-                if (urlFile.endsWith(".gif")) {
+                if (!urlFile.toLowerCase().endsWith(".webm")) {
                     Image image = new Image();
                     image.setClass("img-responsive");
                     image.setStyle("margin: auto;");

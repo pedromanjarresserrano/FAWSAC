@@ -59,15 +59,22 @@ public class VideoServiceImpl implements VideoService {
 
                     BufferedImage dst = null;
                     boolean existFileEntity = storageService.existFileEntity(name1 + JGP);
-                    if (existFileEntity) {
+                    if (!existFileEntity) {
                         if (!output.exists()) {
                             dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
                             storageService.writeImage(output, dst, "jpg");
                         }
-                        fileEntities.add(storageService.getFileEntity(name1 + JGP));
+                        FileEntity fileEntity = new FileEntity();
+                        fileEntity.setFilename(name1 + JGP);
+                        fileEntity.setUrl(output.getAbsolutePath());
+                        fileEntities.add(crudService.saveOrUpdate(fileEntity));
                     } else {
-                        dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
-                        fileEntities.add(storageService.saveFileImage(dst, name1));
+                        if (!output.exists() && output.length() <= 0) {
+                            dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
+                            fileEntities.add(storageService.saveFileImage(dst, name1));
+                        } else {
+                            fileEntities.add(storageService.getFileEntity(name1 + JGP));
+                        }
                     }
                     sec += v;
                 }

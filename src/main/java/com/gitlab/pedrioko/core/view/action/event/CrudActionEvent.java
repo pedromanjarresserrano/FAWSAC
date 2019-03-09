@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.core.view.action.event;
 
+import com.gitlab.pedrioko.core.view.api.Valuable;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.forms.Form;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
@@ -12,7 +13,7 @@ class CrudActionEvent {
     private Tabpanel tabpanel;
     private CrudView crudViewParent;
     private FormStates formstate;
-    private Form source;
+    private Valuable source;
 
     public CrudActionEvent() {
     }
