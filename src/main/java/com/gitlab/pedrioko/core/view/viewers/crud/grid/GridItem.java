@@ -55,7 +55,7 @@ public class GridItem extends Vlayout {
         getChildren().clear();
         List<FileEntity> listfiles = value.getFilesEntities();
         storageService = ApplicationContextUtils.getBean(StorageService.class);
-        if (value.isCarrouselPreview()) {
+        if (value.carrouselPreview()) {
             if (!listfiles.isEmpty()) {
                 Carousel carousel = new Carousel();
                 carousel.setLazyload(true);
@@ -70,7 +70,7 @@ public class GridItem extends Vlayout {
                 }).collect(Collectors.toList()));
                 appendChild(carousel);
             } else {
-                String urlFile = (storageService.getUrlFile(value.getWebServiceURL(), true)).replace("//", "/");
+                String urlFile = (storageService.getUrlFile(value.webServiceURL(), true)).replace("//", "/");
                 if (!urlFile.toLowerCase().endsWith(".webm")) {
                     Image image = new Image();
                     image.setClass("img-responsive");
@@ -96,7 +96,7 @@ public class GridItem extends Vlayout {
                 appendChild(image);
             }
         }
-        String visualName = value.getVisualName();
-        appendChild(new Label(visualName == null || visualName.isEmpty() ? value.getName() : visualName));
+        String visualName = value.visualName();
+        appendChild(new Label(visualName == null || visualName.isEmpty() ? value.name() : visualName));
     }
 }

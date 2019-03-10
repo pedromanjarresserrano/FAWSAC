@@ -6,20 +6,20 @@ import java.util.List;
 
 public interface CrudGridItem {
 
-    Boolean isCarrouselPreview();
+    Boolean carrouselPreview();
 
     List<FileEntity> getFilesEntities();
 
-    String getName();
+    String name();
 
     default  FileEntity getFile(){
         return null;
     }
 
-    String getLocal();
+    String local();
 
-    String getWebServiceURL();
+    String webServiceURL();
 
-    String getVisualName();
+    String visualName();
 
 }

@@ -13,12 +13,13 @@ public class Renglon extends org.zkoss.zul.Div {
     protected String _inputSclass = "col-sm-9  order-last";
     protected String _inputinnerSclass = "text-dark";
     private final Div inputdiv;
+    private Label labelC;
 
     public Renglon() {
         setZclass(_sclass);
-      /*  labelC = new Label("TEst");
-        labelC.setZclass(_labelSclass);*/
-
+        labelC = new Label("");
+        labelC.setZclass(_labelSclass);
+        appendChild(labelC);
         inputdiv = new Div();
         inputdiv.setZclass(_inputSclass);
         appendChild(inputdiv);
@@ -32,7 +33,7 @@ public class Renglon extends org.zkoss.zul.Div {
         this.input = input;
         smartUpdate("input", input);
         inputdiv.appendChild(input);
-        input.setSclass(_inputinnerSclass);
+        input.setSclass(_inputSclass);
 
     }
 
@@ -42,11 +43,8 @@ public class Renglon extends org.zkoss.zul.Div {
 
     public void setLabel(String label) {
         this.label = label;
-        // labelC.setValue(this.label);
-        appendChild(new Label(label));
-
+        labelC.setValue(this.label);
         smartUpdate("label", label);
-
     }
 
     public String get_sclass() {
@@ -58,12 +56,13 @@ public class Renglon extends org.zkoss.zul.Div {
         smartUpdate("_sclass", _sclass);
     }
 
-    public String get_labelSclass() {
+    public String getlLabelSclass() {
         return _labelSclass;
     }
 
-    public void set_labelSclass(String _labelSclass) {
+    public void setLabelSclass(String _labelSclass) {
         this._labelSclass = _labelSclass;
+        labelC.setZclass(_labelSclass);
         smartUpdate("_labelSclass", _labelSclass);
     }
 

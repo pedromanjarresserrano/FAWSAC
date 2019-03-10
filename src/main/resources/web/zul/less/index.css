@@ -48,8 +48,22 @@ a:focus {
     background: black;
 }
 
+.z-listbox-body {
+    overflow-y: scroll;
+    height: 100%;
+}
+.z-borderlayout{
+    overflow-y: hidden;
+    overflow-x: hidden;
+    height: 98% !important;
+
+}
+.color-system,.color-system .z-row,.color-system .z-row .z-row-inner{
+    overflow-y: hidden !important;
+    background: #252525;
+}
 .z-tabpanel {
-    overflow-y: scroll !important;
+    overflow-y: scroll ;
     overflow-x: hidden;
 }
 .hidden-scroll, .hidden-scroll .z-tabpanels .z-panel{
@@ -171,10 +185,6 @@ a:focus {
     background-color: transparent;
 }
 
-.z-listbox-body {
-    overflow-y: scroll;
-    height: 84%;
-}
 
 .zk-btn-toolbar:hover {
     -webkit-box-shadow: 0px 0px 6px 2px rgba(0, 0, 0, 1);
@@ -568,9 +578,6 @@ weather {
     color: #111111;
 }
 
-.color-system,.color-system .z-row,.color-system .z-row .z-row-inner{
-    background: #252525;
-}
 .btn-action {
     margin-right: 5px;
     margin-top: 5px;

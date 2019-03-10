@@ -1,13 +1,12 @@
 <valuewindow apply="org.zkoss.bind.BindComposer" sclass="bg-light"
-             viewModel="@id('vm') @init('com.gitlab.pedrioko.core.zk.viewmodel.EntityForm')"
-             value="@bind(vm.value)">
+             style="height: 85vh; overflow-y: auto !important; overflow-x: hidden;"
+             viewModel="@id('vm') @init('com.gitlab.pedrioko.core.zk.viewmodel.EntityForm')">
     <div sclass="container text-black m-3">
         <div sclass="row  container m-3" children="@load(vm.renglones.entrySet())">
             <template name="children" var="node">
                 <renglon label="@bind(node.key)" input="@bind(node.value)"/>
             </template>
         </div>
-ed
         <div sclass="row  m-3" children="@load(vm.crudviews.entrySet())">
             <template name="children" var="node">
                 <renglonview label="@bind(node.key)" aclass="hidden-scroll" view="@bind(node.value)" height="100%"/>

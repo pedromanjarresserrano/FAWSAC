@@ -8,5 +8,5 @@ public interface ChosenItem {
 
     List<FileEntity> getFilesEntities();
 
-    String getVisualName();
+    String visualName();
 }

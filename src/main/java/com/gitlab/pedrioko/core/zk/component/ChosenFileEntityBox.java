@@ -31,9 +31,9 @@ public class ChosenFileEntityBox extends Bandbox {
             load();
         } else {
             String value = valuex.substring(valuex.lastIndexOf(',') + 1).trim();
-            model = new LinkedList<>(auxmodel.stream().filter(w -> ((ChosenItem) w).getVisualName().toLowerCase().startsWith(value.toLowerCase())).collect(Collectors.toList()));
+            model = new LinkedList<>(auxmodel.stream().filter(w -> ((ChosenItem) w).visualName().toLowerCase().startsWith(value.toLowerCase())).collect(Collectors.toList()));
             LinkedList<?> list = new LinkedList<>(model);
-            Collections.sort(list, (x, y) -> ((ChosenItem) x).getVisualName().toLowerCase().compareToIgnoreCase(((ChosenItem) y).getVisualName().toLowerCase()));
+            Collections.sort(list, (x, y) -> ((ChosenItem) x).visualName().toLowerCase().compareToIgnoreCase(((ChosenItem) y).visualName().toLowerCase()));
             model = new LinkedList<>(list);
             load();
         }
@@ -85,7 +85,7 @@ public class ChosenFileEntityBox extends Bandbox {
             image.setHeight("50px");
             listitem.setStyle("width:90%");
             hl.appendChild(image);
-            String visualName = ((ChosenItem) e).getVisualName();
+            String visualName = ((ChosenItem) e).visualName();
             hl.appendChild(new Label(visualName));
             Listcell cell = new Listcell();
             cell.appendChild(hl);

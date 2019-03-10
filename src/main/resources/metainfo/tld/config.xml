@@ -1,0 +1,10 @@
+<config>
+    <config-name>myTag</config-name>
+    <taglib>
+        <taglib-uri>http://labels.ats.pedrioko/taglib</taglib-uri>
+        <!-- NOTE: The path here starts from classpath,
+            e.g., build/classes,
+            not WebContent -->
+        <taglib-location>/metainfo/tld/labels.tld</taglib-location>
+    </taglib>
+</config>

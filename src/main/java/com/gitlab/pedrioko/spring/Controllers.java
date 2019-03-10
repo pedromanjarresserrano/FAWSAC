@@ -22,7 +22,6 @@ public class Controllers {
         return "login";
     }
 
-
     @GetMapping("/register")
     public String register() {
         return "register";

@@ -1,25 +1,19 @@
 package com.gitlab.pedrioko.core.view.navegation;
 
-import com.gitlab.pedrioko.core.lang.ProviderAccess;
-import com.gitlab.pedrioko.core.lang.UserProfile;
 import com.gitlab.pedrioko.core.view.api.ContentView;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
-import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
-import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.Usuario;
-import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.image.AImage;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
 
 public @Data
 class MenuPages extends Layout {
@@ -33,7 +27,10 @@ class MenuPages extends Layout {
     private Label labelnombre;
 
     public MenuPages() {
-        user = ApplicationContextUtils.getBean(FHSessionUtil.class).getCurrentUser();
+        setStyle("width:100%;");
+        setZclass("empty");
+        appendChild(Executions.createComponents("~./zul/menu.zul", null, null));
+       /* user = ApplicationContextUtils.getBean(FHSessionUtil.class).getCurrentUser();
         target = ApplicationContextUtils.getBean(ContentView.class);
         groups = new LinkedList<>();
         labelnombre = new Label(user.getNombres() + " " + user.getApellidos());
@@ -84,10 +81,10 @@ class MenuPages extends Layout {
         collect.forEach((k, v) -> v.stream().filter(MenuProvider::isOpenByDefault).forEach(target::addContent));
         //});
         EventQueues.lookup("loadImage", EventQueues.SESSION, true).subscribe(event -> {
-            if ("loadImage".equals(event.getName())) {
+            if ("loadImage".equals(event.name())) {
                 loadImage();
             }
-        });
+        });*/
     }
 
     public void loadImage() {

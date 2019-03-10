@@ -129,6 +129,8 @@ class LoginVM {
             }
 
         } catch (Exception e) {
+            fhsessionutil.setCurrentUser(null);
+
             LOGGER.error("Error on doLogin()", e);
             labelerror = Labels.getLabel("login.error");
             visiblemessage = true;

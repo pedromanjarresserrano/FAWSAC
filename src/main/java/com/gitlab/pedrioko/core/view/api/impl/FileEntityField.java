@@ -3,7 +3,7 @@ package com.gitlab.pedrioko.core.view.api.impl;
 import com.gitlab.pedrioko.core.lang.FileEntity;
 import com.gitlab.pedrioko.core.lang.annotation.FieldForm;
 import com.gitlab.pedrioko.core.view.api.FieldComponent;
-import com.gitlab.pedrioko.core.view.forms.EntityForm;
+import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.zk.component.FileUpload;
 import com.gitlab.pedrioko.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class FileEntityField implements FieldComponent {
         button.getUpload();
         button.setValue(new FileEntity());
         button.addEventListener(Events.ON_UPLOAD, event -> {
-          /*  if (button.getValue() != null) {
+            if (button.getValue() != null) {
                 String urlFile = (ApplicationContextUtils.getBean(StorageService.class).getUrlFile(((FileEntity) button.getValue()).getFilename(), false)).replace("//", "/");
                 if (image.getParent() == null) button.getParent().getChildren().add(0, image);
 
@@ -47,12 +47,12 @@ public class FileEntityField implements FieldComponent {
                 image.setHeight("200px");
 
 
-            }*/
+            }
         });
 
 
         button.addEventListener(Events.ON_CHANGE, event -> {
-       /*     if (button.getValue() != null) {
+            if (button.getValue() != null) {
                 String urlFile = (ApplicationContextUtils.getBean(StorageService.class).getUrlFile(((FileEntity) button.getValue()).getFilename(), false)).replace("//", "/");
                 if (image.getParent() == null) button.getParent().getChildren().add(0, image);
                 image.setVisible(true);
@@ -63,7 +63,7 @@ public class FileEntityField implements FieldComponent {
                 image.setHeight("200px");
 
 
-            }*/
+            }
         });
         image.setVisible(false);
 

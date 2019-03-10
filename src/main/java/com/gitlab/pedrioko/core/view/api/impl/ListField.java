@@ -9,6 +9,7 @@ import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.core.zk.component.ChosenBox;
+import com.gitlab.pedrioko.core.zk.component.Crudbox;
 import com.gitlab.pedrioko.core.zk.component.StringListBox;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Tab;
@@ -60,7 +61,7 @@ public class ListField implements FieldComponent {
         crudView.setReloadable(false);
         //    ef.getTabpanels().appendChild(crudView);
         //     ef.putBinding(e, crudView);
-        Tabbox tabbox = new Tabbox();
+        Crudbox tabbox = new Crudbox();
         Tab tab = new Tab(e.getName());
         Tabs tabs = new Tabs();
         tab.setParent(tabs);

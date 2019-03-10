@@ -57,17 +57,10 @@ public class EntityForm implements Valuable {
     private Tabpanels tabpanels;
     @WireVariable
     private List<Action> actions;
-    private AnnotateDataBinder binder;
 
-    @AfterCompose
-    public void doAfterCompose(@ContextParam(ContextType.VIEW) Component comp) throws Exception {
-        binder = new AnnotateDataBinder(comp);
-        init();
-    }
-
+    @Init
     public void init() {
         value = Executions.getCurrent().getArg().get("value");
-        binder.bindBean("value", value);
         event = (CrudActionEvent) Executions.getCurrent().getArg().get("event-crud");
         estado = (FormStates) Executions.getCurrent().getArg().get("estado-form");
 
@@ -87,11 +80,10 @@ public class EntityForm implements Valuable {
                     .collect(Collectors.toList());
         }
         listfield.forEach(this::fieldToUiField);
-        //   setValueForm(value);
+        setValueForm(value);
         List<Action> beans = ApplicationContextUtils.getBeans(Action.class);
         actions = beans.stream().filter(e -> e.getAplicateClass().contains(Form.class)).collect(Collectors.toList());
         actions.sort(Comparator.comparing(Action::position));
-        binder.loadAll();
     }
 
     public List<Action> getActions() {
@@ -119,7 +111,7 @@ public class EntityForm implements Valuable {
 
     public Object getValue() {
         try {
-            return value/* ReflectionZKUtil.getBindingValue(binding, value.getClass(), value)*/;
+            return ReflectionZKUtil.getBindingValue(binding, value.getClass(), value);
         } catch (ValidationException w) {
             LOGGER.error("ERROR on getValue()", w);
             throw w;
@@ -152,7 +144,6 @@ public class EntityForm implements Valuable {
             if (component != null) {
                 putBinding(e, component);
                 loadReglon(label, component);
-                binder.addBinding(component, "value", "value." + e.getName(), new String[]{}, "self.onChange", "both", null);
             }
 
         });

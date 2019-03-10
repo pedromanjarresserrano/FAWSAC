@@ -8,6 +8,7 @@ import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.StringUtil;
 import com.gitlab.pedrioko.core.zk.component.ChosenBox;
 import com.gitlab.pedrioko.core.zk.component.ChosenFileEntityBox;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.collection.internal.PersistentBag;
 import org.hibernate.collection.internal.PersistentSet;
 import org.slf4j.Logger;
@@ -16,7 +17,9 @@ import org.zkoss.gmaps.Gmaps;
 import org.zkoss.util.resource.Labels;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zul.*;
+import org.zkoss.zul.Checkbox;
+import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Comboitem;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -126,46 +129,33 @@ public class ReflectionZKUtil {
         try {
             Class<? extends Component> class1 = component.getClass();
             if (class1 == Combobox.class) {
-                if (obj == null) {
-                    ListModel<Object> model = new ListModelList((Collection) ((Combobox) component).getModel());
-                    ((Combobox) component).setModel(new ListModelList<>(new ArrayList()));
-                    ((Combobox) component).setModel(model);
-                } else {
-                    Method method = component.getClass().getMethod("getItems");
-                    Object invoke = method.invoke(component);
-                    List<Comboitem> list = (List<Comboitem>) invoke;
-                    Object idvalue = ReflectionJavaUtil.getIdValue(obj);
-                    list.stream().filter(e -> {
-                        Object idValue = ReflectionJavaUtil.getIdValue(e.getValue());
-                        boolean b = idvalue != null && idvalue.equals(idValue);
-                        Object eValue = e.getValue();
-                        boolean b1 = eValue.equals(obj);
-                        return (b1 && idValue == null) || b;
-                    }).forEach(e -> {
-                        try {
-                            setSelectedItem(component, e);
-                        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e1) {
-                            LOGGER.error("ERROR on setValueComponent()", e1);
-                        }
-                    });
-                }
+                Method method = component.getClass().getMethod("getItems");
+                Object invoke = method.invoke(component);
+                List<Comboitem> list = (List<Comboitem>) invoke;
+                Object idvalue = ReflectionJavaUtil.getIdValue(obj);
+                list.stream().filter(e -> {
+                    Object idValue = ReflectionJavaUtil.getIdValue(e.getValue());
+                    boolean b = idvalue != null && idvalue.equals(idValue);
+                    Object eValue = e.getValue();
+                    boolean b1 = eValue.equals(obj);
+                    return (b1 && idValue == null) || b;
+                }).forEach(e -> {
+                    try {
+                        setSelectedItem(component, e);
+                    } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e1) {
+                        LOGGER.error("ERROR on setValueComponent()", e1);
+                    }
+                });
+
             } else if (class1 == Checkbox.class) {
-                Checkbox c = (Checkbox) component;
-                if (obj == null) c.setChecked(false);
-                else c.setChecked((Boolean) obj);
+                PropertyUtils.setSimpleProperty(component, "checked", obj == null ? false : obj);
             } else if (class1 == ChosenBox.class) {
-                ChosenBox c = (ChosenBox) component;
-                if (obj == null) c.setValueSelection(new ArrayList<>());
-                else c.setValueSelection((List) obj);
-            } else if (obj != null && obj.getClass() == PersistentBag.class) {
-                if (obj == null) setValue(component, new ArrayList<>());
-                else setValue(component, new ArrayList((PersistentBag) obj));
-            } else if (obj != null && obj.getClass() == PersistentSet.class) {
-                if (obj == null) setValue(component, new ArrayList<>());
-                else setValue(component, new ArrayList((PersistentSet) obj));
+                PropertyUtils.setSimpleProperty(component, "valueSelection", obj == null ? new ArrayList<>() : (List) obj);
+            } else if (obj != null && (obj.getClass() == PersistentBag.class || obj.getClass() == PersistentSet.class)) {
+                PropertyUtils.setSimpleProperty(component, "value", obj == null ? new ArrayList<>() : new ArrayList((Collection) obj));
             } else {
                 if (class1 != Gmaps.class) {
-                    setValue(component, obj.getClass() == Timestamp.class ? new Date(((Timestamp) obj).getTime()) : obj);
+                    PropertyUtils.setSimpleProperty(component, "value", obj.getClass() == Timestamp.class ? new Date(((Timestamp) obj).getTime()) : obj);
                 }
             }
         } catch (Exception e) {
@@ -196,25 +186,19 @@ public class ReflectionZKUtil {
         });
     }
 
-    public static Object getValue(Component component)
-            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Method method = component.getClass().getMethod("getValue");
-        return method.invoke(component);
+    public static Object getValue(Component component) {
+        return ReflectionJavaUtil.getValueFieldObject("value", component);
+
     }
 
-    public static <T> void setValue(Component component, T object)
-            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public static <T> void setValue(Component component, T object) {
         if (object != null) {
-            Method method = component.getClass().getMethod("setValue", object.getClass());
-            method.invoke(component, object);
+            ReflectionJavaUtil.setValueFieldObject("value", component, object);
         }
     }
 
-    private static Object isChecked(Component component)
-            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Method method = component.getClass().getMethod("isChecked");
-        return method.invoke(component);
-
+    private static Object isChecked(Component component) {
+        return ReflectionJavaUtil.getValueFieldObject("checked", component);
     }
 
     public static <T> void sethecked(Component component, T object)

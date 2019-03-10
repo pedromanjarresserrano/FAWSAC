@@ -1,0 +1,11 @@
+<taglib>
+    <function>
+        <name>l</name>
+        <function-class>org.zkoss.util.resource.Labels</function-class>
+        <function-signature>
+            java.lang.String getLabel(java.lang.String, java.lang.String)
+        </function-signature>
+        <description>Retrieve a label with a default.</description>
+    </function>
+    <!-- any number of functions are allowed -->
+</taglib>

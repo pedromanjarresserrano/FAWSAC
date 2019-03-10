@@ -32,7 +32,7 @@ public class StorageController {
         if (!collect.isEmpty()) {
             Object o = collect.get(0);
             CrudGridItem byId = (CrudGridItem) crudService.getById((Class) o, Long.parseLong(id));
-            File file = new File(byId.getLocal());
+            File file = new File(byId.local());
             InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
             return Mono.justOrEmpty(resource);
         } else
@@ -59,7 +59,7 @@ public class StorageController {
         return ResponseEntity.ok()
                 .contentType(mediaType)
                 .contentLength(len)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.name() + "\"")
                 .body(resource);*/
     }
 }

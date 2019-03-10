@@ -6,83 +6,78 @@
 <!-- Load fonts from local -->
 <?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 
-<zk xmlns:n="native">
-    <window visible="false"></window>
-		<borderlayout height="100%" id="borderlayout"
-                      apply="com.gitlab.pedrioko.zk.composer.BarsComposer">
-			<north border="0" height="50px">
-				<div class="navbar" id="navbar"
-					apply="com.gitlab.pedrioko.zk.composer.NavbarComposer">
-					<!-- Brand Logo -->
-					<div  id="navbarbrand" >
-						<div class="navbar-brand center-block">
-							<n:i class="fa fa-leaf pull-left fa-lg  center-block"></n:i>
+<zk>
 
-							<label value="AS Admin " width="160px"
-								style="font-size:1.1em;" class="pull-left  center-block" />
-						</div>
-						<!-- Navbar -->
-					</div>
-					<button id="collapser"></button>
-					<hlayout sclass="nav-user pull-right" spacing="0">
-						<!-- User menu -->
-						<div style="height:100%">
-							<hbox spacing="0" style="height:100%">
-								<image id="avatar"
-									class="center-block img-circle " height="50px" width="50px"
-									use="com.gitlab.pedrioko.zk.composer.util.PatchedImage"
-									style="padding: 4px 4px 4px 4px; " popup="editPopup,after_end" />
-							</hbox>
-						</div>
-					</hlayout>
-					<menupopup id="editPopup"
-						class="user-menu pull-left">
-						<!-- <menuitem label="Settings" iconSclass="z-icon-cog" /> -->
-						<menuseparator />
-						<menuitem id="miLogout" label="Logout"
-							iconSclass="z-icon-sign-out" />
-					</menupopup>
+    <div sclass="container-fluid h-100">
+        <div style="height: 94% !important;">
+            <div id="header" sclass="col-sm-12 col-md-12 col-lg-12 m-1" >
+                <menupages></menupages>
+            </div>
+            <div id="contenido" sclass="col-sm-12 col-md-12 col-lg-12 h-100 m-3">
+                <contenttab sclass="h-100">
+                </contenttab>
+            </div>
+        </div>
+    </div><!--
+    <borderlayout height="100%" id="borderlayout"
+                  apply="com.gitlab.pedrioko.zk.composer.BarsComposer">
+        <north border="0" height="50px">
+            <div class="navbar" id="navbar"
+                 apply="com.gitlab.pedrioko.zk.composer.NavbarComposer">
+                <div id="navbarbrand">
+                    <div class="navbar-brand center-block">
+                        <n:i class="fa fa-leaf pull-left fa-lg  center-block"></n:i>
 
-				</div>
-			</north>
-			<west id="west" size="220px" maxsize="280"
-				border="0" splittable="false" collapsible="true"
-				  sclass="menu-sidebar">
-			<!--	<vlayout id="menu"  >
-				</vlayout>-->
-				<menupages></menupages>
-			</west>
-			<center id="center" border="1" >
-				<contenttab height="100%" >
-				</contenttab>
-			</center>
-		</borderlayout>
+                        <label value="AS Admin " width="160px"
+                               style="font-size:1.1em;" class="pull-left  center-block"/>
+                    </div>
+                </div>
+                <hlayout sclass="nav-user pull-right" spacing="0">
+                    <div style="height:100%">
+                        <hbox spacing="0" style="height:100%">
+                            <image id="avatar"
+                                   class="center-block img-circle " height="50px" width="50px"
+                                   use="com.gitlab.pedrioko.zk.composer.util.PatchedImage"
+                                   style="padding: 4px 4px 4px 4px; " popup="editPopup,after_end"/>
+                        </hbox>
+                    </div>
+                </hlayout>
+                <menupopup id="editPopup"
+                           class="user-menu pull-left">
+                    <menuseparator/>
+                    <menuitem id="miLogout" label="Logout"
+                              iconSclass="z-icon-sign-out"/>
+                </menupopup>
+                <div apply="org.zkoss.bind.BindComposer" sclass="bg-light"
+                     viewModel="@id('mm') @init('com.gitlab.pedrioko.core.zk.viewmodel.Menu')" xmlns:n="native">
+                    <div sclass="nav"  children="@load(mm.menues.entrySet())">
+                        <template name="children" var="node">
+                            <n:li sclass="nav-item dropdown">
+                                <a sclass="nav-link dropdown-toggle" ca:data-toggle="dropdown" href="#" ca:role="button"
+                                   ca:aria-haspopup="true" ca:aria-expanded="false">
+                                    <label value="@bind(node.key)"/>
+                                </a>
+                                <div children="@load(node.value)" sclass="dropdown-menu" ca:x-placement="bottom-start"
+                                     style="position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                    <template name="children" var="submenu">
+                                        <button zclass="btn btn-outline-secondary btn-block text-dark" label="@load(submenu.label)"
+                                                iconSclass="@load(submenu.icon)"
+                                                onClick="@command('clickAction', action=submenu)"
+                                        />
+                                    </template>
+                                </div>
+                            </n:li>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </north>
+        <west id="west" size="220px" maxsize="280"
+              border="0" splittable="false" collapsible="true"
+              sclass="menu-sidebar">
+            </west>
+        <center id="center" border="1">
 
-
-
-    <script type="text/javascript"
-            src="https://cdnjs.cloudflare.com/ajax/libs/jquery.simpleWeather/3.1.0/jquery.simpleWeather.min.js">
-    </script>
-
-    <script type="text/javascript">
-        function weather() {
-        $.simpleWeather({
-        location: 'Cartagena, CO',
-        woeid: '',
-        unit: 'c',
-        success: function(weather) {
-        html = '<h2><i id="ico" class="icon-'+weather.code+'"></i> '+weather.temp+' º'+weather.units.temp+'</h2>';
-        html += '<ul><li>'+weather.city+', '+weather.region+'</li>';
-        html += '<li class="currently">'+weather.currently+'</li>';
-        html += '<li>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</li></ul>';
-
-        $("#weather").html(html);
-        },
-        error: function(error) {
-        $("#weather").html('<p>'+error+'</p>');
-        }
-        });
-        }
-    </script>
-
+        </center>
+    </borderlayout>-->
 </zk>

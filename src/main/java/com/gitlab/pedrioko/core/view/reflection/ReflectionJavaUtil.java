@@ -23,13 +23,6 @@ import java.util.stream.Collectors;
 public class ReflectionJavaUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReflectionJavaUtil.class);
 
-    public static Object getValueFieldObject(Object obj, String methodName)
-            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Method methodSetProperty = obj.getClass().getMethod(methodName);
-
-        return methodSetProperty.invoke(obj);
-    }
-
     public static Object getIdValue(Object obj) {
         if (obj == null) return obj;
         List<Field> fields = getFields(obj.getClass());
@@ -64,24 +57,7 @@ public class ReflectionJavaUtil {
     public static Object getValueFieldObject(String fieldname, Object obj) {
         if (obj != null) {
             try {
-                Optional<Field> first = Arrays.asList(obj.getClass().getDeclaredFields()).stream()
-                        .filter(f -> f.getName().equalsIgnoreCase(fieldname)
-                                && ((f.getType() == boolean.class) || obj.getClass() == Boolean.class))
-                        .findFirst();
-                if (first.isPresent()) {
-                    String methodname = getNameMethod(fieldname, ClassMethod.IS);
-                    Method method = obj.getClass().getMethod(methodname);
-                    return method.invoke(obj);
-                } else {
-                    String methodname = getNameMethod(fieldname, ClassMethod.GET);
-                    Method method = obj.getClass().getMethod(methodname);
-                    Object invoke = method.invoke(obj);
-                    if (invoke != null && invoke.getClass() == Date.class) {
-                        Date date = (Date) invoke;
-                        invoke = new java.util.Date(date.getTime());
-                    }
-                    return invoke;
-                }
+                return PropertyUtils.getProperty(obj, fieldname);
             } catch (IllegalAccessException | SecurityException | InvocationTargetException | NoSuchMethodException e) {
                 LOGGER.error("ERROR on getValueFieldObject() - " + obj.getClass(), e);
             }
@@ -98,7 +74,6 @@ public class ReflectionJavaUtil {
     }
 
     public static String getNameMethod(Field k, ClassMethod metodo) {
-
         return getNameMethod(k.getName(), metodo);
     }
 
