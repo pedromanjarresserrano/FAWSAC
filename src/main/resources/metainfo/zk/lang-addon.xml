@@ -11,28 +11,29 @@
         so can be used in lang-addon directly -->
     <language-name>xul/html</language-name>
     <stylesheet href="~./css/clock.css" type="text/css"/>
-    <stylesheet href="~./css/toastr.css" type="text/css"/>
     <stylesheet href="~./css/fonts.css" type="text/css"/>
+    <stylesheet href="~./css/alertify/alertify.min.css" type="text/css"/>
+    <stylesheet href="~./css/alertify/theme/semantic.min.css" type="text/css"/>
+
     <stylesheet href="~./zul/less/index.css" type="text/css"/>
-    <stylesheet href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css"/>
+    <stylesheet href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css"/>
 
     <javascript src="https://code.jquery.com/jquery-3.3.1.slim.min.js"/>
     <javascript src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"/>
-    <javascript src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" />
+    <javascript src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" />
     <javascript src="~./js/jscolor.js"/>
 
     <javascript src="~./js/jquery.simpleWeather.min.js"/>
-    <javascript src="~./js/toastr.js"/>
     <javascript src="~./js/fontawesome.js"/>
     <javascript src="~./js/slider.js"/>
 
-    <javascript src="~./js/Chart.js"/>
-    <javascript src="~./js/Chart.min.js"/>
-    <javascript src="~./js/chartjs-plugin-datalabels.min.js"/>
+    <javascript src="~./js/chartjs/Chart.min.js"/>
+    <javascript src="~./js/chartj/chartjs-plugin-datalabels.min.js"/>
 
     <javascript src="~./js/jspdf.min.js"/>
     <javascript src="~./js/jspdf.plugin.autotable.js"/>
     <javascript src="~./js/html2canvas.js"/>
+    <javascript src="~./js/alertify/alertify.min.js"/>
 
     <javascript src="~./js/addons.js"/>
 

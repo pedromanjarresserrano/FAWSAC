@@ -3,6 +3,7 @@ package com.gitlab.pedrioko.core.view.reflection;
 import com.gitlab.pedrioko.core.view.reflection.enums.ClassMethod;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.hibernate.mapping.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ReflectionUtils;
@@ -112,6 +113,11 @@ public class ReflectionJavaUtil {
         return getFields(klass).stream().filter(e -> e.getType() != List.class
                 && !e.getName().equalsIgnoreCase("serialVersionUID") && e.getType() == String.class)
                 .collect(Collectors.toList());
+    }
+
+    public static List<String> getFieldsNames(Class<?> klass) {
+        List<Field> fields = getFields(klass);
+        return fields.stream().map(Field::getName).collect(Collectors.toList());
     }
 
     public static List<Field> getFields(Class<?> klass) {

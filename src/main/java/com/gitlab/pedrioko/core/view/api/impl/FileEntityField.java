@@ -36,33 +36,34 @@ public class FileEntityField implements FieldComponent {
         button.setValue(new FileEntity());
         button.addEventListener(Events.ON_UPLOAD, event -> {
             if (button.getValue() != null) {
-                String urlFile = (ApplicationContextUtils.getBean(StorageService.class).getUrlFile(((FileEntity) button.getValue()).getFilename(), false)).replace("//", "/");
-                if (image.getParent() == null) button.getParent().getChildren().add(0, image);
+                String filename = ((FileEntity) button.getValue()).getFilename();
+                if (filename != null && !filename.isEmpty()) {
+                    String urlFile = (ApplicationContextUtils.getBean(StorageService.class).getUrlFile(filename, false)).replace("//", "/");
+                    if (image.getParent() == null) button.getParent().getChildren().add(0, image);
+                    image.setVisible(true);
+                    image.setClass("img-responsive");
+                    image.setStyle("margin: auto;");
+                    image.setSrc(urlFile);
+                    image.setHeight("200px");
 
-                image.setVisible(true);
-
-                image.setClass("img-responsive");
-                image.setStyle("margin: auto;");
-                image.setSrc(urlFile);
-                image.setHeight("200px");
-
-
+                }
             }
         });
 
 
         button.addEventListener(Events.ON_CHANGE, event -> {
             if (button.getValue() != null) {
-                String urlFile = (ApplicationContextUtils.getBean(StorageService.class).getUrlFile(((FileEntity) button.getValue()).getFilename(), false)).replace("//", "/");
-                if (image.getParent() == null) button.getParent().getChildren().add(0, image);
-                image.setVisible(true);
+                String filename = ((FileEntity) button.getValue()).getFilename();
+                if (filename != null && !filename.isEmpty()) {
+                    String urlFile = (ApplicationContextUtils.getBean(StorageService.class).getUrlFile(filename, false)).replace("//", "/");
+                    if (image.getParent() == null) button.getParent().getChildren().add(0, image);
+                    image.setVisible(true);
+                    image.setClass("img-responsive");
+                    image.setStyle("margin: auto;");
+                    image.setSrc(urlFile);
+                    image.setHeight("200px");
 
-                image.setClass("img-responsive");
-                image.setStyle("margin: auto;");
-                image.setSrc(urlFile);
-                image.setHeight("200px");
-
-
+                }
             }
         });
         image.setVisible(false);

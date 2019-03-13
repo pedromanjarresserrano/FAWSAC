@@ -56,6 +56,7 @@ public class PropertiesUtil {
         return getBoolean(c.getSimpleName() + ".table.commonactions.enable", true);
     }
 
+
     /**
      * @param key
      * @return

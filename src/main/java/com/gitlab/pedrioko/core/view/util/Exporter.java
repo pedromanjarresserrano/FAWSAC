@@ -107,7 +107,7 @@ public class Exporter {
             iText_xls_2_pdf.open();
             List<String> fieldTable = getListFiled(list);
             if (fieldTable.isEmpty())
-                fieldTable.add("Null");
+                fieldTable = ReflectionJavaUtil.getFieldsNames(list.get(0).getClass());
             PdfPTable my_table = new PdfPTable(fieldTable.size());
             PdfPCell table_cell;
             HSSFRow row = null;

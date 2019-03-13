@@ -91,8 +91,9 @@ public class ReflectionZKUtil {
                 ApplicationContextUtils.getBeans(ValidateAnnotation.class).forEach(e -> e.Validate(k, valueComponent));
                 try {
                     Object[] aux = {null};
+                    aux[0] = valueComponent;
                     ApplicationContextUtils.getBeans(TransformerAnnotation.class).forEach(e -> {
-                        aux[0] = e.Validate(k, valueComponent);
+                        aux[0] = e.Validate(k, aux[0]);
                     });
                     Method methodSetProperty = klass.getMethod(methodName, k.getType());
                     methodSetProperty.invoke(newInstance, k.getType() == Set.class ? new HashSet((Collection) aux[0]) : aux[0]);

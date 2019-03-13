@@ -17,19 +17,18 @@ public class ZKUtil {
 
     public static void showMessage(String message) {
         if (ApplicationContextUtils.getBean(FHSessionUtil.class).getCurrentUser().getTipo() != TipoUsuario.ROLE_TURISTA)
-
-            Clients.evalJavaScript("toastr." + getTypeMessage(MessageType.ERROR) + "('" + message + "')");
+            showMessage(message, MessageType.ERROR);
     }
 
     public static void showMessage(String message, MessageType type, TipoUsuario tipoUsuario) {
         if (ApplicationContextUtils.getBean(FHSessionUtil.class).getCurrentUser().getTipo() == tipoUsuario)
-            Clients.evalJavaScript("toastr." + getTypeMessage(type) + "('" + message + "')");
+            showMessage(message, type);
 
     }
 
     public static void showMessage(String message, MessageType type) {
-        Clients.evalJavaScript("toastr." + getTypeMessage(type) + "('" + message + "')");
-
+        String string = "alertify." + getTypeMessage(type) + "('" + message + "', 5 ); ";
+        Clients.evalJavaScript(string);
     }
 
     private static String getTypeMessage(MessageType type) {

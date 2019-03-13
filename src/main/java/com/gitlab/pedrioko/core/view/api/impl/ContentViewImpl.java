@@ -9,6 +9,7 @@ import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.*;
 import org.zkoss.zul.impl.LabelImageElement;
 
@@ -69,6 +70,7 @@ public class ContentViewImpl implements ContentView {
                 list.add(tab);
                 tab.setClosable(true);
                 this.tab.getTabs().appendChild(tab);
+                this.tab.setAttribute("menuprovider", provider);
                 Component view = provider.getView();
                 loadView(id, label, tab, view);
                 tab.setIconSclass(provider.getIcon());
@@ -90,7 +92,7 @@ public class ContentViewImpl implements ContentView {
 
     @Override
     public void loadView(String id, String menu) {
-        menuProviders.stream().filter(e -> e.getGroup().compareToIgnoreCase(id)==0).filter(e -> e.getLabel().compareToIgnoreCase(menu)==0).forEach(this::addContent);
+        menuProviders.stream().filter(e -> e.getGroup().compareToIgnoreCase(id) == 0).filter(e -> e.getLabel().compareToIgnoreCase(menu) == 0).forEach(this::addContent);
     }
 
     @Override
@@ -142,11 +144,6 @@ public class ContentViewImpl implements ContentView {
 
         } else {
             CrudView crudView = (CrudView) view;
-            if (fhSessionUtil.getCurrentUser().getTipo() != TipoUsuario.ROLE_ADMIN) {
-                crudView.onlyEnable(fhSessionUtil.getCurrentUser().getUserprofiles().stream().flatMap(e -> e.getProvidersaccess().stream())
-                        .filter(e -> e.getMenuprovider().equalsIgnoreCase(id))
-                        .flatMap(e -> e.getActions().stream()).collect(Collectors.toList()));
-            }
             crudView.setSclass("color-system");
             this.tab.getTabpanels().getChildren().add(crudView);
         }

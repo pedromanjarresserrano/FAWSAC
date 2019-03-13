@@ -29,7 +29,7 @@ class MenuPages extends Layout {
     public MenuPages() {
         setStyle("width:100%;");
         setZclass("empty");
-        appendChild(Executions.createComponents("~./zul/menu.zul", null, null));
+        appendChild(Executions.createComponents("~./zul/nav/menu.zul", null, null));
        /* user = ApplicationContextUtils.getBean(FHSessionUtil.class).getCurrentUser();
         target = ApplicationContextUtils.getBean(ContentView.class);
         groups = new LinkedList<>();

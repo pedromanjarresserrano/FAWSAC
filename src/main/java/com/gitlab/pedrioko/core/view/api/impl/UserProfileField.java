@@ -34,7 +34,7 @@ public class UserProfileField implements FieldComponent {
             CrudView crudView = new CrudView(UserProfile.class, CrudMode.SUBCRUD);
             boolean enableSubCrudsClass = ApplicationContextUtils.getBean(PropertiesUtil.class)
                     .getEnableSubCrudsClass(UserProfile.class, false);
-            crudView.enableCommonCrudActions(enableSubCrudsClass);
+           // crudView.enableCommonCrudActions(enableSubCrudsClass);
             crudView.setStyle("height:100%;");
             crudView.setReloadable(false);
             //  ef.getTabpanels().appendChild(crudView);

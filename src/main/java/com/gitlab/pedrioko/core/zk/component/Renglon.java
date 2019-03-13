@@ -1,17 +1,20 @@
 package com.gitlab.pedrioko.core.zk.component;
 
-import org.zkoss.zk.ui.HtmlBasedComponent;
+import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;
+import org.zkoss.zul.Textbox;
+import org.zkoss.zul.impl.NumberInputElement;
 
 public class Renglon extends org.zkoss.zul.Div {
 
-    protected HtmlBasedComponent input;
+    protected Component input;
     protected String label;
     protected String _sclass = "col-12 col-sm-12 col-md-6 col-lg-6 form-group row";
     protected String _labelSclass = "col-sm-3 col-form-label";
     protected String _inputSclass = "col-sm-9  order-last";
-    protected String _inputinnerSclass = "text-dark";
+    protected String _inputinnerSclass = " input-group text-dark ";
     private final Div inputdiv;
     private Label labelC;
 
@@ -25,15 +28,16 @@ public class Renglon extends org.zkoss.zul.Div {
         appendChild(inputdiv);
     }
 
-    public HtmlBasedComponent getInput() {
+    public Component getInput() {
         return input;
     }
 
-    public void setInput(HtmlBasedComponent input) {
+    public void setInput(Component input) {
         this.input = input;
-        smartUpdate("input", input);
         inputdiv.appendChild(input);
-        input.setSclass(_inputSclass);
+        ReflectionJavaUtil.setValueFieldObject("sclass", input, ReflectionJavaUtil.getValueFieldObject("sclass", input) + " " + (Textbox.class.equals(input.getClass()) || NumberInputElement.class.isAssignableFrom(input.getClass()) ? " form-control " + _inputinnerSclass :
+                _inputinnerSclass));
+        smartUpdate("input", input);
 
     }
 

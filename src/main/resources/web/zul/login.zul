@@ -10,123 +10,41 @@
             <label zclass="h1" style="font-size:3em;" value="@bind(vm.appName)"/>
 
         </div>
-        <div zclass="d-flex justify-content-center align-items-center bd-highlight mb-3">
-            <div zclass="col-md-5 col-lg-5 col-sm-12" id="box">
-                <div zclass="form-group">
-                    <label>Email address</label>
-                    <textbox type="email" value="@bind(vm.valueuser)" sclass="form-control" id="exampleInputEmail1"
-                             placeholder="Enter email"/>
-                    <label id="emailHelp" zclass="form-text text-muted">We'll never share your email with anyone
-                        else.
-                    </label>
+        <div zclass="d-flex flex-column justify-content-center align-items-center bd-highlight mb-3 h-75">
+            <div zclass="shadow-sm rounded-lg bg-secondary text-white col-md-7 col-lg-7 col-sm-12 p-0" id="box">
+                <div zclass="p-4 bg-info  w-100">
+                    <label zclass="h2 font-weight-bold">Log in</label>
                 </div>
-                <div zclass="form-group">
-                    <label>Password</label>
-                    <textbox type="password" value="@bind(vm.valuepass)" sclass="form-control"
-                             onOK="@command('doLogin')"
-                             id="exampleInputPassword1" placeholder="Password"/>
-                </div>
-                <div zclass="form-check">
-                    <checkbox zclass="form-check-input" id="exampleCheck1"/>
-                    <label zclass="form-check-label">Check me out</label>
-                </div>
-                <div zclass="form-group  col-md-12 alert-danger" height="25px"
-                     align="center" visible="@bind(vm.visiblemessage)">
-                    <label id="message"
-                           visible="@bind(vm.visiblemessage)" sclass="warn"
-                           value="@bind(vm.labelerror)"/>
-                </div>
-                <button type="submit" zclass="btn btn-primary" onClick="@command('doLogin')" label="@bind(vm.boton)"/>
-                <!--
-                    <div class="form-group" align="center"
-                         style="padding-left:20px;padding-right:20px;padding-top:20px;">
-                        <vlayout style="align:center;">
-                            <div class="form-group center">
-                                <div class="col-md-12"
-                                     align="center">
-                                    <div class="input-group">
-                                        <label
-                                                style="font-size:1.7em;" sclass="h1"
-                                                value="@bind(vm.label)"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </vlayout>
-                        <vlayout>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <div class="input-group">
-                                        <span
-                                                class="input-group-addon">
-                                            <n:i class="fa fa-user"
-                                                 aria-hidden="true">
-                                            </n:i>
-
-                                        </span>
-                                        <textbox
-                                                onOK="@command('doLogin')" value="@save(vm.valueuser)"
-                                                id="account" placeholder="@bind(vm.account)"
-                                                class="form-control"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </vlayout>
-                        <vlayout>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <div class="input-group">
-                                        <span
-                                                class="input-group-addon">
-                                            <n:i class="fa fa-unlock-alt"
-                                                 aria-hidden="true">
-                                            </n:i>
-                                        </span>
-                                        <textbox type="password"
-                                                 onOK="@command('doLogin')" value="@save(vm.valuepass)"
-                                                 id="password" placeholder="@bind(vm.password)"
-                                                 class="form-control"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </vlayout>
-                        <space></space>
-
-                        <vlayout>
-                            <div class="col-md-12">
-
-                                <div class="form-group">
-                                    <div
-                                            class="form-group  col-md-12 alert-danger" height="25px"
-                                            align="center" visible="@bind(vm.visiblemessage)">
-                                        <label id="message"
-                                               visible="@bind(vm.visiblemessage)" sclass="warn"
-                                               value="@bind(vm.labelerror)"/>
-                                    </div>
-
-                                    <button id="login" width="100%"
-                                            iconSclass="z-icon-sign-in" onClick="@command('doLogin')"
-                                            zclass="btn btn-success btn-lg" label="@bind(vm.boton)">
-                                    </button>
-                                    <separator/>
-
-                                    <div class="form-group"
-                                         align="center" style="padding-top:10px;">
-                                        <a
-                                                label="@bind(vm.labelnewuser)" style="font-size:1.0em;"
-                                                href="/register"/>
-                                    </div>
-                                    <div class="form-group"
-                                         align="center">
-                                        <a
-                                                label="@bind(vm.labelrecovery)" style="font-size:1.0em;"
-                                                href="/recovery"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </vlayout>
+                <div zclass="p-5">
+                    <div zclass="form-group">
+                        <label zclass="font-weight-bold">Email address</label>
+                        <textbox type="email" value="@bind(vm.valueuser)" sclass="form-control" id="exampleInputEmail1"
+                                 placeholder="Enter email"/>
+                        <label id="emailHelp" zclass="form-text text-white font-weight-lighter">We'll never share your
+                            email
+                            with anyone
+                            else.
+                        </label>
                     </div>
-                </vlayout>
-            </div>-->
+                    <div zclass="form-group">
+                        <label zclass="font-weight-bold">Password</label>
+                        <textbox type="password" value="@bind(vm.valuepass)" sclass="form-control"
+                                 onOK="@command('doLogin')"
+                                 id="exampleInputPassword1" placeholder="Password"/>
+                    </div>
+                    <div zclass="form-check">
+                        <checkbox zclass="form-check-input" id="exampleCheck1"/>
+                        <label zclass="form-check-label">Check me out</label>
+                    </div>
+                    <div zclass="form-group  col-md-12 alert-danger" height="25px"
+                         align="center" visible="@bind(vm.visiblemessage)">
+                        <label id="message"
+                               visible="@bind(vm.visiblemessage)" sclass="warn"
+                               value="@bind(vm.labelerror)"/>
+                    </div>
+                    <button type="submit" zclass="mt-4 btn btn-primary" onClick="@command('doLogin')"
+                            label="@bind(vm.boton)"/>
+                </div>
             </div>
         </div>
     </div>

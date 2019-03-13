@@ -62,9 +62,95 @@ a:focus {
     overflow-y: hidden !important;
     background: #252525;
 }
+
+margin-bottom: 1rem !important;
+
+}
+.z-datebox , .z-combobox{
+
+    position: relative !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    -ms-flex-wrap: wrap !important;
+    flex-wrap: wrap !important;
+    -ms-flex-align: stretch !important;
+    align-items: stretch !important;
+    width: 100% !important;
+ }
+
+.z-datebox-input ,  .z-combobox-input{
+border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+
+    position: relative  !important;
+    -ms-flex: 1 1 auto  !important;
+    flex: 1 1 auto  !important;
+    width: 1%  !important;
+    margin-bottom: 0  !important;
+
+    display: block  !important;
+    height: calc(1.5em + .75rem + 2px)  !important;
+    padding: .375rem .75rem  !important;
+    font-size: 1rem  !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: #495057 !important;
+    background-color: #fff !important;
+    background-clip: padding-box !important;
+    border: 1px solid #ced4da !important;
+    border-radius: .25rem !important;
+        border-top-right-radius: 0.25rem !important;
+        border-bottom-right-radius: 0.25rem !important;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
+}
+.z-datebox-button, .z-combobox-button{
+    height: calc(1.5em + .75rem + 2px);
+    align-items: center;
+    padding: .375rem .75rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+ }
+
+@media all and (max-width:768px){
+     .hidden-sm{
+        display:none !important;
+     }
+
+     .show-sm{
+        display:flex !important;
+     }
+
+}
+
+
+@media all and (min-width:768px)  and (max-width:992px){
+     .hidden-md{
+        display:none !important;
+     }
+
+}
+
+
+@media all and (min-width:992px){
+     .hidden-lg{
+        display:none !important;
+     }
+
+}
+
+
 .z-tabpanel {
     overflow-y: scroll ;
     overflow-x: hidden;
+    height:100%;
 }
 .hidden-scroll, .hidden-scroll .z-tabpanels .z-panel{
     overflow-y: hidden !important;

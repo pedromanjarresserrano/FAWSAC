@@ -1,0 +1,57 @@
+<?taglib uri="http://labels.ats.pedrioko/taglib" prefix="my"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<div apply="org.zkoss.bind.BindComposer" sclass="" xmlns:ca="client/attribute"
+     viewModel="@id('mm') @init('com.gitlab.pedrioko.core.zk.viewmodel.Menu')" xmlns:n="native">
+    <div sclass="nav">
+        <div sclass="nav" children="@load(mm.navmenues)">
+            <template name="children" var="node">
+                <n:li sclass="nav-item ">
+                    <a zclass="nav-link" label="@load(node.label)"
+                       iconSclass="@load(node.icon)" href="javascript:void(0)"
+                       onClick="@command('clickAction', action=node)"
+                    />
+                </n:li>
+            </template>
+        </div>
+
+        <div sclass="nav" children="@load(mm.menues.entrySet())">
+            <template name="children" var="node">
+                <n:li sclass="nav-item dropdown">
+                    <a zclass="nav-link dropdown-toggle" ca:data-toggle="dropdown" href="#" ca:role="button"
+                       ca:aria-haspopup="true" ca:aria-expanded="false"
+                       label=" @load(my:l(node.key,node.key))">
+
+                    </a>
+                    <div children="@load(node.value)" sclass="dropdown-menu" ca:x-placement="bottom-start"
+                         style="min-width: 16rem; position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                        <template name="children" var="submenu">
+                            <button zclass="btn btn-outline-secondary btn-sm btn-block text-dark"
+                                    label="@load(submenu.label)"
+                                    iconSclass="@load(c:cat(submenu.icon,' text-dark '))"
+                                    onClick="@command('clickAction', action=submenu)"
+                            />
+                        </template>
+                    </div>
+                </n:li>
+            </template>
+        </div>
+        <div zclass="nav ml-auto mt-auto">
+            <n:li class="nav-item avatar">
+                <a zclass="nav-link p-0" href="javascript:void(0)">
+                    <image width="50px" height="50px" sclass="img-thumbnail rounded-circle"
+                           content="@load(mm.image)"
+                           onClick='mailPop.open(self,"after_end")'
+                    />
+                </a>
+            </n:li>
+        </div>
+    </div>
+    <popup id="mailPop" width="150px">
+        <button zclass="btn btn-outline-secondary btn-sm btn-block text-dark"
+                label="Logout"
+                iconSclass="fas fa-sign-out-alt"
+                onClick="@command('logout')"
+        />
+    </popup>
+</div>

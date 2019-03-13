@@ -16,6 +16,7 @@ import com.gitlab.pedrioko.core.view.viewers.crud.table.CrudTable;
 import lombok.Getter;
 import lombok.Setter;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -23,6 +24,7 @@ import org.zkoss.zul.*;
 import org.zkoss.zul.event.PagingEvent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
@@ -41,7 +43,7 @@ public class CrudView extends Tabpanel {
     @Setter
     Div actions;
     private List<Component> previusChilderns;
-    private CrudViewBar toolbar;
+  //  private CrudViewBar toolbar;
 
     private @Getter
     @Setter
@@ -153,8 +155,17 @@ public class CrudView extends Tabpanel {
         borderlayout = new Borderlayout();
         divbar = new Div();
         actions = new Div();
-        toolbar = new CrudViewBar(klass, this, (CrudDisplayTable) table);
-        divbar.appendChild(toolbar);
+    //    toolbar = new CrudViewBar(klass, this, (CrudDisplayTable) table);
+        // divbar.appendChild(toolbar);
+        HashMap<Object, Object> arg = new HashMap<>();
+        try {
+            arg.put("klass-crud", klass);
+            arg.put("CrudView", this);
+            arg.put("crudTable", table);
+        } catch (Exception e) {
+
+        }
+        divbar.appendChild(Executions.createComponents("~./zul/crud/crudviewbar.zul", null, arg));
         borderlayout.setStyle("height:100%;");
         east = new East();
         north = new North();
@@ -309,11 +320,11 @@ public class CrudView extends Tabpanel {
         }
     }
 
-
+/*
     public void enableCommonCrudActions(boolean disable) {
         toolbar.getCrudsActions().forEach(e -> e.setVisible(disable));
     }
-
+*/
 
     public void addValue(Object value) {
         crudController.addValue(value);
@@ -358,16 +369,16 @@ public class CrudView extends Tabpanel {
         return crudTable.getSelectedValue();
     }
 
-    /**
+   /**
      * @param actions
      * @see CrudViewBar#onlyEnable(java.util.List)
      */
-    public void onlyEnable(List<String> actions) {
+   /* public void onlyEnable(List<String> actions) {
         if (actions.isEmpty())
             north.getChildren().clear();
         else
             toolbar.onlyEnable(actions);
-    }
+    }*/
 
 
     public void setHeightTable(String height) {
@@ -394,10 +405,10 @@ public class CrudView extends Tabpanel {
     void clearParams() {
         crudController.clearParams();
     }
-
+/*
     public void enableAction(Class<? extends Action> action, boolean enable) {
         toolbar.enableAction(action, enable);
-    }
+    }*/
 
     public void simpleUpdate(Object value) {
         if (crudTable == null) {

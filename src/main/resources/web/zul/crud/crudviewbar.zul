@@ -1,0 +1,41 @@
+<?taglib uri="http://labels.ats.pedrioko/taglib" prefix="my"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<div apply="org.zkoss.bind.BindComposer" sclass="d-flex flex-row"
+     viewModel="@id('tb') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.CrudViewBar')">
+    <toolbar children="@bind(tb.actions.entrySet())" sclass="hidden-sm w-100">
+        <template name="children" var="node">
+            <div children="@load(node.value)" sclass="btn-group">
+                <template name="children" var="node">
+                    <toolbarbutton onClick="@command('clickAction', action=node)"
+                                   iconSclass="@load(c:cat(' fa-lg ', node.icon))"
+                                   sclass="btn text-white btn-sm"
+                                   style="@load(c:cat(' color:#fff !important; background:', node.color))"
+                                   tooltiptext="@load(node.tooltipText)"/>
+                </template>
+
+            </div>
+        </template>
+    </toolbar>
+     <button id='txb'
+             sclass="show-sm hidden-md  hidden-lg navbar-toggler bg-dark text-light"
+             iconSclass="fas fa-bars fa-lg"
+             popup="@load(tb.id)"
+             /> 
+    <textbox sclass="m-2 ml-auto pull-right " placeholder="Search"/>
+    <popup id="@load(tb.id)" width="100px" children="@bind(tb.actions.entrySet())"
+           sclass="">
+        <template name="children" var="node">
+            <div children="@load(node.value)" sclass="d-flex flex-column mb-2">
+                <template name="children" var="node">
+                    <button onClick="@command('clickAction', action=node)"
+                            label="@load(node.label)"
+                            iconSclass="@load(c:cat(' fa-lg ', node.icon))"
+                            sclass="btn btn-lg text-white btn-block btn-sm"
+                            style="@load(c:cat(' color:#fff !important; background:', node.color))"
+                            tooltiptext="@load(node.tooltipText)"/>
+                </template>
+            </div>
+        </template>
+    </popup>
+</div>
