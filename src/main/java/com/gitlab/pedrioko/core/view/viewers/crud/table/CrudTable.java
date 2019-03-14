@@ -91,6 +91,8 @@ public class CrudTable extends Listbox implements CrudDisplayTable {
                 row.setValue(e);
                 appendChild(row);
             });
+        new Grid();
+        new Listbox();
     }
 
     private void loadfields(Class<?> klass) {

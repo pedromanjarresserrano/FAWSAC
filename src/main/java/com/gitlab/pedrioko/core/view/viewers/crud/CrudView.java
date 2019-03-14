@@ -43,7 +43,7 @@ public class CrudView extends Tabpanel {
     @Setter
     Div actions;
     private List<Component> previusChilderns;
-  //  private CrudViewBar toolbar;
+    //  private CrudViewBar toolbar;
 
     private @Getter
     @Setter
@@ -155,7 +155,7 @@ public class CrudView extends Tabpanel {
         borderlayout = new Borderlayout();
         divbar = new Div();
         actions = new Div();
-    //    toolbar = new CrudViewBar(klass, this, (CrudDisplayTable) table);
+        //    toolbar = new CrudViewBar(klass, this, (CrudDisplayTable) table);
         // divbar.appendChild(toolbar);
         HashMap<Object, Object> arg = new HashMap<>();
         try {
@@ -189,7 +189,8 @@ public class CrudView extends Tabpanel {
         borderlayout.appendChild(new Center());
         appendChild(borderlayout);
         Center center = borderlayout.getCenter();
-        center.appendChild(table);
+        //center.appendChild(table);
+        center.appendChild(Executions.createComponents("~./zul/crud/table/crudtable.zul", null, arg));
         crudFilters = new CrudFilters(klass, this);
         east.appendChild(crudFilters);
         appendChild(actions);
@@ -369,7 +370,7 @@ public class CrudView extends Tabpanel {
         return crudTable.getSelectedValue();
     }
 
-   /**
+    /**
      * @param actions
      * @see CrudViewBar#onlyEnable(java.util.List)
      */
@@ -379,8 +380,6 @@ public class CrudView extends Tabpanel {
         else
             toolbar.onlyEnable(actions);
     }*/
-
-
     public void setHeightTable(String height) {
         crudTable.setHeight(height);
     }

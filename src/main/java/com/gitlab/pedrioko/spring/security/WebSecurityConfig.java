@@ -83,14 +83,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         for (String e : Arrays.asList(strings)) {
             and = and.antMatchers(e).permitAll();
         }
-        and.antMatchers("/content/admin/**").hasAuthority(TipoUsuario.ROLE_ADMIN.name())
-                .antMatchers("/content/usercrue/**")
-                .hasAnyAuthority(TipoUsuario.ROLE_ADMIN.name(), TipoUsuario.ROLE_ENTIDAD.name(),
-                        TipoUsuario.ROLE_ENTIDADCONTROL.name(), TipoUsuario.ROLE_ENTIDADESTATAL.name())
-                .antMatchers("/**")
-                .hasAnyAuthority(TipoUsuario.ROLE_ADMIN.name(), TipoUsuario.ROLE_ENTIDAD.name(),
-                        TipoUsuario.ROLE_ENTIDADCONTROL.name(), TipoUsuario.ROLE_ENTIDADESTATAL.name(),
-                        TipoUsuario.ROLE_ENTIDADCONTROL.name(), TipoUsuario.ROLE_TURISTA.name())
+        and.antMatchers("/**")
+                .hasAnyAuthority(TipoUsuario.ROLE_ADMIN.name(), TipoUsuario.ALL.name(),
+                        TipoUsuario.ROLE_USER.name())
                 .and().formLogin().loginPage("/login").loginProcessingUrl("/login")
                 .successHandler(authenticationSuccessHandler).permitAll().and().logout().permitAll().and().csrf().disable()
                 .headers().frameOptions().sameOrigin().httpStrictTransportSecurity().disable();

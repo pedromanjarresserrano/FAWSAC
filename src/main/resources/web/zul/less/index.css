@@ -138,7 +138,9 @@ border-top-right-radius: 0 !important;
 
 }
 
-
+.h-99{
+height: 99% !important;
+}
 @media all and (min-width:992px){
      .hidden-lg{
         display:none !important;

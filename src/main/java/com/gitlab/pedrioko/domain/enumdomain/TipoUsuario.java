@@ -5,25 +5,7 @@ package com.gitlab.pedrioko.domain.enumdomain;
  */
 public enum TipoUsuario {
 
-    /**
-     * The role turista.
-     */
-    ROLE_TURISTA,
-
-    /**
-     * The role entidad.
-     */
-    ROLE_ENTIDAD,
-
-    /**
-     * The role entidadcontrol.
-     */
-    ROLE_ENTIDADCONTROL,
-
-    /**
-     * The role entidadestatal.
-     */
-    ROLE_ENTIDADESTATAL,
+    ROLE_USER,
 
     /**
      * The role admin.

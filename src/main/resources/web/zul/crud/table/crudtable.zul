@@ -1,0 +1,9 @@
+<listbox apply="org.zkoss.bind.BindComposer" sclass=""
+         viewModel="@id('ct') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.table.CrudTable')">
+    <listhead children="@load(ct.headers)">
+        <template name="children" var="node">
+            <listheader label="@load(node)" sort="auto"/>
+        </template>
+    </listhead>
+
+</listbox>

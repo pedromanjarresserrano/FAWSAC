@@ -164,10 +164,7 @@ class ProfileViewModel {
         } catch (Exception e) {
             LOGGER.error("ERROR ON init()", e);
         }
-        if (labelutil.getUser().getTipo().equals(TipoUsuario.ROLE_TURISTA)) {
-            turista = true;
-        }
-        tabdatos = Labels.getLabel("userbasicform.datosbasicos");
+         tabdatos = Labels.getLabel("userbasicform.datosbasicos");
         tabcontrasena = Labels.getLabel("userbasicform.cambiocontrasena");
         tabdatosextra = Labels.getLabel("datos.extras");
         titulo = Labels.getLabel("userbasic.perfil.titulo");

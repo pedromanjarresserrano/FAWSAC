@@ -119,20 +119,6 @@ class FireBase extends Window {
         init();
     }
 
-    public void onUser(Event event) {
-        TipoUsuario tipo = fhsessionutil.getCurrentUser().getTipo();
-        if (!tipo.equals(TipoUsuario.ROLE_TURISTA)) {
-            fhsessionutil.getCurrentUser().setToken(event.getData().toString());
-            crudService.save(fhsessionutil.getCurrentUser());
-        }
-    }
 
-    public void onUser$info(Event event) {
-        ForwardEvent eventx = (ForwardEvent) event;
-        if (fhsessionutil.getCurrentUser().getTipo().equals(TipoUsuario.ROLE_ENTIDADCONTROL)) {
-            fhsessionutil.getCurrentUser().setToken(eventx.getOrigin().getData().toString());
-            crudService.save(fhsessionutil.getCurrentUser());
-        }
-    }
 }
 

@@ -6,8 +6,8 @@
     <div sclass="nav">
         <div sclass="nav" children="@load(mm.navmenues)">
             <template name="children" var="node">
-                <n:li sclass="nav-item ">
-                    <a zclass="nav-link" label="@load(node.label)"
+                <n:li sclass="nav-item">
+                    <a zclass="nav-link  h-100" label="@load(node.label)"
                        iconSclass="@load(node.icon)" href="javascript:void(0)"
                        onClick="@command('clickAction', action=node)"
                     />
@@ -18,7 +18,7 @@
         <div sclass="nav" children="@load(mm.menues.entrySet())">
             <template name="children" var="node">
                 <n:li sclass="nav-item dropdown">
-                    <a zclass="nav-link dropdown-toggle" ca:data-toggle="dropdown" href="#" ca:role="button"
+                    <a zclass="nav-link dropdown-toggle h-100" ca:data-toggle="dropdown" href="#" ca:role="button"
                        ca:aria-haspopup="true" ca:aria-expanded="false"
                        label=" @load(my:l(node.key,node.key))">
 
@@ -26,7 +26,7 @@
                     <div children="@load(node.value)" sclass="dropdown-menu" ca:x-placement="bottom-start"
                          style="min-width: 16rem; position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                         <template name="children" var="submenu">
-                            <button zclass="btn btn-outline-secondary btn-sm btn-block text-dark"
+                            <button zclass="btn btn-outline-secondary btn-sm btn-block text-dark "
                                     label="@load(submenu.label)"
                                     iconSclass="@load(c:cat(submenu.icon,' text-dark '))"
                                     onClick="@command('clickAction', action=submenu)"

@@ -99,7 +99,7 @@ public class Menu {
 
     @Command
     public void logout() {
-        if (fhSessionUtil.getCurrentUser().getTipo() != TipoUsuario.ROLE_TURISTA) {
+        if (fhSessionUtil.getCurrentUser().getTipo() != TipoUsuario.ROLE_USER) {
             Clients.evalJavaScript("disconnect()");
         }
         SecurityContextHolder.getContext().setAuthentication(null);

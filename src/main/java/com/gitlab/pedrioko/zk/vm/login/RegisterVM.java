@@ -318,7 +318,7 @@ public class RegisterVM {
             avilitableMessage();
             return;
         }
-        newuser.setTipo(TipoUsuario.ROLE_TURISTA);
+        newuser.setTipo(TipoUsuario.ROLE_USER);
         Optional<UserProfile> findFirst = crudService.getAll(UserProfile.class).stream()
                 .filter(UserProfile::isPordefectorgistro).findFirst();
         newuser.setUserprofiles(new ArrayList<>());

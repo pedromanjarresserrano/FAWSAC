@@ -16,7 +16,7 @@ public class ZKUtil {
     }
 
     public static void showMessage(String message) {
-        if (ApplicationContextUtils.getBean(FHSessionUtil.class).getCurrentUser().getTipo() != TipoUsuario.ROLE_TURISTA)
+        if (ApplicationContextUtils.getBean(FHSessionUtil.class).getCurrentUser().getTipo() != TipoUsuario.ROLE_USER)
             showMessage(message, MessageType.ERROR);
     }
 
