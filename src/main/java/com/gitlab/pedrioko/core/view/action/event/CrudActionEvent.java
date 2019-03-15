@@ -14,6 +14,7 @@ class CrudActionEvent {
     private CrudView crudViewParent;
     private FormStates formstate;
     private Valuable source;
+    private Class type;
 
     public CrudActionEvent() {
     }
@@ -25,4 +26,6 @@ class CrudActionEvent {
     public FormStates getFormstate() {
         return formstate;
     }
+
 }
+

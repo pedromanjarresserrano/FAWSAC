@@ -111,8 +111,8 @@ public class CrudView extends Tabpanel {
                 int ofs = pgno * PAGE_SIZE;
                 crudController.setPage(ofs, PAGE_SIZE);
             });
-            south.appendChild(paging);
-            borderlayout.appendChild(south);
+            //          south.appendChild(paging);
+//            borderlayout.appendChild(south);
             crudController.addEventPostQuery(() -> gridTable.update());
             crudController.addEventPostQuery(() -> {
                 int pc = paging.getActivePage();
@@ -132,6 +132,7 @@ public class CrudView extends Tabpanel {
             crudController.addEventPostQuery(() -> crudTable.update());
             crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> crudTable.update());
         }
+
         crudController.doQuery();
         popup = new CrudMenuContext(klass, ApplicationContextUtils.getBeans(Action.class));
         appendChild(popup);
@@ -161,7 +162,6 @@ public class CrudView extends Tabpanel {
         try {
             arg.put("klass-crud", klass);
             arg.put("CrudView", this);
-            arg.put("crudTable", table);
         } catch (Exception e) {
 
         }
@@ -190,6 +190,12 @@ public class CrudView extends Tabpanel {
         appendChild(borderlayout);
         Center center = borderlayout.getCenter();
         //center.appendChild(table);
+        configController(klass, (CrudDisplayTable) table);
+        try {
+            arg.put("crud-list-items", crudController.getValues());
+        } catch (Exception e) {
+
+        }
         center.appendChild(Executions.createComponents("~./zul/crud/table/crudtable.zul", null, arg));
         crudFilters = new CrudFilters(klass, this);
         east.appendChild(crudFilters);
@@ -198,13 +204,16 @@ public class CrudView extends Tabpanel {
         actions.setStyle("margin-top:10px;margin-bottom:10px;");
         setStyle("height:100%;");
         reloadable = crudviewmode != CrudMode.SUBCRUD;
-        configController(klass, (CrudDisplayTable) table);
         east.addEventListener(Events.ON_VISIBILITY_CHANGE, e -> {
             if (!east.isVisible()) {
                 clearParams();
                 crudController.doQuery();
             }
         });
+        arg.put("crud-controller", crudController);
+        South south = new South();
+        south.appendChild(Executions.createComponents("~./zul/crud/filters/pagination.zul", null, arg));
+        borderlayout.appendChild(south);
 
     }
 
@@ -222,6 +231,7 @@ public class CrudView extends Tabpanel {
         listActions = new ArrayList<>();
         crudTable = new CrudTable(fields, klass);
         createUI(crudTable);
+
     }
 
     public Class<?> getTypeClass() {
@@ -240,7 +250,9 @@ public class CrudView extends Tabpanel {
     public void previusState() {
         if (previusChilderns != null && !previusChilderns.isEmpty()) {
             getChildren().clear();
-            previusChilderns.forEach(this::appendChild);
+            //   previusChilderns.forEach(this::appendChild);
+            getChildren().addAll(previusChilderns);
+
         }
         if (reloadable)
             update();
@@ -370,16 +382,6 @@ public class CrudView extends Tabpanel {
         return crudTable.getSelectedValue();
     }
 
-    /**
-     * @param actions
-     * @see CrudViewBar#onlyEnable(java.util.List)
-     */
-   /* public void onlyEnable(List<String> actions) {
-        if (actions.isEmpty())
-            north.getChildren().clear();
-        else
-            toolbar.onlyEnable(actions);
-    }*/
     public void setHeightTable(String height) {
         crudTable.setHeight(height);
     }

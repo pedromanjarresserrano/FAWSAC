@@ -17,11 +17,10 @@
             </div>
         </template>
     </toolbar>
-     <button id='txb'
-             sclass="show-sm hidden-md  hidden-lg navbar-toggler bg-dark text-light"
+     <button sclass="show-sm hidden-md  hidden-lg navbar-toggler bg-dark text-light"
              iconSclass="fas fa-bars fa-lg"
              popup="@load(tb.id)"
-             /> 
+/> 
     <textbox sclass="m-2 ml-auto pull-right " placeholder="Search"/>
     <popup id="@load(tb.id)" width="100px" children="@bind(tb.actions.entrySet())"
            sclass="">

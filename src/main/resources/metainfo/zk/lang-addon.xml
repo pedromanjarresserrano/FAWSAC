@@ -11,7 +11,6 @@
         so can be used in lang-addon directly -->
     <language-name>xul/html</language-name>
     <stylesheet href="~./css/clock.css" type="text/css"/>
-    <stylesheet href="~./css/fonts.css" type="text/css"/>
     <stylesheet href="~./css/alertify/alertify.min.css" type="text/css"/>
     <stylesheet href="~./css/alertify/theme/semantic.min.css" type="text/css"/>
 

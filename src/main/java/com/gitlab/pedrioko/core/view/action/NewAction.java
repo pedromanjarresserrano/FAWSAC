@@ -5,9 +5,8 @@ import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
-import com.gitlab.pedrioko.core.view.forms.EntityForm;
+import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
-import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import org.zkoss.zk.ui.Executions;
 
 import java.util.Arrays;
@@ -24,15 +23,9 @@ public class NewAction implements Action {
 
     @Override
     public void actionPerform(CrudActionEvent event) {
-        EntityForm formUtilsnew = new EntityForm(event.getCrudViewParent().getTypeClass());
-        formUtilsnew.addAction(ApplicationContextUtils.getBean(SaveAction.class), event);
-        formUtilsnew.addAction(ApplicationContextUtils.getBean(SaveAndNewAction.class), event);
-        formUtilsnew.addAction(ApplicationContextUtils.getBean(SaveAndEditAction.class), event);
-        formUtilsnew.addAction(ApplicationContextUtils.getBean(CancelAction.class), event);
-        formUtilsnew.setEstado(FormStates.CREATE);
         HashMap<Object, Object> arg = new HashMap<>();
         try {
-            arg.put("value", event.getCrudViewParent().getTypeClass().getConstructor().newInstance());
+            arg.put("value", ReflectionJavaUtil.getNewInstace(event.getCrudViewParent().getTypeClass()));
             arg.put("event-crud", event);
             arg.put("estado-form", FormStates.CREATE);
         } catch (Exception e) {

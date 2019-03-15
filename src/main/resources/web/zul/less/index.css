@@ -227,6 +227,12 @@ height: 99% !important;
     height: 100%;
 }
 
+.z-listbox-body {
+height: 95% !important;
+}
+.z-center-body{
+    -overflow-x: auto;
+}
 .boxe {
     -webkit-box-shadow: 20px 15px 65px -4px rgba(0, 0, 0, 0.36);
     -moz-box-shadow: 20px 15px 65px -4px rgba(0, 0, 0, 0.36);

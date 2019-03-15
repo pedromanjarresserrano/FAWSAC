@@ -17,6 +17,8 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 
@@ -32,7 +34,6 @@ public class CrudViewBar {
     private Class<?> klass;
     private List<Action> crudsActions = new ArrayList<>();
     private Map<Integer, List<Action>> actions = new LinkedHashMap<>();
-    private CrudDisplayTable crudDisplayTable;
     private boolean enableCommonActionsClass;
     private CrudView crudView;
     private CrudService crudService;
@@ -45,7 +46,6 @@ public class CrudViewBar {
     private void init() {
         crudView = (CrudView) Executions.getCurrent().getArg().get("CrudView");
         klass = (Class<?>) Executions.getCurrent().getArg().get("klass-crud");
-        crudDisplayTable = (CrudDisplayTable) Executions.getCurrent().getArg().get("crudTable");
         menuprovider = (MenuProvider) Executions.getCurrent().getArg().get("menuprovider");
         enableCommonActionsClass = ApplicationContextUtils.getBean(PropertiesUtil.class)
                 .getEnableCommonActionsClass(klass);
@@ -100,14 +100,6 @@ public class CrudViewBar {
         return actions;
     }
 
-    public CrudDisplayTable getCrudDisplayTable() {
-        return crudDisplayTable;
-    }
-
-    public void setCrudDisplayTable(CrudDisplayTable crudDisplayTable) {
-        this.crudDisplayTable = crudDisplayTable;
-    }
-
     public boolean isEnableCommonActionsClass() {
         return enableCommonActionsClass;
     }
@@ -130,16 +122,7 @@ public class CrudViewBar {
 
     @Command
     public void clickAction(@BindingParam("action") Action action) {
-        CrudActionEvent event = new CrudActionEvent();
-        event.setCrudViewParent(crudView);
-        Object selectedValue = crudService.refresh(crudDisplayTable.getSelectedValue());
-        if (action.getFormState() == FormStates.CREATE)
-            event.setValue(ReflectionJavaUtil.getNewInstace(klass));
-        else {
-            event.setValue(selectedValue);
-        }
-        event.setFormstate(action.getFormState());
-        action.actionPerform(event);
+        EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).publish(new Event("action-crud-" + klass.getSimpleName(), null, action));
     }
 
 }

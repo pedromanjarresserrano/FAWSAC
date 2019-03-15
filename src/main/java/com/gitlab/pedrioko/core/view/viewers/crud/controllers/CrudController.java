@@ -52,7 +52,7 @@ public class CrudController {
         super();
         crudService = ApplicationContextUtils.getBean(CrudService.class);
         this.klass = klass;
-        this.values = values;
+        this.values = new ArrayList();
     }
 
     private Class<?> getTypeClass() {
@@ -70,7 +70,7 @@ public class CrudController {
     public void setValue(List value) {
         values.clear();
         values.addAll(value);
-        postEvent.forEach(it -> it.doSomething());
+        postEvent.forEach(OnQuery::doSomething);
     }
 
     public void setValue(ArrayList value) {
@@ -134,8 +134,8 @@ public class CrudController {
 
             }
         } else {
-            List<?> fetch = limit != 0 ? crudService.query().from(pathBuilder).where(where).offset(offSet).limit(limit).fetch() : crudService.query().from(pathBuilder).where(where).fetch();
-            setValue(map.isEmpty() ? (ArrayList) crudService.getAllOrder(klass) : (ArrayList) fetch);
+            List<?> fetch = crudService.query().from(pathBuilder).where(where).offset(offSet).limit(limit).fetch();
+            setValue((ArrayList) fetch);
         }
 
     }
@@ -232,6 +232,10 @@ public class CrudController {
         }
     }
 
+    public void setPage(int offSet) {
+        this.setPage(offSet, this.limit);
+    }
+
     public void setPage(int offSet, int limit) {
         if (limit == 0)
             throw new IllegalArgumentException("Limit can't be 0");
@@ -246,8 +250,13 @@ public class CrudController {
         map.putAll(paramsroot);
         PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
         return crudService.query().from(pathBuilder).where(getPredicate(pathBuilder)).fetchCount();
-
-
     }
 
+    public List getValues() {
+        return values;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
 }
