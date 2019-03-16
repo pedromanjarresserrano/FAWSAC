@@ -2,30 +2,27 @@ package com.gitlab.pedrioko.core.view.viewers.crud;
 
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
-import com.gitlab.pedrioko.core.view.api.CrudDisplayTable;
-import com.gitlab.pedrioko.core.view.enums.CrudEvents;
 import com.gitlab.pedrioko.core.view.enums.CrudMode;
-import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.CrudController;
 import com.gitlab.pedrioko.core.view.viewers.crud.grid.AlphabetFilter;
-import com.gitlab.pedrioko.core.view.viewers.crud.grid.CrudGrid;
-import com.gitlab.pedrioko.core.view.viewers.crud.table.CrudTable;
 import lombok.Getter;
 import lombok.Setter;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
-import org.zkoss.zul.event.PagingEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
 
@@ -33,10 +30,10 @@ public class CrudView extends Tabpanel {
 
     private static final long serialVersionUID = 1L;
     private Class<?> klass;
-    private @Getter
-    CrudTable crudTable;
-    private @Getter
-    CrudGrid gridTable;
+    //    private @Getter
+//    CrudTable crudTable;
+//    private @Getter
+//    CrudGrid gridTable;
     private List<Button> listActions;
     private Div divbar;
     private @Getter
@@ -59,10 +56,10 @@ public class CrudView extends Tabpanel {
     East east;
     private CrudMenuContext popup;
     private North north;
-    private CrudFilters crudFilters;
+    //  private CrudFilters crudFilters;
     private Borderlayout borderlayout;
     private int PAGE_SIZE = 16;
-    private Paging paging;
+    //  private Paging paging;
 
     public CrudView() {
     }
@@ -86,86 +83,36 @@ public class CrudView extends Tabpanel {
     }
 
     public void useAlphabetFilter() {
-        if (gridTable != null) {
-            North north = new North();
-            north.appendChild(new AlphabetFilter(crudController, klass));
-            gridTable.appendChild(north);
-        }
+        North north = new North();
+        north.appendChild(new AlphabetFilter(crudController, klass));
+
     }
 
     protected void init(Class<?> klass, Boolean useGrid) {
         crudviewmode = CrudMode.MAINCRUD;
         this.klass = klass;
-        if (useGrid) {
-            gridTable = new CrudGrid(klass);
-            createUI(gridTable);
-            South south = new South();
-            paging = new Paging();
-            paging.setDetailed(true);
-            if (ZKUtil.isMobile())
-                paging.setMold("os");
-            paging.setPageSize(PAGE_SIZE);
-            paging.addEventListener("onPaging", (Event event) -> {
-                PagingEvent pe = (PagingEvent) event;
-                int pgno = pe.getActivePage();
-                int ofs = pgno * PAGE_SIZE;
-                crudController.setPage(ofs, PAGE_SIZE);
-            });
-            //          south.appendChild(paging);
-//            borderlayout.appendChild(south);
-            crudController.addEventPostQuery(() -> gridTable.update());
-            crudController.addEventPostQuery(() -> {
-                int pc = paging.getActivePage();
-                int count = (int) crudController.getCount();
-                paging.setTotalSize(count);
-                paging.setPageSize(PAGE_SIZE);
-                int i = count / PAGE_SIZE;
-                if (i <= pc)
-                    crudController.setPage(i * PAGE_SIZE, PAGE_SIZE);
-
-            });
-            crudController.setPage(0, PAGE_SIZE);
-            crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> gridTable.update());
-        } else {
-            crudTable = new CrudTable(klass);
-            createUI(crudTable);
-            crudController.addEventPostQuery(() -> crudTable.update());
-            crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> crudTable.update());
-        }
-
+        createUI();
         crudController.doQuery();
         popup = new CrudMenuContext(klass, ApplicationContextUtils.getBeans(Action.class));
         appendChild(popup);
-        gridTable.addEventOnEvent(CrudEvents.ON_RIGHT_CLICK, () -> {
-            CrudActionEvent data = new CrudActionEvent(gridTable.getSelectedValue());
-            data.setCrudViewParent(this);
-            data.setFormstate(FormStates.READ);
-            String position = ZKUtil.isMobile() ? "overlap_before" : "at_pointer";
-            popup.open(gridTable.getCenter(), position, data);
-        });
     }
 
     public void setPageSize(int PAGE_SIZE) {
         this.PAGE_SIZE = PAGE_SIZE;
-        int activePage = paging.getActivePage();
-        crudController.setPage(activePage * PAGE_SIZE, PAGE_SIZE);
+        crudController.setPage(PAGE_SIZE, PAGE_SIZE);
         crudController.doQuery();
     }
 
-    private void createUI(Component table) {
+    private void createUI() {
         borderlayout = new Borderlayout();
         divbar = new Div();
         actions = new Div();
-        //    toolbar = new CrudViewBar(klass, this, (CrudDisplayTable) table);
-        // divbar.appendChild(toolbar);
         HashMap<Object, Object> arg = new HashMap<>();
-        try {
-            arg.put("klass-crud", klass);
-            arg.put("CrudView", this);
-        } catch (Exception e) {
+        arg.put("klass-crud", klass);
+        arg.put("CrudView", this);
 
-        }
-        divbar.appendChild(Executions.createComponents("~./zul/crud/crudviewbar.zul", null, arg));
+        Component crudviewbar = Executions.createComponents("~./zul/crud/crudviewbar.zul", null, arg);
+        divbar.appendChild(crudviewbar);
         borderlayout.setStyle("height:100%;");
         east = new East();
         north = new North();
@@ -189,16 +136,20 @@ public class CrudView extends Tabpanel {
         borderlayout.appendChild(new Center());
         appendChild(borderlayout);
         Center center = borderlayout.getCenter();
-        //center.appendChild(table);
-        configController(klass, (CrudDisplayTable) table);
+        configController(klass);
+        arg.put("crud-list-items", crudController.getValues());
+        arg.put("crud-controller", crudController);
+        Component crudtable = null;
         try {
-            arg.put("crud-list-items", crudController.getValues());
+            crudtable = Executions.createComponents("~./zul/crud/table/crudtable" + klass.getSimpleName() + ".zul", null, arg);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
-        center.appendChild(Executions.createComponents("~./zul/crud/table/crudtable.zul", null, arg));
-        crudFilters = new CrudFilters(klass, this);
-        east.appendChild(crudFilters);
+        if (crudtable == null) crudtable = Executions.createComponents("~./zul/crud/table/crudtable.zul", null, arg);
+
+        center.appendChild(crudtable);
+        Component crudfilters = Executions.createComponents("~./zul/crud/filters/crudfilters.zul", null, arg);
+        east.appendChild(crudfilters);
         appendChild(actions);
         actions.setClass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
         actions.setStyle("margin-top:10px;margin-bottom:10px;");
@@ -210,50 +161,42 @@ public class CrudView extends Tabpanel {
                 crudController.doQuery();
             }
         });
-        arg.put("crud-controller", crudController);
         South south = new South();
-        south.appendChild(Executions.createComponents("~./zul/crud/filters/pagination.zul", null, arg));
+        Component pagination = Executions.createComponents("~./zul/crud/filters/pagination.zul", null, arg);
+        south.appendChild(pagination);
         borderlayout.appendChild(south);
 
     }
 
-    public CrudView(Class<?> klass, Object obj) {
+    public CrudView(Class<?> klass, Object value) {
         super();
         crudviewmode = CrudMode.MAINCRUD;
         this.klass = klass;
-        crudTable = new CrudTable(klass, (List<Class<?>>) obj);
-        crudController = new CrudController(klass, crudTable.getValue());
-        createUI(crudTable);
+        crudController = new CrudController(klass, (List<?>) value);
+        createUI();
     }
 
     private void view(Class<?> klass, List<String> fields) {
         this.klass = klass;
         listActions = new ArrayList<>();
-        crudTable = new CrudTable(fields, klass);
-        createUI(crudTable);
-
+        createUI();
     }
 
     public Class<?> getTypeClass() {
         return klass;
     }
 
-    private void configController(Class<?> klass, CrudDisplayTable table) {
+    private void configController(Class<?> klass) {
         if (crudController == null) {
-            crudController = new CrudController(klass, table.getValue());
-            crudController.addEventPostQuery(() -> table.update());
+            crudController = new CrudController(klass);
             crudController.doQuery();
-            crudController.addEventOnEvent(CrudEvents.ON_ADD, () -> table.update());
         }
     }
 
     public void previusState() {
-        if (previusChilderns != null && !previusChilderns.isEmpty()) {
-            getChildren().clear();
-            //   previusChilderns.forEach(this::appendChild);
-            getChildren().addAll(previusChilderns);
-
-        }
+        getChildren().clear();
+        createUI();
+        getTabbox().setSelectedIndex(0);
         if (reloadable)
             update();
     }
@@ -273,16 +216,11 @@ public class CrudView extends Tabpanel {
     }
 
     public <T> T getValue() {
-        return (T) ((T) crudTable == null ? gridTable.getValue() : crudTable.getValue());
+        return (T) crudController.getFullData();
     }
 
     public void setValue(List<?> value) {
         crudController.setValue(value);
-        if (gridTable != null) {
-            paging.setTotalSize(value.size());
-            paging.setPageSize(PAGE_SIZE);
-            gridTable.clearSelection();
-        }
     }
 
     public void setValue(ArrayList<?> value) {
@@ -345,8 +283,7 @@ public class CrudView extends Tabpanel {
 
     public void addAction(Action action, CrudActionEvent event) {
         addAction(action.getLabel(), action.getIcon(), "btn " + action.getClasses(), e -> {
-            event.setValue(getSelectedValue());
-            action.actionPerform(event);
+            EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).publish(new Event("action-crud-" + klass.getSimpleName() + "-" + UUID.randomUUID().toString(), null, action));
         });
     }
 
@@ -355,8 +292,6 @@ public class CrudView extends Tabpanel {
     }
 
     public void addAction(String labelaction, String icon, String classes, EventListener<? extends Event> event) {
-        //      if (actions.getChildren().isEmpty())
-//            setHeightTable("100%");
         Button btn = new Button();
         btn.setLabel(labelaction);
         btn.setIconSclass(icon);
@@ -367,23 +302,7 @@ public class CrudView extends Tabpanel {
     }
 
     public void update() {
-        if (crudTable == null) {
-            gridTable.update();
-        } else {
-            crudTable.update();
-        }
-    }
-
-    /**
-     * @return
-     * @see CrudTable#getSelectedValue()
-     */
-    private <T> T getSelectedValue() {
-        return crudTable.getSelectedValue();
-    }
-
-    public void setHeightTable(String height) {
-        crudTable.setHeight(height);
+        BindUtils.postGlobalCommand(null, null, "refresh", null);
     }
 
     public void addRootParams(String key, Object value) {
@@ -406,16 +325,5 @@ public class CrudView extends Tabpanel {
     void clearParams() {
         crudController.clearParams();
     }
-/*
-    public void enableAction(Class<? extends Action> action, boolean enable) {
-        toolbar.enableAction(action, enable);
-    }*/
 
-    public void simpleUpdate(Object value) {
-        if (crudTable == null) {
-            gridTable.updateValue(value);
-        } else {
-            crudTable.update();
-        }
-    }
 }

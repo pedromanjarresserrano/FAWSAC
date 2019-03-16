@@ -2,16 +2,9 @@ zk.carousel.Carousel = zk.$extends(zk.Widget, {
 
     _carouselItems: '',
     _carouselItemsJson: '',
-    _slideBy: '',
-    _controls: true,
-    _lazyload: '',
-    _lazyload: '',
-    _lazyload: '',
-    _lazyload: '',
-    _lazyload: '',
-    _lazyload: '',
-    _lazyload: '',
-    _lazyload: '',
+    _slideBy: 1,
+    _controls: false,
+    _lazyload: true,
     getCarouselItems: function () {
         return this._carouselItems;
     },
@@ -50,39 +43,52 @@ zk.carousel.Carousel = zk.$extends(zk.Widget, {
     setCarouselItemsJson: function (value) {
         if (this._carouselItemsJson != value) {
             this._carouselItemsJson = value;
+            this.reload();
         }
+    },
+    reload: function () {
+        console.log(this.uuid+ '-carousel');
+        var ctx = $(this.uuid + '-carousel');
+            if (typeof ctx.get(0) !== "undefined" ) {
+                ctx.empty();
+                ctx.add(this.domCarouselContent_());
+                console.log(ctx);
+                console.log(ctx.get(0));
+                var slider = tns({
+                    container: ctx.get(),
+                    items: 1,
+                    slideBy: this.getSlideBy(),
+                    /*1*/
+                    nav: true,
+                    navPosition: "bottom",
+                    lazyload: this.getLazyload(),
+                    controls: this.getControls(),
+                    /*false*/
+                    autoplay: true,
+                    autoplayTimeout: 1000,
+                    autoplayButton: false,
+                    autoplayButtonOutput: false,
+                    autoplayText: [
+                        "▶",
+                        "❚❚"
+                    ]
+                });
+                slider.pause();
+                ctx.addEventListener('mouseenter', function (ev) {
+                    slider.play();
+                });
+
+                ctx.addEventListener('mouseleave', function (ev) {
+                    slider.goTo('first');
+                    slider.pause();
+                });
+            }
+
     },
     bind_: function () {
         this.$supers('bind_', arguments);
         var ctx = document.getElementById(this.uuid + '-carousel');
-        if (this.getCarouselItems()) {
-            var slider = tns({
-                container: '#' + this.uuid + '-carousel',
-                items: 1,
-                slideBy: this.getSlideBy(), /*1*/
-                nav: true,
-                navPosition: "bottom",
-                lazyload: this.getLazyload(),
-                controls: this.getControls(), /*false*/
-                autoplay: true,
-                autoplayTimeout: 1000,
-                autoplayButton: false,
-                autoplayButtonOutput: false,
-                autoplayText: [
-                    "▶",
-                    "❚❚"
-                ]
-            });
-            slider.pause();
-            ctx.addEventListener('mouseenter', function (ev) {
-                slider.play();
-            });
 
-            ctx.addEventListener('mouseleave', function (ev) {
-                slider.goTo('first');
-                slider.pause();
-            });
-        }
     },
     unbind_: function () {
         this.$supers('unbind_', arguments);
@@ -96,4 +102,7 @@ zk.carousel.Carousel = zk.$extends(zk.Widget, {
         return c;
 
     },
+    redraw:function (out) {
+        out.push("<div id='", this.uuid, "-carousel'"," >" , this.domCarouselContent_(),"</div>");
+    }
 });

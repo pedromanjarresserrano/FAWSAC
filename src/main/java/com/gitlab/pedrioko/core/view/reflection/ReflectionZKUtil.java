@@ -156,7 +156,7 @@ public class ReflectionZKUtil {
                 PropertyUtils.setSimpleProperty(component, "value", obj == null ? new ArrayList<>() : new ArrayList((Collection) obj));
             } else {
                 if (class1 != Gmaps.class) {
-                    PropertyUtils.setSimpleProperty(component, "value", obj.getClass() == Timestamp.class ? new Date(((Timestamp) obj).getTime()) : obj);
+                    PropertyUtils.setSimpleProperty(component, "value", obj != null && obj.getClass() == Timestamp.class ? new Date(((Timestamp) obj).getTime()) : obj);
                 }
             }
         } catch (Exception e) {

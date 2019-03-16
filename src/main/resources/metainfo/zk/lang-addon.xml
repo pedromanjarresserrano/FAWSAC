@@ -14,12 +14,16 @@
     <stylesheet href="~./css/alertify/alertify.min.css" type="text/css"/>
     <stylesheet href="~./css/alertify/theme/semantic.min.css" type="text/css"/>
 
-    <stylesheet href="~./zul/less/index.css" type="text/css"/>
+    <stylesheet href="~./zul/css/index.css" type="text/css"/>
+    <stylesheet href="~./zul/css/simple-carousel.css" type="text/css"/>
+
+    <stylesheet href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" type="text/css"/>
+
     <stylesheet href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css"/>
 
     <javascript src="https://code.jquery.com/jquery-3.3.1.slim.min.js"/>
     <javascript src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"/>
-    <javascript src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" />
+    <javascript src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"/>
     <javascript src="~./js/jscolor.js"/>
 
     <javascript src="~./js/jquery.simpleWeather.min.js"/>
@@ -101,6 +105,55 @@
             <mold-uri>mold/Carousel.js</mold-uri>
             <css-uri>css/carousel.css</css-uri>
         </mold>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>lazyload</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>controls</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>slideBy</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>carouselItemsJson</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+
     </component>
     <component>
         <component-name>progresstask</component-name>
@@ -259,6 +312,27 @@
         <annotation>
             <annotation-name>default-bind</annotation-name>
             <property-name>aclass</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+    </component>
+    <component>
+        <component-name>divv</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.DivValuable</component-class>
+        <widget-class>zul.wgt.Div</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/div.js</mold-uri>
+        </mold>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>value</property-name>
             <attribute>
                 <attribute-name>access</attribute-name>
                 <attribute-value>both</attribute-value>

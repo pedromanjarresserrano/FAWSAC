@@ -64,19 +64,19 @@ public class DAOGenericImpl<T> implements DAOGeneric {
     public <T> T refresh(T klass) {
         if (klass != null) {
             T klass2 = (T) entityManager.find(klass.getClass(), ReflectionJavaUtil.getIdValue(klass));
-            entityManager.refresh(klass2);
-            List<Field> fields = ReflectionJavaUtil.getFields(klass.getClass());
-            fields.stream().filter(e -> Collection.class.isAssignableFrom(e.getType())).forEach(e -> {
-                try {
-                    String methodname = getNameMethod(e.getName(), ClassMethod.GET);
-                    Method method = klass2.getClass().getMethod(methodname);
-                    Hibernate.initialize(method.invoke(klass2));
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            });
-            return klass2;
+            if (klass2 != null) {
+                entityManager.refresh(klass2);
+                List<Field> fields = ReflectionJavaUtil.getFields(klass.getClass());
+                fields.stream().filter(e -> Collection.class.isAssignableFrom(e.getType())).forEach(e -> {
+                    try {
+                        Hibernate.initialize(ReflectionJavaUtil.getValueFieldObject(e.getName(), klass2));
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }
+                });
 
+                return klass2;
+            }
         }
         return klass;
 

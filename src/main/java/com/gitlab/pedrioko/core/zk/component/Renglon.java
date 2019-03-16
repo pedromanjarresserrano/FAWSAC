@@ -57,6 +57,7 @@ public class Renglon extends org.zkoss.zul.Div {
 
     public void set_sclass(String _sclass) {
         this._sclass = _sclass;
+        setZclass(_sclass);
         smartUpdate("_sclass", _sclass);
     }
 
@@ -76,6 +77,7 @@ public class Renglon extends org.zkoss.zul.Div {
 
     public void set_inputSclass(String _inputSclass) {
         this._inputSclass = _inputSclass;
+        inputdiv.setZclass(_inputSclass);
         smartUpdate("_inputSclass", _inputSclass);
     }
 
@@ -86,6 +88,7 @@ public class Renglon extends org.zkoss.zul.Div {
 
     public void set_inputinnerSclass(String _inputinnerSclass) {
         this._inputinnerSclass = _inputinnerSclass;
+        if (input != null) ReflectionJavaUtil.setValueFieldObject("sclass", input, _inputinnerSclass);
         smartUpdate("_inputinnerSclass", _inputinnerSclass);
 
     }

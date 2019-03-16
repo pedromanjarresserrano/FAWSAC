@@ -1,16 +1,21 @@
 package com.gitlab.pedrioko.core.zk.viewmodel.crud.table;
 
+import com.gitlab.pedrioko.core.lang.FileEntity;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
+import com.gitlab.pedrioko.services.CrudService;
+import com.gitlab.pedrioko.services.StorageService;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -28,6 +33,10 @@ public class CrudTable {
     private CrudView crudView;
     private Class<?> klass;
     private List<?> items;
+    protected String uuidold = "";
+    @WireVariable
+    private CrudService crudService;
+    private StorageService storageService;
 
     @Init
     private void init() {
@@ -35,10 +44,11 @@ public class CrudTable {
         klass = (Class<?>) Executions.getCurrent().getArg().get("klass-crud");
         headers = getBean(PropertiesUtil.class).getFieldTable(klass);
         items = (List<?>) Executions.getCurrent().getArg().get("crud-list-items");
-
+        crudService = ApplicationContextUtils.getBean(CrudService.class);
+        storageService = ApplicationContextUtils.getBean(StorageService.class);
         loadfields();
         EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).subscribe(event -> {
-            if (("action-crud-" + klass.getSimpleName()).equals(event.getName())) {
+            if (event.getName().startsWith("action-crud-" + klass.getSimpleName()) && !event.getName().equalsIgnoreCase(uuidold)) {
                 Action action = (Action) event.getData();
                 CrudActionEvent crudevent = new CrudActionEvent();
                 crudevent.setCrudViewParent(crudView);
@@ -46,6 +56,7 @@ public class CrudTable {
                 crudevent.setFormstate(action.getFormState());
                 crudevent.setValue(selectValue);
                 action.actionPerform(crudevent);
+                uuidold = event.getName();
             }
         });
     }
@@ -84,7 +95,7 @@ public class CrudTable {
     }
 
     public List<?> getItems() {
-        return items;
+        return items.stream().map(crudService::refresh).collect(Collectors.toList());
     }
 
     public void setItems(List<?> items) {
@@ -93,5 +104,9 @@ public class CrudTable {
 
     public Object valueField(Object object, String fieldname) {
         return ReflectionJavaUtil.getValueFieldObject(fieldname, object);
+    }
+
+    public String loadFileEntityURL(Object value){
+        return  storageService.getUrlFile((FileEntity) value);
     }
 }

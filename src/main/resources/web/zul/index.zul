@@ -1,4 +1,4 @@
-<?page title="Dashboard - ZK Admin"?>
+<?page contentType="text/html;charset=UTF-8"?>
 <?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 
 <div sclass="container-fluid h-100 p-0 m-0 ">

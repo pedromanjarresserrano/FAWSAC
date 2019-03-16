@@ -21,13 +21,14 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkforge.ckez.CKeditor;
-import org.zkoss.bind.annotation.*;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
-import org.zkoss.zkplus.databind.AnnotateDataBinder;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Tabbox;
 import org.zkoss.zul.Tabpanels;
@@ -185,41 +186,44 @@ public class EntityForm implements Valuable {
     }
 
     @Override
-    public void setValueForm(Object obj) {
+    public void setValueForm(Object value) {
         CrudService crudService = ApplicationContextUtils.getBean(CrudService.class);
-        getBinding().forEach((k, v) -> {
-            try {
-                Object invoke = ReflectionJavaUtil.getValueFieldObject(k.getName(), obj);
-                if (estado == FormStates.READ)
-                    ReflectionZKUtil.disableComponent(v);
-                if (invoke == null)
-                    invoke = ReflectionJavaUtil.getNewInstace(k);
-                if (k.isAnnotationPresent(Reference.class)) {
-                    Reference annotation = k.getAnnotation(Reference.class);
-                    Class<?> value = annotation.value();
+        if (value != null) {
+            Object obj = crudService.refresh(value);
+            getBinding().forEach((k, v) -> {
+                try {
+                    Object invoke = ReflectionJavaUtil.getValueFieldObject(k.getName(), obj);
+                    if (estado == FormStates.READ)
+                        ReflectionZKUtil.disableComponent(v);
+                    if (invoke == null)
+                        invoke = ReflectionJavaUtil.getNewInstace(k);
+                    if (k.isAnnotationPresent(Reference.class)) {
+                        Reference annotation = k.getAnnotation(Reference.class);
+                        Class<?> annotationvalue = annotation.value();
 
-                    PathBuilder<?> pathBuilder = crudService.getPathBuilder(value);
-                    String id = annotation.id();
-                    PathBuilder<Object> t = null;
-                    if (id != null && !id.isEmpty())
-                        t = pathBuilder.get(id);
-                    else {
-                        String idPropertyName = crudService.getIdPropertyName(getValue().getClass());
-                        t = pathBuilder.get(idPropertyName);
-                    }
+                        PathBuilder<?> pathBuilder = crudService.getPathBuilder(annotationvalue);
+                        String id = annotation.id();
+                        PathBuilder<Object> t = null;
+                        if (id != null && !id.isEmpty())
+                            t = pathBuilder.get(id);
+                        else {
+                            String idPropertyName = crudService.getIdPropertyName(getValue().getClass());
+                            t = pathBuilder.get(idPropertyName);
+                        }
 
-                    Object o = invoke != null ? invoke : new ArrayList<>();
-                    o = ((List) o).stream().map(l -> Long.parseLong(l.toString())).collect(Collectors.toList());
-                    List<?> fetch = crudService.query().from(pathBuilder).where(t.in((List) o)).fetch();
-                    ReflectionZKUtil.setValueComponent(v, fetch != null ? fetch : new ArrayList<>());
+                        Object o = invoke != null ? invoke : new ArrayList<>();
+                        o = ((List) o).stream().map(l -> Long.parseLong(l.toString())).collect(Collectors.toList());
+                        List<?> fetch = crudService.query().from(pathBuilder).where(t.in((List) o)).fetch();
+                        ReflectionZKUtil.setValueComponent(v, fetch != null ? fetch : new ArrayList<>());
 
-                } else
-                    ReflectionZKUtil.setValueComponent(v, invoke);
-            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
-                LOGGER.error("ERROR on setValueForm()", e);
-            }
-        });
+                    } else
+                        ReflectionZKUtil.setValueComponent(v, invoke);
+                } catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
+                    LOGGER.error("ERROR on setValueForm()", e);
+                }
+            });
 
+        }
     }
 
     @Override

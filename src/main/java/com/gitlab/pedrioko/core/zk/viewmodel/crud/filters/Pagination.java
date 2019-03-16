@@ -3,7 +3,9 @@ package com.gitlab.pedrioko.core.zk.viewmodel.crud.filters;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.CrudController;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 
 public class Pagination {
@@ -26,6 +28,13 @@ public class Pagination {
         crudController.setPage(ofs, pagesize);
         BindUtils.postGlobalCommand(null, null, "refresh", null);
 
+    }
+
+    @NotifyChange({"count", "pagesize"})
+    @GlobalCommand
+    public void refresh() {
+        count = crudController.getCount();
+        pagesize = crudController.getLimit();
     }
 
     public int getActivepage() {

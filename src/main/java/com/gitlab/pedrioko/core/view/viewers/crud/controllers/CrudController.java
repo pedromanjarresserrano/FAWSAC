@@ -47,15 +47,21 @@ public class CrudController {
     Boolean reloadable;
     private int offSet = 0;
     private int limit = 16;
-
-    public CrudController(Class<?> klass, List<?> values) {
+    public CrudController(Class<?> klass) {
         super();
         crudService = ApplicationContextUtils.getBean(CrudService.class);
         this.klass = klass;
         this.values = new ArrayList();
     }
 
-    private Class<?> getTypeClass() {
+    public CrudController(Class<?> klass, List<?> values) {
+        super();
+        crudService = ApplicationContextUtils.getBean(CrudService.class);
+        this.klass = klass;
+        this.values = values;
+    }
+
+    public Class<?> getTypeClass() {
         return klass;
     }
 
@@ -258,5 +264,12 @@ public class CrudController {
 
     public int getLimit() {
         return limit;
+    }
+
+    public Object getFullData() {
+        map.putAll(paramsroot);
+        PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
+        return crudService.query().from(pathBuilder).where(getPredicate(pathBuilder)).fetch();
+
     }
 }

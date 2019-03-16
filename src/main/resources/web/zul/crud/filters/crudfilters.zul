@@ -1,0 +1,30 @@
+<borderlayout viewModel="@id('cf') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.filters.CrudFilters')">
+    <center sclass="overflow-auto-y">
+        <vlayout>
+            <div sclass="container-fuild text-black m-3">
+                <div sclass="row  p-0 m-0" children="@load(cf.filters.entrySet())">
+                    <template name="children" var="node">
+                        <div sclass="col-md-12 col-sm-12 col-lg-12 col-xs-12 p-0 m-0">
+                            <renglon label="@bind(node.key)" input="@bind(node.value)"
+                                     _sclass="col-md-12 col-sm-12 col-lg-12 col-xs-12 p-0 m-0"
+                                     _inputinnerSclass="col-md-12 col-sm-12 col-lg-12 col-xs-12 p-0 m-0"
+                                     _inputSclass="col-md-12 col-sm-12 col-lg-12 col-xs-12 "
+                            />
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+        </vlayout>
+    </center>
+    <south>
+        <div sclass="container">
+            <div sclass="d-flex justify-content-between">
+                <button label="Buscar" sclass="btn btn-primary" iconSclass="fas fa-search"
+                        onClick="@command('search')"/>
+                <button label="Clear" sclass="float-right btn btn-warning" iconSclass="fas fa-minus-circle"
+                        onClick="@command('clearFilters')"/>
+            </div>
+        </div>
+    </south>
+</borderlayout>

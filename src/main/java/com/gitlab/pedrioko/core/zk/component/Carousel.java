@@ -160,13 +160,13 @@ class Carousel extends HtmlBasedComponent {
     }
 
     public void setCarouselItemsJson(String galleryItemsJson) {
-        this.carouselItemsJson = galleryItemsJson;
+        carouselItemsJson = galleryItemsJson;
         smartUpdate("carouselItemsJson", carouselItemsJson);
     }
 
     public void setCarouselItems(List<CarouselItem> carouselItems) {
         this.carouselItems = carouselItems;
-        smartUpdate("carouselItemsJson", carouselItems);
+        smartUpdate("carouselItemsJson", carouselItemsJson);
 
     }
 

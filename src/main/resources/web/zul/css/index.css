@@ -62,12 +62,26 @@ a:focus {
     overflow-y: hidden !important;
     background: #252525;
 }
-
-margin-bottom: 1rem !important;
-
+.overflow-auto-y{
+    overflow-y: auto;
 }
-.z-datebox , .z-combobox{
+.z-decimalbox, .z-intbox, .z-longbox, .z-doublebox {
 
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+.z-datebox, .z-combobox {
     position: relative !important;
     display: -ms-flexbox !important;
     display: flex !important;
@@ -78,7 +92,7 @@ margin-bottom: 1rem !important;
     width: 100% !important;
  }
 
-.z-datebox-input ,  .z-combobox-input{
+.z-datebox-input,  .z-combobox-input{
 border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
 
@@ -228,10 +242,13 @@ height: 99% !important;
 }
 
 .z-listbox-body {
-height: 95% !important;
+    height: 95% !important;
 }
+.container-fuild .row .col-md-12 .z-tabbox .z-tabpanels .z-tabpanel{
+ //   display: block !important;
+ }
 .z-center-body{
-    -overflow-x: auto;
+    overflow-x: auto;
 }
 .boxe {
     -webkit-box-shadow: 20px 15px 65px -4px rgba(0, 0, 0, 0.36);

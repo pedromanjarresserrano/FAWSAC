@@ -44,10 +44,10 @@ public class ZKUtil {
                 typetoast = "success";
                 break;
             case INFO:
-                typetoast = "info";
+                typetoast = "message";
                 break;
             default:
-                typetoast = "info";
+                typetoast = "message";
                 break;
         }
         return typetoast;

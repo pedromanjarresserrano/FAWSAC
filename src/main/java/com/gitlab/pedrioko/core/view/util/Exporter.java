@@ -132,7 +132,8 @@ public class Exporter {
 
     private static List<String> getListFiled(List<?> list) {
         Class<?> elementType = list.get(0).getClass();
-        return ApplicationContextUtils.getBean(PropertiesUtil.class).getFieldTable(elementType);
+        List<String> fieldTable = ApplicationContextUtils.getBean(PropertiesUtil.class).getFieldTable(elementType);
+        return fieldTable.isEmpty() ? ReflectionJavaUtil.getFieldsNames(list.get(0).getClass()) : fieldTable;
     }
 
     private static String echoAsCSV(HSSFSheet sheet) {

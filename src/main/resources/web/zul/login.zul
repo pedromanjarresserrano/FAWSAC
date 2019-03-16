@@ -1,6 +1,5 @@
-<?page title="Alert System" contentType="text/html;charset=UTF-8"?>
-<!-- Load fonts from local -->
-<?link href="css/fonts.css" rel="stylesheet" type="text/css"?>
+<?page contentType="text/html;charset=UTF-8"?>
+
 <zk>
     <div zclass="h-100 w-100"
          apply="org.zkoss.bind.BindComposer"

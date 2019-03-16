@@ -1,11 +1,11 @@
 package com.gitlab.pedrioko.core.zk.viewmodel.crud;
 
 import com.gitlab.pedrioko.core.view.action.api.Action;
-import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
-import com.gitlab.pedrioko.core.view.api.CrudDisplayTable;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
-import com.gitlab.pedrioko.core.view.enums.*;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.view.enums.AplicateAllClass;
+import com.gitlab.pedrioko.core.view.enums.CrudAction;
+import com.gitlab.pedrioko.core.view.enums.CrudMode;
+import com.gitlab.pedrioko.core.view.enums.SubCrudView;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
@@ -85,7 +85,7 @@ public class CrudViewBar {
     }
 
     public String getId() {
-        return "crudviewbar-" + klass.getSimpleName();
+        return "crudviewbar-" + klass.getSimpleName() + UUID.randomUUID().toString();
     }
 
     public void setKlass(Class<?> klass) {
@@ -122,7 +122,7 @@ public class CrudViewBar {
 
     @Command
     public void clickAction(@BindingParam("action") Action action) {
-        EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).publish(new Event("action-crud-" + klass.getSimpleName(), null, action));
+        EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).publish(new Event("action-crud-" + klass.getSimpleName() + "-" + UUID.randomUUID().toString(), null, action));
     }
 
 }
