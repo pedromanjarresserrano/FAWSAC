@@ -183,7 +183,7 @@ public class ChosenFileEntityBox extends Bandbox {
                 auxmodel = new LinkedList<>(model);
                 load();
             } else {
-                throw new IllegalArgumentException("Class " + aClass + " not implement interface CrudGridItem");
+                throw new IllegalArgumentException("Class " + aClass + " not implement interface ChosenItem");
             }
         }
     }

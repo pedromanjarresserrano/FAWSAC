@@ -18,6 +18,7 @@
     <stylesheet href="~./zul/css/simple-carousel.css" type="text/css"/>
 
     <stylesheet href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" type="text/css"/>
+    <stylesheet href="~./zul/css/bootstrap-extend.css" type="text/css"/>
 
     <stylesheet href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css"/>
 
@@ -209,17 +210,6 @@
         <mold>
             <mold-name>default</mold-name>
             <mold-uri>mold/div.js</mold-uri>
-        </mold>
-        <preserve-blank/>
-    </component>
-    <component>
-        <component-name>firebase</component-name>
-        <component-class>com.gitlab.pedrioko.core.view.viewers.FireBase</component-class>
-        <widget-class>zul.wnd.Window</widget-class>
-        <mold>
-            <mold-name>default</mold-name>
-            <mold-uri>mold/window.js</mold-uri>
-            <css-uri>css/window.css.dsp</css-uri>
         </mold>
         <preserve-blank/>
     </component>

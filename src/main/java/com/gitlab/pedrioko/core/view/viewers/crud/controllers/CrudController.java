@@ -47,11 +47,12 @@ public class CrudController {
     Boolean reloadable;
     private int offSet = 0;
     private int limit = 16;
+
     public CrudController(Class<?> klass) {
         super();
         crudService = ApplicationContextUtils.getBean(CrudService.class);
         this.klass = klass;
-        this.values = new ArrayList();
+        values = new ArrayList();
     }
 
     public CrudController(Class<?> klass, List<?> values) {
@@ -239,7 +240,7 @@ public class CrudController {
     }
 
     public void setPage(int offSet) {
-        this.setPage(offSet, this.limit);
+        setPage(offSet, limit);
     }
 
     public void setPage(int offSet, int limit) {
@@ -248,9 +249,15 @@ public class CrudController {
         if (this.offSet != offSet || this.limit != limit) {
             this.offSet = offSet;
             this.limit = limit;
+            onEvent.get(CrudEvents.ON_SET_PAGE_SIZE).forEach(it -> it.doSomething());
             doQuery();
         }
     }
+
+    public void setPageSize(int limit) {
+        setPage(offSet, limit);
+    }
+
 
     public long getCount() {
         map.putAll(paramsroot);

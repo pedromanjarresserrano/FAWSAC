@@ -1,5 +1,5 @@
 <paging viewModel="@id('cp') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.filters.Pagination')"
-        pageSize="@load(cp.pagesize)"
+        pageSize="@bind(cp.pagesize)"
         totalSize="@bind(cp.count)"
         activePage="@bind(cp.activepage)"
         onPaging="@command('paging')">

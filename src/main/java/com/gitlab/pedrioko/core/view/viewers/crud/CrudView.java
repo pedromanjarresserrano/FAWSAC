@@ -8,8 +8,11 @@ import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.CrudController;
 import com.gitlab.pedrioko.core.view.viewers.crud.grid.AlphabetFilter;
+import com.gitlab.pedrioko.zk.vm.login.LoginVM;
 import lombok.Getter;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -28,19 +31,15 @@ import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean
 
 public class CrudView extends Tabpanel {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CrudView.class);
+
     private static final long serialVersionUID = 1L;
     private Class<?> klass;
-    //    private @Getter
-//    CrudTable crudTable;
-//    private @Getter
-//    CrudGrid gridTable;
     private List<Button> listActions;
     private Div divbar;
     private @Getter
     @Setter
     Div actions;
-    private List<Component> previusChilderns;
-    //  private CrudViewBar toolbar;
 
     private @Getter
     @Setter
@@ -56,10 +55,8 @@ public class CrudView extends Tabpanel {
     East east;
     private CrudMenuContext popup;
     private North north;
-    //  private CrudFilters crudFilters;
     private Borderlayout borderlayout;
-    private int PAGE_SIZE = 16;
-    //  private Paging paging;
+
 
     public CrudView() {
     }
@@ -77,18 +74,13 @@ public class CrudView extends Tabpanel {
         view(klass, getBean(PropertiesUtil.class).getFieldTable(klass));
     }
 
-    public CrudView(Class<?> klass, Boolean useGrid) {
-        super();
-        init(klass, useGrid);
-    }
-
     public void useAlphabetFilter() {
         North north = new North();
         north.appendChild(new AlphabetFilter(crudController, klass));
 
     }
 
-    protected void init(Class<?> klass, Boolean useGrid) {
+    protected void init(Class<?> klass) {
         crudviewmode = CrudMode.MAINCRUD;
         this.klass = klass;
         createUI();
@@ -98,8 +90,7 @@ public class CrudView extends Tabpanel {
     }
 
     public void setPageSize(int PAGE_SIZE) {
-        this.PAGE_SIZE = PAGE_SIZE;
-        crudController.setPage(PAGE_SIZE, PAGE_SIZE);
+        crudController.setPageSize(PAGE_SIZE);
         crudController.doQuery();
     }
 
@@ -143,7 +134,8 @@ public class CrudView extends Tabpanel {
         try {
             crudtable = Executions.createComponents("~./zul/crud/table/crudtable" + klass.getSimpleName() + ".zul", null, arg);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.info("CUSTOM CRUD TABLE PAGE NOT FOUND....");
+            LOGGER.info("USING DEFAULT CRUD TABLE PAGE ");
         }
         if (crudtable == null) crudtable = Executions.createComponents("~./zul/crud/table/crudtable.zul", null, arg);
 
@@ -210,7 +202,6 @@ public class CrudView extends Tabpanel {
     }
 
     public void setContent(Component c) {
-        previusChilderns = new ArrayList<>(getChildren());
         getChildren().clear();
         appendChild(c);
     }
@@ -258,8 +249,7 @@ public class CrudView extends Tabpanel {
             String s = split[0];
             Class<?> aClass = Class.forName(s);
             this.klass = aClass;
-            boolean aBoolean = new Boolean(split[1]);
-            init(aClass, aBoolean);
+            init(aClass);
         } else {
             if (split.length > 3) {
                 String s = split[0];
@@ -270,12 +260,6 @@ public class CrudView extends Tabpanel {
             }
         }
     }
-
-/*
-    public void enableCommonCrudActions(boolean disable) {
-        toolbar.getCrudsActions().forEach(e -> e.setVisible(disable));
-    }
-*/
 
     public void addValue(Object value) {
         crudController.addValue(value);

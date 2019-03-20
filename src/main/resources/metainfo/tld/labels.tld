@@ -7,5 +7,12 @@
         </function-signature>
         <description>Retrieve a label with a default.</description>
     </function>
-    <!-- any number of functions are allowed -->
+    <function>
+        <name>forsec</name>
+        <function-class>com.gitlab.pedrioko.core.view.util.FechaUtil</function-class>
+        <function-signature>
+            java.lang.String formatSeconds(java.lang.Object)
+        </function-signature>
+        <description>Converter seconds to HH:MM:SS</description>
+    </function>
 </taglib>

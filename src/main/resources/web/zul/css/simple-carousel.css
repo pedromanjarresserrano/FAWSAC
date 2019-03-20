@@ -118,3 +118,13 @@
     max-height: 300px;
   }
 }
+
+.carousel-right-bottom {
+    position: absolute !important;
+    z-index: 3000;
+    right: 0px;
+    bottom: 0px;
+    display: inline-flex;
+}
+
+

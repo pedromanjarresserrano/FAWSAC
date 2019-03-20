@@ -1,17 +1,18 @@
 package com.gitlab.pedrioko.core.zk.viewmodel.crud.filters;
 
+import com.gitlab.pedrioko.core.view.enums.CrudEvents;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.CrudController;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
-import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.bind.annotation.SmartNotifyChange;
 import org.zkoss.zk.ui.Executions;
 
 public class Pagination {
 
     private CrudController crudController;
-    private int activepage;
+    private int activepage = 0;
     private long count;
     private int pagesize;
 
@@ -20,21 +21,22 @@ public class Pagination {
         crudController = (CrudController) Executions.getCurrent().getArg().get("crud-controller");
         count = crudController.getCount();
         pagesize = crudController.getLimit();
+        crudController.addEventOnEvent(CrudEvents.ON_SET_PAGE_SIZE, this::refresh);
     }
 
     @Command
     public void paging() {
-        int ofs = activepage * pagesize;
-        crudController.setPage(ofs, pagesize);
+        int ofs = activepage * crudController.getLimit();
+        crudController.setPage(ofs);
         BindUtils.postGlobalCommand(null, null, "refresh", null);
 
     }
 
-    @NotifyChange({"count", "pagesize"})
+    @SmartNotifyChange({"count", "pagesize", "activepage"})
     @GlobalCommand
     public void refresh() {
-        count = crudController.getCount();
         pagesize = crudController.getLimit();
+        count = crudController.getCount();
     }
 
     public int getActivepage() {

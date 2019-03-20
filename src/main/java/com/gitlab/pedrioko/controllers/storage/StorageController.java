@@ -1,6 +1,5 @@
 package com.gitlab.pedrioko.controllers.storage;
 
-import com.gitlab.pedrioko.core.view.api.CrudGridItem;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.StorageService;
@@ -27,15 +26,15 @@ public class StorageController {
 
     @RequestMapping(value = "/file", method = RequestMethod.GET)
     public Mono<?> handleRequest(@RequestParam String id, @RequestParam String clase) throws Exception {
-        List<?> entities = ApplicationContextUtils.getEntities();
-        List<?> collect = entities.stream().filter(e -> (((Class) e).getSimpleName().equalsIgnoreCase(clase))).collect(Collectors.toList());
-        if (!collect.isEmpty()) {
-            Object o = collect.get(0);
-            CrudGridItem byId = (CrudGridItem) crudService.getById((Class) o, Long.parseLong(id));
-            File file = new File(byId.local());
-            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-            return Mono.justOrEmpty(resource);
-        } else
+        //List<?> entities = ApplicationContextUtils.getEntities();
+        //List<?> collect = entities.stream().filter(e -> (((Class) e).getSimpleName().equalsIgnoreCase(clase))).collect(Collectors.toList());
+        //if (!collect.isEmpty()) {
+        //    Object o = collect.get(0);
+          //  ChoosableItem byId = (ChoosableItem) crudService.getById((Class) o, Long.parseLong(id));
+      //      File file = new File(byId.local());
+      //      InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+     //       return Mono.justOrEmpty(resource);
+   //     } else
             return null;
       /*  File file = new File(filename);
         long len = 0;

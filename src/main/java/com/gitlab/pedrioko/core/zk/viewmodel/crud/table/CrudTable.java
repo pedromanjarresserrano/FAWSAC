@@ -61,7 +61,7 @@ public class CrudTable {
         });
     }
 
-    @NotifyChange({"items"})
+    @NotifyChange({"items", "itemsRefresh"})
     @GlobalCommand
     public void refresh() {
         System.out.println("Update");
@@ -94,8 +94,16 @@ public class CrudTable {
         this.selectValue = selectValue;
     }
 
-    public List<?> getItems() {
+    public List<?> getItemsRefresh() {
         return items.stream().map(crudService::refresh).collect(Collectors.toList());
+    }
+
+    public List<?> getItems() {
+        return items;
+    }
+
+    public void setItemsRefresh(List<?> items) {
+        this.items = items;
     }
 
     public void setItems(List<?> items) {
@@ -106,7 +114,7 @@ public class CrudTable {
         return ReflectionJavaUtil.getValueFieldObject(fieldname, object);
     }
 
-    public String loadFileEntityURL(Object value){
-        return  storageService.getUrlFile((FileEntity) value);
+    public String loadFileEntityURL(Object value) {
+        return storageService.getUrlFile((FileEntity) value);
     }
 }

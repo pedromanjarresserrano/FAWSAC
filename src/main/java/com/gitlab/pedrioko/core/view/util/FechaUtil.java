@@ -2,6 +2,7 @@ package com.gitlab.pedrioko.core.view.util;
 
 import com.gitlab.pedrioko.core.lang.Time;
 
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -72,4 +73,15 @@ public class FechaUtil {
         return time;
     }
 
+    public static String formatSeconds(Object seconds) {
+        Float aFloat = Float.parseFloat(seconds.toString());
+        return format(Duration.ofSeconds(aFloat.longValue()));
+    }
+
+    protected static String format(Duration duration) {
+        long hours = duration.toHours();
+        long mins = duration.minusHours(hours).toMinutes();
+        long seconds = duration.minusHours(hours).minusMinutes(mins).getSeconds();
+        return String.format("%02d:%02d:%02d", hours, mins, seconds);
+    }
 }
