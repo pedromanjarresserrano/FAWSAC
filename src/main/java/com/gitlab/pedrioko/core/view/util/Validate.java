@@ -1,7 +1,5 @@
 package com.gitlab.pedrioko.core.view.util;
 
-import com.gitlab.pedrioko.core.lang.annotation.GridViewFieldName;
-import com.gitlab.pedrioko.core.lang.annotation.GridViewFieldPreview;
 import com.gitlab.pedrioko.core.lang.annotation.NoDuplicate;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 
@@ -43,21 +41,9 @@ public class Validate {
         return getGridViewFieldName(val.getClass());
     }
 
-    private static String getGridViewFieldName(Class val) {
-        return ((GridViewFieldName) getAnnotation(val, GridViewFieldName.class)).value();
-    }
 
     public static Map<String, Object> getGridViewFieldPreview(Object val) {
         return getGridViewFieldPreview(val.getClass());
     }
 
-    private static Map<String, Object> getGridViewFieldPreview(Class val) {
-        GridViewFieldPreview annotation = (GridViewFieldPreview) getAnnotation(val, GridViewFieldPreview.class);
-        HashMap map = new HashMap();
-        map.put("value", annotation.value());
-        map.put("isList", annotation.isList());
-        map.put("replaceValue", annotation.replaceValue());
-
-        return map;
-    }
 }

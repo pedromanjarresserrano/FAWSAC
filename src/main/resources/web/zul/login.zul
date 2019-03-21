@@ -10,7 +10,7 @@
 
         </div>
         <div zclass="d-flex flex-column justify-content-center align-items-center bd-highlight mb-3 h-75">
-            <div zclass="shadow-sm rounded-lg bg-secondary text-white col-md-7 col-lg-7 col-sm-12 p-0" id="box">
+            <div zclass="shadow-sm rounded-lg bg-secondary text-white col-md-7 col-lg-5 col-sm-12 p-0" id="box">
                 <div zclass="p-4 bg-info  w-100">
                     <label zclass="h2 font-weight-bold">Log in</label>
                 </div>

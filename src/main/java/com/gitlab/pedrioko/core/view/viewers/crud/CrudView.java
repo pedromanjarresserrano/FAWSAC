@@ -104,13 +104,11 @@ public class CrudView extends Tabpanel {
 
         Component crudviewbar = Executions.createComponents("~./zul/crud/crudviewbar.zul", null, arg);
         divbar.appendChild(crudviewbar);
-        borderlayout.setStyle("height:100%;");
         east = new East();
         north = new North();
         north.appendChild(divbar);
         borderlayout.appendChild(north);
         east.setTitle("Filters");
-        east.setStyle(" overflow-y:auto !important; width:350px;");
         if (ZKUtil.isMobile()) {
             east.setCollapsible(false);
             east.setSplittable(false);
@@ -143,8 +141,6 @@ public class CrudView extends Tabpanel {
         Component crudfilters = Executions.createComponents("~./zul/crud/filters/crudfilters.zul", null, arg);
         east.appendChild(crudfilters);
         appendChild(actions);
-        actions.setClass("col-md-12 col-lg-12 col-xs-12 col-sm-12");
-        actions.setStyle("margin-top:10px;margin-bottom:10px;");
         setStyle("height:100%;");
         reloadable = crudviewmode != CrudMode.SUBCRUD;
         east.addEventListener(Events.ON_VISIBILITY_CHANGE, e -> {

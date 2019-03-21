@@ -48,7 +48,7 @@ public class CrudTable {
         storageService = ApplicationContextUtils.getBean(StorageService.class);
         loadfields();
         EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).subscribe(event -> {
-            if (event.getName().startsWith("action-crud-" + klass.getSimpleName()) && !event.getName().equalsIgnoreCase(uuidold)) {
+            if (event.getTarget() == crudView && event.getName().startsWith("action-crud-" + klass.getSimpleName()) && !event.getName().equalsIgnoreCase(uuidold)) {
                 Action action = (Action) event.getData();
                 CrudActionEvent crudevent = new CrudActionEvent();
                 crudevent.setCrudViewParent(crudView);

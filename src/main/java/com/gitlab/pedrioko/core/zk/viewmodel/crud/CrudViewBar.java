@@ -41,6 +41,7 @@ public class CrudViewBar {
     private transient FHSessionUtil fhSessionUtil;
     private MenuProvider menuprovider;
     private List<String> strings = new ArrayList<>();
+    private UUID uuid = UUID.randomUUID();
 
     @Init
     private void init() {
@@ -85,7 +86,7 @@ public class CrudViewBar {
     }
 
     public String getId() {
-        return "crudviewbar-" + klass.getSimpleName() + UUID.randomUUID().toString();
+        return "crudviewbar-" + klass.getSimpleName() + uuid.toString();
     }
 
     public void setKlass(Class<?> klass) {
@@ -121,8 +122,13 @@ public class CrudViewBar {
     }
 
     @Command
+    public void searchAction(@BindingParam("valuesearch") String searchvalue) {
+        crudView.getCrudController().setContainsString(searchvalue);
+    }
+
+    @Command
     public void clickAction(@BindingParam("action") Action action) {
-        EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).publish(new Event("action-crud-" + klass.getSimpleName() + "-" + UUID.randomUUID().toString(), null, action));
+        EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).publish(new Event("action-crud-" + klass.getSimpleName() + "-" + UUID.randomUUID().toString(), crudView, action));
     }
 
 }

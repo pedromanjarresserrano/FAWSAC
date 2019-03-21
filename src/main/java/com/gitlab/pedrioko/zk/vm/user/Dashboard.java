@@ -1,15 +1,14 @@
 package com.gitlab.pedrioko.zk.vm.user;
 
-import com.gitlab.pedrioko.core.view.forms.LoginForm;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
-import com.gitlab.pedrioko.core.zk.component.Video;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import com.gitlab.pedrioko.zk.composer.interfaces.DashBoardComponent;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
+import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
@@ -29,11 +28,11 @@ public class Dashboard extends SelectorComposer<Window> {
 
     private static final long serialVersionUID = 1L;
 
-    private final Div col1 = new Div();
-    private final Div col2 = new Div();
 
     @WireVariable
     private transient FHSessionUtil fhsessionutil;
+    @Wire
+    private Div content;
 
     /*
      * (non-Javadoc)
@@ -44,15 +43,7 @@ public class Dashboard extends SelectorComposer<Window> {
     @Override
     public void doAfterCompose(Window window) throws Exception {
         super.doAfterCompose(window);
-        Div component = (Div) window.getChildren().get(0);
-        Video video = new Video();
-        //video.setSrc("http://localhost:8080/file?filename=F:/Cache-Media/private-victoria-pure-horny-blonde-takes-on-four-bl2_2160p.mp4");
-        //  video.setSrc("http://localhost:8080/file?filename=F:/Cache-Media/kendra-sensual_1080p.mp4");
-        //  component.appendChild(video);
-        component.appendChild(col1);
-        component.appendChild(col2);
-        col1.setClass("col-lg-6 col-md-6 col-sm-6");
-        col2.setClass("col-lg-6 col-md-6 col-sm-6");
+
         List<DashBoardComponent> listView = ApplicationContextUtils.getBeansOfType(DashBoardComponent.class).stream()
                 .sorted(Comparator.comparingInt(DashBoardComponent::getPosicion)).collect(Collectors.toList());
 
@@ -84,22 +75,10 @@ public class Dashboard extends SelectorComposer<Window> {
                 content.setClosable(true);
                 content.setBorder("normal");
                 content.getChildren().forEach(w -> w.setId(""));
-                content.setSclass("col-lg-12 col-md-12 col-sm-12");
-                if (isMobile()) {
-                    col1.appendChild(content);
-                    col1.setWidth("100%");
-                    col2.setVisible(false);
-                } else {
-                    if (e.getPosicion() % 2 == 0) {
-                        col2.appendChild(content);
-                    } else {
-                        col1.appendChild(content);
-
-                    }
-                }
+                content.setSclass("col-lg-6 col-md-6 col-sm-12");
+                this.content.appendChild(content);
             }
         }
-        col1.appendChild(new LoginForm());
     }
 
     public boolean isMobile() {

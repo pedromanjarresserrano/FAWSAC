@@ -11,7 +11,10 @@
 
     <window
             apply="com.gitlab.pedrioko.zk.vm.user.Dashboard">
-        <div sclass="color-system col-md-12 col-sm-12 col-lg-12">
+        <div sclass="container" >
+        <div sclass="row" id="content">
+
+        </div>
         </div>
     </window>
 </vlayout>

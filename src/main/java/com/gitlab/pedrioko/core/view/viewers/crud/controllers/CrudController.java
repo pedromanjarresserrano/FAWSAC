@@ -69,7 +69,8 @@ public class CrudController {
     public void addValue(Object value) {
         if (!values.contains(value)) {
             ((ArrayList) values).add(value);
-            onEvent.get(CrudEvents.ON_ADD).forEach(it -> it.doSomething());
+            List<OnEvent> onEvents = onEvent.get(CrudEvents.ON_ADD);
+            if (onEvents != null) onEvents.forEach(it -> it.doSomething());
         } else
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("onlist"), MessageType.WARNING);
     }
@@ -249,7 +250,8 @@ public class CrudController {
         if (this.offSet != offSet || this.limit != limit) {
             this.offSet = offSet;
             this.limit = limit;
-            onEvent.get(CrudEvents.ON_SET_PAGE_SIZE).forEach(it -> it.doSomething());
+            List<OnEvent> onEvents = onEvent.get(CrudEvents.ON_SET_PAGE_SIZE);
+            if (onEvents != null) onEvents.forEach(it -> it.doSomething());
             doQuery();
         }
     }

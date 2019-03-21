@@ -1,35 +1,64 @@
 package com.gitlab.pedrioko.core.view.util;
 
+import org.apache.commons.configuration2.CombinedConfiguration;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.convert.DefaultListDelimiterHandler;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.apache.commons.configuration2.tree.OverrideCombiner;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.nio.file.Files.createTempFile;
 
 @Component
 public class PropertiesUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtil.class);
 
-    private PropertiesConfiguration config;
+    private CombinedConfiguration config;
 
     public PropertiesUtil() {
+        PropertiesConfiguration external = null;
+
         try {
-            config = new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
+
+            external = new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
                     .configure(new Parameters().properties().setFileName("domain.properties")
                             .setThrowExceptionOnMissing(true)
-                            .setListDelimiterHandler(new DefaultListDelimiterHandler(',')).setIncludesAllowed(false))
-                    .getConfiguration();
-
+                            .setListDelimiterHandler(new DefaultListDelimiterHandler(',')).setIncludesAllowed(false)
+                    ).getConfiguration();
         } catch (ConfigurationException e) {
-            LOGGER.error("ERROR on getConfiguration()", e);
+            LOGGER.warn("ERROR-- NOT FOUND internaldomain.properties");
         }
+        PropertiesConfiguration internal = null;
+        try {
+            InputStream resourceAsStream = PropertiesUtil.class.getResourceAsStream("/internaldomain.properties");
+            File destination = createTempFile("temp", "temp").toFile();
+            FileUtils.copyInputStreamToFile(resourceAsStream, destination);
+            internal = new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
+                    .configure(new Parameters().properties().setFile(destination)
+                            .setThrowExceptionOnMissing(true)
+                            .setListDelimiterHandler(new DefaultListDelimiterHandler(',')).setIncludesAllowed(false)
+                    ).getConfiguration();
+        } catch (ConfigurationException | IOException e) {
+            LOGGER.warn("ERROR-- NOT FOUND internaldomain.properties");
+        }
+        CombinedConfiguration config = new CombinedConfiguration(new OverrideCombiner());
+        if (external != null) {
+            config.addConfiguration(external);//this overrides config2
+        }
+        config.addConfiguration(internal);
+        this.config = config;
     }
 
     public List<String> getFieldTable(Class<?> c) {

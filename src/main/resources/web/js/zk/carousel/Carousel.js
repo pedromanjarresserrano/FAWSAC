@@ -43,7 +43,6 @@ zk.carousel.Carousel = zk.$extends(zk.Widget, {
     setCarouselItemsJson: function (value) {
         if (this._carouselItemsJson != value) {
             this._carouselItemsJson = value;
-            this.reload();
         }
     },
     reload: function () {
@@ -88,6 +87,34 @@ zk.carousel.Carousel = zk.$extends(zk.Widget, {
     bind_: function () {
         this.$supers('bind_', arguments);
         var ctx = document.getElementById(this.uuid + '-carousel');
+        var slider = tns({
+                    container: ctx.get(),
+                    items: 1,
+                    slideBy: this.getSlideBy(),
+                    /*1*/
+                    nav: true,
+                    navPosition: "bottom",
+                    lazyload: this.getLazyload(),
+                    controls: this.getControls(),
+                    /*false*/
+                    autoplay: true,
+                    autoplayTimeout: 1000,
+                    autoplayButton: false,
+                    autoplayButtonOutput: false,
+                    autoplayText: [
+                        "▶",
+                        "❚❚"
+                    ]
+                });
+                slider.pause();
+                ctx.addEventListener('mouseenter', function (ev) {
+                    slider.play();
+                });
+
+                ctx.addEventListener('mouseleave', function (ev) {
+                    slider.goTo('first');
+                    slider.pause();
+                });
 
     },
     unbind_: function () {

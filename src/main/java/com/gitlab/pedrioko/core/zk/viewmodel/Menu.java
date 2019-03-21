@@ -61,10 +61,11 @@ public class Menu {
                     .flatMap(List::stream).map(ProviderAccess::getMenuprovider).collect(Collectors.toList());
             menus.addAll(beansOfType.parallelStream().filter(e -> access.contains(e.getClass().getSimpleName()))
                     .sorted(Comparator.comparingInt(MenuProvider::getPosition)).collect(Collectors.toList()));
+
         } else {
             menus = beansOfType;
         }
-
+        menus.stream().filter(MenuProvider::isOpenByDefault).forEach(target::addContent);
         menues = menus.stream().collect(Collectors.groupingBy(MenuProvider::getGroup));
         navmenues = menues.remove("");
 
