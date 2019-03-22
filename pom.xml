@@ -43,6 +43,10 @@
         <stomp-websocket.version>2.3.3</stomp-websocket.version>
         <sockjs-client.version>1.0.2</sockjs-client.version>
         <jcodec-javase.version>0.2.3</jcodec-javase.version>
+        <hibernate.version>5.4.1.Final</hibernate.version>
+        <querydsl-jpa.version>4.2.1</querydsl-jpa.version>
+        <querydsl-core.version>4.2.1</querydsl-core.version>
+        <querydsl.version>4.2.1</querydsl.version>
     </properties>
     <repositories>
         <repository>

@@ -16,6 +16,7 @@ import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.*;
+import com.querydsl.jpa.impl.JPAQuery;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.getCollectionsFields;
 import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.getIdValue;
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
 
@@ -96,7 +98,7 @@ public class CrudController {
         PathBuilder<?> pathBuilder = crudService.getPathBuilder(getTypeClass());
         String idPropertyName = crudService.getIdPropertyName(klass);
         PathBuilder<Object> t = pathBuilder.get(idPropertyName);
-        List fetch = crudService.query().from(pathBuilder).where(t.in((List) value)).fetch();
+        List fetch = crudService.query().from(pathBuilder).where(t.in((List) value)).fetchAll().fetch();
         setValue((ArrayList<?>) fetch);
     }
 
@@ -128,24 +130,31 @@ public class CrudController {
     public void doQuery() {
         PathBuilder pathBuilder = crudService.getPathBuilder(klass);
         Predicate where = getPredicate(pathBuilder);
+        JPAQuery<?> jpaQuery = crudService.query().from(pathBuilder).offset(offSet).limit(limit);
+        if (where != null)
+            jpaQuery = jpaQuery.where(where);
+        loadInnners(jpaQuery, pathBuilder);
         if (klass.isAnnotationPresent(CrudOrderBy.class)) {
             String value = klass.getAnnotation(CrudOrderBy.class).value();
             if (value != null) {
                 Field field = ReflectionJavaUtil.getField(klass, value);
                 OrderSpecifier asc = pathBuilder.getComparable(value, field.getType()).asc();
-                setValue((ArrayList) (
-                        where == null ?
-                                crudService.query().from(pathBuilder).orderBy(asc).offset(offSet).limit(limit).fetch()
-                                :
-                                crudService.query().from(pathBuilder).where(where).offset(offSet).limit(limit).orderBy(asc).fetch())
-                );
-
+                setValue((ArrayList) jpaQuery.orderBy(asc).fetch());
             }
         } else {
-            List<?> fetch = crudService.query().from(pathBuilder).where(where).offset(offSet).limit(limit).fetch();
-            setValue((ArrayList) fetch);
+            setValue((ArrayList) jpaQuery.fetch());
         }
 
+    }
+
+    private JPAQuery<?> loadInnners(JPAQuery<?> jpaQuery, PathBuilder pathBuilder) {
+        List<Field> collectionsFields = getCollectionsFields(getTypeClass());
+        collectionsFields.forEach(e -> {
+            PathBuilder alias = pathBuilder.get(e.getName());
+            jpaQuery.leftJoin(alias);
+        });
+        if (!collectionsFields.isEmpty()) jpaQuery.fetchJoin();
+        return jpaQuery;
     }
 
     private Predicate getPredicate(PathBuilder pathBuilder) {
@@ -162,14 +171,17 @@ public class CrudController {
                 StringPath stringPath = pathBuilder.getString(v.getKey());
                 String substring = ((String) value).substring(AlphabetFilter.STARTWITH.length());
                 String lowerCase = substring.toLowerCase();
-                where = where != null ? paramMode == ParamMode.AND ? stringPath.startsWith(substring).or(stringPath.startsWith(lowerCase)).and(where) : stringPath.startsWith(((String) value).substring(AlphabetFilter.STARTWITH.length() - 1)).
-                        or(stringPath.startsWith(lowerCase)).or(where) :
-                        stringPath.startsWith(substring).or(stringPath.startsWith(lowerCase));
+                BooleanExpression startsWith = stringPath.startsWith(substring);
+                BooleanExpression rightExpression = stringPath.startsWith(lowerCase);
+                where = where != null ? paramMode == ParamMode.AND ? startsWith.or(rightExpression).and(where) : stringPath.startsWith(((String) value).substring(AlphabetFilter.STARTWITH.length() - 1)).
+                        or(rightExpression).or(where) :
+                        startsWith.or(rightExpression);
                 continue;
             }
             if (value instanceof RangeValue) {
                 ComparablePath date = pathBuilder.getComparable(v.getKey(), ((RangeValue) value).getInicio().getClass());
-                where = where != null ? paramMode == ParamMode.AND ? date.between((Comparable) ((RangeValue) value).getInicio(), (Comparable) ((RangeValue) value).getFin()).and(where) : date.between((Comparable) ((RangeValue) value).getInicio(), (Comparable) ((RangeValue) value).getFin()).or(where) : date.between((Comparable) ((RangeValue) value).getInicio(), (Comparable) ((RangeValue) value).getFin());
+                BooleanExpression betweenExpression = date.between(((RangeValue) value).getInicio(), (Comparable) ((RangeValue) value).getFin());
+                where = where != null ? paramMode == ParamMode.AND ? betweenExpression.and(where) : betweenExpression.or(where) : betweenExpression;
                 continue;
             }
             if (value instanceof Collection) {
@@ -180,14 +192,18 @@ public class CrudController {
                 if (assignableFrom) {
                     CollectionPath collection = pathBuilder.getCollection(v.getKey(), value.getClass());
                     if (collection != null) {
-                        if (!(value instanceof Collection))
-                            where = where != null ? paramMode == ParamMode.AND ? collection.contains(value).and(where) : collection.contains(value).or(where) : collection.contains(value);
-                        else
+                        if (!(value instanceof Collection)) {
+                            BooleanExpression contains = collection.contains(value);
+                            where = where != null ? paramMode == ParamMode.AND ? contains.and(where) : contains.or(where) : contains;
+                        } else
                             for (Object val : (Collection) value) {
                                 if (val == null) {
-                                    where = where != null ? paramMode == ParamMode.AND ? collection.isEmpty().and(where) : collection.isEmpty().or(where) : collection.isEmpty();
-                                } else
-                                    where = where != null ? paramMode == ParamMode.AND ? collection.contains(val).and(where) : collection.contains(val).or(where) : collection.contains(val);
+                                    BooleanExpression expression = collection.isEmpty();
+                                    where = where != null ? paramMode == ParamMode.AND ? expression.and(where) : expression.or(where) : expression;
+                                } else {
+                                    BooleanExpression expression = collection.contains(val);
+                                    where = where != null ? paramMode == ParamMode.AND ? expression.and(where) : expression.or(where) : expression;
+                                }
                             }
                     }
                 } else {
@@ -197,7 +213,8 @@ public class CrudController {
                 }
                 continue;
             }
-            where = where != null ? paramMode == ParamMode.AND ? pathBuilder.get(v.getKey()).eq(value).and(where) : pathBuilder.get(v.getKey()).eq(value).or(where) : pathBuilder.get(v.getKey()).eq(value);
+            BooleanExpression expression = pathBuilder.get(v.getKey()).eq(value);
+            where = where != null ? paramMode == ParamMode.AND ? expression.and(where) : expression.or(where) : expression;
 
 
         }
@@ -251,7 +268,7 @@ public class CrudController {
             this.offSet = offSet;
             this.limit = limit;
             List<OnEvent> onEvents = onEvent.get(CrudEvents.ON_SET_PAGE_SIZE);
-            if (onEvents != null) onEvents.forEach(it -> it.doSomething());
+            if (onEvents != null) onEvents.forEach(OnEvent::doSomething);
             doQuery();
         }
     }
@@ -264,7 +281,8 @@ public class CrudController {
     public long getCount() {
         map.putAll(paramsroot);
         PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
-        return crudService.query().from(pathBuilder).where(getPredicate(pathBuilder)).fetchCount();
+        JPAQuery<?> query = crudService.query().from(pathBuilder);
+        return query.where(getPredicate(pathBuilder)).fetch().size();
     }
 
     public List getValues() {
@@ -278,7 +296,9 @@ public class CrudController {
     public Object getFullData() {
         map.putAll(paramsroot);
         PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
-        return crudService.query().from(pathBuilder).where(getPredicate(pathBuilder)).fetch();
+        JPAQuery<?> query = crudService.query().from(pathBuilder).where(getPredicate(pathBuilder));
+        loadInnners(query, pathBuilder);
+        return query.fetch();
 
     }
 }

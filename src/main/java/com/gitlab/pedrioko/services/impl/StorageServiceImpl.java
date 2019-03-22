@@ -92,7 +92,6 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public File getFile(String filename) {
         String value = getAppParam().getValue();
-
         return new File(value + filename.replace(value, ""));
     }
 
@@ -159,7 +158,6 @@ public class StorageServiceImpl implements StorageService {
         try {
             ZipInputStream stream = new ZipInputStream(inputstream);
             Path outDir = getPathTempAppParam();
-
             ZipEntry entry;
             while ((entry = stream.getNextEntry()) != null) {
                 Path filePath = outDir.resolve(getUUID() + entry.getName());
@@ -174,9 +172,9 @@ public class StorageServiceImpl implements StorageService {
                     try {
                         Files.move(filePath, Paths.get(getAppParam().getValue()));
                     } catch (Exception w) {
+                        LOGGER.error("ERROR", w);
                     }
                     file.delete();
-
                 }
             }
         } catch (Exception e) {
@@ -207,8 +205,6 @@ public class StorageServiceImpl implements StorageService {
             imageOutputStream.close();
         } catch (IOException e) {
             LOGGER.error("ERROR", e);
-        } finally {
-
         }
     }
 

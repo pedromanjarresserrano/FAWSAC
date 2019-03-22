@@ -101,7 +101,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
     @Override
     public <T> List<T> getAll(Class<T> klass) {
         PathBuilder<?> path = getPathBuilder(klass);
-        return (List<T>) query().from(path).fetch();
+        return (List<T>) query().from(path).fetchAll().fetch();
     }
 
     @Override
@@ -110,10 +110,10 @@ public class DAOGenericImpl<T> implements DAOGeneric {
         String orderBy = getOrderBy(klass);
         if (orderBy != null && !orderBy.isEmpty()) {
             OrderSpecifier asc = getOrderSpecifier(klass, orderBy, pathBuilder);
-            return (List<T>) query().from(pathBuilder).orderBy(asc).fetch();
+            return (List<T>) query().from(pathBuilder).orderBy(asc).fetchAll().fetch();
 
         }
-        return (List<T>) query().from(pathBuilder).fetch();
+        return (List<T>) query().from(pathBuilder).fetchAll().fetch();
     }
 
     @Override
@@ -121,10 +121,10 @@ public class DAOGenericImpl<T> implements DAOGeneric {
         PathBuilder pathBuilder = getPathBuilder(klass);
         if (orderby != null) {
             OrderSpecifier asc = getOrderSpecifier(klass, orderby, pathBuilder);
-            return (List<T>) query().from(pathBuilder).orderBy(asc).fetch();
+            return (List<T>) query().from(pathBuilder).orderBy(asc).fetchAll().fetch();
 
         }
-        return (List<T>) query().from(pathBuilder).fetch();
+        return (List<T>) query().from(pathBuilder).fetchAll().fetch();
     }
 
     private <T> OrderSpecifier getOrderSpecifier(Class<T> klass, String orderby, PathBuilder pathBuilder) {
@@ -353,8 +353,8 @@ public class DAOGenericImpl<T> implements DAOGeneric {
             BooleanExpression and = stringPath.startsWith(text).and(aditional);
             String orderBy = getOrderBy(klass);
             return (orderBy != null && !orderBy.isEmpty()) ?
-                    (List<T>) query().from(pathBuilder).where(and).orderBy(getOrderSpecifier(klass, orderBy, pathBuilder)).fetch()
-                    : (List<T>) query().from(pathBuilder).where(and).fetch();
+                    (List<T>) query().from(pathBuilder).where(and).orderBy(getOrderSpecifier(klass, orderBy, pathBuilder)).fetchAll().fetch()
+                    : (List<T>) query().from(pathBuilder).where(and).fetchAll().fetch();
         } else
             return getAllOrder(klass);
     }
@@ -375,7 +375,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
             like = getLikePredicate(text, fields, pathBuilder, aditional);
         }
         String orderBy = (String) getOrderBy(klass);
-        return orderBy != null && !orderBy.isEmpty() ? (List<T>) query().from(pathBuilder).where(like).orderBy(getOrderSpecifier(klass, orderBy, pathBuilder)).fetch() : (List<T>) query().from(pathBuilder).where(like).fetch();
+        return orderBy != null && !orderBy.isEmpty() ? (List<T>) query().from(pathBuilder).where(like).orderBy(getOrderSpecifier(klass, orderBy, pathBuilder)).fetchAll().fetch() : (List<T>) query().from(pathBuilder).where(like).fetchAll().fetch();
     }
 
     private <T> List<T> like(Class<T> klass, String text) {
@@ -387,7 +387,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
             OrderSpecifier orderSpecifier = getOrderSpecifier(klass, orderBy, pathBuilder);
             return (List<T>) query().from(pathBuilder).where(like).orderBy(orderSpecifier).fetch();
         } else
-            return (List<T>) query().from(pathBuilder).where(like).fetch();
+            return (List<T>) query().from(pathBuilder).where(like).fetchAll().fetch();
     }
 
     @Override
