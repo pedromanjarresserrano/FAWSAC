@@ -5,11 +5,11 @@ import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
-import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.*;
 import org.zkoss.zul.impl.LabelImageElement;
 
@@ -17,11 +17,13 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Component
 @Scope("session")
 public class ContentViewImpl implements ContentView {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContentViewImpl.class);
+
 
     private Tabbox tab;
     @Autowired
@@ -78,7 +80,7 @@ public class ContentViewImpl implements ContentView {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("ERROR ON addContent");
         }
 
     }
