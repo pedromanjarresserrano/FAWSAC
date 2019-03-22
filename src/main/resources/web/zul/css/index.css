@@ -1573,47 +1573,6 @@ weather {
     padding: 0;
 }
 
-.btn {
-    color: #FFF !important;
-}
-
-.btn-sm {
-    border-width: 4px;
-    font-size: 13px;
-    padding: 4px 9px;
-    line-height: 1.39;
-}
-
-.btn-xs {
-    border-width: 3px;
-}
-
-.btn-minier {
-    padding: 0 4px;
-    line-height: 18px;
-    border-width: 2px;
-    font-size: 12px;
-}
-
-.btn-primary,
-.btn-primary:focus {
-    background-color: #428bca !important;
-    border-color: #428bca;
-}
-
-.btn-primary:hover,
-.btn-primary.open {
-    background-color: #1b6aaa !important;
-    border-color: #428bca;
-}
-
-.btn-primary.no-border:hover {
-    border-color: #1b6aaa;
-}
-
-.btn-primary.no-hover:hover {
-    background-color: #428bca !important;
-}
 
 .btn-siderbar-collapser,
 .btn-siderbar-collapser:focus {
