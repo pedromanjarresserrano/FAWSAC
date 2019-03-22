@@ -1,50 +1,58 @@
 <?page contentType="text/html;charset=UTF-8"?>
 
-<zk>
-    <div zclass="h-100 w-100"
-         apply="org.zkoss.bind.BindComposer"
-         viewModel="@id('vm') @init('com.gitlab.pedrioko.zk.vm.login.LoginVM')">
-        <div>
-            <span zclass="fa fa-leaf" style="font-size:3em;"/>
-            <label zclass="h1" style="font-size:3em;" value="@bind(vm.appName)"/>
+<zk xmlns:n="native">
+    <n:form action="/login" method='POST'>
 
-        </div>
-        <div zclass="d-flex flex-column justify-content-center align-items-center bd-highlight mb-3 h-75">
-            <div zclass="shadow-sm rounded-lg bg-secondary text-white col-md-7 col-lg-5 col-sm-12 p-0" id="box">
-                <div zclass="p-4 bg-info  w-100">
-                    <label zclass="h2 font-weight-bold">Log in</label>
-                </div>
-                <div zclass="p-5">
-                    <div zclass="form-group">
-                        <label zclass="font-weight-bold">Email address</label>
-                        <textbox type="email" value="@bind(vm.valueuser)" sclass="form-control" id="exampleInputEmail1"
-                                 placeholder="Enter email"/>
-                        <label id="emailHelp" zclass="form-text text-white font-weight-lighter">We'll never share your
-                            email
-                            with anyone
-                            else.
-                        </label>
+        <div zclass="h-100 w-100"
+             apply="org.zkoss.bind.BindComposer"
+             viewModel="@id('vm') @init('com.gitlab.pedrioko.zk.vm.login.LoginVM')">
+            <div>
+                <span zclass="fa fa-leaf" style="font-size:3em;"/>
+                <label zclass="h1" style="font-size:3em;" value="@bind(vm.appName)"/>
+
+            </div>
+            <div zclass="d-flex flex-column justify-content-center align-items-center bd-highlight mb-3 h-75">
+                <div zclass="shadow-sm rounded-lg bg-secondary text-white col-md-7 col-lg-5 col-sm-12 p-0" id="box">
+                    <div zclass="p-4 bg-info  w-100">
+                        <label zclass="h2 font-weight-bold">Log in</label>
                     </div>
-                    <div zclass="form-group">
-                        <label zclass="font-weight-bold">Password</label>
-                        <textbox type="password" value="@bind(vm.valuepass)" sclass="form-control"
-                                 onOK="@command('doLogin')"
-                                 id="exampleInputPassword1" placeholder="Password"/>
+                    <div zclass="p-5">
+                        <div zclass="form-group">
+                            <label zclass="font-weight-bold">Email address</label>
+                            <textbox type="text" value="@bind(vm.valueuser)" sclass="form-control"
+                                     name="username"
+                                     id="exampleInputEmail1"
+                                     placeholder="Enter email"/>
+                            <label id="emailHelp" zclass="form-text text-white font-weight-lighter">We'll never share
+                                your
+                                email
+                                with anyone
+                                else.
+                            </label>
+                        </div>
+                        <div zclass="form-group">
+                            <label zclass="font-weight-bold">Password</label>
+                            <textbox type="password"
+                                     name="password"
+                                     value="@bind(vm.valuepass)"
+                                     sclass="form-control"
+                                     id="exampleInputPassword1"
+                                     placeholder="Password"/>
+                        </div>
+                        <div zclass="form-check">
+                            <checkbox zclass="form-check-input" id="exampleCheck1"/>
+                            <label zclass="form-check-label">Check me out</label>
+                        </div>
+                        <div zclass="form-group  col-md-12 alert-danger" height="25px"
+                             align="center" visible="@bind(vm.visiblemessage)">
+                            <label id="message"
+                                   visible="@bind(vm.visiblemessage)" sclass="warn"
+                                   value="@bind(vm.labelerror)"/>
+                        </div>
+                        <button type="submit" zclass="mt-4 btn btn-primary" label="@bind(vm.boton)"/>
                     </div>
-                    <div zclass="form-check">
-                        <checkbox zclass="form-check-input" id="exampleCheck1"/>
-                        <label zclass="form-check-label">Check me out</label>
-                    </div>
-                    <div zclass="form-group  col-md-12 alert-danger" height="25px"
-                         align="center" visible="@bind(vm.visiblemessage)">
-                        <label id="message"
-                               visible="@bind(vm.visiblemessage)" sclass="warn"
-                               value="@bind(vm.labelerror)"/>
-                    </div>
-                    <button type="submit" zclass="mt-4 btn btn-primary" onClick="@command('doLogin')"
-                            label="@bind(vm.boton)"/>
                 </div>
             </div>
         </div>
-    </div>
+    </n:form>
 </zk>

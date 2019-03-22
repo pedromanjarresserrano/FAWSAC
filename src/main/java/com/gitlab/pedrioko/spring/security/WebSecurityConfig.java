@@ -86,9 +86,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         and.antMatchers("/**")
                 .hasAnyAuthority(TipoUsuario.ROLE_ADMIN.name(), TipoUsuario.ALL.name(),
                         TipoUsuario.ROLE_USER.name())
-                .and().formLogin().loginPage("/login").loginProcessingUrl("/login")
-                .successHandler(authenticationSuccessHandler).permitAll().and().logout().permitAll().and().csrf().disable()
-                .headers().frameOptions().sameOrigin().httpStrictTransportSecurity().disable();
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .successHandler(authenticationSuccessHandler)
+                .failureUrl("/login?error=true")
+                .and().logout().deleteCookies("JSESSIONID").and().csrf().disable();
     }
 
 

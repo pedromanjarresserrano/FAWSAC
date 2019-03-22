@@ -17,27 +17,7 @@ public class Controllers {
         return "login";
     }
 
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
-
-    @GetMapping("/register")
-    public String register() {
-        return "register";
-    }
-
-    @GetMapping("/index")
-    public String index() {
-        return "index";
-    }
-
-    @GetMapping("/recovery")
-    public String recovery() {
-        return "recovery";
-    }
-
-
+   
     public class Hello {
         private String greeting;
 

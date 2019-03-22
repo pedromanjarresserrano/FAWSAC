@@ -29,3 +29,17 @@
     max-width: 95% !important;
   }
 }
+
+.img-viewer {
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    min-height: 240px;
+    background-color: lavender;
+}
+
+.img-container {
+    background: white;
+    border: 1px solid lightgray;
+}

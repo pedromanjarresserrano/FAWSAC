@@ -4,7 +4,6 @@ import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.services.CrudService;
-import com.querydsl.core.types.dsl.PathBuilder;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,23 +119,23 @@ class LoginVM {
             SecurityContextHolder.setContext(sc);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+/*
             String name = authentication.getName();
             if (name != null) {
                 PathBuilder<?> builder = crudService.getPathBuilder(Usuario.class);
                 Usuario user = (Usuario) crudService.query().from(builder).where(builder.get("username", String.class).eq(valueuser)).fetchFirst();
                 fhsessionutil.setCurrentUser(user);
             }
-
+*/
         } catch (Exception e) {
-            fhsessionutil.setCurrentUser(null);
+       /*     fhsessionutil.setCurrentUser(null);
 
             LOGGER.error("Error on doLogin()", e);
             labelerror = Labels.getLabel("login.error");
             visiblemessage = true;
-            return;
+            return;*/
         }
-        if (fhsessionutil.getCurrentUser() != null) {
+    /*    if (fhsessionutil.getCurrentUser() != null) {
             if (fhsessionutil.getCurrentUser().getEnable()) {
                 Executions.sendRedirect("/index");
             } else {
@@ -146,7 +145,7 @@ class LoginVM {
         } else {
             labelerror = Labels.getLabel("login.error");
             visiblemessage = true;
-        }
+        }*/
 
     }
 

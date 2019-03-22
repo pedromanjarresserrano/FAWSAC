@@ -249,6 +249,7 @@ height: 99% !important;
  }
 .z-center-body{
     overflow-x: auto;
+    background-color: #f3f3f3;
 }
 .boxe {
     -webkit-box-shadow: 20px 15px 65px -4px rgba(0, 0, 0, 0.36);
