@@ -1,12 +1,9 @@
 package com.gitlab.pedrioko.spring;
 
-import com.gitlab.pedrioko.core.view.api.ContentView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Scope("session")
@@ -17,7 +14,27 @@ public class Controllers {
         return "login";
     }
 
-   
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
+
+    @GetMapping("/index")
+    public String index() {
+        return "index";
+    }
+
+    @GetMapping("/recovery")
+    public String recovery() {
+        return "recovery";
+    }
+
+
     public class Hello {
         private String greeting;
 
@@ -29,7 +46,7 @@ public class Controllers {
         }
 
         public String getGreeting() {
-            return this.greeting;
+            return greeting;
         }
 
         public void setGreeting(String greeting) {
@@ -45,7 +62,7 @@ public class Controllers {
         }
 
         public String getName() {
-            return this.name;
+            return name;
         }
 
         public void setName(String name) {

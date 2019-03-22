@@ -43,7 +43,7 @@
                             <checkbox zclass="form-check-input" id="exampleCheck1"/>
                             <label zclass="form-check-label">Check me out</label>
                         </div>
-                        <div zclass="form-group  col-md-12 alert-danger" height="25px"
+                        <div sclass="w-100 mt-3 alert-danger" height="25px"
                              align="center" visible="@bind(vm.visiblemessage)">
                             <label id="message"
                                    visible="@bind(vm.visiblemessage)" sclass="warn"

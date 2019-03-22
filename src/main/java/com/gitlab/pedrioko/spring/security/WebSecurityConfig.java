@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,6 +32,9 @@ import java.util.stream.Collectors;
 @EnableJpaAuditing
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static final String ZUL_FILES = "/zkau/web/**/*.zul";
+    private static final String REMOVE_DESKTOP_REGEX = "/zkau\\?dtid=.*&cmd_0=rmDesktop&.*";
 
     @Autowired
     private UserDetailsService customUserDetailsService;
@@ -77,9 +81,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         List<StaticResouceLocation> beans = ApplicationContextUtils.getBeans(StaticResouceLocation.class);
         String[] strings = beans.stream().map(e -> e.getPath()).collect(Collectors.toSet()).toArray(new String[]{});
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry and = http.authorizeRequests().antMatchers("/ws/**").permitAll().and().authorizeRequests()
+                .antMatchers(ZUL_FILES)
+                .denyAll()
                 .antMatchers("/test/**", "/file/**", "/tester/**", "/videos", "/css/**", "/signaling", "/components/**", "/bootstrap/**", "/fonts/**", "/js/**",
-                        "/images/**", "/zkau/**", "/login", "/recovery", "/register")
-                .permitAll().and().authorizeRequests();
+                        "/images/**", "/zkau/**", "/login", "/recovery", "/register", "/logout")
+                .permitAll()
+                .regexMatchers(HttpMethod.GET, REMOVE_DESKTOP_REGEX)
+                .permitAll()
+                .requestMatchers(req -> "rmDesktop".equals(req.getParameter("cmd_0")))
+                .permitAll()
+                .and()
+                .authorizeRequests();
         for (String e : Arrays.asList(strings)) {
             and = and.antMatchers(e).permitAll();
         }
@@ -92,7 +104,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .successHandler(authenticationSuccessHandler)
                 .failureUrl("/login?error=true")
-                .and().logout().deleteCookies("JSESSIONID").and().csrf().disable();
+                .and().logout().logoutUrl("/logout").deleteCookies("JSESSIONID").and().csrf().disable();
     }
 
 
