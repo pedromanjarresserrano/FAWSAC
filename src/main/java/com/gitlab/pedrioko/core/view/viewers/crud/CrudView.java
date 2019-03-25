@@ -56,6 +56,7 @@ public class CrudView extends Tabpanel {
     private CrudMenuContext popup;
     private North north;
     private Borderlayout borderlayout;
+    private int selectedIndex = 0;
 
 
     public CrudView() {
@@ -184,7 +185,7 @@ public class CrudView extends Tabpanel {
     public void previusState() {
         getChildren().clear();
         createUI();
-        getTabbox().setSelectedIndex(0);
+        getTabbox().setSelectedIndex(selectedIndex);
         if (reloadable)
             update();
     }
@@ -198,6 +199,7 @@ public class CrudView extends Tabpanel {
     }
 
     public void setContent(Component c) {
+        selectedIndex = getTabbox().getSelectedIndex();
         getChildren().clear();
         appendChild(c);
     }
@@ -207,11 +209,11 @@ public class CrudView extends Tabpanel {
     }
 
     public void setValue(List<?> value) {
-        crudController.setValue(value);
+        crudController.setCrudViewValue(value);
     }
 
     public void setValue(ArrayList<?> value) {
-        crudController.setValue(value);
+        this.setValue((List) value);
     }
 
     public List<Button> getListActions() {
@@ -231,8 +233,7 @@ public class CrudView extends Tabpanel {
     }
 
     public void setDisabled(boolean disable) {
-        if (disable)
-            divbar.setVisible(!disable);
+        divbar.setVisible(!disable);
     }
 
     public String getKlass() {

@@ -7,7 +7,7 @@
         <div sclass="nav" children="@load(mm.navmenues)">
             <template name="children" var="node">
                 <n:li sclass="nav-item">
-                    <a zclass="nav-link  h-100" label="@load(node.label)"
+                    <a zclass="nav-link  h-100" label="@load(my:l(node.label,node.label))"
                        iconSclass="@load(node.icon)" href="javascript:void(0)"
                        onClick="@command('clickAction', action=node)"
                     />
@@ -21,12 +21,13 @@
                     <a zclass="nav-link dropdown-toggle h-100" ca:data-toggle="dropdown" href="#" ca:role="button"
                        ca:aria-haspopup="true" ca:aria-expanded="false"
                        label=" @load(my:l(node.key,node.key))">
-
                     </a>
-                    <div children="@load(node.value)" sclass="dropdown-menu" ca:x-placement="bottom-start"
+                    <div children="@load(node.value)"
+                         sclass="flex-column justify-content-start p-0 m-0 dropdown-menu  round-menu "
+                         ca:x-placement="bottom-start"
                          style="min-width: 16rem; position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
                         <template name="children" var="submenu">
-                            <button zclass="btn btn-outline-secondary btn-sm btn-block"
+                            <button zclass="btn btn-outline-dark btn-sm btn-block mt-0"
                                     label="@load(submenu.label)"
                                     iconSclass="@load(submenu.icon)"
                                     onClick="@command('clickAction', action=submenu)"
@@ -40,15 +41,20 @@
             <n:li class="nav-item avatar">
                 <a zclass="nav-link p-0" href="javascript:void(0)">
                     <image width="50px" height="50px" sclass="img-thumbnail rounded-circle"
-                           content="@load(mm.image)"
+                           content="@bind(mm.image)"
                            onClick='mailPop.open(self,"after_end")'
                     />
                 </a>
             </n:li>
         </div>
     </div>
-    <popup id="mailPop" width="150px">
-        <button zclass="btn btn-outline-secondary btn-sm btn-block text-dark"
+    <popup id="mailPop" width="150px" sclass="round-menu">
+        <button zclass="btn btn-outline-danger btn-sm btn-block m-0"
+                label="@load(my:l('perfil','Perfil'))"
+                iconSclass="z-icon-user"
+                onClick="@command('profile')"
+        />
+        <button zclass="btn btn-outline-danger btn-sm btn-block m-0"
                 label="Logout"
                 iconSclass="fas fa-sign-out-alt"
                 onClick="@command('logout')"

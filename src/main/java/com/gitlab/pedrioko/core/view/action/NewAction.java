@@ -24,12 +24,10 @@ public class NewAction implements Action {
     @Override
     public void actionPerform(CrudActionEvent event) {
         HashMap<Object, Object> arg = new HashMap<>();
-        try {
-            arg.put("value", ReflectionJavaUtil.getNewInstace(event.getCrudViewParent().getTypeClass()));
-            arg.put("event-crud", event);
-            arg.put("estado-form", FormStates.CREATE);
-        } catch (Exception e) {
-        }
+
+        arg.put("value", ReflectionJavaUtil.getNewInstace(event.getCrudViewParent().getTypeClass()));
+        arg.put("event-crud", event);
+        arg.put("estado-form", FormStates.CREATE);
         event.getCrudViewParent().setContent(Executions.createComponents("~./zul/form.zul", null, arg));
     }
 

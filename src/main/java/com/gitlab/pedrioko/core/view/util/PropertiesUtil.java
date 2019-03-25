@@ -38,7 +38,7 @@ public class PropertiesUtil {
                             .setListDelimiterHandler(new DefaultListDelimiterHandler(',')).setIncludesAllowed(false)
                     ).getConfiguration();
         } catch (ConfigurationException e) {
-            LOGGER.warn("ERROR-- NOT FOUND internaldomain.properties");
+            LOGGER.warn("WARNING -- NOT FOUND domain.properties");
         }
         PropertiesConfiguration internal = null;
         try {
@@ -51,7 +51,7 @@ public class PropertiesUtil {
                             .setListDelimiterHandler(new DefaultListDelimiterHandler(',')).setIncludesAllowed(false)
                     ).getConfiguration();
         } catch (ConfigurationException | IOException e) {
-            LOGGER.warn("ERROR-- NOT FOUND internaldomain.properties");
+            LOGGER.warn("WARNING -- NOT FOUND internaldomain.properties");
         }
         CombinedConfiguration config = new CombinedConfiguration(new OverrideCombiner());
         if (external != null) {

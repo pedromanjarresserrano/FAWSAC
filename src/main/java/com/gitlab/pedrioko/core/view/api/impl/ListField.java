@@ -74,6 +74,7 @@ public class ListField implements FieldComponent {
         tabbox.setStyle("height:95vh;display:block;");
         crudView.setStyle("height:95vh; display:block;");
         tabpanels.setStyle("height:95vh;display:block;");
+        tabbox.setSelectedTab(tab);
         return tabbox;
     }
 }

@@ -18,6 +18,7 @@ import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.zk.component.ColorChooserBox;
 import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.dsl.PathBuilder;
+import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkforge.ckez.CKeditor;
@@ -85,6 +86,9 @@ public class EntityForm implements Valuable {
         List<Action> beans = ApplicationContextUtils.getBeans(Action.class);
         actions = beans.stream().filter(e -> e.getAplicateClass().contains(Form.class)).collect(Collectors.toList());
         actions.sort(Comparator.comparing(Action::position));
+        if (estado == FormStates.READ) {
+            actions.clear();
+        }
     }
 
     public List<Action> getActions() {
@@ -148,14 +152,6 @@ public class EntityForm implements Valuable {
             }
 
         });
-/*
-        if (e.isAnnotationPresent(NoEmpty.class)) {
-            Label requerido = new Label(" (" + ReflectionZKUtil.getLabel("requerido") + ")");
-            requerido.setClass("text-danger");
-        }*/
-      /*ApplicationContextUtils.getBeansOfType(RowCustomizer.class).stream().filter(f -> f.getToClass().contains(type))
-                .forEach(c -> c.customizer(renglon, e));*/
-
     }
 
     public Component putBinding(Field key, Component value) {

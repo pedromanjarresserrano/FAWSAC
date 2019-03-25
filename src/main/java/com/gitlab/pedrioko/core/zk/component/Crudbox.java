@@ -15,4 +15,9 @@ public class Crudbox extends Tabbox {
     public void setValue(List<?> value) {
         ((CrudView) getTabpanels().getChildren().get(0)).setValue(value);
     }
+
+
+    public void setDisabled(boolean disable) {
+        ((CrudView) getTabpanels().getChildren().get(0)).setDisabled(disable);
+    }
 }

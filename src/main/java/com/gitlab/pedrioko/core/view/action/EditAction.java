@@ -28,11 +28,6 @@ public class EditAction implements Action {
         if (value == null) {
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("seleccione"), MessageType.WARNING);
         } else {
-           /* EntityForm formUtilsnew = new EntityForm(value.getClass());
-            formUtilsnew.addAction(ApplicationContextUtils.getBean(SaveAction.class), event);
-            formUtilsnew.addAction(ApplicationContextUtils.getBean(CancelAction.class), event);
-            formUtilsnew.setEstado(FormStates.UPDATE);
-            formUtilsnew.setValueForm(value);*/
             HashMap<Object, Object> arg = new HashMap<>();
             try {
                 arg.put("value", value);
@@ -41,8 +36,6 @@ public class EditAction implements Action {
             } catch (Exception e) {
             }
             event.getCrudViewParent().setContent(Executions.createComponents("~./zul/form.zul", null, arg));
-            //event.getCrudViewParent().setContent(formUtilsnew);
-
         }
     }
 

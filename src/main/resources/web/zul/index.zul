@@ -3,10 +3,10 @@
 
 <div sclass="container-fluid h-100 p-0 m-0 ">
     <div style="height: 94% !important;">
-        <div id="header" sclass="bg-info col-sm-12 col-md-12 col-lg-12 ">
+        <div id="header" sclass="bg-info-text-white col-sm-12 col-md-12 col-lg-12 ">
             <menupages></menupages>
         </div>
-        <div id="contenido" sclass="col-sm-12 col-md-12 col-lg-12 h-99 pt-0" >
+        <div id="contenido" sclass="col-sm-12 col-md-12 col-lg-12 h-99 pt-0">
             <contenttab class="h-99">
             </contenttab>
         </div>

@@ -45,7 +45,7 @@ public class CancelAction implements Action {
 
     @Override
     public Integer position() {
-        return -1;
+        return Integer.MAX_VALUE;
     }
 
     @Override

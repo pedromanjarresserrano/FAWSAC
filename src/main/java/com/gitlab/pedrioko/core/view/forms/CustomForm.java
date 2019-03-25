@@ -18,7 +18,7 @@ public class CustomForm extends Form {
 
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EntityForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomForm.class);
 
     private transient Map<String, Class<?>> formfields;
     private Div form = new Div();

@@ -49,19 +49,17 @@ a:focus {
 }
 
 .z-listbox-body {
-    overflow-y: scroll;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
     height: 100%;
 }
 .z-borderlayout{
     overflow-y: hidden;
     overflow-x: hidden;
-    height: 98% !important;
+    height: 99.9% !important
 
 }
-.color-system,.color-system .z-row,.color-system .z-row .z-row-inner{
-    overflow-y: hidden !important;
-    background: #252525;
-}
+
 .overflow-auto-y{
     overflow-y: auto;
 }
@@ -3490,7 +3488,8 @@ weather {
 
 .z-popup-content,
 .z-menupopup-content {
-    padding: 5px 0;
+    padding: 0px;
+    background-color: rgba( 0, 0, 0, 0.0 );
 }
 
 .z-popup:before,

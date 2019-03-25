@@ -5,7 +5,7 @@ zk.video.Video = zk.$extends(zk.Widget, {
     _autoplay: false,
     _controls: false,
     _loop: false,
-    _preload: '',
+    _preload: 'none',
     _poster: '',
     _crossorigin: '',
     _playbackRate: 1,
@@ -125,12 +125,6 @@ zk.video.Video = zk.$extends(zk.Widget, {
         var ctx = document.getElementById(elementId);
         if (this._src) {
             ctx.src = this._src;
-            ctx.classList.add("pagination-centered");
-            ctx.classList.add("text-center");
-            ctx.classList.add("col-md-12");
-            ctx.classList.add("col-lg-12");
-            ctx.classList.add("col-xs-12");
-            ctx.style.height = this._height;
             this.setPlaybackRate(this._playbackRate);
             ctx.onplay = function () {
                 var currentTime = this.currentTime;
@@ -151,17 +145,18 @@ zk.video.Video = zk.$extends(zk.Widget, {
     },
     _videoDomAttrs: function () {
         var a = '';
-        this._muted && (a += ' muted');
-        this._autoplay && (a += ' autoplay');
-        this._controls && (a += ' controls');
-        this._loop && (a += ' loop');
-        this._playsinline && (a += ' playsinline');
-        void 0 !== this._preload && (a += ' preload=' +
-            this._preload);
-        this._poster && (a += ' poster=' + this._poster);
-        this._crossorigin && (a += ' crossorigin=' + this._crossorigin);
-        this._style && (a += ' style=' + this._style);
-        this._height && (a += ' height=' + this._height);
+        this._muted && (a += ' muted ');
+        this._autoplay && (a += ' autoplay ');
+        this._controls && (a += ' controls ');
+        this._loop && (a += ' loop ');
+        this._playsinline && (a += ' playsinline ');
+        this._preload && (a += ' preload=\"' + this._preload + '\" ');
+        this._poster && (a += ' poster=\"' + this._poster + '\" ');
+        this._crossorigin && (a += ' crossorigin=\"' + this._crossorigin + '\" ');
+        this._style && (a += ' style=\"' + this._style + '\" ');
+        this._height && (a += ' height=\"' + this._height + '\" ');
+
+        a += ' class=\" ' + this.getSclass() + ' \" '
         return a
-    },
+    }
 });

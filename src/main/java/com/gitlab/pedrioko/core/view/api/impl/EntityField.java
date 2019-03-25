@@ -3,7 +3,6 @@ package com.gitlab.pedrioko.core.view.api.impl;
 import com.gitlab.pedrioko.core.lang.annotation.FieldForm;
 import com.gitlab.pedrioko.core.view.api.FieldComponent;
 import com.gitlab.pedrioko.core.view.api.FieldParamsComponent;
-import com.gitlab.pedrioko.core.view.forms.EntityForm;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.services.CrudService;

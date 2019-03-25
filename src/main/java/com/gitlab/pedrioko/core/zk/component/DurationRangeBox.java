@@ -1,15 +1,11 @@
 package com.gitlab.pedrioko.core.zk.component;
 
 import com.gitlab.pedrioko.core.lang.DurationRange;
-import com.gitlab.pedrioko.core.lang.FileSizeRange;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
-import org.apache.commons.io.FileUtils;
 import org.zkoss.zul.Combobox;
-import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Doublebox;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 
 public class DurationRangeBox extends Div {
@@ -57,6 +53,7 @@ public class DurationRangeBox extends Div {
 
         Double fin = this.fin.getValue();
         if (inicio != null && fin != null) {
+            value = new DurationRange();
             value.setInicio(getSeconds(inicio, comboboxinicio.getValue()));
             value.setFin(getSeconds(fin, comboboxfin.getValue()));
             return value;
@@ -71,13 +68,13 @@ public class DurationRangeBox extends Div {
                 return decimal;
             }
             case ("MM"): {
-                return decimal*60;
+                return decimal * 60;
             }
             case ("HH"): {
-                return decimal*60*60;
+                return decimal * 60 * 60;
             }
             case ("DD"): {
-                return decimal*24*60*60;
+                return decimal * 24 * 60 * 60;
             }
 
             default:

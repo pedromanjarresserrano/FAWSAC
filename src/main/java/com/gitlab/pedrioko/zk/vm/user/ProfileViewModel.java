@@ -5,7 +5,6 @@ import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.core.view.util.TextValidator;
 import com.gitlab.pedrioko.domain.Usuario;
-import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.StorageService;
 import com.gitlab.pedrioko.zk.composer.util.LabelUtil;
@@ -164,7 +163,7 @@ class ProfileViewModel {
         } catch (Exception e) {
             LOGGER.error("ERROR ON init()", e);
         }
-         tabdatos = Labels.getLabel("userbasicform.datosbasicos");
+        tabdatos = Labels.getLabel("userbasicform.datosbasicos");
         tabcontrasena = Labels.getLabel("userbasicform.cambiocontrasena");
         tabdatosextra = Labels.getLabel("datos.extras");
         titulo = Labels.getLabel("userbasic.perfil.titulo");
@@ -175,7 +174,8 @@ class ProfileViewModel {
         labelutil.setValuenombres(labelutil.getUser().getNombres());
         labelutil.setValuetelefono(labelutil.getUser().getTelefono());
         labelutil.setValueusername(labelutil.getUser().getUsername());
-
+        crudService = ApplicationContextUtils.getBean(CrudService.class);
+        fhsessionutil = ApplicationContextUtils.getBean(FHSessionUtil.class);
     }
 
 
@@ -264,6 +264,7 @@ class ProfileViewModel {
                 picture.setUrl(saveFile != null ? saveFile.getAbsolutePath() : "");
                 user.setPicture(crudService.saveOrUpdate(picture));
             } catch (Exception a) {
+                LOGGER.error("Error", a);
             }
         }
 

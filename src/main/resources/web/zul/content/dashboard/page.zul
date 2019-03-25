@@ -8,7 +8,7 @@
                iconSclass="z-icon-angle-double-right" sclass="subtitle"/>
         </div>
     </vlayout>
-
+<colorpicker ></colorpicker>
     <window
             apply="com.gitlab.pedrioko.zk.vm.user.Dashboard">
         <div sclass="container" >

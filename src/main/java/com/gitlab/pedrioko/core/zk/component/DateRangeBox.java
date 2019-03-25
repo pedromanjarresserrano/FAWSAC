@@ -28,6 +28,7 @@ public class DateRangeBox extends Div {
 
         Date fin = this.fin.getValue();
         if (inicio != null && fin != null) {
+            value = new DateRange();
             this.value.setInicio(inicio);
             this.value.setFin(fin);
             return this.value;

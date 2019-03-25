@@ -12,9 +12,7 @@ public class AddForm extends CustomForm {
 
     public AddForm(Class klass, String field) {
         super(klass, new LinkedHashMap<>());
-       // if()
         this.addField(AGREGAR, ChosenFileEntityBox.class);
-
     }
 
 

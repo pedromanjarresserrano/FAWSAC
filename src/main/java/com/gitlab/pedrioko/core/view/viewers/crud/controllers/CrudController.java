@@ -19,6 +19,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.Getter;
 import lombok.Setter;
+import org.zkoss.bind.BindUtils;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -27,6 +28,8 @@ import java.util.stream.Collectors;
 import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.getCollectionsFields;
 import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.getIdValue;
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 
 public class CrudController {
 
@@ -49,6 +52,8 @@ public class CrudController {
     Boolean reloadable;
     private int offSet = 0;
     private int limit = 16;
+    private Boolean crudViewValue = FALSE;
+    private List crudViewValueList;
 
     public CrudController(Class<?> klass) {
         super();
@@ -71,6 +76,8 @@ public class CrudController {
     public void addValue(Object value) {
         if (!values.contains(value)) {
             ((ArrayList) values).add(value);
+            if (crudViewValue)
+                crudViewValueList.add(value);
             List<OnEvent> onEvents = onEvent.get(CrudEvents.ON_ADD);
             if (onEvents != null) onEvents.forEach(it -> it.doSomething());
         } else
@@ -81,14 +88,21 @@ public class CrudController {
         values.clear();
         values.addAll(value);
         postEvent.forEach(OnQuery::doSomething);
+        BindUtils.postGlobalCommand(null, null, "refresh", null);
     }
 
     public void setValue(ArrayList value) {
         setValue((List) value);
     }
 
+    public void setCrudViewValue(List<?> value) {
+        crudViewValue = TRUE;
+        crudViewValueList = value;
+        doQuery();
+    }
+
     public List<String> getValueIds() {
-        return (List<String>) values.stream().map(it -> getIdValue(it)).map(it -> it.toString()).collect(Collectors.toList());
+        return (List<String>) values.stream().map(ReflectionJavaUtil::getIdValue).map(Object::toString).collect(Collectors.toList());
     }
 
 
@@ -98,7 +112,7 @@ public class CrudController {
         PathBuilder<?> pathBuilder = crudService.getPathBuilder(getTypeClass());
         String idPropertyName = crudService.getIdPropertyName(klass);
         PathBuilder<Object> t = pathBuilder.get(idPropertyName);
-        List fetch = crudService.query().from(pathBuilder).where(t.in((List) value)).fetchAll().fetch();
+        List fetch = crudService.query().from(pathBuilder).where(t.in(value)).fetchAll().fetch();
         setValue((ArrayList<?>) fetch);
     }
 
@@ -128,23 +142,29 @@ public class CrudController {
     }
 
     public void doQuery() {
-        PathBuilder pathBuilder = crudService.getPathBuilder(klass);
-        Predicate where = getPredicate(pathBuilder);
-        JPAQuery<?> jpaQuery = crudService.query().from(pathBuilder).offset(offSet).limit(limit);
-        if (where != null)
-            jpaQuery = jpaQuery.where(where);
-        loadInnners(jpaQuery, pathBuilder);
-        if (klass.isAnnotationPresent(CrudOrderBy.class)) {
-            String value = klass.getAnnotation(CrudOrderBy.class).value();
-            if (value != null) {
-                Field field = ReflectionJavaUtil.getField(klass, value);
-                OrderSpecifier asc = pathBuilder.getComparable(value, field.getType()).asc();
-                setValue((ArrayList) jpaQuery.orderBy(asc).fetch());
-            }
+        if (crudViewValue) {
+            if (crudViewValueList.size() > limit)
+                setValue(crudViewValueList.subList(offSet, offSet + limit));
+            else
+                setValue(crudViewValueList);
         } else {
-            setValue((ArrayList) jpaQuery.fetch());
+            PathBuilder pathBuilder = crudService.getPathBuilder(klass);
+            Predicate where = getPredicate(pathBuilder);
+            JPAQuery<?> jpaQuery = crudService.query().from(pathBuilder).offset(offSet).limit(limit);
+            if (where != null)
+                jpaQuery = jpaQuery.where(where);
+            loadInnners(jpaQuery, pathBuilder);
+            if (klass.isAnnotationPresent(CrudOrderBy.class)) {
+                String value = klass.getAnnotation(CrudOrderBy.class).value();
+                if (value != null) {
+                    Field field = ReflectionJavaUtil.getField(klass, value);
+                    OrderSpecifier asc = pathBuilder.getComparable(value, field.getType()).asc();
+                    setValue((ArrayList) jpaQuery.orderBy(asc).fetch());
+                }
+            } else {
+                setValue((ArrayList) jpaQuery.fetch());
+            }
         }
-
     }
 
     private JPAQuery<?> loadInnners(JPAQuery<?> jpaQuery, PathBuilder pathBuilder) {
@@ -221,12 +241,6 @@ public class CrudController {
         return where;
     }
 
-    private Predicate getRange(Predicate where, BooleanExpression between) {
-        where = where != null ? paramMode == ParamMode.AND ? between.and(where) : between.or(where) : between;
-        return where;
-    }
-
-
     public void addEventOnEvent(CrudEvents e, OnEvent o) {
         List<OnEvent> onEvents = onEvent.get(e);
         if (onEvents == null) {
@@ -279,14 +293,23 @@ public class CrudController {
 
 
     public long getCount() {
-        map.putAll(paramsroot);
-        PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
-        JPAQuery<?> query = crudService.query().from(pathBuilder);
-        return query.where(getPredicate(pathBuilder)).fetch().size();
+        if (crudViewValue) {
+            return crudViewValueList.size();
+        } else {
+            map.putAll(paramsroot);
+            PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
+            JPAQuery<?> query = crudService.query().from(pathBuilder);
+            return query.where(getPredicate(pathBuilder)).fetch().size();
+        }
     }
 
     public List getValues() {
+        if (crudViewValue) {
+            values.clear();
+            values.addAll(this.crudViewValueList);
+        }
         return values;
+
     }
 
     public int getLimit() {
@@ -294,11 +317,14 @@ public class CrudController {
     }
 
     public Object getFullData() {
-        map.putAll(paramsroot);
-        PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
-        JPAQuery<?> query = crudService.query().from(pathBuilder).where(getPredicate(pathBuilder));
-        loadInnners(query, pathBuilder);
-        return query.fetch();
-
+        if (crudViewValue) {
+            return this.crudViewValueList;
+        } else {
+            map.putAll(paramsroot);
+            PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
+            JPAQuery<?> query = crudService.query().from(pathBuilder).where(getPredicate(pathBuilder));
+            loadInnners(query, pathBuilder);
+            return query.fetch();
+        }
     }
 }

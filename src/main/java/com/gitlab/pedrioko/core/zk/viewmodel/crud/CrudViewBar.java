@@ -65,13 +65,10 @@ public class CrudViewBar {
                 if (strings.contains(e.getClass().getSimpleName()) || fhSessionUtil.getCurrentUser().getTipo() == TipoUsuario.ROLE_ADMIN) {
                     Class<?> subCrudViewClass = crudView.getCrudviewmode() == CrudMode.SUBCRUD ? SubCrudView.class : ApplicationContextUtils.class;
                     if (CollectionUtils.containsAny(e.getAplicateClass(), Arrays.asList(CrudAction.class, klass, AplicateAllClass.class, subCrudViewClass))) {
-                        if (k == 0 && e.isDefault() && !enableCommonActionsClass) {
-                            continue;
-                        } else {
+                        if (k != 0 || !e.isDefault() || enableCommonActionsClass) {
                             if (e.isDefault() && k == 0) {
                                 crudsActions.add(e);
                             }
-
                             actions.add(e);
                         }
                     }

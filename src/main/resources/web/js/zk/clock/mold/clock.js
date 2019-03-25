@@ -1,0 +1,3 @@
+function (out) {
+    out.push('<div id="', this.uuid, '-clock" class="clock-box "><div class="clock-field"><span class="clock-field-label ">Hours</span><span class="hour-value clock-field-value ">---</span></div><div class="clock-field "><span class="clock-field-label ">Minutes</span><span class="minute-value clock-field-value ">--</span></div><div class="clock-field "><span class="clock-field-label ">Seconds</span><span class="seconds-value clock-field-value ">--</span></div><div class="clock-field "><span class="ampm-value clock-field-value ">--</span></div></div>');
+}

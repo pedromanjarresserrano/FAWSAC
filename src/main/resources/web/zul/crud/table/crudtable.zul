@@ -3,10 +3,10 @@
 
 <listbox viewModel="@id('ct') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.table.CrudTable')"
          selectedItem="@bind(ct.selectValue)"
-         model="@load(ct.items)" mold="paging" pageSize="16" hflex="min" autopaging="true">
+         model="@load(ct.items)" hflex="min">
     <listhead children="@load(ct.headers)">
         <template name="children" var="node">
-            <listheader label="@load(my:l(node,node))" sort="auto"/>
+            <listheader label="@load(my:l(node,node))"/>
         </template>
     </listhead>
     <template name="model">

@@ -1,0 +1,4 @@
+<package name="zk.colorpicker" language="xul/html">
+   	<script src="js/jscolor.js" />
+    <widget name="ColorPicker"/>
+</package>

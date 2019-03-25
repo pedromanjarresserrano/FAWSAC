@@ -91,7 +91,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(req -> "rmDesktop".equals(req.getParameter("cmd_0")))
                 .permitAll()
                 .and()
-                .authorizeRequests();
+                .authorizeRequests().and().headers()
+                .frameOptions().sameOrigin()
+                .httpStrictTransportSecurity().disable().and().authorizeRequests();
         for (String e : Arrays.asList(strings)) {
             and = and.antMatchers(e).permitAll();
         }

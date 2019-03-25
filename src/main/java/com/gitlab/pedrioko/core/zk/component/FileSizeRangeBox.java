@@ -55,6 +55,7 @@ public class FileSizeRangeBox extends Div {
 
         BigDecimal fin = this.fin.getValue();
         if (inicio != null && fin != null) {
+            value = new FileSizeRange();
             value.setInicio(getBytes(inicio, comboboxinicio.getValue()));
             value.setFin(getBytes(fin, comboboxfin.getValue()));
             return value;

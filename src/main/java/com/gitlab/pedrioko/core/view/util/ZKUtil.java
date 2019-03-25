@@ -1,7 +1,9 @@
 package com.gitlab.pedrioko.core.view.util;
 
 import com.gitlab.pedrioko.core.view.enums.MessageType;
+import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
@@ -84,6 +86,18 @@ public class ZKUtil {
     public static boolean isMobile() {
         Execution current = Executions.getCurrent();
         return current != null && current.getBrowser("mobile") != null;
+    }
+
+    public static void showDialogWindow(Component window) {
+        Page currentPage = ExecutionsCtrl.getCurrentCtrl().getCurrentPage();
+        Window modal = new Window();
+        modal.setClosable(true);
+        modal.setTitle(ReflectionZKUtil.getLabel("View"));
+        modal.setBorder("normal");
+        modal.setSclass("w-75");
+        modal.setParent(currentPage.getFirstRoot());
+        modal.appendChild(window);
+        modal.doModal();
     }
 
     public static void showDialogWindow(Window window) {

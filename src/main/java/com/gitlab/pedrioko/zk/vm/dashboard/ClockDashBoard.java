@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.zk.vm.dashboard;
 
-import com.gitlab.pedrioko.core.zk.widgets.Clock;
+import com.gitlab.pedrioko.core.zk.component.Clock;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import com.gitlab.pedrioko.zk.composer.interfaces.DashBoardComponent;
 import org.springframework.stereotype.Component;
@@ -25,7 +25,7 @@ public class ClockDashBoard implements DashBoardComponent {
     public Panel getContent() {
         Panel panel = new Panel();
         Panelchildren panelchildren = new Panelchildren();
-        panelchildren.appendChild(new Clock());
+        panelchildren.appendChild(new Clock("America/Bogota"));
         panel.appendChild(panelchildren);
         return panel;
     }

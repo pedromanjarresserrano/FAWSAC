@@ -1,6 +1,5 @@
 package com.gitlab.pedrioko.core.view.util;
 
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.services.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +29,10 @@ public class FHSessionUtil {
      */
     public Usuario getCurrentUser() {
         Object currentUser = getSession().getAttribute("CurrentUser");
-        if (currentUser != null)
+       /* if (currentUser != null)
             return crudService.getById(Usuario.class, ReflectionJavaUtil.getIdValue(currentUser));
-        else
-            return (Usuario) currentUser;
+        else*/
+        return (Usuario) currentUser;
     }
 
     /**

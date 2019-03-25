@@ -80,7 +80,7 @@ public class ContentViewImpl implements ContentView {
 
             }
         } catch (Exception e) {
-            LOGGER.error("ERROR ON addContent");
+            LOGGER.error("ERROR ON addContent", e);
         }
 
     }

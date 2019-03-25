@@ -10,13 +10,11 @@
         xul/html is predefinied language in ZK
         so can be used in lang-addon directly -->
     <language-name>xul/html</language-name>
-    <stylesheet href="~./css/clock.css" type="text/css"/>
     <stylesheet href="~./css/alertify/alertify.min.css" type="text/css"/>
     <stylesheet href="~./css/alertify/theme/semantic.min.css" type="text/css"/>
 
     <stylesheet href="~./zul/css/index.css" type="text/css"/>
     <stylesheet href="~./zul/css/simple-carousel.css" type="text/css"/>
-    <stylesheet href="~./zul/css/simple-clock.css" type="text/css"/>
 
     <stylesheet href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" type="text/css"/>
     <stylesheet href="~./zul/css/bootstrap-extend.css" type="text/css"/>
@@ -168,6 +166,28 @@
         </mold>
     </component>
     <component>
+        <component-name>colorpicker</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.ColorPicker</component-class>
+        <widget-class>zk.colorpicker.ColorPicker</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/colorpicker.js</mold-uri>
+            <css-uri>css/colorpicker.css.dsp</css-uri>
+        </mold>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>value</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+    </component>
+    <component>
         <component-name>video</component-name>
         <component-class>com.gitlab.pedrioko.core.zk.component.Video</component-class>
         <widget-class>zk.video.Video</widget-class>
@@ -191,13 +211,25 @@
     </component>
     <component>
         <component-name>clock</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.widgets.Clock</component-class>
-        <widget-class>zul.wgt.Div</widget-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.Clock</component-class>
+        <widget-class>zk.clock.Clock</widget-class>
         <mold>
             <mold-name>default</mold-name>
-            <mold-uri>mold/div.js</mold-uri>
+            <mold-uri>mold/clock.js</mold-uri>
+            <css-uri>css/clock.css.dsp</css-uri>
         </mold>
-        <preserve-blank/>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>location</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
     </component>
     <component>
         <component-name>pointgmap</component-name>

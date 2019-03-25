@@ -52,6 +52,7 @@ public class DeleteAction implements Action {
                                 if (crudViewParent.getCrudviewmode() == CrudMode.SUBCRUD || event.getFormstate() == FormStates.CREATE
                                         || event.getFormstate() == FormStates.UPDATE) {
                                     list.remove(value);
+                                    crudViewParent.setValue(list);
                                 }
                                 if (crudViewParent.getCrudviewmode() == CrudMode.MAINCRUD) {
                                     crudservice.delete(value);

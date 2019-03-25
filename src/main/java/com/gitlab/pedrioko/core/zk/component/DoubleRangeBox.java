@@ -26,6 +26,7 @@ public class DoubleRangeBox extends Div {
 
         Double fin = this.fin.getValue();
         if (inicio != null && fin != null) {
+            value = new DoubleRange();
             this.value.setInicio(inicio);
             this.value.setFin(fin);
             return this.value;

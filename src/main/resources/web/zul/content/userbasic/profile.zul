@@ -1,383 +1,145 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk>
-	<window id="userCRUD" border="none"
-		apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm') @init('com.gitlab.pedrioko.zk.vm.user.ProfileViewModel')">
-		<style>
-			.z-loading { top: 50% !important; left: 45% !important;
-			align: center; vertical-align: middle; }
+    <window border="none"
+            apply="org.zkoss.bind.BindComposer"
+            viewModel="@id('vm') @init('com.gitlab.pedrioko.zk.vm.user.ProfileViewModel')">
+        <div sclass="container">
+            <div sclass="row">
+                <div sclass="col-md-4 col-lg-4 col-sm-12 d-flex align-items-center">
+                    <div sclass=" w-100 mx-auto d-flex flex-column ">
+                        <image sclass="img-fluid  img-thumbnail rounded"
+                               content="@load(vm.labelutil.photo)"
+                               use="com.gitlab.pedrioko.zk.composer.util.PatchedImage"
+                               style="border:single;"/>
+                        <separator/>
+                        <button
+                                iconSclass="z-icon-upload" upload="true"
+                                onUpload="@command('onFileUpload', photo=event)"
+                                sclass="btn btn-primary" label="@bind(vm.subir)"/>
+                    </div>
+                </div>
+                <div sclass="col-lg-8 col-md-8 col-sm-12 ">
+                    <tabbox sclass="w-100 h-100">
+                        <tabs>
+                            <tab label="@bind(vm.tabdatos)"/>
+                            <tab label="@bind(vm.tabcontrasena)"/>
+                        </tabs>
+                        <tabpanels>
+                            <tabpanel>
+                                <!-- edit form column -->
+                                <div sclass="w-100">
+                                    <!-- <h3>Personal info</h3> -->
+                                    <div sclass="form-group">
+                                        <vlayout>
+                                            <label value="@bind(vm.labelutil.nombres)"
+                                                   sclass=" control-label"/>
+                                            <textbox
+                                                    sclass="form-control" type="text"
+                                                    onChange="@cammand('habilitar')"
+                                                    value="@bind(vm.labelutil.valuenombres)"
+                                                    onOK="@command('updatePerfil')" instant="true"/>
+                                            <label value="@bind(vm.labelutil.apellidos)"
+                                                   sclass="control-label">
+                                            </label>
+                                            <textbox
+                                                    sclass="form-control" type="text"
+                                                    value="@bind(vm.labelutil.valueapellidos)"
+                                                    onOK="@command('updatePerfil')" instant="true"/>
+                                            <label value="@bind(vm.labelutil.email)" sclass=" control-label"/>
+                                            <textbox
+                                                    sclass="form-control" type="text" instant="true"
+                                                    value="@bind(vm.labelutil.valueemail)"
+                                                    onOK="@command('updatePerfil')"/>
+                                            <label value="@bind(vm.labelutil.telefono)"
+                                                   sclass=" control-label"/>
+                                            <longbox
+                                                    sclass="form-control" format="0" instant="true"
+                                                    maxlength="18" value="@bind(vm.labelutil.valuetelefono)"
+                                                    onOK="@command('updatePerfil')"/>
+                                            <label value="@bind(vm.labelutil.username)"
+                                                   sclass=" control-label"/>
+                                            <textbox
+                                                    sclass="form-control" type="text" instant="true"
+                                                    value="@bind(vm.labelutil.valueusername)"
+                                                    onOK="@command('updatePerfil')"/>
+                                            <div
+                                                    sclass="form-group">
+                                                <div>
+                                                    <label
+                                                            sclass="pull-left alert-danger error-label"
+                                                            value="@bind(vm.errordatosbasicos)"/>
+                                                    <label
+                                                            sclass="pull-left alert-success error-label"
+                                                            value="@load(vm.successdatosbasicos)"/>
+                                                </div>
+                                                <div
+                                                        sclass="col-md-8" style="float:right;margin-top:6px;">
+                                                    <button
+                                                            sclass="btn btn-primary"
+                                                            iconSclass="z-icon-floppy-o"
+                                                            onClick="@command('updateperfil')"
+                                                            label="@bind(vm.labelutil.guardar)"/>
+                                                    <span></span>
+                                                    <button
+                                                            iconSclass="z-icon-times" sclass="btn btn-danger"
+                                                            label="@bind(vm.labelutil.cancelar)"/>
+                                                </div>
+                                            </div>
+                                        </vlayout>
+                                    </div>
+                                </div>
+                            </tabpanel>
 
-			.z-button:hover > .z-button-inner, .z-button:hover > .z-cell
-			{background:red; !important}
+                            <tabpanel sclass="w-100">
+                                <!-- edit form column -->
+                                <div sclass="w-100">
+                                    <!-- <h3>Personal info</h3> -->
+                                    <div sclass="form-group">
+                                        <vlayout>
+                                            <label value="@bind(vm.labelutil.password)"
+                                                   sclass=" control-label"/>
+                                            <textbox
+                                                    sclass="form-control" instant="true" type="password"
+                                                    value="@bind(vm.labelutil.valuepassword)"
+                                                    onOK="@command('updatePerfil')"/>
 
-			.body{background-color:white;} .btn{ margin: 4px;
-			box-shadow: 1px 1px 5px #888888; background-color: #f2f2f2;
+                                            <label value="@bind(vm.labelutil.cpassword)"
+                                                   sclass=" control-label"/>
 
-			.error-label{ font-size:1.5em; } }
+                                            <textbox
+                                                    sclass="form-control" instant="true" type="password"
+                                                    value="@bind(vm.labelutil.valuecpassword)"
+                                                    onOK="@command('updatePerfil')"/>
 
-		</style>
-		<div class="section">
-			<div class="container">
+                                            <div
+                                                    sclass="form-group">
+                                                <label
+                                                        sclass="pull-left alert-danger error-label"
+                                                        value="@load(vm.errorpass)"/>
+                                                <label
+                                                        sclass="pull-left alert-success error-label"
+                                                        value="@load(vm.successpass)"/>
+                                                <div
+                                                        sclass="col-md-8">
 
-				<div class="row">
-
-					<!-- left column -->
-					<div class="col-md-4 col-xs-12">
-						<div class="col-md-12"
-							style="padding-top:50px;">
-							<div style="text-align: center">
-								<div align="center" class="btn  "
-									style=" display: inline-block; text-align: center;">
-									<vlayout>
-										<image
-											content="@load(vm.labelutil.photo)"
-											class="center-block img-circle " height="250px" width="250px"
-											use="com.gitlab.pedrioko.zk.composer.util.PatchedImage"
-											style="border:single;" />
-										<separator />
-										<button id="btn"
-											iconSclass="z-icon-upload" upload="true"
-											onUpload="@command('onFileUpload', photo=event)"
-											class="btn-primary" label="@bind(vm.subir)" />
-									</vlayout>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-8 col-xs-12 pull-right">
-						<tabbox>
-							<tabs>
-								<tab id="1" label="@bind(vm.tabdatos)" />
-								<tab id="2"
-									label="@bind(vm.tabdatosextra)" visible="@bind(vm.turista)" />
-								<tab id="3"
-									label="@bind(vm.tabcontrasena)" />
-							</tabs>
-							<tabpanels>
-								<tabpanel class="col-md-12"
-									style=" height:100%;">
-									<!-- edit form column -->
-									<div class="col-md-12">
-										<div
-											style="padding-top:20px;">
-											<!-- <h3>Personal info</h3> -->
-											<div class="form-group">
-												<vlayout>
-													<label id="nombres"
-														value="@bind(vm.labelutil.nombres)"
-														class=" control-label" />
-													<textbox
-														class="form-control" type="text"
-														onChange="@cammand('habilitar')"
-														value="@bind(vm.labelutil.valuenombres)"
-														onOK="@command('updatePerfil')" instant="true" />
-													<label
-														id="apellidos" value="@bind(vm.labelutil.apellidos)"
-														class="control-label">
-													</label>
-													<textbox
-														class="form-control" type="text"
-														value="@bind(vm.labelutil.valueapellidos)"
-														onOK="@command('updatePerfil')" instant="true" />
-													<label id="email"
-														value="@bind(vm.labelutil.email)" class=" control-label" />
-													<textbox
-														class="form-control" type="text" instant="true"
-														value="@bind(vm.labelutil.valueemail)"
-														onOK="@command('updatePerfil')" />
-													<label id="telefono"
-														value="@bind(vm.labelutil.telefono)"
-														class=" control-label" />
-													<longbox
-														class="form-control" format="0" instant="true"
-														maxlength="18" value="@bind(vm.labelutil.valuetelefono)"
-														onOK="@command('updatePerfil')" />
-													<label id="username"
-														value="@bind(vm.labelutil.username)"
-														class=" control-label" />
-													<textbox
-														class="form-control" type="text" instant="true"
-														value="@bind(vm.labelutil.valueusername)"
-														onOK="@command('updatePerfil')" />
-													<div
-														class="form-group">
-														<div>
-															<label
-																class="pull-left alert-danger error-label"
-																value="@bind(vm.errordatosbasicos)" />
-															<label
-																class="pull-left alert-success error-label"
-																value="@load(vm.successdatosbasicos)" />
-														</div>
-														<div
-															class="col-md-8" style="float:right;margin-top:6px;">
-															<button
-																class="btn-lg btn-primary" iconSclass="z-icon-floppy-o"
-																onClick="@command('updateperfil')"
-																label="@bind(vm.labelutil.guardar)" />
-															<span></span>
-															<button
-																iconSclass="z-icon-times" class="btn-lg btn-danger"
-																label="@bind(vm.labelutil.cancelar)" />
-														</div>
-													</div>
-												</vlayout>
-											</div>
-										</div>
-									</div>
-								</tabpanel>
-								<tabpanel class="col-md-12"
-									style=" height:100%;" apply="org.zkoss.bind.BindComposer"
-									viewModel="@id('xm') @init('com.gitlab.pedrioko.zk.vm.user.ProfileTabExtraVM')">
-									<!-- edit form column -->
-									<div class="col-md-12">
-										<div
-											style="padding-top:20px;">
-											<!-- <h3>Personal info</h3> -->
-											<div class="form-group">
-												<vlayout>
-													<label id="fecha"
-														value="@bind(xm.labelutil.fecha)" class=" control-label" />
-													<span />
-													<datebox
-														style="font-size:1.05em;" format="long" width="100%"
-														instant="true" value="@bind(xm.labelutil.valuefecha)"
-														onChange="@command('actualizaEdad')" />
-													<label
-														value="@bind(xm.labeledad)" class=" control-label" />
-													<span />
-													<combobox
-														style="font-size:1.05em;" width="100%"
-														model="@load(xm.edadModel)" readonly="true" instant="true"
-														selectedItem="@bind(xm.edad)">
-														<template
-															name="model">
-															<comboitem
-																label="@load(each)" />
-														</template>
-													</combobox>
-													<span />
-													<label
-														value="@bind(xm.labelraza)" class=" control-label" />
-													<span />
-													<combobox
-														style="font-size:1.05em;" width="100%"
-														model="@load(xm.razas)" readonly="true" instant="true"
-														selectedIndex="@bind(xm.indexraza)">
-														<template
-															name="model">
-															<comboitem
-																label="@load(each)" />
-														</template>
-													</combobox>
-													<span />
-													<label id="genero"
-														value="@bind(xm.labelutil.genero)" class=" control-label" />
-													<span />
-													<combobox
-														id="generobox" style="font-size:1.05em;" width="100%"
-														model="@load(xm.generos)" readonly="true" instant="true"
-														selectedIndex="@bind(xm.labelutil.valuegenero)">
-														<template
-															name="model">
-															<comboitem
-																label="@load(each)" />
-														</template>
-													</combobox>
-													<span />
-													<label id="sangre"
-														value="@bind(xm.labelsangre)" class=" control-label" />
-													<span />
-													<combobox
-														id="sangrebox" style="font-size:1.05em;" width="100%"
-														model="@load(xm.tiposSangre)" readonly="true"
-														instant="true" selectedIndex="@bind(xm.indexsangre)">
-														<template
-															name="model">
-															<comboitem
-																label="@load(each)" />
-														</template>
-													</combobox>
-													<span />
-													<label id="cedula"
-														value="@bind(xm.labelutil.cedula)" class=" control-label" />
-													<textbox
-														class="form-control" type="text" instant="true"
-														value="@bind(xm.labelutil.valuecedula)"
-														onOK="@command('updatePerfil')" />
-													<span />
-													<label
-														value="@bind(xm.labelpais)" class=" control-label" />
-													<span />
-													<combobox
-														style="font-size:1.05em;" width="100%"
-														model="@load(xm.paises)" readonly="true" instant="true"
-														selectedItem="@bind(xm.pais)">
-														<template
-															name="model">
-															<comboitem
-																label="@load(each)" />
-														</template>
-													</combobox>
-													<span />
-													<label id="estado"
-														value="@bind(xm.labelestado)" class=" control-label" />
-													<textbox
-														class="form-control" type="text" instant="true"
-														value="@bind(xm.estado)" onOK="@command('updatePerfil')" />
-													<span />
-													<span />
-													<label id="ciudad"
-														value="@bind(xm.labelciudad)" class=" control-label" />
-													<textbox
-														class="form-control" type="text" instant="true"
-														value="@bind(xm.ciudad)" onOK="@command('updatePerfil')" />
-													<span />
-													<label
-														value="@bind(xm.labelidiomatitulo)"
-														class=" control-label" />
-													<span />
-													<hlayout>
-														<label
-															value="@bind(xm.labelidiomas)" class=" control-label" />
-														<combobox
-															style="font-size:1.05em;" width="100%"
-															model="@load(xm.idiomasList)" readonly="true"
-															instant="true" selectedIndex="@bind(xm.indexidioma)">
-															<template
-																name="model">
-																<comboitem
-																	label="@load(each)" />
-															</template>
-														</combobox>
-														<button
-															class="btn-primary" onClick="@command('agregarIdioma')"
-															label="@bind(xm.labelagregar)">
-														</button>
-													</hlayout>
-													<div
-														class="alert alert-info"
-														visible="@bind(xm.erroridiomavisible)">
-														<label
-															class="alert alert-info" value="@bind(xm.erroridioma)"
-															visible="@bind(xm.erroridiomavisible)" />
-													</div>
-													<div
-														class="col-md-12">
-														<grid
-															model="@load(xm.list)" height="200px"
-															style="border:normal; boder-color:gray;" mold="paging"
-															autopaging="true">
-															<auxhead></auxhead>
-															<columns>
-																<column
-																	label="@bind(xm.labelidiomas)" />
-																<column />
-															</columns>
-															<template
-																name="model">
-																<row>
-																	<cell>
-																		<label
-																			value="@bind(each.label)" />
-																	</cell>
-																	<cell>
-																		<div
-																			align="center">
-																			<button
-																				label="@bind(xm.labeleliminar)" class="btn-danger "
-																				iconSclass="z-icon-"
-																				onClick="@command('eliminar', idioma=each)" />
-																		</div>
-																	</cell>
-																</row>
-															</template>
-														</grid>
-													</div>
-
-													<div
-														class="form-group">
-														<label
-															class="pull-left alert-danger error-label"
-															value="@load(xm.error)" />
-														<label
-															class="pull-left alert-success error-label"
-															value="@load(xm.success)" />
-														<div
-															class="col-md-8" style="float:right;margin-top:6px;">
-
-															<button
-																class="btn-lg btn-primary" iconSclass="z-icon-floppy-o"
-																onClick="@command('updateExtra')"
-																label="@bind(xm.labelutil.guardar)" />
-															<span></span>
-
-														</div>
-													</div>
-
-												</vlayout>
-											</div>
-
-										</div>
-									</div>
-								</tabpanel>
-								<tabpanel class="col-md-12"
-									style=" height:100%;">
-									<!-- edit form column -->
-									<div class="col-md-12">
-										<div
-											style="padding-top:20px;">
-											<!-- <h3>Personal info</h3> -->
-											<div class="form-group">
-												<vlayout>
-													<label id="pass"
-														value="@bind(vm.labelutil.password)"
-														class=" control-label" />
-													<textbox
-														class="form-control" instant="true" type="password"
-														value="@bind(vm.labelutil.valuepassword)"
-														onOK="@command('updatePerfil')" />
-
-													<label
-														id="confirma_pass" value="@bind(vm.labelutil.cpassword)"
-														class=" control-label" />
-
-													<textbox
-														class="form-control" instant="true" type="password"
-														value="@bind(vm.labelutil.valuecpassword)"
-														onOK="@command('updatePerfil')" />
-
-													<div
-														class="form-group">
-														<label
-															class="pull-left alert-danger error-label"
-															value="@load(vm.errorpass)" />
-														<label
-															class="pull-left alert-success error-label"
-															value="@load(vm.successpass)" />
-														<div
-															class="col-md-8" style="float:right;margin-top:6px;">
-
-															<button
-																class="btn-lg btn-primary" iconSclass="z-icon-floppy-o"
-																onClick="@command('updatePassword')"
-																label="@bind(vm.labelutil.guardar)" />
-															<span></span>
-															<button
-																iconSclass="z-icon-times" class="btn-lg btn-danger"
-																label="@bind(vm.labelutil.cancelar)" />
-														</div>
-													</div>
-												</vlayout>
-											</div>
-										</div>
-									</div>
-								</tabpanel>
-							</tabpanels>
-						</tabbox>
-					</div>
-				</div>
-			</div>
-		</div>
-	</window>
+                                                    <button
+                                                            sclass="btn btn-primary"
+                                                            iconSclass="z-icon-floppy-o"
+                                                            onClick="@command('updatePassword')"
+                                                            label="@bind(vm.labelutil.guardar)"/>
+                                                    <button
+                                                            iconSclass="z-icon-times" sclass="btn btn-danger"
+                                                            label="@bind(vm.labelutil.cancelar)"/>
+                                                </div>
+                                            </div>
+                                        </vlayout>
+                                    </div>
+                                </div>
+                            </tabpanel>
+                        </tabpanels>
+                    </tabbox>
+                </div>
+            </div>
+        </div>
+    </window>
 </zk>

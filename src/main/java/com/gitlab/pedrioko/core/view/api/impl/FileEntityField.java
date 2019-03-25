@@ -8,6 +8,8 @@ import com.gitlab.pedrioko.core.zk.component.FileUpload;
 import com.gitlab.pedrioko.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Image;
@@ -27,48 +29,28 @@ public class FileEntityField implements FieldComponent {
 
     @Override
     public Component getComponent(Field e) {
-        Image image = new Image();
 
+        Image image = new Image();
+        image.setClass("w-50  img-thumbnail rounded");
         Div field = new Div();
+        field.setSclass("d-flex  justify-content-center");
+        field.appendChild(image);
         FileUpload button = new FileUpload("UploadFile");
         button.setClass("btn btn-lg btn-success");
         button.getUpload();
         button.setValue(new FileEntity());
-        button.addEventListener(Events.ON_UPLOAD, event -> {
+        EventListener<Event> eventEventListener = event -> {
             if (button.getValue() != null) {
-                String filename = ((FileEntity) button.getValue()).getFilename();
+                String filename = button.getValue().getFilename();
                 if (filename != null && !filename.isEmpty()) {
-                    String urlFile = (ApplicationContextUtils.getBean(StorageService.class).getUrlFile(filename, false)).replace("//", "/");
-                    if (image.getParent() == null) button.getParent().getChildren().add(0, image);
-                    image.setVisible(true);
-                    image.setClass("img-responsive");
-                    image.setStyle("margin: auto;");
+                    String urlFile = storageservice.getUrlFile(filename, false).replace("//", "/");
+                    if (field.getParent() == null) button.getParent().getChildren().add(0, field);
                     image.setSrc(urlFile);
-                    image.setHeight("200px");
-
                 }
             }
-        });
-
-
-        button.addEventListener(Events.ON_CHANGE, event -> {
-            if (button.getValue() != null) {
-                String filename = ((FileEntity) button.getValue()).getFilename();
-                if (filename != null && !filename.isEmpty()) {
-                    String urlFile = (ApplicationContextUtils.getBean(StorageService.class).getUrlFile(filename, false)).replace("//", "/");
-                    if (image.getParent() == null) button.getParent().getChildren().add(0, image);
-                    image.setVisible(true);
-                    image.setClass("img-responsive");
-                    image.setStyle("margin: auto;");
-                    image.setSrc(urlFile);
-                    image.setHeight("200px");
-
-                }
-            }
-        });
-        image.setVisible(false);
-
-
+        };
+        button.addEventListener(Events.ON_UPLOAD, eventEventListener);
+        button.addEventListener(Events.ON_CHANGE, eventEventListener);
         return button;
     }
 
