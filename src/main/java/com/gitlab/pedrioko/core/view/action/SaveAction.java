@@ -13,6 +13,8 @@ import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventQueues;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +46,8 @@ public class SaveAction implements Action {
             ZKUtil.showMessage(noDuplicateValue + " - " + ReflectionZKUtil.getLabel("onlist"), MessageType.WARNING);
         } else {
             ReflectionJavaUtil.removeById(list, ReflectionJavaUtil.getIdValue(val));
-            crudViewParent.addValue(crudservice.saveOrUpdate(val));
+            val = crudservice.saveOrUpdate(val);
+            crudViewParent.addValue(val);
             crudViewParent.previusState();
             boolean a = event.getFormstate() == FormStates.CREATE || event.getFormstate() == FormStates.UPDATE;
             if (a && crudViewParent.getReloadable()) {
@@ -56,6 +59,8 @@ public class SaveAction implements Action {
 
                 crudViewParent.setValue(list);
             }*/
+            EventQueues.lookup("saveQueues", EventQueues.APPLICATION, true).publish(new Event("save" + val.getClass().getSimpleName(), null, val));
+
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("userbasicform.guardar"), MessageType.SUCCESS);
         }
     }

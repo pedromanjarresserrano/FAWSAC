@@ -40,8 +40,8 @@
                                      placeholder="Password"/>
                         </div>
                         <div zclass="form-check">
-                            <checkbox zclass="form-check-input" id="exampleCheck1"/>
-                            <label zclass="form-check-label">Check me out</label>
+                            <checkbox zclass="form-check-input" name="remember-me" id="exampleCheck1"/>
+                            <label zclass="form-check-label">Remember Me:</label>
                         </div>
                         <div sclass="w-100 mt-3 alert-danger" height="25px"
                              align="center" visible="@bind(vm.visiblemessage)">

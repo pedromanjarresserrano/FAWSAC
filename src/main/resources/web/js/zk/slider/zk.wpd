@@ -1,0 +1,4 @@
+<package name="zk.slider" language="xul/html">
+   	<script src="js/slider.js" />
+    <widget name="Slider"/>
+</package>

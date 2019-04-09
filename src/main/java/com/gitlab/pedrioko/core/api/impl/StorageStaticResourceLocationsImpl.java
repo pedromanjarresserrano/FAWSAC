@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class StorageStaticResourceLocationsImpl implements StaticResouceLocation {
     public static final String STORAGE_PATH = "/storage/files/";
+
     @Autowired
     private StorageService storageService;
 

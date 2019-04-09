@@ -5,6 +5,7 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.CrudController;
+import com.gitlab.pedrioko.core.view.viewers.crud.controllers.model.OrderBY;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -25,12 +26,15 @@ public class CrudFilters {
     private List<String> fieldsfilters;
     private Map<String, Component> filters = new LinkedHashMap<>();
     private final transient Map<Field, Component> binding = new LinkedHashMap<>();
+    private List<Field> listfield;
+    private String fieldname;
+    private OrderBY orderBY;
 
     @Init
     private void init() {
         crudController = (CrudController) Executions.getCurrent().getArg().get("crud-controller");
         klass = crudController.getTypeClass();
-        List<Field> listfield = ReflectionJavaUtil.getFields(getKlass()).stream()
+        listfield = ReflectionJavaUtil.getFields(getKlass()).stream()
                 .filter(e -> !e.isAnnotationPresent(Version.class) && !e.getName().equalsIgnoreCase("serialVersionUID")
                         && !e.isAnnotationPresent(Id.class)
                         && (fieldsfilters == null || fieldsfilters.isEmpty() || fieldsfilters.contains(e.getName())))
@@ -67,16 +71,38 @@ public class CrudFilters {
         return fieldsfilters;
     }
 
-    public void setFieldsfilters(List<String> fieldsfilters) {
-        this.fieldsfilters = fieldsfilters;
-    }
-
     public Map<String, Component> getFilters() {
         return filters;
     }
 
     public void setFilters(Map<String, Component> filters) {
         this.filters = filters;
+    }
+
+    public List<Field> getListfield() {
+        return listfield;
+    }
+
+    public List<OrderBY> getOrderByList() {
+        return Arrays.asList(OrderBY.values());
+    }
+
+    public String getFieldname() {
+        return fieldname;
+    }
+
+    public void setFieldname(String fieldname) {
+        this.fieldname = fieldname;
+        this.crudController.setOrderField(fieldname);
+    }
+
+    public OrderBY getOrderBY() {
+        return orderBY;
+    }
+
+    public void setOrderBY(OrderBY orderBY) {
+        this.orderBY = orderBY;
+        this.crudController.setOrderBY(orderBY);
     }
 
     @Command
@@ -91,8 +117,7 @@ public class CrudFilters {
                 } else crudController.put(k.getName(), valueComponent);
 
         });
-        crudController.doQuery();
-        BindUtils.postGlobalCommand(null, null, "refresh", null);
+        crudController.setPage(0);
     }
 
     @Command
@@ -102,6 +127,5 @@ public class CrudFilters {
         });
         crudController.clearParams();
         crudController.doQuery();
-        BindUtils.postGlobalCommand(null, null, "refresh", null);
     }
 }

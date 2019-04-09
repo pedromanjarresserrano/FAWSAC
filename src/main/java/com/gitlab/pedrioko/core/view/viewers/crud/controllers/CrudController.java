@@ -11,6 +11,7 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
+import com.gitlab.pedrioko.core.view.viewers.crud.controllers.model.OrderBY;
 import com.gitlab.pedrioko.core.view.viewers.crud.grid.AlphabetFilter;
 import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.OrderSpecifier;
@@ -54,6 +55,9 @@ public class CrudController {
     private int limit = 16;
     private Boolean crudViewValue = FALSE;
     private List crudViewValueList;
+    private String orderField;
+    private OrderBY orderBY = OrderBY.ASC;
+
 
     public CrudController(Class<?> klass) {
         super();
@@ -121,9 +125,7 @@ public class CrudController {
     }
 
     public Object putRoot(String key, Object value) {
-        Object put = paramsroot.put(key, value);
-        doQuery();
-        return put;
+        return paramsroot.put(key, value);
     }
 
     public Object get(Object key) {
@@ -131,14 +133,11 @@ public class CrudController {
     }
 
     public Object put(String key, Object value) {
-        Object put = map.put(key, value);
-        doQuery();
-        return put;
+        return map.put(key, value);
     }
 
     public void clearParams() {
         map.clear();
-        doQuery();
     }
 
     public void doQuery() {
@@ -151,10 +150,13 @@ public class CrudController {
             PathBuilder pathBuilder = crudService.getPathBuilder(klass);
             Predicate where = getPredicate(pathBuilder);
             JPAQuery<?> jpaQuery = crudService.query().from(pathBuilder).offset(offSet).limit(limit);
+            OrderSpecifier orderBy = getOrderBy(pathBuilder);
+            if (orderBy != null)
+                jpaQuery.orderBy(orderBy);
             if (where != null)
                 jpaQuery = jpaQuery.where(where);
             loadInnners(jpaQuery, pathBuilder);
-            if (klass.isAnnotationPresent(CrudOrderBy.class)) {
+            if (klass.isAnnotationPresent(CrudOrderBy.class) && (orderField == null || orderField.isEmpty())) {
                 String value = klass.getAnnotation(CrudOrderBy.class).value();
                 if (value != null) {
                     Field field = ReflectionJavaUtil.getField(klass, value);
@@ -175,6 +177,23 @@ public class CrudController {
         });
         if (!collectionsFields.isEmpty()) jpaQuery.fetchJoin();
         return jpaQuery;
+    }
+
+    private OrderSpecifier getOrderBy(PathBuilder pathBuilder) {
+        if (orderField != null && !orderField.isEmpty()) {
+            ComparablePath cp = pathBuilder.getComparable(orderField, ReflectionJavaUtil.getField(this.getTypeClass(), orderField).getType());
+            OrderSpecifier orderSpecifier = null;
+            switch (orderBY) {
+                case ASC:
+                    orderSpecifier = cp.asc();
+                    break;
+                case DESC:
+                    orderSpecifier = cp.desc();
+                    break;
+            }
+            return orderSpecifier;
+        }
+        return null;
     }
 
     private Predicate getPredicate(PathBuilder pathBuilder) {
@@ -272,19 +291,20 @@ public class CrudController {
     }
 
     public void setPage(int offSet) {
+        this.offSet = offSet;
         setPage(offSet, limit);
     }
 
     public void setPage(int offSet, int limit) {
         if (limit == 0)
             throw new IllegalArgumentException("Limit can't be 0");
-        if (this.offSet != offSet || this.limit != limit) {
-            this.offSet = offSet;
-            this.limit = limit;
-            List<OnEvent> onEvents = onEvent.get(CrudEvents.ON_SET_PAGE_SIZE);
-            if (onEvents != null) onEvents.forEach(OnEvent::doSomething);
-            doQuery();
-        }
+        this.offSet = offSet;
+        this.limit = limit;
+        List<OnEvent> onEvents = onEvent.get(CrudEvents.ON_SET_PAGE_SIZE);
+        if (onEvents != null) onEvents.forEach(OnEvent::doSomething);
+        doQuery();
+
+
     }
 
     public void setPageSize(int limit) {
@@ -299,7 +319,8 @@ public class CrudController {
             map.putAll(paramsroot);
             PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
             JPAQuery<?> query = crudService.query().from(pathBuilder);
-            return query.where(getPredicate(pathBuilder)).fetch().size();
+            Predicate predicate = getPredicate(pathBuilder);
+            return query.where(predicate).fetch().size();
         }
     }
 
@@ -310,6 +331,14 @@ public class CrudController {
         }
         return values;
 
+    }
+
+    public int getOffSet() {
+        return offSet;
+    }
+
+    public int getPage() {
+        return offSet / limit;
     }
 
     public int getLimit() {
@@ -326,5 +355,21 @@ public class CrudController {
             loadInnners(query, pathBuilder);
             return query.fetch();
         }
+    }
+
+    public String getOrderField() {
+        return orderField;
+    }
+
+    public void setOrderField(String orderField) {
+        this.orderField = orderField;
+    }
+
+    public OrderBY getOrderBY() {
+        return orderBY;
+    }
+
+    public void setOrderBY(OrderBY orderBY) {
+        this.orderBY = orderBY;
     }
 }

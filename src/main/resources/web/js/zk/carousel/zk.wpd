@@ -1,5 +1,4 @@
 <package name="zk.carousel" language="xul/html">
-    	<script src="js/carousel.js" />
-
+    <script src="js/carousel.js" />
   	<widget name="Carousel"/>
 </package>

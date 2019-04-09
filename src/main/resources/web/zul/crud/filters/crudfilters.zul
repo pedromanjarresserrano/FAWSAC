@@ -13,6 +13,21 @@
                         </div>
                     </template>
                 </div>
+                <div sclass="row  p-0 m-0">
+                    <div sclass="col-md-12 col-sm-12 col-lg-12 col-xs-12 p-0 m-0">
+                        <label value="Ordenar por" zclass="col-sm-3 col-form-label"/>
+                        <combobox children="@load(cf.listfield)" placeholder="Campo" selectedItem="@bind(cf.fieldname)">
+                            <template name="children" var="field">
+                                <comboitem value="@bind(field.name)" label="@bind(field.name)"/>
+                            </template>
+                        </combobox>
+                        <combobox children="@load(cf.orderByList)" placeholder="Orientacion" selectedItem="@bind(cf.orderBY)">
+                            <template name="children" var="order">
+                                <comboitem value="@bind(order)" label="@bind(order.name())"/>
+                            </template>
+                        </combobox>
+                    </div>
+                </div>
             </div>
 
         </vlayout>

@@ -41,13 +41,14 @@ public class CrudViewBar {
     private transient FHSessionUtil fhSessionUtil;
     private MenuProvider menuprovider;
     private List<String> strings = new ArrayList<>();
-    private UUID uuid = UUID.randomUUID();
+    private String uuid ;
 
     @Init
     private void init() {
         crudView = (CrudView) Executions.getCurrent().getArg().get("CrudView");
         klass = (Class<?>) Executions.getCurrent().getArg().get("klass-crud");
         menuprovider = (MenuProvider) Executions.getCurrent().getArg().get("menuprovider");
+        uuid = (String) Executions.getCurrent().getArg().get("CrudViewUUID");
         enableCommonActionsClass = ApplicationContextUtils.getBean(PropertiesUtil.class)
                 .getEnableCommonActionsClass(klass);
         crudService = getBean(CrudService.class);
@@ -83,7 +84,7 @@ public class CrudViewBar {
     }
 
     public String getId() {
-        return "crudviewbar-" + klass.getSimpleName() + uuid.toString();
+        return "crudviewbar-" + klass.getSimpleName() + uuid;
     }
 
     public void setKlass(Class<?> klass) {
@@ -125,7 +126,7 @@ public class CrudViewBar {
 
     @Command
     public void clickAction(@BindingParam("action") Action action) {
-        EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).publish(new Event("action-crud-" + klass.getSimpleName() + "-" + UUID.randomUUID().toString(), crudView, action));
+        EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).publish(new Event("action-crud-" + klass.getSimpleName() + "-" + uuid, crudView, action));
     }
 
 }

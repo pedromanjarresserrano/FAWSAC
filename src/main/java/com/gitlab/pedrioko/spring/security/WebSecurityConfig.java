@@ -106,7 +106,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .successHandler(authenticationSuccessHandler)
                 .failureUrl("/login?error=true")
-                .and().logout().logoutUrl("/logout").deleteCookies("JSESSIONID").and().csrf().disable();
+                .and().logout().logoutUrl("/logout").deleteCookies("JSESSIONID")
+                .and().csrf().disable();
     }
 
 

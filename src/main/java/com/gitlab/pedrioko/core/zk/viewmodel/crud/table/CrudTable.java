@@ -6,12 +6,11 @@ import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
+import com.gitlab.pedrioko.core.view.util.StringUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.StorageService;
-import org.zkoss.bind.annotation.GlobalCommand;
-import org.zkoss.bind.annotation.Init;
-import org.zkoss.bind.annotation.NotifyChange;
+import org.zkoss.bind.annotation.*;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -37,6 +36,7 @@ public class CrudTable {
     @WireVariable
     private CrudService crudService;
     private StorageService storageService;
+    private String uuid;
 
     @Init
     private void init() {
@@ -44,11 +44,12 @@ public class CrudTable {
         klass = (Class<?>) Executions.getCurrent().getArg().get("klass-crud");
         headers = getBean(PropertiesUtil.class).getFieldTable(klass);
         items = (List<?>) Executions.getCurrent().getArg().get("crud-list-items");
+        uuid = (String) Executions.getCurrent().getArg().get("CrudViewUUID");
         crudService = ApplicationContextUtils.getBean(CrudService.class);
         storageService = ApplicationContextUtils.getBean(StorageService.class);
         loadfields();
         EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).subscribe(event -> {
-            if (event.getTarget() == crudView && event.getName().startsWith("action-crud-" + klass.getSimpleName()) && !event.getName().equalsIgnoreCase(uuidold)) {
+            if (event.getTarget() == crudView && event.getName().equalsIgnoreCase("action-crud-" + klass.getSimpleName() + "-" + uuid) /*&& !event.getName().equalsIgnoreCase(uuidold)*/) {
                 Action action = (Action) event.getData();
                 CrudActionEvent crudevent = new CrudActionEvent();
                 crudevent.setCrudViewParent(crudView);
@@ -112,6 +113,18 @@ public class CrudTable {
 
     public Object valueField(Object object, String fieldname) {
         return ReflectionJavaUtil.getValueFieldObject(fieldname, object);
+    }
+
+    @Command
+    public void actionOnDoubleClick(@BindingParam("action") String action, @BindingParam("value")Object selectValue) {
+        System.out.println("value");
+        Action bean = (Action) getBean(StringUtil.getDescapitalize(action));
+        CrudActionEvent event = new CrudActionEvent();
+        event.setCrudViewParent(crudView);
+        event.setValue(this.selectValue);
+        event.setFormstate(bean.getFormState());
+        event.setType(klass);
+        bean.actionPerform(event);
     }
 
     public String loadFileEntityURL(Object value) {

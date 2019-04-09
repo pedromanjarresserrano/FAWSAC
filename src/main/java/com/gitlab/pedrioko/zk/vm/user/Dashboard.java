@@ -1,7 +1,12 @@
 package com.gitlab.pedrioko.zk.vm.user;
 
+import com.gitlab.pedrioko.core.view.api.Event;
+import com.gitlab.pedrioko.core.view.api.OnEvent;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
+import com.gitlab.pedrioko.core.zk.component.Carousel;
+import com.gitlab.pedrioko.core.zk.component.Slider;
+import com.gitlab.pedrioko.core.zk.component.model.CarouselItem;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import com.gitlab.pedrioko.zk.composer.interfaces.DashBoardComponent;
 import org.zkoss.zk.ui.Executions;
@@ -15,9 +20,7 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Window;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -43,9 +46,11 @@ public class Dashboard extends SelectorComposer<Window> {
     @Override
     public void doAfterCompose(Window window) throws Exception {
         super.doAfterCompose(window);
-
-        List<DashBoardComponent> listView = ApplicationContextUtils.getBeansOfType(DashBoardComponent.class).stream()
-                .sorted(Comparator.comparingInt(DashBoardComponent::getPosicion)).collect(Collectors.toList());
+        List<DashBoardComponent> listView = ApplicationContextUtils
+                .getBeansOfType(DashBoardComponent.class)
+                .stream()
+                .sorted(Comparator.comparingInt(DashBoardComponent::getPosicion))
+                .collect(Collectors.toList());
 
         for (DashBoardComponent e : listView) {
             List<TipoUsuario> collect = Arrays.asList(e.getForUser());

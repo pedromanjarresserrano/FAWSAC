@@ -21,7 +21,7 @@
 
     <stylesheet href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css"/>
 
-    <javascript src="https://code.jquery.com/jquery-3.3.1.slim.min.js"/>
+    <javascript src="https://code.jquery.com/jquery-3.3.1.min.js"/>
     <javascript src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"/>
     <javascript src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"/>
     <javascript src="~./js/jscolor.js"/>
@@ -164,6 +164,28 @@
             <mold-uri>mold/ProgressTask.js</mold-uri>
             <css-uri>css/progresstask.css</css-uri>
         </mold>
+    </component>
+    <component>
+        <component-name>slider</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.Slider</component-class>
+        <widget-class>zk.slider.Slider</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/slider.js</mold-uri>
+            <css-uri>css/slider.css.dsp</css-uri>
+        </mold>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>value</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
     </component>
     <component>
         <component-name>colorpicker</component-name>

@@ -3,6 +3,7 @@ package com.gitlab.pedrioko.providers;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.services.impl.ThreadServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.zkoss.zk.ui.Component;
@@ -18,10 +19,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class TaskMenuProvider implements MenuProvider {
 
     @Autowired
-    private ThreadPoolTaskExecutor taskExecutor;
+    private ThreadServiceImpl taskExecutor;
 
     private static int totalCount = 0;
-    private ThreadPoolExecutor threadPoolExecutor;
 
     @Override
     public String getLabel() {
@@ -30,7 +30,6 @@ public class TaskMenuProvider implements MenuProvider {
 
     @Override
     public Component getView() {
-        threadPoolExecutor = taskExecutor.getThreadPoolExecutor();
         Window window = new Window();
         Label label = new Label();
         window.appendChild(label);
@@ -39,7 +38,7 @@ public class TaskMenuProvider implements MenuProvider {
         label.setValue("Task at " + getProcent() + "%");
         timer.addEventListener(Events.ON_TIMER, e -> {
             long procent = getProcent();
-            label.setValue("Task at " + procent + "% - " + (threadPoolExecutor.getCompletedTaskCount() - totalCount) + "/" + (threadPoolExecutor.getTaskCount() - totalCount) + "");
+            label.setValue("Task at " + procent + "% - " + (taskExecutor.getCompletedTaskCount() - totalCount) + "/" + (taskExecutor.getTaskCount() - totalCount) + " -- " + taskExecutor.getCurrent());
             progressmeter.setValue((int) (procent < 0 ? 0 : procent));
         });
         progressmeter.setWidth("100%");
@@ -52,9 +51,9 @@ public class TaskMenuProvider implements MenuProvider {
     }
 
     private long getProcent() {
-        long taskCount = threadPoolExecutor.getTaskCount();
-        long completedTaskCount = threadPoolExecutor.getCompletedTaskCount();
-        int Qusize = threadPoolExecutor.getQueue().size();
+        long taskCount = taskExecutor.getTaskCount();
+        long completedTaskCount = taskExecutor.getCompletedTaskCount();
+        int Qusize = taskExecutor.getQueueSize();
         long realTotal = taskCount - totalCount;
         long l = ((completedTaskCount - totalCount) * 100) / (realTotal <= 0L ? 1 : realTotal);
         if (l == 100 && Qusize == 0) {

@@ -102,6 +102,7 @@ public class CrudView extends Tabpanel {
         HashMap<Object, Object> arg = new HashMap<>();
         arg.put("klass-crud", klass);
         arg.put("CrudView", this);
+        arg.put("CrudViewUUID", UUID.randomUUID().toString());
 
         Component crudviewbar = Executions.createComponents("~./zul/crud/crudviewbar.zul", null, arg);
         divbar.appendChild(crudviewbar);

@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventQueue;
+import org.zkoss.zk.ui.event.EventQueues;
 
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
@@ -30,7 +33,7 @@ import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-@Service("storageservice")
+@Service
 public class StorageServiceImpl implements StorageService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StorageServiceImpl.class);
@@ -40,33 +43,67 @@ public class StorageServiceImpl implements StorageService {
     private CrudService crudService;
 
     private byte[] buffer = new byte[2048];
+    private AppParam appvar;
+    private AppParam appvartemp;
+    private EventQueue<Event> saveQueues;
 
     @PostConstruct
     private void init() {
         AppParam fetchFirst = getAppParam();
+
         if (fetchFirst == null) {
             fetchFirst = new AppParam(0, StorageService.APP_VAR_NAME, "");
-            crudService.saveOrUpdate(fetchFirst);
+            appvar = crudService.saveOrUpdate(fetchFirst);
         }
 
         fetchFirst = getTempAppParam();
         if (fetchFirst == null) {
             fetchFirst = new AppParam(0, StorageService.APP_TEMP_VAR_NAME, "");
-            crudService.saveOrUpdate(fetchFirst);
+            appvartemp = crudService.saveOrUpdate(fetchFirst);
+        }
+
+    }
+
+    private void eventsListener() {
+        if (saveQueues == null) {
+            try {
+                saveQueues = EventQueues.lookup("saveQueues", EventQueues.APPLICATION, true);
+                saveQueues.subscribe(event -> {
+                    if ("saveAppParam".equals(event.getName())) {
+                        AppParam aux = (AppParam) event.getData();
+                        if (aux.getName().equalsIgnoreCase(StorageService.APP_VAR_NAME)) {
+                            appvar = aux;
+                        }
+                        if (aux.getName().equalsIgnoreCase(StorageService.APP_TEMP_VAR_NAME)) {
+                            appvartemp = aux;
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                LOGGER.error("saveQueues Error");
+            }
         }
     }
 
     private AppParam getAppParam() {
-        PathBuilder<?> path = crudService.getPathBuilder(AppParam.class);
-        return (AppParam) crudService.query().from(path)
-                .where(path.getString("name").eq(StorageService.APP_VAR_NAME)).fetchFirst();
+        eventsListener();
+        if (appvar == null) {
+            PathBuilder<?> path = crudService.getPathBuilder(AppParam.class);
+            appvar = (AppParam) crudService.query().from(path)
+                    .where(path.getString("name").eq(StorageService.APP_VAR_NAME)).fetchFirst();
+        }
+        return appvar;
 
     }
 
     private AppParam getTempAppParam() {
-        PathBuilder<?> path = crudService.getPathBuilder(AppParam.class);
-        return (AppParam) crudService.query().from(path)
-                .where(path.getString("name").eq(StorageService.APP_TEMP_VAR_NAME)).fetchFirst();
+        eventsListener();
+        if (appvartemp == null) {
+            PathBuilder<?> path = crudService.getPathBuilder(AppParam.class);
+            appvartemp = (AppParam) crudService.query().from(path)
+                    .where(path.getString("name").eq(StorageService.APP_TEMP_VAR_NAME)).fetchFirst();
+        }
+        return appvar;
 
     }
 
