@@ -117,7 +117,6 @@ public class CrudTable {
 
     @Command
     public void actionOnDoubleClick(@BindingParam("action") String action, @BindingParam("value")Object selectValue) {
-        System.out.println("value");
         Action bean = (Action) getBean(StringUtil.getDescapitalize(action));
         CrudActionEvent event = new CrudActionEvent();
         event.setCrudViewParent(crudView);

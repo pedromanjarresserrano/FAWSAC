@@ -92,7 +92,6 @@ public class CrudView extends Tabpanel {
 
     public void setPageSize(int PAGE_SIZE) {
         crudController.setPageSize(PAGE_SIZE);
-        crudController.doQuery();
     }
 
     private void createUI() {

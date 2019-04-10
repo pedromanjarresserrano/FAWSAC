@@ -231,6 +231,29 @@
             </attribute>
         </annotation>
     </component>
+
+    <component>
+        <component-name>plyr</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.Plyr</component-class>
+        <widget-class>zk.plyr.Plyr</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/plyr.js</mold-uri>
+            <css-uri>css/plyr.css.dsp</css-uri>
+        </mold>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>src</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+    </component>
     <component>
         <component-name>clock</component-name>
         <component-class>com.gitlab.pedrioko.core.zk.component.Clock</component-class>

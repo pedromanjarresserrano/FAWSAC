@@ -1,0 +1,4 @@
+<package name="zk.plyr" language="xul/html">
+  	<script src="js/plyr.js" />
+    <widget name="Plyr"/>
+</package>
