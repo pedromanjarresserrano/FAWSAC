@@ -2,23 +2,46 @@ package com.gitlab.pedrioko.core.view.util;
 
 import com.gitlab.pedrioko.core.lang.annotation.NoDuplicate;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.services.CrudService;
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Validate {
 
     public static boolean noDuplicate(Object val, List<?> list) {
         if (val.getClass().isAnnotationPresent(NoDuplicate.class)) {
-            String split = getNoDuplicateValue(val);
-            if (split.isEmpty())
-                return false;
-            Object valueFieldObject = ReflectionJavaUtil.getValueFieldObject(split, val);
-            return !list.stream().filter(e -> ReflectionJavaUtil.getValueFieldObject(split, e).equals(valueFieldObject))
-                    .collect(Collectors.toList()).isEmpty();
+            CrudService bean = ApplicationContextUtils.getBean(CrudService.class);
+            PathBuilder<?> pathBuilder = bean.getPathBuilder(val.getClass());
+            List<String> noDuplicateValues = getNoDuplicateValues(val);
+            if (noDuplicateValues == null || noDuplicateValues.isEmpty()) {
+                String split = getNoDuplicateValue(val);
+                if (split.isEmpty())
+                    return false;
+
+                Object valueFieldObject = ReflectionJavaUtil.getValueFieldObject(split, val);
+                BooleanExpression eq = pathBuilder.get(split).eq(valueFieldObject);
+
+                return bean.query().from(pathBuilder).where(eq).fetchCount() > 0;
+            } else {
+                Predicate where = null;
+                for (String e : noDuplicateValues) {
+                    Object valueFieldObject = ReflectionJavaUtil.getValueFieldObject(e, val);
+                    BooleanExpression eq = pathBuilder.get(e).eq(valueFieldObject);
+                    if (where == null)
+                        where = eq;
+                    else {
+                        where = ((BooleanExpression) where).or(eq);
+                    }
+                }
+                return bean.query().from(pathBuilder).where(where).fetchCount() > 0;
+
+            }
         } else {
             return false;
         }
@@ -35,6 +58,10 @@ public class Validate {
 
     public static String getNoDuplicateValue(Object val) {
         return ((NoDuplicate) getAnnotation(val, NoDuplicate.class)).value();
+    }
+
+    public static List<String> getNoDuplicateValues(Object val) {
+        return Arrays.asList(((NoDuplicate) getAnnotation(val, NoDuplicate.class)).values());
     }
 
     public static String getGridViewFieldName(Object val) {

@@ -183,7 +183,7 @@ public class StorageServiceImpl implements StorageService {
     public FileEntity saveFileToFileEntity(String filename, InputStream inputstream) {
         File file = saveFile(filename, inputstream);
         FileEntity fileEntity = new FileEntity();
-        fileEntity.setFilename(filename);
+        fileEntity.setFilename(file.getName());
         fileEntity.setUrl(file.getAbsolutePath());
         fileEntity.setCreationDate(new Date());
         return fileEntity;
@@ -286,6 +286,8 @@ public class StorageServiceImpl implements StorageService {
         String value = getAppParam().getValue();
         OutputStream outputStream = null;
         File banner = new File(value + "/" + filename);
+        if (banner.exists())
+            banner = new File(value + "/" + UUID.randomUUID().toString() + "-" + filename);
         try (FileOutputStream fos = new FileOutputStream(banner)) {
             InputStream inputStream = inputstream;
             outputStream = fos;

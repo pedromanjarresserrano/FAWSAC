@@ -178,11 +178,12 @@ public class CrudView extends Tabpanel {
     private void configController(Class<?> klass) {
         if (crudController == null) {
             crudController = new CrudController(klass);
-            crudController.doQuery();
         }
+        crudController.setPage(0);
     }
 
     public void previusState() {
+        crudController.clearParams();
         getChildren().clear();
         createUI();
         getTabbox().setSelectedIndex(selectedIndex);

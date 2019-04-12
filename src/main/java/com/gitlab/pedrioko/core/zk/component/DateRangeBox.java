@@ -39,8 +39,15 @@ public class DateRangeBox extends Div {
 
     public void setValue(DateRange value) {
         this.value = value;
-        value.setInicio(inicio.getValue());
-        value.setFin(fin.getValue());
+        if (value != null) {
+            value.setInicio(inicio.getValue());
+            value.setFin(fin.getValue());
+        }else{
+            inicio.setValue(null);
+            fin.setValue(null);
+            value.setInicio(null);
+            value.setFin(null);
+        }
     }
 }
 

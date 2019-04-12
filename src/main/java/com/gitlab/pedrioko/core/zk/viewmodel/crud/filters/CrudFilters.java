@@ -126,6 +126,7 @@ public class CrudFilters {
             ReflectionZKUtil.setValueComponent(v, null);
         });
         crudController.clearParams();
+        crudController.setOrderField("");
         crudController.doQuery();
     }
 }

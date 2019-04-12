@@ -138,6 +138,7 @@ public class CrudController {
 
     public void clearParams() {
         map.clear();
+        beginString = "";
     }
 
     public void doQuery() {
@@ -200,7 +201,7 @@ public class CrudController {
         Predicate where = null;
         map.putAll(paramsroot);
         where = getPredicate(map, pathBuilder, where);
-        return beginString != null && !beginString.isEmpty() ? crudService.getLikePredicate(beginString, ReflectionJavaUtil.getStringFields(klass), pathBuilder, where) : where;
+        return beginString != null && !beginString.isEmpty() ? crudService.getLikePredicate(beginString.trim(), ReflectionJavaUtil.getStringFields(klass), pathBuilder, where) : where;
     }
 
     private Predicate getPredicate(Map<String, Object> map, PathBuilder pathBuilder, Predicate where) {

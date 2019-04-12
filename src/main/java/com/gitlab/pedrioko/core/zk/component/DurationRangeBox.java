@@ -84,10 +84,20 @@ public class DurationRangeBox extends Div {
 
     public void setValue(DurationRange value) {
         this.value = value;
-        value.setInicio(value.getInicio());
-        comboboxinicio.setSelectedIndex(Arrays.asList(sizes).indexOf("SG"));
-        value.setInicio(value.getFin());
-        comboboxfin.setSelectedIndex(Arrays.asList(sizes).indexOf("SG"));
+        if (value != null) {
+            value.setInicio(value.getInicio());
+            comboboxinicio.setSelectedIndex(Arrays.asList(sizes).indexOf("SG"));
+            value.setInicio(value.getFin());
+            comboboxfin.setSelectedIndex(Arrays.asList(sizes).indexOf("SG"));
+        } else {
+            fin.setValue(null);
+            inicio.setValue(null);
+            comboboxinicio.setSelectedItem(null);
+            comboboxfin.setSelectedItem(null);
+            value.setInicio(null);
+            value.setFin(null);
+        }
+
     }
 }
 
