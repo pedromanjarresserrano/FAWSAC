@@ -8,12 +8,14 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ats" />
         <module name="e-reader" />
+        <module name="ats-gitliab" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ats" options="-parameters" />
+      <module name="ats-gitliab" options="-parameters" />
     </option>
   </component>
 </project>

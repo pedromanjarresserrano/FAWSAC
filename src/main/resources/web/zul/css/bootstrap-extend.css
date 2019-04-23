@@ -44,7 +44,8 @@
     border: 1px solid lightgray;
 }
 
-.container-v:focus-within {
+.container-v:focus-within,
+.img-container:focus-within {
     background-color: black !important;
     color: white !important;
 }
@@ -79,4 +80,8 @@
    background:  #17a2b8;
    scrollbar-color:  #17a2b8;
    border-radius: 14px;
+}
+.form-view{
+    width: 100% !important;
+    height: 100% !important;
 }

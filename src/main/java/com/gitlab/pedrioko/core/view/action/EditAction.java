@@ -8,6 +8,9 @@ import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 
 import java.util.Arrays;
@@ -16,6 +19,8 @@ import java.util.List;
 
 @ToolAction
 public class EditAction implements Action {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EditAction.class);
 
     @Override
     public String getIcon() {
@@ -29,13 +34,22 @@ public class EditAction implements Action {
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("seleccione"), MessageType.WARNING);
         } else {
             HashMap<Object, Object> arg = new HashMap<>();
+            Class<?> typeClass = event.getCrudViewParent().getTypeClass();
             try {
                 arg.put("value", value);
                 arg.put("event-crud", event);
                 arg.put("estado-form", FormStates.UPDATE);
             } catch (Exception e) {
             }
-            event.getCrudViewParent().setContent(Executions.createComponents("~./zul/form.zul", null, arg));
+            Component component = null;
+            try {
+                component = Executions.createComponents("~./zul/forms/form" + typeClass.getSimpleName() + ".zul", null, arg);
+            } catch (Exception e) {
+                LOGGER.info("CUSTOM ENTITY FORM PAGE NOT FOUND....");
+                LOGGER.info("USING DEFAULT ENTITY FORM  PAGE ");
+            }
+            if (component == null) component = Executions.createComponents("~./zul/forms/form.zul", null, arg);
+            event.getCrudViewParent().setContent(component);
         }
     }
 

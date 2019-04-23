@@ -18,7 +18,6 @@ import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.zk.component.ColorChooserBox;
 import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.dsl.PathBuilder;
-import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkforge.ckez.CKeditor;
@@ -43,7 +42,7 @@ import java.util.stream.Collectors;
 
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class EntityForm implements Valuable {
+public class EntityFormVM implements Valuable {
 
     private Object value;
     CrudActionEvent event;
@@ -51,7 +50,7 @@ public class EntityForm implements Valuable {
     private transient Map<Field, Component> binding = new LinkedHashMap<>();
     private transient Map<String, Component> renglones = new LinkedHashMap<>();
     private transient Map<String, Component> crudviews = new LinkedHashMap<>();
-    private static final Logger LOGGER = LoggerFactory.getLogger(EntityForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EntityFormVM.class);
     private FormStates estado = FormStates.CREATE;
     @Wire
     private Tab tabs;
@@ -59,6 +58,7 @@ public class EntityForm implements Valuable {
     private Tabpanels tabpanels;
     @WireVariable
     private List<Action> actions;
+    private Class<?> valueClass;
 
     @Init
     public void init() {
@@ -66,16 +66,16 @@ public class EntityForm implements Valuable {
         event = (CrudActionEvent) Executions.getCurrent().getArg().get("event-crud");
         estado = (FormStates) Executions.getCurrent().getArg().get("estado-form");
 
-        Class<?> aClass = value.getClass();
-        fields = ApplicationContextUtils.getBean(PropertiesUtil.class).getFieldForm(aClass);
+        valueClass = value.getClass();
+        fields = ApplicationContextUtils.getBean(PropertiesUtil.class).getFieldForm(valueClass);
         List<Field> listfield = new ArrayList<>();
         if (fields != null && !fields.isEmpty()) {
             List<Field> finalListfield = listfield;
             fields.forEach(e -> {
-                finalListfield.add(ReflectionJavaUtil.getField(aClass, e));
+                finalListfield.add(ReflectionJavaUtil.getField(valueClass, e));
             });
         } else {
-            listfield = ReflectionJavaUtil.getFields(aClass).stream()
+            listfield = ReflectionJavaUtil.getFields(valueClass).stream()
                     .filter(e -> !e.isAnnotationPresent(Version.class) && !e.getName().equalsIgnoreCase("serialVersionUID")
                             && !e.isAnnotationPresent(Id.class)
                             && (fields != null && !fields.isEmpty() ? fields.contains(e.getName()) : true))
@@ -152,6 +152,10 @@ public class EntityForm implements Valuable {
             }
 
         });
+    }
+
+    public Component putBinding(String key, Component value) {
+        return binding.put(ReflectionJavaUtil.getField(valueClass, key), value);
     }
 
     public Component putBinding(Field key, Component value) {

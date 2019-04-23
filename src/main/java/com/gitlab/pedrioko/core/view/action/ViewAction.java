@@ -11,8 +11,11 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.services.CrudService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 
 import java.util.Arrays;
@@ -22,6 +25,9 @@ import java.util.List;
 @ToolAction
 @Order(0)
 public class ViewAction implements Action {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ViewAction.class);
+
     @Autowired
     private CrudService crudService;
 
@@ -38,11 +44,19 @@ public class ViewAction implements Action {
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("seleccione"), MessageType.WARNING);
         } else {
             HashMap<Object, Object> arg = new HashMap<>();
+            Class<?> typeClass = event.getCrudViewParent().getTypeClass();
             arg.put("value", crudService.refresh(value));
             arg.put("event-crud", event);
             arg.put("estado-form", FormStates.READ);
-
-           ZKUtil.showDialogWindow(Executions.createComponents("~./zul/form.zul", null, arg));
+            Component component = null;
+            try {
+                component = Executions.createComponents("~./zul/forms/form" + typeClass.getSimpleName() + ".zul", null, arg);
+            } catch (Exception e) {
+                LOGGER.info("CUSTOM ENTITY FORM PAGE NOT FOUND....");
+                LOGGER.info("USING DEFAULT ENTITY FORM  PAGE ");
+            }
+            if (component == null) component = Executions.createComponents("~./zul/forms/form.zul", null, arg);
+            ZKUtil.showDialogWindow(component);
         }
     }
 
