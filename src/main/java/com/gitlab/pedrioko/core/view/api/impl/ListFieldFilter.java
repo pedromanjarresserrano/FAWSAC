@@ -2,8 +2,11 @@ package com.gitlab.pedrioko.core.view.api.impl;
 
 import com.gitlab.pedrioko.core.lang.annotation.FieldFilter;
 import com.gitlab.pedrioko.core.lang.annotation.UseChosenFileEntity;
+import com.gitlab.pedrioko.core.view.api.ChosenItem;
 import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
+import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.zk.component.ChosenBoxImage;
 import com.gitlab.pedrioko.core.zk.component.ChosenFileEntityBox;
 import com.gitlab.pedrioko.services.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getEntities;
 
@@ -39,8 +43,8 @@ public class ListFieldFilter implements FieldFilterComponent {
             if (getEntities().contains(klass)) {
                 if (field.isAnnotationPresent(UseChosenFileEntity.class)) {
                     String orderBy = field.getAnnotation(UseChosenFileEntity.class).orderBy();
-                    ChosenFileEntityBox chosenFileEntityBox = new ChosenFileEntityBox();
-                    chosenFileEntityBox.setModel(crudService.getAllOrderBy(klass, orderBy));
+                    ChosenBoxImage chosenFileEntityBox = new ChosenBoxImage();
+                    chosenFileEntityBox.setModel(crudService.getAllOrderBy(klass, orderBy).stream().collect(Collectors.toMap(x -> (Long) ReflectionJavaUtil.getIdValue(x), x -> (ChosenItem) x)));
                     return chosenFileEntityBox;
                 } else {
                     Combobox combobox = new Combobox();

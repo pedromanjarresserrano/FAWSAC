@@ -19,7 +19,7 @@
 }
 
 @media (min-width: 992px) {
-  .container {
+  .container-95 {
     max-width: 95% !important;
   }
 }
@@ -84,4 +84,8 @@
 .form-view{
     width: 100% !important;
     height: 100% !important;
+}
+
+.window-overlapped , .window-overlapped .z-window-content {
+    overflow: unset !important;
 }

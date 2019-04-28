@@ -237,13 +237,8 @@ public class CrudController {
                             where = where != null ? paramMode == ParamMode.AND ? contains.and(where) : contains.or(where) : contains;
                         } else
                             for (Object val : (Collection) value) {
-                                if (val == null) {
-                                    BooleanExpression expression = collection.isEmpty();
-                                    where = where != null ? paramMode == ParamMode.AND ? expression.and(where) : expression.or(where) : expression;
-                                } else {
-                                    BooleanExpression expression = collection.contains(val);
-                                    where = where != null ? paramMode == ParamMode.AND ? expression.and(where) : expression.or(where) : expression;
-                                }
+                                BooleanExpression expression = (val == null) ? collection.isEmpty() : collection.contains(val);
+                                where = where != null ? paramMode == ParamMode.AND ? expression.and(where) : expression.or(where) : expression;
                             }
                     }
                 } else {

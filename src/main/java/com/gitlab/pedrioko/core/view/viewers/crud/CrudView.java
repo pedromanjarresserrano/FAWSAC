@@ -296,7 +296,7 @@ public class CrudView extends Tabpanel {
     }
 
 
-    void addParams(String key, Object value) {
+    public void addParams(String key, Object value) {
         crudController.put(key, value);
     }
 

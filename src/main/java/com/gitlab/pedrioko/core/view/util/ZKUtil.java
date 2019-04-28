@@ -9,6 +9,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.sys.ExecutionsCtrl;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.LayoutRegion;
 import org.zkoss.zul.Window;
 
@@ -96,17 +97,19 @@ public class ZKUtil {
         modal.setBorder("normal");
         modal.setSclass("w-75");
         modal.setParent(currentPage.getFirstRoot());
-        modal.appendChild(window);
+        Div child = new Div();
+        child.appendChild(window);
+        modal.appendChild(child);
+        modal.setSclass("window-overlapped");
         modal.doModal();
     }
 
     public static void showDialogWindow(Window window) {
-
         Page currentPage = ExecutionsCtrl.getCurrentCtrl().getCurrentPage();
         window.setClosable(true);
         window.setBorder("normal");
         window.setParent(currentPage.getFirstRoot());
+        window.setSclass("window-overlapped");
         window.doModal();
-
     }
 }

@@ -118,7 +118,7 @@ public class EntityFormVM implements Valuable {
         try {
             return ReflectionZKUtil.getBindingValue(binding, value.getClass(), value);
         } catch (ValidationException w) {
-            LOGGER.error("ERROR on getValue()", w);
+            LOGGER.error("ERROR on getModel()", w);
             throw w;
         }
     }

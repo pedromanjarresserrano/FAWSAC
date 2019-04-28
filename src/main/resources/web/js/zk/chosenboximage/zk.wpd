@@ -1,0 +1,5 @@
+<package name="zk.chosenboximage" language="xul/html">
+   	<script src="js/chosen.min.js" />
+   	<script src="js/ImageSelect.min.js" />
+    <widget name="ChosenBoxImage"/>
+</package>

@@ -57,7 +57,7 @@ public class SaveAction implements Action {
 
         /*    if (!event.getCrudViewParent().getReloadable()) {
 
-                crudViewParent.setValue(list);
+                crudViewParent.setModel(list);
             }*/
             EventQueues.lookup("saveQueues", EventQueues.APPLICATION, true).publish(new Event("save" + val.getClass().getSimpleName(), null, val));
 

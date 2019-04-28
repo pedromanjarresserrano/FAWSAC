@@ -33,7 +33,7 @@ public class RenglonView extends Div {
 
     public void setLabel(String label) {
         this.label = label;
-        // labelC.setValue(this.label);
+        // labelC.setModel(this.label);
         appendChild(new Label(label));
         smartUpdate("label", label);
 

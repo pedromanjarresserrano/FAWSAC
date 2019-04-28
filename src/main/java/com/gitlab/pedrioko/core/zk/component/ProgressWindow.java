@@ -29,7 +29,7 @@ public class ProgressWindow extends Window {
     }
 
     public void setCurrent(String status, Integer value) {
-//        this.status.setValue(status);
+//        this.status.setModel(status);
         Clients.evalJavaScript("" +
                 "  var bar2 = document.getElementById('" + progressbar.getUuid() + "').ldBar;\n"
                 + "var bar1 = new ldBar(\"#" + progressbar.getUuid() + "\");\n  "
