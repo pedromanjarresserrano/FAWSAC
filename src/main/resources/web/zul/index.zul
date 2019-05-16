@@ -1,14 +1,12 @@
 <?page contentType="text/html;charset=UTF-8"?>
+<?meta name="viewport" content="width=device-width, initial-scale=1.0" ?>
 <?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
-
-<div sclass="container-fluid h-100 p-0 m-0 ">
-    <div style="height: 94% !important;">
-        <div id="header" sclass="bg-info-text-white col-sm-12 col-md-12 col-lg-12 ">
-            <menupages></menupages>
-        </div>
-        <div id="contenido" sclass="col-sm-12 col-md-12 col-lg-12 h-99 pt-0">
-            <contenttab class="h-99">
-            </contenttab>
-        </div>
+<div sclass="d-flex flex-column w-100 h-100 p-0 m-0 ">
+    <div id="header" sclass="bg-info-text-white d-flex flex-row w-100 p-0 m-0 ">
+        <menupages></menupages>
+    </div>
+    <div id="contenido" sclass="d-flex flex-column w-100 h-100 p-0 m-0">
+        <contenttab class="d-flex flex-column w-100 h-100 p-0 m-0">
+        </contenttab>
     </div>
 </div>

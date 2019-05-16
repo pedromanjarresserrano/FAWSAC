@@ -73,8 +73,7 @@ public class ContentViewImpl implements ContentView {
                 tab.setClosable(true);
                 this.tab.getTabs().appendChild(tab);
                 this.tab.setAttribute("menuprovider", provider);
-                Component view = provider.getView();
-                loadView(id, label, tab, view);
+                loadView(id, label, tab,  provider.getView());
                 tab.setIconSclass(provider.getIcon());
                 this.tab.setSelectedTab(tab);
 
@@ -112,10 +111,10 @@ public class ContentViewImpl implements ContentView {
         } else {
             Tab tab = new Tab(label);
             tab.setId(id);
+            tab.setRenderdefer(0);
             tab.setClosable(true);
             this.tab.getTabs().appendChild(tab);
-            org.zkoss.zk.ui.Component view = component;
-            loadView(id, label, tab, view);
+            loadView(id, label, tab, component);
             this.tab.setSelectedTab(tab);
 
         }

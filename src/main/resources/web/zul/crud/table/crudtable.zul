@@ -6,7 +6,7 @@
          model="@load(ct.items)" hflex="min">
     <listhead children="@load(ct.headers)">
         <template name="children" var="node">
-            <listheader label="@load(my:l(node,node))"/>
+            <listheader label="@load(my:l(node,node))" />
         </template>
     </listhead>
     <template name="model">

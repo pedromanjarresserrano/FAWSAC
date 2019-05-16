@@ -1,12 +1,9 @@
 package com.gitlab.pedrioko.core.zk.component;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitlab.pedrioko.core.view.api.ChosenItem;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
-import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.StorageService;
-import com.google.gson.Gson;
 import lombok.Data;
 import org.zkoss.json.JSONArray;
 import org.zkoss.json.JSONObject;
@@ -40,7 +37,7 @@ class ChosenBoxImage extends HtmlBasedComponent {
         model.forEach((k, v) -> {
             HashMap<Object, Object> hashMap = new HashMap<>();
             hashMap.put("key", k);
-            hashMap.put("image", ApplicationContextUtils.getBean(StorageService.class).getUrlFile(v.getFilesEntities().get(0)));
+            hashMap.put("image", ApplicationContextUtils.getBean(StorageService.class).getUrlFile(v.filesEntities().get(0)));
             hashMap.put("label", v.visualName());
             list.add(hashMap);
         });
@@ -54,7 +51,7 @@ class ChosenBoxImage extends HtmlBasedComponent {
             model.forEach((k, v) -> {
                 HashMap<Object, Object> hashMap = new HashMap<>();
                 hashMap.put("key", k);
-                hashMap.put("image", ApplicationContextUtils.getBean(StorageService.class).getUrlFile(v.getFilesEntities().get(0)));
+                hashMap.put("image", ApplicationContextUtils.getBean(StorageService.class).getUrlFile(v.filesEntities().get(0)));
                 hashMap.put("label", v.visualName());
                 list.add(hashMap);
             });

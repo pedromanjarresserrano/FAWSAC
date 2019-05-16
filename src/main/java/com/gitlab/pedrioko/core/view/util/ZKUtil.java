@@ -97,10 +97,8 @@ public class ZKUtil {
         modal.setBorder("normal");
         modal.setSclass("w-75");
         modal.setParent(currentPage.getFirstRoot());
-        Div child = new Div();
-        child.appendChild(window);
-        modal.appendChild(child);
-        modal.setSclass("window-overlapped");
+        modal.appendChild(window);
+        modal.setHeight("70vh");
         modal.doModal();
     }
 

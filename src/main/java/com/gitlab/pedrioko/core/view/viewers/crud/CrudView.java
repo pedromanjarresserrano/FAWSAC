@@ -16,16 +16,14 @@ import org.slf4j.LoggerFactory;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
 
@@ -34,6 +32,7 @@ public class CrudView extends Tabpanel {
     private static final Logger LOGGER = LoggerFactory.getLogger(CrudView.class);
 
     private static final long serialVersionUID = 1L;
+    private Map<String, Object> rootParams = new LinkedHashMap<>();
     private Class<?> klass;
     private List<Button> listActions;
     private Div divbar;
@@ -58,6 +57,7 @@ public class CrudView extends Tabpanel {
     private Borderlayout borderlayout;
     private int selectedIndex = 0;
 
+    private int pagesize = 16;
 
     public CrudView() {
     }
@@ -75,12 +75,28 @@ public class CrudView extends Tabpanel {
         view(klass, getBean(PropertiesUtil.class).getFieldTable(klass));
     }
 
+    public CrudView(Class<?> klass, int pagesize) {
+        this.pagesize = pagesize;
+        crudviewmode = CrudMode.MAINCRUD;
+        view(klass, getBean(PropertiesUtil.class).getFieldTable(klass));
+
+    }
+
+    public CrudView(Class<?> klass, int pagesize, Map<String, Object> rootParams) {
+        if(rootParams==null)
+            throw new IllegalArgumentException("rootParams can't be null");
+        this.rootParams = rootParams;
+        this.pagesize = pagesize;
+        crudviewmode = CrudMode.MAINCRUD;
+        view(klass, getBean(PropertiesUtil.class).getFieldTable(klass));
+    }
+
     public void useAlphabetFilter() {
         North north = new North();
         north.appendChild(new AlphabetFilter(crudController, klass));
 
     }
-
+/*
     protected void init(Class<?> klass) {
         crudviewmode = CrudMode.MAINCRUD;
         this.klass = klass;
@@ -88,7 +104,7 @@ public class CrudView extends Tabpanel {
         crudController.doQuery();
         popup = new CrudMenuContext(klass, ApplicationContextUtils.getBeans(Action.class));
         appendChild(popup);
-    }
+    }*/
 
     public void setPageSize(int PAGE_SIZE) {
         crudController.setPageSize(PAGE_SIZE);
@@ -157,11 +173,11 @@ public class CrudView extends Tabpanel {
 
     }
 
-    public CrudView(Class<?> klass, Object value) {
+    public CrudView(Class<?> klass, List<?> value) {
         super();
         crudviewmode = CrudMode.MAINCRUD;
         this.klass = klass;
-        crudController = new CrudController(klass, (List<?>) value);
+        crudController = new CrudController(klass, value);
         createUI();
     }
 
@@ -178,8 +194,12 @@ public class CrudView extends Tabpanel {
     private void configController(Class<?> klass) {
         if (crudController == null) {
             crudController = new CrudController(klass);
+            crudController.putAllRoot(this.rootParams);
+            crudController.setPageSize(this.pagesize);
+
+        } else {
+            crudController.setPage(0);
         }
-        crudController.setPage(0);
     }
 
     public void previusState() {
@@ -240,7 +260,7 @@ public class CrudView extends Tabpanel {
     public String getKlass() {
         return klass.getName();
     }
-
+/*
     public void setKlass(String klass) throws ClassNotFoundException {
         String[] split = klass.split(":");
         if (split.length > 1) {
@@ -257,7 +277,7 @@ public class CrudView extends Tabpanel {
                 view(aClass, getBean(PropertiesUtil.class).getFieldTable(aClass));
             }
         }
-    }
+    }*/
 
     public void addValue(Object value) {
         crudController.addValue(value);

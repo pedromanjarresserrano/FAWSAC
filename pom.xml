@@ -28,8 +28,6 @@
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <joda-time.version>2.9.9</joda-time.version>
         <junit-tools.version>0.1.0</junit-tools.version>
-
-
         <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
         <ckez.version>4.4.6.3</ckez.version>
         <commons-configuration2.version>2.1.1</commons-configuration2.version>
@@ -56,6 +54,10 @@
         <repository>
             <id>Central</id>
             <url>http://central.maven.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>Dcm4Che</id>
+            <url>http://www.dcm4che.org/maven2/</url>
         </repository>
 
     </repositories>
@@ -185,7 +187,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -297,6 +298,18 @@
             <artifactId>groovy-all</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/xuggle/xuggle-xuggler -->
+        <dependency>
+            <groupId>io.humble</groupId>
+            <artifactId>humble-video-all</artifactId>
+            <version>0.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>1.5</version>
+        </dependency>
         <!-- Testing -->
 
 

@@ -84,8 +84,8 @@ public class StorageServiceImpl implements StorageService {
             }
         }
     }
-
-    private AppParam getAppParam() {
+    @Override
+    public AppParam getAppParam() {
         eventsListener();
         if (appvar == null) {
             PathBuilder<?> path = crudService.getPathBuilder(AppParam.class);
@@ -176,6 +176,16 @@ public class StorageServiceImpl implements StorageService {
         FileEntity fileEntity = new FileEntity();
         fileEntity.setFilename(uuid);
         fileEntity.setUrl(file.getAbsolutePath());
+        return fileEntity;
+    }
+
+    @Override
+    public FileEntity saveFileToFileEntity(String filename, byte[] inputstream) {
+        File file = saveFile(filename, inputstream);
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setFilename(file.getName());
+        fileEntity.setUrl(file.getAbsolutePath());
+        fileEntity.setCreationDate(new Date());
         return fileEntity;
     }
 
@@ -278,6 +288,23 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public List<FileEntity> getFileEntities(String fileName) {
         return crudService.getLikePrecise(FileEntity.class, fileName);
+    }
+
+    @Override
+    public File saveFile(String filename, byte[] data) {
+        String value = getAppParam().getValue();
+        File banner = new File(value + "/" + filename);
+        if (banner.exists())
+            banner = new File(value + "/" + UUID.randomUUID().toString() + "-" + filename);
+        try (FileOutputStream fos = new FileOutputStream(banner)) {
+            BufferedOutputStream bos = new BufferedOutputStream(fos);
+            bos.write(data);
+            bos.flush();
+            bos.close();
+        } catch (IOException e) {
+            LOGGER.error("ERROR ON action()", e);
+        }
+        return banner;
     }
 
 

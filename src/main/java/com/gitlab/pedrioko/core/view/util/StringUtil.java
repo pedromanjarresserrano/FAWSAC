@@ -57,4 +57,21 @@ public class StringUtil {
     public static String lastSplit(String string, String splitter) {
         return string.substring(string.lastIndexOf(splitter) + 1);
     }
+
+    public static String formatFileSize(Object size) {
+        return formatFileSize(size, 2);
+    }
+
+    public static String formatFileSize(Object size, Integer digits) {
+        double bytes = Double.valueOf(size.toString());
+        String[] dictionary = {"bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+        int index = 0;
+        for (index = 0; index < dictionary.length; index++) {
+            if (bytes < 1024) {
+                break;
+            }
+            bytes = bytes / 1024;
+        }
+        return String.format("%." + digits + "f", bytes) + " " + dictionary[index];
+    }
 }

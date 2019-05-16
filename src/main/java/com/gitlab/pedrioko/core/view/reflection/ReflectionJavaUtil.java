@@ -125,10 +125,14 @@ public class ReflectionJavaUtil {
 
 
     public static List<Field> getCollectionsFields(Class<?> klass) {
+        return getFieldsByType(klass, Collection.class);
+    }
+
+    public static List<Field> getFieldsByType(Class<?> klass, Class<?> type) {
         return FieldUtils.getAllFieldsList(klass)
                 .stream()
                 .filter(e -> !e.getName().equalsIgnoreCase("serialVersionUID"))
-                .filter(e-> Collection.class.isAssignableFrom(e.getType()))
+                .filter(e -> type.isAssignableFrom(e.getType()))
                 .collect(Collectors.toList());
     }
 

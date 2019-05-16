@@ -8,7 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class FilesStaticResourceLocationsImpl implements StaticResouceLocation {
     public static final String STATIC_FILES_PATH = "/statics/files/";
-    public static final String STATIC_FILES_LOCATION = "file:/F://Cache-Media/";
+    private static final String FILE_URI = "file:/";
+    public static final String STATIC_FILES_LOCATION = FILE_URI + "F://Cache-Media/";
 
     @Override
     public String getPath() {
@@ -17,6 +18,6 @@ public class FilesStaticResourceLocationsImpl implements StaticResouceLocation {
 
     @Override
     public String[] getLocations() {
-        return new String[]{STATIC_FILES_LOCATION,"file:/E://Archivos De Programas/Cache/"};
+        return new String[]{STATIC_FILES_LOCATION, FILE_URI + "E://Archivos De Programas/Cache/", FILE_URI + "I://cache-media/", FILE_URI + "I://test/"};
     }
 }

@@ -13,26 +13,15 @@
     <stylesheet href="~./css/alertify/alertify.min.css" type="text/css"/>
     <stylesheet href="~./css/alertify/theme/semantic.min.css" type="text/css"/>
 
-    <stylesheet href="~./zul/css/index.css" type="text/css"/>
-    <stylesheet href="~./zul/css/simple-carousel.css" type="text/css"/>
+    <stylesheet href="~./css/index.css" type="text/css"/>
+    <stylesheet href="~./css/fontawesome/fontawesome.5.8.2.min.css" type="text/css"/>
+    <stylesheet href="~./css/bootstrap/bootstrap.4.3.1.min.css" type="text/css"/>
+    <stylesheet href="~./css/bootstrap-extend.css" type="text/css"/>
 
-    <stylesheet href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" type="text/css"/>
-    <stylesheet href="~./zul/css/bootstrap-extend.css" type="text/css"/>
-
-    <stylesheet href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" type="text/css"/>
-
-    <javascript src="https://code.jquery.com/jquery-3.3.1.min.js"/>
-    <javascript src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"/>
-    <javascript src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"/>
-    <javascript src="~./js/jscolor.js"/>
-
-    <javascript src="~./js/jquery.simpleWeather.min.js"/>
-    <javascript src="~./js/fontawesome.js"/>
-    <javascript src="~./js/slider.js"/>
-
+    <javascript src="~./js/fontawesome/fontawesome.5.8.2.min.js"/>
+    <javascript src="~./js/popper/popper.1.14.7.min.js"/>
+    <javascript src="~./js/bootstrap/bootstrap.4.3.1.min.js"/>
     <javascript src="~./js/chartjs/Chart.min.js"/>
-    <javascript src="~./js/chartj/chartjs-plugin-datalabels.min.js"/>
-
     <javascript src="~./js/jspdf.min.js"/>
     <javascript src="~./js/jspdf.plugin.autotable.js"/>
     <javascript src="~./js/html2canvas.js"/>
@@ -63,17 +52,10 @@
         <extends>vlayout</extends>
     </component>
     <component>
-        <component-name>chart</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.Chart</component-class>
-        <extends>canvas</extends>
-    </component>
-
-    <component>
         <component-name>colorchooserbox</component-name>
         <component-class>com.gitlab.pedrioko.core.zk.component.ColorChooserBox</component-class>
         <extends>textbox</extends>
     </component>
-
     <component>
         <component-name>canvas</component-name>
         <component-class>com.gitlab.pedrioko.core.zk.component.Canvas</component-class>
@@ -83,6 +65,11 @@
             <mold-uri>mold/canvas.js</mold-uri>
             <css-uri>css/canvas.css.dsp</css-uri>
         </mold>
+    </component>
+    <component>
+        <component-name>chart</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.Chart</component-class>
+        <extends>canvas</extends>
     </component>
     <component>
         <component-name>chosenboximage</component-name>
@@ -172,6 +159,50 @@
             <mold-uri>mold/ProgressTask.js</mold-uri>
             <css-uri>css/progresstask.css</css-uri>
         </mold>
+    </component>
+    <component>
+        <component-name>imageupload</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.ImageUpload</component-class>
+        <widget-class>zk.imageupload.ImageUpload</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/imageupload.js</mold-uri>
+            <css-uri>css/imageupload.css</css-uri>
+        </mold>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>rawValue</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+    </component>
+    <component>
+        <component-name>simplecarousel</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.SimpleCarousel</component-class>
+        <widget-class>zk.simplecarousel.SimpleCarousel</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/simplecarousel.js</mold-uri>
+            <css-uri>css/simplecarousel.css</css-uri>
+        </mold>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>value</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
     </component>
     <component>
         <component-name>slider</component-name>

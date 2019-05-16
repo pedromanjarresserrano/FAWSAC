@@ -6,6 +6,10 @@ import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.StorageService;
 import com.gitlab.pedrioko.services.VideoService;
 import com.querydsl.core.types.dsl.PathBuilder;
+
+import org.bytedeco.ffmpeg.global.avutil;
+import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.javacv.OpenCVFrameConverter;
 import org.jcodec.api.awt.AWTFrameGrab;
 import org.jcodec.common.DemuxerTrack;
 import org.jcodec.common.DemuxerTrackMeta;
@@ -23,6 +27,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.bytedeco.opencv.global.opencv_imgcodecs.IMWRITE_JPEG_QUALITY;
+import static org.bytedeco.opencv.helper.opencv_imgcodecs.cvSaveImage;
+
 @Service
 public class VideoServiceImpl implements VideoService {
 
@@ -33,36 +40,35 @@ public class VideoServiceImpl implements VideoService {
     @Autowired
     private StorageService storageService;
 
+    private OpenCVFrameConverter.ToIplImage converterToIplImage = new OpenCVFrameConverter.ToIplImage();
+
     @Override
     public List<FileEntity> generatePreviewImage(String filePath, int previewCount) {
         List<FileEntity> fileEntities = new ArrayList<>();
         try {
-            Long sec = 1L;
-            PathBuilder<?> path = crudService.getPathBuilder(AppParam.class);
-            AppParam name = (AppParam) crudService.query().from(path).where(path.getString("name").eq(StorageService.APP_VAR_NAME)).fetchFirst();
+            AppParam name = storageService.getAppParam();
             ImageIO.setUseCache(false);
-            //where filePath is the path of video file and previeFileName is the name of preview image file.
-            SeekableByteChannel bc = NIOUtils.readableFileChannel(filePath);
-            MP4Demuxer dm = MP4Demuxer.createMP4Demuxer(bc);
-            DemuxerTrack vt = dm.getVideoTrack();
-            DemuxerTrackMeta meta = vt.getMeta();
-            double totalDuration = meta.getTotalDuration();
-            Long v = Math.round(totalDuration / previewCount);
-            FileChannelWrapper ch = null;
             File file = new File(filePath);
             try {
-                ch = NIOUtils.readableChannel(file);
-                AWTFrameGrab awtFrameGrab = AWTFrameGrab.createAWTFrameGrab(ch);
-                for (int i = 0; i < previewCount; i++) {
+                avutil.av_log_set_level(avutil.AV_LOG_QUIET);
+                FFmpegFrameGrabber g = new FFmpegFrameGrabber(filePath);
+                String fileExtension = getFileExtension(file);
+                g.setFormat(fileExtension);
+                g.start();
+                int frames = g.getLengthInFrames();
+                int lengthInFrames = (frames / previewCount);
+                if (lengthInFrames <= 0)
+                    lengthInFrames = 1;
+                for (int i = lengthInFrames; i < frames; i += lengthInFrames) {
                     String name1 = DigestUtils.md5DigestAsHex(("pv_" + file.getName() + "-" + i).getBytes());
                     File output = new File(name.getValue() + "\\" + name1 + JGP);
-
-                    BufferedImage dst = null;
+                    g.setFrameNumber(i);
                     boolean existFileEntity = storageService.existFileEntity(name1 + JGP);
                     if (!existFileEntity) {
                         if (!output.exists()) {
-                            dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
-                            storageService.writeImage(output, dst, "jpg");
+                            //       dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
+                            //        storageService.writeImage(output, dst, "jpg");
+                            cvSaveImage(output.getAbsolutePath(), converterToIplImage.convert(g.grabImage()), new int[]{IMWRITE_JPEG_QUALITY, 40, 0});
                         }
                         FileEntity fileEntity = new FileEntity();
                         fileEntity.setFilename(name1 + JGP);
@@ -70,24 +76,43 @@ public class VideoServiceImpl implements VideoService {
                         fileEntities.add(crudService.saveOrUpdate(fileEntity));
                     } else {
                         if (!output.exists() && output.length() <= 0) {
-                            dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
-                            fileEntities.add(storageService.saveFileImage(dst, name1));
+                            //       dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
+                            //         fileEntities.add(storageService.saveFileImage(dst, name1));
+                            cvSaveImage(output.getAbsolutePath(), converterToIplImage.convert(g.grabImage()), new int[]{IMWRITE_JPEG_QUALITY, 40, 0});
+                            FileEntity fileEntity = !existFileEntity ? new FileEntity() : storageService.getFileEntities(name1).get(0);
+                            fileEntity.setFilename(output.getName());
+                            fileEntity.setUrl(output.getAbsolutePath());
+                            fileEntities.add(fileEntity);
                         } else {
                             fileEntities.add(storageService.getFileEntity(name1 + JGP));
                         }
                     }
-                    sec += v;
                 }
+                g.stop();
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                NIOUtils.closeQuietly(ch);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return fileEntities;
+    }
+
+    private String getFileExtension(File file) {
+        String extension = "";
+
+        try {
+            if (file != null && file.exists()) {
+                String name = file.getName();
+                extension = name.substring(name.lastIndexOf(".") + 1);
+            }
+        } catch (Exception e) {
+            extension = "";
+        }
+
+        return extension;
+
     }
 
     @Override

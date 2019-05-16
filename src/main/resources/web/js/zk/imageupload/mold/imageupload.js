@@ -1,0 +1,3 @@
+function (out) {
+    out.push('<div id="', this.uuid, '-imageupload" class="control"> <img id="', this.uuid, '-imageupload-img" class="control-img" src="#" alt="your image" /><input class="file" id="', this.uuid, '-imageupload-file" type="file" /><label for="', this.uuid, '-imageupload-file" class="label-img">Seleccionar Archivo </label><span id="', this.uuid, '-imageupload-span">0 Archivos </span></div>');
+}

@@ -35,4 +35,5 @@ class AppParam extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @NoEmpty
     private TypeAppParam typeAppParam = TypeAppParam.VARIABLE;
+
 }

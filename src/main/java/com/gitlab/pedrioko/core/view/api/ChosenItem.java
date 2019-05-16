@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ChosenItem {
 
-    List<FileEntity> getFilesEntities();
+    List<FileEntity> filesEntities();
 
     String visualName();
 }

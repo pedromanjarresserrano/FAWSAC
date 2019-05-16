@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.services;
 
+import com.gitlab.pedrioko.core.lang.AppParam;
 import com.gitlab.pedrioko.core.lang.FileEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,6 +13,8 @@ public interface StorageService {
 
     String APP_VAR_NAME = "STORAGE_DIR";
     String APP_TEMP_VAR_NAME ="TEMP_STORAGE_DIR" ;
+
+    AppParam getAppParam();
 
     String getStorageLocation();
 
@@ -33,6 +36,8 @@ public interface StorageService {
 
     FileEntity saveFile(InputStream inputstream);
 
+    FileEntity saveFileToFileEntity(String filename, byte[] inputstream);
+
     FileEntity saveFileToFileEntity(String filename, InputStream inputstream);
 
     List<FileEntity> saveZipFileToFileEntity(String filename, InputStream inputstream);
@@ -50,6 +55,8 @@ public interface StorageService {
     FileEntity getFileEntity(String fileName);
 
     List<FileEntity> getFileEntities(String fileName);
+
+    File saveFile(String filename, byte[] data);
 
     File saveFile(String name, InputStream inputstream);
 

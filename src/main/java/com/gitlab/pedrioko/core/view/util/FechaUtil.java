@@ -2,6 +2,7 @@ package com.gitlab.pedrioko.core.view.util;
 
 import com.gitlab.pedrioko.core.lang.Time;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
@@ -84,4 +85,18 @@ public class FechaUtil {
         long seconds = duration.minusHours(hours).minusMinutes(mins).getSeconds();
         return String.format("%02d:%02d:%02d", hours, mins, seconds);
     }
+
+    public static String formatDate(Date date) {
+        return formatDate(date, "yyyy-MM-dd");
+    }
+
+    public static String formatDate(Date date, String pattern) {
+        SimpleDateFormat format = getSimpleDateFormat(pattern);
+        return format.format(date);
+    }
+
+    private static SimpleDateFormat getSimpleDateFormat(String pattern) {
+        return new SimpleDateFormat(pattern);
+    }
+
 }

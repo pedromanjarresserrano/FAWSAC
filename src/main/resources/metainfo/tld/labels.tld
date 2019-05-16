@@ -15,4 +15,37 @@
         </function-signature>
         <description>Converter seconds to HH:MM:SS</description>
     </function>
+    <function>
+        <name>fordate</name>
+        <function-class>com.gitlab.pedrioko.core.view.util.FechaUtil</function-class>
+        <function-signature>
+            java.lang.String formatDate(java.util.Date)
+        </function-signature>
+        <description>Converter date to yyyy-mm-dd pattern</description>
+    </function>
+    <function>
+        <name>fordate2</name>
+        <function-class>com.gitlab.pedrioko.core.view.util.FechaUtil</function-class>
+        <function-signature>
+            java.lang.String formatDate(java.util.Date, java.lang.String)
+        </function-signature>
+        <description>Converter date to the pattern send in the second parameter</description>
+    </function>
+    <function>
+        <name>ffs</name>
+        <function-class>com.gitlab.pedrioko.core.view.util.StringUtil</function-class>
+        <function-signature>
+            java.lang.String formatFileSize(java.lang.Object)
+        </function-signature>
+        <description>Converter file size to readable format with 2 decimals</description>
+    </function>
+    <function>
+        <name>ffs2</name>
+        <function-class>com.gitlab.pedrioko.core.view.util.StringUtil</function-class>
+        <function-signature>
+            java.lang.String formatFileSize(java.lang.Object, java.lang.Integer)
+        </function-signature>
+        <description>Converter file size to readable format with decimals passed by parameter</description>
+    </function>
+
 </taglib>

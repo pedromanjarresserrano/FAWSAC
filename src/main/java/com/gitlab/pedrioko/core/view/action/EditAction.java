@@ -35,12 +35,9 @@ public class EditAction implements Action {
         } else {
             HashMap<Object, Object> arg = new HashMap<>();
             Class<?> typeClass = event.getCrudViewParent().getTypeClass();
-            try {
-                arg.put("value", value);
-                arg.put("event-crud", event);
-                arg.put("estado-form", FormStates.UPDATE);
-            } catch (Exception e) {
-            }
+            arg.put("value", value);
+            arg.put("event-crud", event);
+            arg.put("estado-form", FormStates.UPDATE);
             Component component = null;
             try {
                 component = Executions.createComponents("~./zul/forms/form" + typeClass.getSimpleName() + ".zul", null, arg);

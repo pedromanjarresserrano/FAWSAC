@@ -9,6 +9,8 @@ import com.gitlab.pedrioko.core.lang.annotation.Password;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.List;

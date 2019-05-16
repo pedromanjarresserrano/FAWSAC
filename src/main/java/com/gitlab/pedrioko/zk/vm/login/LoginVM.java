@@ -103,6 +103,7 @@ class LoginVM {
      */
     @Init
     public void init() {
+        Executions.getCurrent().getDesktop().getFirstPage().setTitle("Login");
         Usuario currentUser = fhsessionutil.getCurrentUser();
         if (currentUser != null) Executions.sendRedirect("/index");
 

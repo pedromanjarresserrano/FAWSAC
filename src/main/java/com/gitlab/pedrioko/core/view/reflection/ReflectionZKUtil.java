@@ -167,12 +167,8 @@ public class ReflectionZKUtil {
 
     public static void disableBinding(Map<Field, Component> binding) {
         binding.forEach((k, v) -> {
-            try {
-                if (v.getClass() != Gmaps.class)
-                    disableComponent(v);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                LOGGER.error("ERROR on disableBinding()", e);
-            }
+            if (v.getClass() != Gmaps.class)
+                disableComponent(v);
         });
     }
 
@@ -220,10 +216,12 @@ public class ReflectionZKUtil {
         }
     }
 
-    public static void disableComponent(Component component)
-            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        Method method = component.getClass().getMethod("setDisabled", boolean.class);
-        method.invoke(component, true);
+    public static void disableComponent(Component component) {
+        try {
+            PropertyUtils.setProperty(component, "disabled", true);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            LOGGER.error("ERROR on setValueFieldObject()", e);
+        }
     }
 
     private static void readOnlyComponent(Component component)

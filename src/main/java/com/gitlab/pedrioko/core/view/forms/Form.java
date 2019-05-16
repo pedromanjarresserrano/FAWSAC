@@ -118,7 +118,7 @@ class Form extends Window implements Valuable {
 
                 } else
                     ReflectionZKUtil.setValueComponent(v, invoke);
-            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
+            } catch (SecurityException  e) {
                 LOGGER.error("ERROR on setValueForm()", e);
             }
         });

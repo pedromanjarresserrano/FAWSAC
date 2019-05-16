@@ -1,0 +1,4 @@
+<package name="zk.imageupload" language="xul/html">
+   	<script src="js/imageupload.js" />
+    <widget name="ImageUpload"/>
+</package>

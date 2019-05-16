@@ -21,13 +21,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 @FieldForm
 public class ListField implements FieldComponent {
 
     @Override
     public Class[] getToClass() {
-        return new Class[]{List.class};
+        return new Class[]{List.class, Set.class};
     }
 
     @Override
@@ -56,7 +57,7 @@ public class ListField implements FieldComponent {
         PropertiesUtil propertiesUtil = ApplicationContextUtils.getBean(PropertiesUtil.class);
         boolean enableSubCrudsClass = propertiesUtil
                 .getEnableSubCrudsClassProperty(klass, e.getName(), true);
-     //   crudView.enableCommonCrudActions(enableSubCrudsClass);
+        //   crudView.enableCommonCrudActions(enableSubCrudsClass);
         crudView.setStyle("height:100%;");
         crudView.setReloadable(false);
         //    ef.getTabpanels().appendChild(crudView);

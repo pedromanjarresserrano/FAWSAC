@@ -7,7 +7,6 @@
         <value>breeze</value>
     </library-property>
     <session-config>
-        <session-timeout>1800</session-timeout>
+        <session-timeout>2800</session-timeout>
     </session-config>
-
 </zk>

@@ -1,7 +1,7 @@
 <?taglib uri="http://labels.ats.pedrioko/taglib" prefix="my"?>
 <?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 
-<div apply="org.zkoss.bind.BindComposer" sclass="" xmlns:ca="client/attribute"
+<div apply="org.zkoss.bind.BindComposer"  xmlns:ca="client/attribute"
      viewModel="@id('mm') @init('com.gitlab.pedrioko.core.zk.viewmodel.Menu')" xmlns:n="native">
     <div sclass="nav">
         <div sclass="nav" children="@load(mm.navmenues)">
@@ -38,26 +38,26 @@
             </template>
         </div>
         <div zclass="nav ml-auto mt-auto">
-            <n:li class="nav-item avatar">
-                <a zclass="nav-link p-0" href="javascript:void(0)">
+            <n:li class="nav-item avatar ats-dropdown ">
+                <a zclass="nav-link p-1" href="javascript:void(0)">
                     <image width="50px" height="50px" sclass="img-thumbnail rounded-circle"
                            content="@bind(mm.image)"
-                           onClick='mailPop.open(self,"after_end")'
                     />
                 </a>
+                <div zclass="ats-dropdown-content">
+                    <button zclass="btn btn-outline-danger btn-sm btn-block m-0"
+                            label="@load(my:l('perfil','Perfil'))"
+                            iconSclass="z-icon-user"
+                            onClick="@command('profile')"
+                    />
+                    <button zclass="btn btn-outline-danger btn-sm btn-block m-0"
+                            label="Logout"
+                            iconSclass="fas fa-sign-out-alt"
+                            onClick="@command('logout')"
+                    />
+                </div>
             </n:li>
         </div>
     </div>
-    <popup id="mailPop" width="150px" sclass="round-menu">
-        <button zclass="btn btn-outline-danger btn-sm btn-block m-0"
-                label="@load(my:l('perfil','Perfil'))"
-                iconSclass="z-icon-user"
-                onClick="@command('profile')"
-        />
-        <button zclass="btn btn-outline-danger btn-sm btn-block m-0"
-                label="Logout"
-                iconSclass="fas fa-sign-out-alt"
-                onClick="@command('logout')"
-        />
-    </popup>
+
 </div>

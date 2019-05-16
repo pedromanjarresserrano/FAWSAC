@@ -111,8 +111,6 @@ public class Anuncios extends SelectorComposer<Window> {
                 }
             }
         });
-        Clients.evalJavaScript("stopCarousel()");
-        Clients.evalJavaScript("carousel()");
     }
 
 }

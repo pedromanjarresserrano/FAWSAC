@@ -83,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry and = http.authorizeRequests().antMatchers("/ws/**").permitAll().and().authorizeRequests()
                 .antMatchers(ZUL_FILES)
                 .denyAll()
-                .antMatchers("/test/**", "/file/**", "/tester/**", "/videos", "/css/**", "/signaling", "/components/**", "/bootstrap/**", "/fonts/**", "/js/**",
+                .antMatchers("**/favicon.ico","/test/**", "/file/**", "/tester/**", "/videos", "/css/**", "/signaling", "/components/**", "/bootstrap/**", "/fonts/**", "/js/**",
                         "/images/**", "/zkau/**", "/login", "/recovery", "/register", "/logout")
                 .permitAll()
                 .regexMatchers(HttpMethod.GET, REMOVE_DESKTOP_REGEX)

@@ -1,6 +1,7 @@
 package com.gitlab.pedrioko.core.view.viewers.crud.controllers;
 
 import com.gitlab.pedrioko.core.api.RangeValue;
+import com.gitlab.pedrioko.core.lang.FileEntity;
 import com.gitlab.pedrioko.core.lang.annotation.CrudOrderBy;
 import com.gitlab.pedrioko.core.view.api.OnEvent;
 import com.gitlab.pedrioko.core.view.api.OnQuery;
@@ -23,11 +24,11 @@ import lombok.Setter;
 import org.zkoss.bind.BindUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.getCollectionsFields;
-import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.getIdValue;
+import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.*;
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
@@ -136,6 +137,7 @@ public class CrudController {
         return map.put(key, value);
     }
 
+
     public void clearParams() {
         map.clear();
         beginString = "";
@@ -162,7 +164,8 @@ public class CrudController {
                 if (value != null) {
                     Field field = ReflectionJavaUtil.getField(klass, value);
                     OrderSpecifier asc = pathBuilder.getComparable(value, field.getType()).asc();
-                    setValue((ArrayList) jpaQuery.orderBy(asc).fetch());
+                    JPAQuery<?> jpaQuery1 = jpaQuery.orderBy(asc);
+                    setValue((ArrayList) jpaQuery1.fetch());
                 }
             } else {
                 setValue((ArrayList) jpaQuery.fetch());
@@ -316,7 +319,8 @@ public class CrudController {
             PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
             JPAQuery<?> query = crudService.query().from(pathBuilder);
             Predicate predicate = getPredicate(pathBuilder);
-            return query.where(predicate).fetch().size();
+            JPAQuery<?> where = query.where(predicate);
+            return where.fetch().size();
         }
     }
 
@@ -367,5 +371,9 @@ public class CrudController {
 
     public void setOrderBY(OrderBY orderBY) {
         this.orderBY = orderBY;
+    }
+
+    public void putAllRoot(Map<? extends String, ?> m) {
+        paramsroot.putAll(m);
     }
 }

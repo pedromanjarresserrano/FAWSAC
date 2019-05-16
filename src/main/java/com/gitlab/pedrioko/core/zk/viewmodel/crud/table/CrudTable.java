@@ -17,6 +17,7 @@ import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 import java.lang.reflect.Field;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -116,7 +117,7 @@ public class CrudTable {
     }
 
     @Command
-    public void actionOnDoubleClick(@BindingParam("action") String action, @BindingParam("value")Object selectValue) {
+    public void actionOnDoubleClick(@BindingParam("action") String action, @BindingParam("value") Object selectValue) {
         Action bean = (Action) getBean(StringUtil.getDescapitalize(action));
         CrudActionEvent event = new CrudActionEvent();
         event.setCrudViewParent(crudView);
@@ -129,4 +130,5 @@ public class CrudTable {
     public String loadFileEntityURL(Object value) {
         return storageService.getUrlFile((FileEntity) value);
     }
+
 }

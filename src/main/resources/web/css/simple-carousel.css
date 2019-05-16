@@ -132,8 +132,8 @@
 .carousel-right-bottom {
 	position: absolute !important;
 	z-index: 3000;
-	right: 0px;
-	bottom: 0px;
+	right: 3px;
+    bottom: 16px;
 	display: inline-flex;
 	color: white;
 	text-shadow: 1px 1px black;

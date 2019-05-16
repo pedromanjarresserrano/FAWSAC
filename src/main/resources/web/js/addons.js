@@ -15,4 +15,13 @@ function loadChart(id, data) {
 
 }
 
-
+$(document).ready(function () {
+    $("body").on("click", ".container-v", function (event) {
+        $(".container-v").removeClass("container-v-selected")
+        $(this).addClass("container-v-selected")
+    })
+    $("body").on("click", ".img-container", function (event) {
+        $(".img-container").removeClass("img-container-selected")
+        $(this).addClass("img-container-selected")
+    })
+});

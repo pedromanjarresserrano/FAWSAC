@@ -24,6 +24,7 @@ import org.zkforge.ckez.CKeditor;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
@@ -59,6 +60,7 @@ public class EntityFormVM implements Valuable {
     @WireVariable
     private List<Action> actions;
     private Class<?> valueClass;
+    private transient Map<String, LinkedHashMap<String, Component>> renglonesGroup = new LinkedHashMap<>();
 
     @Init
     public void init() {
@@ -165,8 +167,14 @@ public class EntityFormVM implements Valuable {
     public void loadReglon(String label, Component campo) {
         if (campo instanceof Tabbox)
             crudviews.put(label, campo);
-        else
+        else {
             renglones.put(label, campo);
+            LinkedHashMap<String, Component> list = renglonesGroup.get(campo.getClass().getSimpleName());
+            if (list == null)
+                list = new LinkedHashMap<>();
+            list.put(label, campo);
+            renglonesGroup.put(campo.getClass().getSimpleName(), list);
+        }
     }
 
     public Map<Field, Component> getBinding() {
@@ -185,7 +193,16 @@ public class EntityFormVM implements Valuable {
         this.renglones = renglones;
     }
 
+    public Map<String, LinkedHashMap<String, Component>> getRenglonesGroup() {
+        return renglonesGroup;
+    }
+
+    public void setRenglonesGroup(Map<String, LinkedHashMap<String, Component>> renglonesGroup) {
+        this.renglonesGroup = renglonesGroup;
+    }
+
     @Override
+    @NotifyChange("*")
     public void setValueForm(Object value) {
         CrudService crudService = ApplicationContextUtils.getBean(CrudService.class);
         if (value != null) {
@@ -218,7 +235,7 @@ public class EntityFormVM implements Valuable {
 
                     } else
                         ReflectionZKUtil.setValueComponent(v, invoke);
-                } catch (NoSuchMethodException | SecurityException | IllegalAccessException | InvocationTargetException e) {
+                } catch (SecurityException e) {
                     LOGGER.error("ERROR on setValueForm()", e);
                 }
             });

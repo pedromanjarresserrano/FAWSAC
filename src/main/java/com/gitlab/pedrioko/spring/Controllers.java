@@ -34,6 +34,16 @@ public class Controllers {
         return "recovery";
     }
 
+    @GetMapping("/favicon.ico")
+    public String favicon() {
+        return "images/favicon.ico";
+    }
+
+    @GetMapping("/*")
+    public String defaultRoute() {
+        return "login";
+    }
+
 
     public class Hello {
         private String greeting;
