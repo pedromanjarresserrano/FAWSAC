@@ -1,3 +1,3 @@
 function (out) {
-    out.push('<select  id="', this.uuid, '-chosenbox-image" multiple >' + this.domContent_() + '</select>');
+    out.push('<div id="', this.uuid, '-simple-carousel" class="slider-carousel"><div id="', this.uuid, '-simple-carousel-figure" class="figure">' + this.domContent_() + '</div></div>');
 }
