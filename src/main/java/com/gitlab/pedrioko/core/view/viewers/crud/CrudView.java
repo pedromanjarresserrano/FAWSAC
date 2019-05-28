@@ -157,6 +157,8 @@ public class CrudView extends Tabpanel {
         center.appendChild(crudtable);
         Component crudfilters = Executions.createComponents("~./zul/crud/filters/crudfilters.zul", null, arg);
         east.appendChild(crudfilters);
+        //east.setSlidable(true);
+        //east.setCollapsible(false);
         appendChild(actions);
         setStyle("height:100%;");
         reloadable = crudviewmode != CrudMode.SUBCRUD;

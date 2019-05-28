@@ -68,8 +68,13 @@
     </component>
     <component>
         <component-name>chart</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.Chart</component-class>
-        <extends>canvas</extends>
+        <component-class>com.gitlab.pedrioko.core.zk.component.chartjs.Chart</component-class>
+        <widget-class>zk.chart.Chart</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/Chart.js</mold-uri>
+            <css-uri>css/chart.css</css-uri>
+        </mold>
     </component>
     <component>
         <component-name>chosenboximage</component-name>

@@ -87,13 +87,8 @@ class LoginVM {
      * The labelerror.
      */
     private String labelerror;
-    @WireVariable
+    @WireVariable("fhsessionutil")
     private FHSessionUtil fhsessionutil;
-
-    @WireVariable
-    private CrudService crudService;
-    @WireVariable
-    protected AuthenticationManager authenticationManager;
 
     private String appName;
 
@@ -103,7 +98,8 @@ class LoginVM {
      */
     @Init
     public void init() {
-        Executions.getCurrent().getDesktop().getFirstPage().setTitle("Login");
+        appName = ApplicationContextUtils.getBean(Environment.class).getProperty("spring.application.name");
+        Executions.getCurrent().getDesktop().getFirstPage().setTitle("Login - " + appName);
         Usuario currentUser = fhsessionutil.getCurrentUser();
         if (currentUser != null) Executions.sendRedirect("/index");
 
@@ -113,8 +109,6 @@ class LoginVM {
         boton = Labels.getLabel("loginform.boton");
         labelnewuser = Labels.getLabel("registro");
         labelrecovery = Labels.getLabel("recuperarcuenta.titulo");
-        appName = ApplicationContextUtils.getBean(Environment.class).getProperty("spring.application.name");
-        crudService = ApplicationContextUtils.getBean(CrudService.class);
         Boolean error = Boolean.valueOf(Executions.getCurrent().getParameter("error"));
         if (error != null && error) {
             visiblemessage = error;

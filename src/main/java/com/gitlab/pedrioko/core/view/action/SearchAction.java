@@ -35,8 +35,8 @@ public class SearchAction implements Action {
 
     @Override
     public void actionPerform(CrudActionEvent event) {
-        East east = event.getCrudViewParent().getEast();
-        ZKUtil.tootgleRegion(east);
+       // event.getCrudViewParent().getEast().setSlide(true);
+        ZKUtil.tootgleRegion(event.getCrudViewParent().getEast());
     }
 
     @Override

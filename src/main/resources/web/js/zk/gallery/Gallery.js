@@ -31,11 +31,7 @@ zk.gallery.Gallery = zk.$extends(zk.Widget, {
         this.$supers('bind_', arguments);
         var ctx = document.getElementById(this.uuid + '-gallery');
         if (this._galleryItems) {
-            ctx.classList.add("galleria");
-            var galleryItemsJson = this.getGalleryItemsJson();
-            ctx.style.height =this.getHeight();
-            Galleria.loadTheme('https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js');
-            Galleria.run('.galleria');
+           loadGalleryCarrousel();
         }
     },
     unbind_: function () {
@@ -44,7 +40,7 @@ zk.gallery.Gallery = zk.$extends(zk.Widget, {
     domContent_: function () {
         var obj = JSON.parse(this.getGalleryItemsJson());
         for (var b = obj.length, c = "", d = 0; d < b; d++)
-            c += '<img  src="' + obj[d].enlargedSrc + '">';
+            c += '<img class="lazy-img technogalleryLittleBox" data-src="' + obj[d].enlargedSrc + '">';
         return c
     },
 });

@@ -1,0 +1,5 @@
+<package name="zk.chart" language="xul/html">
+  	<script src="js/Chartjs.min.js" />
+  	<script src="js/Chartjs-plugin-datalabels.min.js" />
+    <widget name="Chart"/>
+</package>

@@ -3,15 +3,20 @@ package com.gitlab.pedrioko.spring;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @Scope("session")
 public class Controllers {
 
-    @GetMapping("/")
-    public String root() {
-        return "login";
+    //@RequestMapping("/{page}")
+    public ModelAndView root(@PathVariable String page) {
+        ModelAndView model = new ModelAndView(page);
+        model.addObject("message", "Dinesh");
+        return model;
     }
 
     @GetMapping("/login")
@@ -39,10 +44,7 @@ public class Controllers {
         return "images/favicon.ico";
     }
 
-    @GetMapping("/*")
-    public String defaultRoute() {
-        return "login";
-    }
+
 
 
     public class Hello {

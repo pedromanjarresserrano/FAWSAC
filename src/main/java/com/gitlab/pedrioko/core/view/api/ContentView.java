@@ -4,6 +4,8 @@ import org.zkoss.zk.ui.Component;
 
 public interface ContentView {
 
+    Component getViewCurrent();
+
     Component getView();
 
     void addContent(MenuProvider component);

@@ -48,6 +48,16 @@ a:focus {
     background: black;
 }
 
+.z-east-slide{
+    left: unset  !important;
+    right: 0px;
+    width: 330px !important;
+}
+@media all (max-width: 500px){
+.z-east-slide{
+    width: 100% !important;
+}
+}
 .z-listbox-body {
     overflow-y: auto !important;
     overflow-x: hidden !important;

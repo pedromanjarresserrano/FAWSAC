@@ -5,6 +5,10 @@ import com.gitlab.pedrioko.core.view.api.ChosenItem;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.core.zk.component.ChosenBoxImage;
+import com.gitlab.pedrioko.core.zk.component.chartjs.Chart;
+import com.gitlab.pedrioko.core.zk.component.chartjs.domain.DataChart;
+import com.gitlab.pedrioko.core.zk.component.chartjs.domain.DataChartSet;
+import com.gitlab.pedrioko.core.zk.component.chartjs.domain.enums.ChartType;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.zk.composer.interfaces.DashBoardComponent;
@@ -45,6 +49,54 @@ public class Dashboard extends SelectorComposer<Window> {
     @Override
     public void doAfterCompose(Window window) throws Exception {
         super.doAfterCompose(window);
+        Chart child = new Chart();
+        DataChart data = new DataChart();
+        List<String> labels = new ArrayList<>();
+        labels.add("datalabels");
+        labels.add("datalabels 2");
+        labels.add("datalabels 3");
+        labels.add("datalabels 4");
+        labels.add("datalabels 5");
+        data.setLabels(labels);
+        List<DataChartSet> datasets = new ArrayList<>();
+        DataChartSet chartSet = new DataChartSet();
+        chartSet.setBackgroundColor("rgba(0,0,0,0.0)");
+        chartSet.setBorderColor("#000");
+        chartSet.setBorderWidth(1);
+        chartSet.setLabel("test Datas");
+        ArrayList<String> values = new ArrayList<>();
+        values.add("1");
+        values.add("2");
+        values.add("2");
+        values.add("2");
+        values.add("4");
+        values.add("2");
+        chartSet.setData(values);
+        datasets.add(chartSet);
+        chartSet = new DataChartSet();
+        chartSet.setBackgroundColor("rgba(0,0,0,0.0)");
+        chartSet.setBorderColor("#4fd");
+        chartSet.setBorderWidth(1);
+        chartSet.setLabel("test Datas");
+        values = new ArrayList<>();
+        values.add("11");
+        values.add("22");
+        values.add("33");
+        values.add("44");
+        values.add("22");
+        values.add("11");
+        chartSet.setData(values);
+        datasets.add(chartSet);
+        data.setDatasets(datasets);
+        child.setData(data);
+        child.setResponsive(false);
+        child.setType(ChartType.LINE);
+        child.setHeight("200px !important");
+        Div div = new  Div();
+        div.appendChild(child);
+        div.setHeight("200px !important");
+
+        window.appendChild(div);
         List<DashBoardComponent> listView = ApplicationContextUtils
                 .getBeansOfType(DashBoardComponent.class)
                 .stream()

@@ -39,6 +39,7 @@ class Gallery extends HtmlBasedComponent {
 
     public void setGalleryItemsJson(String galleryItemsJson) {
         this.galleryItemsJson = galleryItemsJson;
+        this.smartUpdate("galleryItemsJson", this.galleryItemsJson);
     }
 
 
