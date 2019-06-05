@@ -3,8 +3,8 @@ package com.gitlab.pedrioko.core.view.api.impl;
 import com.gitlab.pedrioko.core.lang.annotation.FieldFilter;
 import com.gitlab.pedrioko.core.lang.annotation.FileSize;
 import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
-import com.gitlab.pedrioko.core.zk.component.FileSizeRangeBox;
-import com.gitlab.pedrioko.core.zk.component.IntegerRangeBox;
+import com.gitlab.pedrioko.core.zk.component.rangebox.FileSizeRangeBox;
+import com.gitlab.pedrioko.core.zk.component.rangebox.IntegerRangeBox;
 import org.zkoss.zk.ui.Component;
 
 import java.lang.reflect.Field;

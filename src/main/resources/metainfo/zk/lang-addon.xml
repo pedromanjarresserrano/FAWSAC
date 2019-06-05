@@ -53,18 +53,8 @@
     </component>
     <component>
         <component-name>colorchooserbox</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.ColorChooserBox</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.colorchooserbox.ColorChooserBox</component-class>
         <extends>textbox</extends>
-    </component>
-    <component>
-        <component-name>canvas</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.Canvas</component-class>
-        <widget-class>zkforge.canvas.Canvas</widget-class>
-        <mold>
-            <mold-name>default</mold-name>
-            <mold-uri>mold/canvas.js</mold-uri>
-            <css-uri>css/canvas.css.dsp</css-uri>
-        </mold>
     </component>
     <component>
         <component-name>chart</component-name>
@@ -78,7 +68,7 @@
     </component>
     <component>
         <component-name>chosenboximage</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.ChosenBoxImage</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.chosenbox.ChosenBoxImage</component-class>
         <widget-class>zk.chosenboximage.ChosenBoxImage</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -88,7 +78,7 @@
     </component>
     <component>
         <component-name>gallery</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.Gallery</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.gallery.Gallery</component-class>
         <widget-class>zk.gallery.Gallery</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -98,7 +88,7 @@
     </component>
     <component>
         <component-name>carousel</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.Carousel</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.carousel.Carousel</component-class>
         <widget-class>zk.carousel.Carousel</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -157,7 +147,7 @@
     </component>
     <component>
         <component-name>progresstask</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.ProgressTask</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.progress.ProgressTask</component-class>
         <widget-class>zk.progresstask.ProgressTask</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -167,7 +157,7 @@
     </component>
     <component>
         <component-name>imageupload</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.ImageUpload</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.upload.ImageUpload</component-class>
         <widget-class>zk.imageupload.ImageUpload</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -189,7 +179,7 @@
     </component>
     <component>
         <component-name>simplecarousel</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.SimpleCarousel</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.simplecarousel.SimpleCarousel</component-class>
         <widget-class>zk.simplecarousel.SimpleCarousel</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -210,8 +200,42 @@
         </annotation>
     </component>
     <component>
+        <component-name>imagelazy</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.imagelazy.ImageLazy</component-class>
+        <widget-class>zk.imagelazy.ImageLazy</widget-class>
+        <mold>
+            <mold-name>default</mold-name>
+            <mold-uri>mold/imagelazy.js</mold-uri>
+            <css-uri>css/imagelazy.css</css-uri>
+        </mold>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>src</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>datasrc</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+    </component>
+    <component>
         <component-name>slider</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.Slider</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.slider.Slider</component-class>
         <widget-class>zk.slider.Slider</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -233,7 +257,7 @@
     </component>
     <component>
         <component-name>colorpicker</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.ColorPicker</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.colorpicker.ColorPicker</component-class>
         <widget-class>zk.colorpicker.ColorPicker</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -255,7 +279,7 @@
     </component>
     <component>
         <component-name>video</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.Video</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.media.Video</component-class>
         <widget-class>zk.video.Video</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -274,11 +298,71 @@
                 <attribute-value>self.onChange</attribute-value>
             </attribute>
         </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>preload</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>autoplay</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>loop</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>poster</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>controls</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
     </component>
 
     <component>
         <component-name>plyr</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.Plyr</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.media.Plyr</component-class>
         <widget-class>zk.plyr.Plyr</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -300,7 +384,7 @@
     </component>
     <component>
         <component-name>clock</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.Clock</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.clock.Clock</component-class>
         <widget-class>zk.clock.Clock</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -322,7 +406,7 @@
     </component>
     <component>
         <component-name>pointgmap</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.PointGmap</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.gmap.PointGmap</component-class>
         <widget-class>gmaps.Gmaps</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -349,7 +433,7 @@
     </component>
     <component>
         <component-name>valuewindow</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.Window</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.window.Window</component-class>
         <widget-class>zul.wgt.Div</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -370,7 +454,7 @@
     </component>
     <component>
         <component-name>renglon</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.Renglon</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.renglon.Renglon</component-class>
         <widget-class>zul.wgt.Div</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -403,7 +487,7 @@
     </component>
     <component>
         <component-name>renglonview</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.RenglonView</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.renglon.RenglonView</component-class>
         <widget-class>zul.wgt.Div</widget-class>
         <mold>
             <mold-name>default</mold-name>
@@ -448,7 +532,7 @@
     </component>
     <component>
         <component-name>divv</component-name>
-        <component-class>com.gitlab.pedrioko.core.zk.component.DivValuable</component-class>
+        <component-class>com.gitlab.pedrioko.core.zk.component.div.DivValuable</component-class>
         <widget-class>zul.wgt.Div</widget-class>
         <mold>
             <mold-name>default</mold-name>

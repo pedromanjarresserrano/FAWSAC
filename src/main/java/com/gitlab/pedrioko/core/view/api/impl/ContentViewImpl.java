@@ -13,8 +13,11 @@ import org.springframework.context.annotation.Scope;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
+import org.zkoss.zul.event.ZulEvents;
 import org.zkoss.zul.impl.LabelImageElement;
 
 import javax.annotation.PostConstruct;
@@ -45,6 +48,7 @@ public class ContentViewImpl implements ContentView {
         tabs.setParent(tab);
         Tabpanels tabpanels = new Tabpanels();
         tabpanels.setHeight("99%");
+        tabpanels.setStyle("overflow-y:auto;");
         tab.setHeight("99%");
         tabpanels.setParent(tab);
         tab.appendChild(tabs);
@@ -85,9 +89,8 @@ public class ContentViewImpl implements ContentView {
             securityService.getProvider(fhSessionUtil.getCurrentUser())
                     .stream()
                     .filter(MenuProvider::isOpenByDefault)
+                    .filter(f -> !getTab(f.getClass().getSimpleName()).isPresent())
                     .forEachOrdered(this::addContent);
-            tab.addEventListener(Events.ON_AFTER_SIZE, i -> {
-            });
         });
         return tab;
     }
@@ -179,9 +182,7 @@ public class ContentViewImpl implements ContentView {
         if (!(view instanceof Tabpanel)) {
             Tabpanel tabpanel = new Tabpanel();
             tab.setLabel(label);
-            tabpanel.setStyle("overflow-y:auto;");
             tabpanel.setHeight("100%");
-            tabpanel.setSclass("color-system");
             tabpanel.appendChild(view);
             tabview.getTabpanels().appendChild(tabpanel);
 

@@ -6,8 +6,7 @@ import com.gitlab.pedrioko.core.view.api.ChosenItem;
 import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
-import com.gitlab.pedrioko.core.zk.component.ChosenBoxImage;
-import com.gitlab.pedrioko.core.zk.component.ChosenFileEntityBox;
+import com.gitlab.pedrioko.core.zk.component.chosenbox.ChosenBoxImage;
 import com.gitlab.pedrioko.services.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zk.ui.Component;
@@ -16,7 +15,9 @@ import org.zkoss.zul.Combobox;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getEntities;
@@ -28,7 +29,7 @@ public class ListFieldFilter implements FieldFilterComponent {
 
     @Override
     public Class[] getToClass() {
-        return new Class[]{List.class};
+        return new Class[]{List.class, Collections.class, Set.class};
     }
 
     @Override

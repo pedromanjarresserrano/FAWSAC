@@ -104,8 +104,6 @@ class Usuario extends BaseEntity {
     /**
      * The version.
      */
-    @Version
-    private int version;
 
     /**
      * The token.

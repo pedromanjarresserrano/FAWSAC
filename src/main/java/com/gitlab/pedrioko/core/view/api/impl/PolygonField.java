@@ -5,7 +5,7 @@ import com.gitlab.pedrioko.core.lang.Polygon;
 import com.gitlab.pedrioko.core.lang.annotation.FieldForm;
 import com.gitlab.pedrioko.core.view.api.FieldComponent;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
-import com.gitlab.pedrioko.core.zk.component.PolygonGmap;
+import com.gitlab.pedrioko.core.zk.component.gmap.PolygonGmap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Events;

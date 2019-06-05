@@ -9,7 +9,9 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoDuplicate(value = "SQLquery")
@@ -35,8 +37,13 @@ class Reporte extends BaseEntity {
 
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Grafico> graficos = new ArrayList<>();
+    private Set<Grafico> graficos = new LinkedHashSet<>();
 
-    @Version
-    private int version;
+    public List<Grafico> getGraficos() {
+        return new ArrayList<>(graficos);
+    }
+
+    public void setGraficos(List<Grafico> graficos) {
+        this.graficos = new LinkedHashSet<>(graficos);
+    }
 }

@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.zk.vm.dashboard;
 
-import com.gitlab.pedrioko.core.zk.component.Clock;
+import com.gitlab.pedrioko.core.zk.component.clock.Clock;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import com.gitlab.pedrioko.zk.composer.interfaces.DashBoardComponent;
 import org.springframework.stereotype.Component;

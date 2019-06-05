@@ -4,6 +4,7 @@ import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.services.CrudService;
+import com.gitlab.pedrioko.spring.api.LoginListener;
 import com.querydsl.core.types.dsl.PathBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,12 +22,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
     private CrudService crudService;
+
+    @Autowired
+    private List<LoginListener> onLoginListeners;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginSuccessHandler.class);
 
@@ -66,6 +71,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
             PathBuilder<?> builder = crudService.getPathBuilder(Usuario.class);
             Usuario user = (Usuario) crudService.query().from(builder).where(builder.get("username", String.class).eq(name)).fetchFirst();
             ApplicationContextUtils.getBean(FHSessionUtil.class).setCurrentUser(user);
+            onLoginListeners.forEach(e -> e.onLoginEvent(user));
         }
         if (isUser) {
             return "/index";

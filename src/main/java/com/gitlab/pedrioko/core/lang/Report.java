@@ -20,6 +20,6 @@ class Report extends BaseEntity {
     @NoEmpty
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private FileEntity jasperFile;
-    @Version
-    private int version;
+
 }
+

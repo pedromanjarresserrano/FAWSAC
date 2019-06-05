@@ -31,9 +31,6 @@ class UserProfile extends BaseEntity {
     @JoinTable(name = "userprofile_provideraccess", joinColumns = @JoinColumn(name = "iduserprofile"), inverseJoinColumns = @JoinColumn(name = "idprovideraccess"))
     private List<ProviderAccess> providersaccess;
 
-    @Version
-    private int version;
-
     public boolean contain(String menuprovider) {
         for (ProviderAccess p : providersaccess) {
             if (p.getMenuprovider().equalsIgnoreCase(menuprovider))

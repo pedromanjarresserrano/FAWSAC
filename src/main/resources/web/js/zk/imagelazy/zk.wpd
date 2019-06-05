@@ -1,0 +1,4 @@
+<package name="zk.imagelazy" language="xul/html">
+   	<script src="js/lazyload.js" />
+    <widget name="ImageLazy"/>
+</package>

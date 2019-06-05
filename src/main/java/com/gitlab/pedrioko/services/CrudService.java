@@ -126,4 +126,7 @@ public interface CrudService {
 
     Predicate getLikePredicate(String text, List<Field> fields, PathBuilder<?> pathBuilder, Predicate aditional);
 
+    <T> List getEntityByHQLQuery(String s);
+
+    <T> List getEntityByHQLQuery(String s, int offset, int limit);
 }

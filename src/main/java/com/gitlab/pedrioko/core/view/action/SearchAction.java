@@ -35,8 +35,8 @@ public class SearchAction implements Action {
 
     @Override
     public void actionPerform(CrudActionEvent event) {
-       // event.getCrudViewParent().getEast().setSlide(true);
-        ZKUtil.tootgleRegion(event.getCrudViewParent().getEast());
+        // event.getCrudViewParent().getEast().setSlide(true);
+        event.getCrudViewParent().openFilters();
     }
 
     @Override

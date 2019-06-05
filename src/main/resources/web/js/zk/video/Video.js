@@ -37,12 +37,12 @@ zk.video.Video = zk.$extends(zk.Widget, {
     getPoster: function () {
         return this._poster;
     },
-    getPlaybackRate: function (a) {
+    getPlaybackRate: function () {
         return this._playbackRate;
     },
-    setPlaybackRate: function (a) {
+    setPlaybackRate: function (value) {
         try {
-            var ctx = document.getElementById(this.uuid + '-video');
+            var ctx = $('#'+this.uuid + '-video');
             if (ctx) {
                 ctx.playbackRate = value;
             }
@@ -96,67 +96,77 @@ zk.video.Video = zk.$extends(zk.Widget, {
         }
     },
     setPlaying: function (value) {
-        var ctx = document.getElementById(this.uuid + '-video');
+        var ctx = $('#'+this.uuid + '-video');
         if (ctx) {
        //     ctx.currentTime = value;
         }
     },
-    setVolume: function (a) {
-        var ctx = document.getElementById(this.uuid + '-video');
+    setVolume: function (value) {
+        var ctx = $('#'+this.uuid + '-video');
         if (ctx) {
             ctx.volume = value;
         }
     },
-    setMuted: function (a) {
-        var ctx = document.getElementById(this.uuid + '-video');
+    setMuted: function (value) {
+        var ctx = $('#'+this.uuid + '-video');
         if (ctx) {
             ctx.muted = value;
         }
     },
     setCurrentTime: function (value) {
-        var ctx = document.getElementById(this.uuid + '-video');
+        var ctx = $('#'+this.uuid + '-video');
         if (ctx) {
             ctx.currentTime = parseFloat(value);
         }
     },
     bind_: function () {
         this.$supers('bind_', arguments);
-        var elementId = this.uuid + '-video';
-        var ctx = document.getElementById(elementId);
-        if (this._src) {
-            ctx.src = this._src;
+        var elementId = '#'+this.uuid + '-video';
+        var ctx = $('#'+this.uuid + '-video');
+
+            ctx.attr('src', this._src);
             this.setPlaybackRate(this._playbackRate);
-            ctx.onplay = function () {
+            ctx.on('play', function () {
                 var currentTime = this.currentTime;
                 var n = '#' + this.id + '-video';
                 var widget = zk.Widget.$(n);
                 zAu.send(new zk.Event(widget, 'setPlaying', {playing: 'true', currentTime: currentTime}, {toServer: true}));
-            };
-            ctx.onpause = function () {
+            });
+            ctx.on('pause', function () {
                 var currentTime = this.currentTime;
                 var n = '#' + this.id + '-video';
                 var widget = zk.Widget.$(n);
                 zAu.send(new zk.Event(widget, 'setPlaying', {playing: 'false', currentTime: currentTime}, {toServer: true}));
-            };
-        }
+            });
+
     },
     unbind_: function () {
         this.$supers('unbind_', arguments);
     },
-    _videoDomAttrs: function () {
+    domAttrs_: function () {
         var a = '';
-        this._muted && (a += ' muted ');
-        this._autoplay && (a += ' autoplay ');
-        this._controls && (a += ' controls ');
-        this._loop && (a += ' loop ');
-        this._playsinline && (a += ' playsinline ');
-        this._preload && (a += ' preload=\"' + this._preload + '\" ');
-        this._poster && (a += ' poster=\"' + this._poster + '\" ');
-        this._crossorigin && (a += ' crossorigin=\"' + this._crossorigin + '\" ');
-        this._style && (a += ' style=\"' + this._style + '\" ');
-        this._height && (a += ' height=\"' + this._height + '\" ');
+        if(this._muted)
+            a += ' muted ';
+        if(this._autoplay )
+            a += ' autoplay ';
+        if(this._controls)
+            a += ' controls ';
+        if(this._loop)
+            a += ' loop ';
+        if(this._playsinline)
+            a += ' playsinline ';
+        if(this._preload)
+            a += ' preload=\"' + this._preload + '\" ';
+        if(this._poster)
+            a+=' poster=\"' + this._poster + '\" ';
+        if(this._crossorigin)
+            a += ' crossorigin=\"' + this._crossorigin + '\" ';
+        if(this._style)
+            a += ' style=\"' + this._style + '\" ';
+        if(this._height)
+            a += ' height=\"' + this._height + '\" ';
 
-        a += ' class=\" ' + this.getSclass() + ' \" '
+        a += ' class=\"' + this._sclass + '\" '
         return a
     }
 });

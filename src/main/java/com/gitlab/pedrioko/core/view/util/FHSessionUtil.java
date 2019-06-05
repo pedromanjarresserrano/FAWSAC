@@ -21,6 +21,7 @@ public class FHSessionUtil {
     private final String uuid = UUID.randomUUID().toString();
     @Autowired
     private CrudService crudService;
+    private String ipLocal;
 
     /**
      * Gets the current user.
@@ -54,4 +55,11 @@ public class FHSessionUtil {
         return (HttpSession) atr.getSessionMutex();
     }
 
+    public String getIpLocal() {
+        return ipLocal;
+    }
+
+    public void setIpLocal(String ipLocal) {
+        this.ipLocal = ipLocal;
+    }
 }

@@ -1,4 +1,4 @@
-<vlayout sclass="color-system " style="overflow-y:auto !important;" spacing="0">
+<vlayout style="overflow-y:auto !important;" spacing="0">
 
     <vlayout sclass="page-content" spacing="0"
              width="100%">

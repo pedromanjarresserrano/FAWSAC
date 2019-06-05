@@ -8,12 +8,11 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
-import com.gitlab.pedrioko.core.zk.component.ChosenBox;
-import com.gitlab.pedrioko.core.zk.component.Crudbox;
-import com.gitlab.pedrioko.core.zk.component.StringListBox;
+import com.gitlab.pedrioko.core.zk.component.chosenbox.ChosenBox;
+import com.gitlab.pedrioko.core.zk.component.crud.Crudbox;
+import com.gitlab.pedrioko.core.zk.component.stringlistbox.StringListBox;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
 import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Tabs;
 

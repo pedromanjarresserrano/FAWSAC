@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.core.view.forms;
 
-import com.gitlab.pedrioko.core.zk.component.ChosenFileEntityBox;
+import com.gitlab.pedrioko.core.zk.component.chosenbox.ChosenFileEntityBox;
 
 import java.util.LinkedHashMap;
 

@@ -5,7 +5,7 @@
     <div id="header" sclass="bg-info-text-white d-flex flex-row w-100 p-0 m-0 ">
         <menupages></menupages>
     </div>
-    <div id="contenido" sclass="d-flex flex-column w-100 h-100 p-0 m-0">
+    <div id="contenido" sclass="d-flex flex-column w-100 h-100 p-0 m-0 overflow-hidden">
         <contenttab class="d-flex flex-column w-100 h-100 p-0 m-0">
         </contenttab>
     </div>

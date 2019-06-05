@@ -107,6 +107,10 @@ public interface DAOGeneric {
 
     <T> List<T> getByCreateQuery(CriteriaQuery<T> criteria, Class<T> klass);
 
+    <T> List<T> getEntityByHQLQuery(String sqlquery, int offset, int limit);
+
+    <T> List<T> getEntityByHQLQuery(String sqlquery);
+
     <T> List<T> getLikePrecise(Class<T> klass, String text);
 
     <T> List<T> getLikePrecise(Class<T> klass, String text, Predicate aditional);

@@ -4,17 +4,11 @@ import com.gitlab.pedrioko.core.lang.FileEntity;
 import com.gitlab.pedrioko.core.lang.annotation.FieldForm;
 import com.gitlab.pedrioko.core.lang.annotation.ImageFileEntity;
 import com.gitlab.pedrioko.core.view.api.FieldComponent;
-import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
-import com.gitlab.pedrioko.core.zk.component.FileUpload;
-import com.gitlab.pedrioko.core.zk.component.ImageUpload;
+import com.gitlab.pedrioko.core.zk.component.upload.FileUpload;
+import com.gitlab.pedrioko.core.zk.component.upload.ImageUpload;
 import com.gitlab.pedrioko.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Div;
-import org.zkoss.zul.Image;
 
 import java.lang.reflect.Field;
 

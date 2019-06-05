@@ -15,7 +15,7 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
-import com.gitlab.pedrioko.core.zk.component.ColorChooserBox;
+import com.gitlab.pedrioko.core.zk.component.colorchooserbox.ColorChooserBox;
 import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.dsl.PathBuilder;
 import org.slf4j.Logger;
@@ -37,7 +37,6 @@ import org.zkoss.zul.Tabpanels;
 import javax.persistence.Id;
 import javax.persistence.Version;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 

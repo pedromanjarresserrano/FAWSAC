@@ -46,7 +46,7 @@ public class CrudFilters {
     private void fieldToUiField(Field e) {
         Class<?> type = e.getType();
         ApplicationContextUtils.getBeansOfType(FieldFilterComponent.class).stream().filter(v -> v.getToClass() == null
-                || v.getToClass().length == 0 || Arrays.asList(v.getToClass()).contains(type)).forEach(w -> {
+                || v.getToClass().length == 0 || Arrays.asList(v.getToClass()).contains(type) || Arrays.stream(v.getToClass()).anyMatch(t -> t.isAssignableFrom(type))).forEach(w -> {
             Component component = w.getComponent(e);
             if (component != null) {
                 putBinding(e, component);

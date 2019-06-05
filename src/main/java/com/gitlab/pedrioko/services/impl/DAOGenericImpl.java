@@ -12,7 +12,7 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.hibernate.Hibernate;
-import org.hibernate.Query;
+import org.hibernate.query.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.slf4j.Logger;
@@ -326,6 +326,21 @@ public class DAOGenericImpl<T> implements DAOGeneric {
     @Override
     public List<T> getEntityByQuery(String sqlquery) {
         SQLQuery q = getCurrentSession().createSQLQuery(sqlquery);
+        return (List<T>) q.list();
+    }
+
+    @Override
+    public List<T> getEntityByHQLQuery(String sqlquery, int offset, int limit) {
+        Query q = getCurrentSession()
+                .createQuery(sqlquery)
+                .setFirstResult(offset)
+                .setMaxResults(limit);
+        return (List<T>) q.list();
+    }
+
+    @Override
+    public List<T> getEntityByHQLQuery(String sqlquery) {
+        Query q = getCurrentSession().createQuery(sqlquery);
         return (List<T>) q.list();
     }
 

@@ -24,8 +24,6 @@ class AppParam extends BaseEntity {
     @NoEmpty
     @Lob
     private String value;
-    @Version
-    private int version;
 
     public AppParam(int id, String name, String value) {
         this.name = name;

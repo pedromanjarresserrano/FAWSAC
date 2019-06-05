@@ -1,6 +1,7 @@
 package com.gitlab.pedrioko.core.zk.component;
 
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.zk.component.window.Window;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;

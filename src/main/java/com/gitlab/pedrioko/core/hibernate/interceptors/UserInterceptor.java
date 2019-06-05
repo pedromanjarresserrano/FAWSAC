@@ -31,7 +31,7 @@ public class UserInterceptor extends EmptyInterceptor {
             try {
                 String remoteAddr = Executions.getCurrent().getRemoteAddr();
                 Usuario user = ApplicationContextUtils.getBean(FHSessionUtil.class).getCurrentUser();
-                AuditLog auditLog = new AuditLog(-1, event, user.getIdusuario() + "", user.getUsername(), type + " " + entity.toString(), new Date(), Long.parseLong(ReflectionJavaUtil.getIdValue(entity).toString()), entity.getClass().getName(), remoteAddr, -1);
+                AuditLog auditLog = new AuditLog(-1, event, user.getIdusuario() + "", user.getUsername(), type + " " + entity.toString(), new Date(), Long.parseLong(ReflectionJavaUtil.getIdValue(entity).toString()), entity.getClass().getName(), remoteAddr);
                 ApplicationContextUtils.getBean(CrudService.class).saveOrUpdate(auditLog);
             } catch (Exception e) {
                 LOGGER.error("Error -UserInterceptor()");

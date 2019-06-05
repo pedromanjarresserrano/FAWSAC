@@ -1,7 +1,6 @@
 package com.gitlab.pedrioko.core.view.viewers.crud.controllers;
 
-import com.gitlab.pedrioko.core.api.RangeValue;
-import com.gitlab.pedrioko.core.lang.FileEntity;
+import com.gitlab.pedrioko.core.lang.api.RangeValue;
 import com.gitlab.pedrioko.core.lang.annotation.CrudOrderBy;
 import com.gitlab.pedrioko.core.view.api.OnEvent;
 import com.gitlab.pedrioko.core.view.api.OnQuery;
@@ -24,7 +23,6 @@ import lombok.Setter;
 import org.zkoss.bind.BindUtils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -102,7 +100,7 @@ public class CrudController {
 
     public void setCrudViewValue(List<?> value) {
         crudViewValue = TRUE;
-        crudViewValueList = value;
+        crudViewValueList = value != null ? value : new ArrayList();
         doQuery();
     }
 
@@ -313,7 +311,7 @@ public class CrudController {
 
     public long getCount() {
         if (crudViewValue) {
-            return crudViewValueList.size();
+            return crudViewValueList != null ? crudViewValueList.size() : 0;
         } else {
             map.putAll(paramsroot);
             PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);

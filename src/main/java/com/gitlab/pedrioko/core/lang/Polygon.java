@@ -23,8 +23,6 @@ class Polygon extends BaseEntity {
     @JoinTable(name = "polygon_points", joinColumns = @JoinColumn(name = "poligon_id"), inverseJoinColumns = @JoinColumn(name = "point_id"))
     @NoEmpty
     private List<Point> points;
-    @Version
-    private int version;
 
     public String getStringPoints() {
         StringJoiner sj = new StringJoiner(",");

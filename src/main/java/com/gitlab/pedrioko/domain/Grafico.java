@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.domain;
 
 import com.gitlab.pedrioko.core.lang.annotation.NoEmpty;
-import com.gitlab.pedrioko.core.zk.component.model.enums.ChartType;
+import com.gitlab.pedrioko.core.zk.component.chartjs.domain.enums.ChartType;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -22,6 +22,5 @@ class Grafico extends BaseEntity {
     private String columnavalores;
     @Enumerated(EnumType.STRING)
     private ChartType tipo;
-    @Version
-    private int version;
+
 }

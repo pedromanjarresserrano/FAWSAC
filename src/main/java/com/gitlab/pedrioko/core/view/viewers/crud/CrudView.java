@@ -58,6 +58,7 @@ public class CrudView extends Tabpanel {
     private int selectedIndex = 0;
 
     private int pagesize = 16;
+    private HashMap<Object, Object> arg;
 
     public CrudView() {
     }
@@ -83,7 +84,7 @@ public class CrudView extends Tabpanel {
     }
 
     public CrudView(Class<?> klass, int pagesize, Map<String, Object> rootParams) {
-        if(rootParams==null)
+        if (rootParams == null)
             throw new IllegalArgumentException("rootParams can't be null");
         this.rootParams = rootParams;
         this.pagesize = pagesize;
@@ -114,7 +115,7 @@ public class CrudView extends Tabpanel {
         borderlayout = new Borderlayout();
         divbar = new Div();
         actions = new Div();
-        HashMap<Object, Object> arg = new HashMap<>();
+        arg = new HashMap<>();
         arg.put("klass-crud", klass);
         arg.put("CrudView", this);
         arg.put("CrudViewUUID", UUID.randomUUID().toString());
@@ -155,8 +156,7 @@ public class CrudView extends Tabpanel {
         if (crudtable == null) crudtable = Executions.createComponents("~./zul/crud/table/crudtable.zul", null, arg);
 
         center.appendChild(crudtable);
-        Component crudfilters = Executions.createComponents("~./zul/crud/filters/crudfilters.zul", null, arg);
-        east.appendChild(crudfilters);
+
         //east.setSlidable(true);
         //east.setCollapsible(false);
         appendChild(actions);
@@ -181,6 +181,16 @@ public class CrudView extends Tabpanel {
         this.klass = klass;
         crudController = new CrudController(klass, value);
         createUI();
+    }
+
+    public void openFilters() {
+        if (east.getChildren().isEmpty()) {
+            Component crudfilters = Executions.createComponents("~./zul/crud/filters/crudfilters.zul", null, arg);
+            east.appendChild(crudfilters);
+
+        }
+        east.setStyle("width: 350px;");
+        east.setOpen(!east.isOpen());
     }
 
     private void view(Class<?> klass, List<String> fields) {

@@ -7,10 +7,9 @@ import com.gitlab.pedrioko.core.view.enums.CrudMode;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
-import com.gitlab.pedrioko.core.zk.component.Crudbox;
+import com.gitlab.pedrioko.core.zk.component.crud.Crudbox;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
 import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Tabs;
 

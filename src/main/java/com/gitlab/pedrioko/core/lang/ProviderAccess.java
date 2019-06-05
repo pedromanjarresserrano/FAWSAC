@@ -25,8 +25,6 @@ class ProviderAccess extends BaseEntity {
     @NoEmpty
     private List<String> actions;
 
-    @Version
-    private int version;
 
     @Override
     public String toString() {

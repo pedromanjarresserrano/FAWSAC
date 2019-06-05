@@ -205,6 +205,18 @@ public class CrudServiceImpl implements CrudService {
         return cruddao.getLikePredicate(text, fields, pathBuilder, aditional);
     }
 
+    @Override
+    @Transactional
+    public <T> List<T> getEntityByHQLQuery(String hqlQuery) {
+        return cruddao.getEntityByHQLQuery(hqlQuery);
+    }
+
+    @Override
+    @Transactional
+    public <T> List<T> getEntityByHQLQuery(String hqlQuery, int offset, int limit) {
+        return cruddao.getEntityByHQLQuery(hqlQuery, offset, limit);
+    }
+
     @Transactional
     @Override
     public <T> List<T> getBeginString(Class<T> klass, String text, String field, Predicate aditional) {

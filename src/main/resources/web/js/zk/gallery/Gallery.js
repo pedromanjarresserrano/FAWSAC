@@ -40,7 +40,7 @@ zk.gallery.Gallery = zk.$extends(zk.Widget, {
     domContent_: function () {
         var obj = JSON.parse(this.getGalleryItemsJson());
         for (var b = obj.length, c = "", d = 0; d < b; d++)
-            c += '<img class="lazy-img technogalleryLittleBox" data-src="' + obj[d].enlargedSrc + '">';
+            c += '<img class="lazy-image technogalleryLittleBox" data-src="' + obj[d].enlargedSrc + '">';
         return c
     },
 });

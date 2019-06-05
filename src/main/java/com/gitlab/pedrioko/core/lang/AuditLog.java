@@ -35,9 +35,6 @@ class AuditLog extends BaseEntity {
     @Lob
     @Column(length = 50000)
     private String ip;
-    @Version
-    private int version;
-
     public AuditLog() {
     }
 }

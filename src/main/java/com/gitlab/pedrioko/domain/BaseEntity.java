@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,9 +20,12 @@ public class BaseEntity implements Serializable {
     //   private User createBy;
 
     @CreatedDate
-    private Date createdAt;
+    protected Date createdAt;
 
     @LastModifiedDate
-    private Date lastModified;
+    protected Date lastModified;
+
+    @Version
+    protected int version;
 
 }

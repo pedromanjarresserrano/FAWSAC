@@ -4,9 +4,9 @@ import com.gitlab.pedrioko.core.lang.annotation.Duration;
 import com.gitlab.pedrioko.core.lang.annotation.FieldFilter;
 import com.gitlab.pedrioko.core.lang.annotation.FileSize;
 import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
-import com.gitlab.pedrioko.core.zk.component.DoubleRangeBox;
-import com.gitlab.pedrioko.core.zk.component.DurationRangeBox;
-import com.gitlab.pedrioko.core.zk.component.FileSizeRangeBox;
+import com.gitlab.pedrioko.core.zk.component.rangebox.DoubleRangeBox;
+import com.gitlab.pedrioko.core.zk.component.rangebox.DurationRangeBox;
+import com.gitlab.pedrioko.core.zk.component.rangebox.FileSizeRangeBox;
 import org.zkoss.zk.ui.Component;
 
 import java.lang.reflect.Field;

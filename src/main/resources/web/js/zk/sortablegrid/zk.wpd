@@ -1,0 +1,4 @@
+<package name="zk.simplecarousel" language="xul/html">
+   	<script src="js/lazyload.min.js" />
+    <widget name="SimpleCarousel"/>
+</package>

@@ -21,7 +21,6 @@ class FileEntity extends BaseEntity {
     private String filename;
 
     private Date creationDate = new Date();
-    @Version
-    private int version;
+
 
 }

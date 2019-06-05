@@ -1,16 +1,12 @@
 package com.gitlab.pedrioko.zk.vm.user;
 
-import com.gitlab.pedrioko.core.lang.FileEntity;
-import com.gitlab.pedrioko.core.view.api.ChosenItem;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
-import com.gitlab.pedrioko.core.zk.component.ChosenBoxImage;
 import com.gitlab.pedrioko.core.zk.component.chartjs.Chart;
 import com.gitlab.pedrioko.core.zk.component.chartjs.domain.DataChart;
 import com.gitlab.pedrioko.core.zk.component.chartjs.domain.DataChartSet;
 import com.gitlab.pedrioko.core.zk.component.chartjs.domain.enums.ChartType;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
-import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.zk.composer.interfaces.DashBoardComponent;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Events;

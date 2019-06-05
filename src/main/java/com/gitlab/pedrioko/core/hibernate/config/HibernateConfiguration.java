@@ -2,7 +2,7 @@ package com.gitlab.pedrioko.core.hibernate.config;
 
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//onfiguration
 public class HibernateConfiguration  {
 
 
