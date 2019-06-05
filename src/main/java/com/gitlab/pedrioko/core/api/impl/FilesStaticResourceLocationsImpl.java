@@ -1,9 +1,6 @@
 package com.gitlab.pedrioko.core.api.impl;
 
 import com.gitlab.pedrioko.core.api.StaticResouceLocation;
-import com.gitlab.pedrioko.services.StorageService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 //@Component
 public class FilesStaticResourceLocationsImpl implements StaticResouceLocation {

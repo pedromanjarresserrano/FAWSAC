@@ -13,11 +13,8 @@ import org.springframework.context.annotation.Scope;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
-import org.zkoss.zul.event.ZulEvents;
 import org.zkoss.zul.impl.LabelImageElement;
 
 import javax.annotation.PostConstruct;

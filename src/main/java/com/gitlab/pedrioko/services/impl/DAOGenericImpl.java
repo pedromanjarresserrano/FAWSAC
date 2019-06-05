@@ -3,7 +3,6 @@ package com.gitlab.pedrioko.services.impl;
 import com.gitlab.pedrioko.core.hibernate.MySQLJPATemplates;
 import com.gitlab.pedrioko.core.lang.annotation.CrudOrderBy;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
-import com.gitlab.pedrioko.core.view.reflection.enums.ClassMethod;
 import com.gitlab.pedrioko.services.DAOGeneric;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
@@ -12,9 +11,9 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.hibernate.Hibernate;
-import org.hibernate.query.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -29,12 +28,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
 import java.util.List;
-
-import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.getNameMethod;
 
 /**
  * The Class GenericJPAImpl.

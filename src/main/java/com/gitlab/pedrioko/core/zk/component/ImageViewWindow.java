@@ -14,7 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.*;
+import org.zkoss.zul.Button;
+import org.zkoss.zul.Div;
+import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Image;
 
 import java.io.ByteArrayOutputStream;
 import java.util.EnumMap;

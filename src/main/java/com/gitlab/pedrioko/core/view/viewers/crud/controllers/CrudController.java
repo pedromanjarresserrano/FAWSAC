@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.core.view.viewers.crud.controllers;
 
-import com.gitlab.pedrioko.core.lang.api.RangeValue;
 import com.gitlab.pedrioko.core.lang.annotation.CrudOrderBy;
+import com.gitlab.pedrioko.core.lang.api.RangeValue;
 import com.gitlab.pedrioko.core.view.api.OnEvent;
 import com.gitlab.pedrioko.core.view.api.OnQuery;
 import com.gitlab.pedrioko.core.view.enums.CrudEvents;
@@ -26,7 +26,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.*;
+import static com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil.getCollectionsFields;
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;

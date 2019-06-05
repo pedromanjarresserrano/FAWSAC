@@ -1,12 +1,9 @@
 package com.gitlab.pedrioko.core.zk.component.imagelazy;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.sys.ContentRenderer;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ImageLazy extends HtmlBasedComponent {
 

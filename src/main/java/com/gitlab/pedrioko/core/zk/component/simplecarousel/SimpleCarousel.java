@@ -1,21 +1,12 @@
 package com.gitlab.pedrioko.core.zk.component.simplecarousel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gitlab.pedrioko.core.view.api.ChosenItem;
-import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
-import com.gitlab.pedrioko.services.StorageService;
-import lombok.Data;
-import org.zkoss.json.JSONArray;
-import org.zkoss.json.JSONObject;
 import org.zkoss.zk.ui.HtmlBasedComponent;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.sys.ContentRenderer;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SimpleCarousel extends HtmlBasedComponent {
 

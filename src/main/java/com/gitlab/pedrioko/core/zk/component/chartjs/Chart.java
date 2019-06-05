@@ -1,11 +1,9 @@
 package com.gitlab.pedrioko.core.zk.component.chartjs;
 
 import com.gitlab.pedrioko.core.zk.component.chartjs.domain.DataChart;
-import com.gitlab.pedrioko.core.zk.component.chartjs.domain.DataChartSet;
 import com.gitlab.pedrioko.core.zk.component.chartjs.domain.enums.ChartType;
 import com.google.gson.Gson;
 import lombok.Data;
-import org.zkoss.json.JSONObject;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.sys.ContentRenderer;
 

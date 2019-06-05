@@ -3,8 +3,6 @@ package com.gitlab.pedrioko.core.zk.component.slider;
 import com.gitlab.pedrioko.core.view.api.Event;
 import lombok.Data;
 import org.zkoss.zk.ui.HtmlBasedComponent;
-
-
 import org.zkoss.zk.ui.sys.ContentRenderer;
 
 import java.io.IOException;

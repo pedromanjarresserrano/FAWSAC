@@ -5,15 +5,11 @@ import com.gitlab.pedrioko.core.lang.FileEntity;
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.StorageService;
 import com.gitlab.pedrioko.services.VideoService;
-import com.querydsl.core.types.dsl.PathBuilder;
-
 import org.bytedeco.ffmpeg.global.avutil;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
 import org.bytedeco.javacv.OpenCVFrameConverter;
-import org.jcodec.api.awt.AWTFrameGrab;
 import org.jcodec.common.DemuxerTrack;
 import org.jcodec.common.DemuxerTrackMeta;
-import org.jcodec.common.io.FileChannelWrapper;
 import org.jcodec.common.io.NIOUtils;
 import org.jcodec.common.io.SeekableByteChannel;
 import org.jcodec.containers.mp4.demuxer.MP4Demuxer;
@@ -22,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

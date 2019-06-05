@@ -17,7 +17,6 @@ import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 import java.lang.reflect.Field;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,7 +1,5 @@
 package com.gitlab.pedrioko.core.zk.component.div;
 
-import com.gitlab.pedrioko.core.lang.Point;
-import lombok.Getter;
 import org.zkoss.zk.ui.sys.ContentRenderer;
 import org.zkoss.zul.Div;
 

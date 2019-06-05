@@ -2,8 +2,10 @@ package com.gitlab.pedrioko.core.zk.viewmodel.crud.filters;
 
 import com.gitlab.pedrioko.core.view.enums.CrudEvents;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.CrudController;
-import org.zkoss.bind.BindUtils;
-import org.zkoss.bind.annotation.*;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 
 public class Pagination {

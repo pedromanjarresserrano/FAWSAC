@@ -1,12 +1,9 @@
 package com.gitlab.pedrioko.core.zk.viewmodel;
 
-import com.gitlab.pedrioko.core.lang.ProviderAccess;
-import com.gitlab.pedrioko.core.lang.UserProfile;
 import com.gitlab.pedrioko.core.view.api.ContentView;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.navegation.MenuPages;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
-import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
@@ -14,11 +11,13 @@ import com.gitlab.pedrioko.services.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.zkoss.bind.annotation.*;
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventQueues;
-import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zk.ui.util.Clients;
@@ -26,10 +25,9 @@ import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Messagebox;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)

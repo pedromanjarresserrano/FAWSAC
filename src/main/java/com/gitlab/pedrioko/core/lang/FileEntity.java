@@ -4,7 +4,10 @@ import com.gitlab.pedrioko.core.lang.annotation.UIEntity;
 import com.gitlab.pedrioko.domain.BaseEntity;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
 @Entity

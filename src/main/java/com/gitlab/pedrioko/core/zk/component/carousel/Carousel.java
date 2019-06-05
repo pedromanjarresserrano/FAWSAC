@@ -1,6 +1,6 @@
-package com.gitlab.pedrioko.core.zk.component;
+package com.gitlab.pedrioko.core.zk.component.carousel;
 
-import com.gitlab.pedrioko.core.zk.component.model.CarouselItem;
+import com.gitlab.pedrioko.core.zk.component.gallery.model.CarouselItem;
 import com.google.gson.Gson;
 import lombok.Data;
 import org.zkoss.zk.ui.HtmlBasedComponent;

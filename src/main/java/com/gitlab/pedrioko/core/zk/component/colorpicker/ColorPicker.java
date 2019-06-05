@@ -1,7 +1,6 @@
 package com.gitlab.pedrioko.core.zk.component.colorpicker;
 
 import lombok.Data;
-import org.zkoss.json.JSONObject;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
