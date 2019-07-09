@@ -19,21 +19,21 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
         <packname>-${project.version}-${maven.build.timestamp}</packname>
-        <zxing.version>3.3.0</zxing.version>
+        <zxing.version>3.4.0</zxing.version>
         <lesscss-engine.version>1.3.3</lesscss-engine.version>
         <yuicompressor-maven-plugin-zk.version>1.2.0</yuicompressor-maven-plugin-zk.version>
         <javax.validation.version>2.0.1.Final</javax.validation.version>
         <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
         <javax.persistence-api.version>2.2</javax.persistence-api.version>
-        <zxing.core.version>3.3.0</zxing.core.version>
-        <zkforge.gmapsz.version>3.0.4</zkforge.gmapsz.version>
+        <zxing.core.version>3.4.0</zxing.core.version>
+        <zkforge.gmapsz.version>3.0.5</zkforge.gmapsz.version>
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
-        <joda-time.version>2.9.9</joda-time.version>
+        <joda-time.version>2.10.3</joda-time.version>
         <junit-tools.version>0.1.0</junit-tools.version>
         <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
         <ckez.version>4.4.6.3</ckez.version>
-        <commons-configuration2.version>2.1.1</commons-configuration2.version>
-        <lombok.version>1.16.18</lombok.version>
+        <commons-configuration2.version>2.5</commons-configuration2.version>
+        <lombok.version>1.18.8</lombok.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
         <poi-ooxml.version>${poi.version}</poi-ooxml.version>
         <poi.version>3.17</poi.version>
@@ -49,6 +49,9 @@
         <querydsl.version>4.2.1</querydsl.version>
         <pdfbox.version>2.0.15</pdfbox.version>
         <ats.version>1.0.0.BETA</ats.version>
+        <json-simple.version>1.1.1</json-simple.version>
+        <jasperreports.version>6.7.0</jasperreports.version>
+        <jackson-core.version>2.9.7</jackson-core.version>
     </properties>
     <repositories>
         <repository>
@@ -83,12 +86,12 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.7.0</version>
+            <version>${jasperreports.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.9.7</version>
+            <version>${jackson-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
@@ -197,7 +200,7 @@
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
-            <version>1.1.1</version>
+            <version>${json-simple.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -273,11 +276,7 @@
             <artifactId>yuicompressor-maven-plugin-zk</artifactId>
             <version>${yuicompressor-maven-plugin-zk.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.asual.lesscss</groupId>
-            <artifactId>lesscss-engine</artifactId>
-            <version>${lesscss-engine.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>

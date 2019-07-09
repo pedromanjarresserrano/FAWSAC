@@ -40,7 +40,7 @@ public class RootBeans {
 
 
             return applicationInfo;
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOGGER.error("ERROR LOADING APP INFO");
             return null;
         }

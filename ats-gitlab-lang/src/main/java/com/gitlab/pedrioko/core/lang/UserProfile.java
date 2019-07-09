@@ -4,10 +4,12 @@ import com.gitlab.pedrioko.core.lang.annotation.NoDuplicate;
 import com.gitlab.pedrioko.core.lang.annotation.NoEmpty;
 import com.gitlab.pedrioko.core.lang.annotation.TextArea;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @NoDuplicate("nombre")
 public @Data
