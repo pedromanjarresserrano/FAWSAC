@@ -1,0 +1,93 @@
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+
+<?page contentType="text/html;charset=UTF-8" title="Dashboard ${appInfo.name}"?>
+<?meta name="viewport" content="width=device-width, initial-scale=1.0" ?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<div zclass="wrapper" xmlns:n="native" xmlns:ca="client/attribute" apply="org.zkoss.bind.BindComposer"
+     viewModel="@id('nb') @init('com.gitlab.pedrioko.core.zk.viewmodel.Navbar')">
+    <n:nav class="main-header navbar navbar-expand navbar-white navbar-light border-bottom">
+        <!-- Left navbar links -->
+        <n:ul class="navbar-nav">
+            <n:li class="nav-item">
+                <n:a class="nav-link" data-widget="pushmenu" href="#">
+                    <n:i class="fas fa-bars"></n:i>
+                </n:a>
+            </n:li>
+            <n:li class="nav-item d-none d-sm-inline-block">
+                <n:a href="index3.html" class="nav-link">Home</n:a>
+            </n:li>
+            <n:li class="nav-item d-none d-sm-inline-block">
+                <n:a href="#" class="nav-link">Contact</n:a>
+            </n:li>
+        </n:ul>
+        <n:ul class="navbar-nav ml-auto">
+            <n:li class="nav-item dropdown show">
+                <div ca:data-toggle="dropdown" ca:aria-expanded="true" zclass="user-panel d-flex pb-1">
+                    <a href="javascript:void(0)" zclass="d-flex">
+                        <div zclass="image">
+                            <image content="@bind(nb.image)" zclass="img-circle elevation-1" ca:alt="User Image"
+                                   width="33px"
+                                   height="33px"/>
+                        </div>
+                        <div zclass="info">
+                            <n:span class="d-block text-muted">${nb.fullName}</n:span>
+                        </div>
+                    </a>
+                </div>
+                <n:div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <div zclass="">
+                        <div zclass="bg-primary d-flex flex-column align-items-center pt-4 pb-3">
+                            <image content="@bind(nb.image)" zclass="img-circle elevation-2" ca:alt="User Image"
+                                   width="50px"
+                                   height="50px"/>
+                            <n:p sclass="d-block">${nb.fullName}</n:p>
+
+                        </div>
+                        <div zclass="">
+                        </div>
+                        <!-- /.card-body -->
+                        <div zclass="bg-secondary d-flex flex-row justify-content-between p-1 ">
+                            <button zclass="btn btn-default btn-sm  m-0"
+                                    label="@load(my:l('perfil','Perfil'))"
+                                    iconSclass="z-icon-user"
+                                    onClick="@command('profile')"
+                            />
+                            <button zclass="btn btn-default btn-sm  m-0"
+                                    label="Logout"
+                                    iconSclass="fas fa-sign-out-alt"
+                                    onClick="@command('logout')"
+                            />
+                        </div>
+                        <!-- /.card-footer-->
+                    </div>
+                </n:div>
+            </n:li>
+        </n:ul>
+    </n:nav>
+    <n:aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <a id="header" zclass="brand-link">
+            <image src="~./zul/images/AdminLTELogo.png" ca:alt="AdminLTE Logo"
+                   sclass="brand-image img-circle elevation-3"
+                   style="opacity: .8"/>
+            <span class="brand-text font-weight-light">AdminLTE 3</span>
+        </a>
+        <include src="~./zul/nav/menu.zul" zclass="sidebar"/>
+    </n:aside>
+    <div id="contenido" sclass="content-wrapper pt-0">
+        <contenttab class="content d-flex flex-column p-0 m-0">
+        </contenttab>
+    </div>
+    <n:aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </n:aside>
+    <n:footer class="main-footer">
+        <n:strong>Copyright © 2014-2018 <a href="http://adminlte.io">AdminLTE.io</a>.
+        </n:strong>
+        All rights reserved.
+        <div zclass="float-right d-none d-sm-inline-block">
+            <n:b>Version</n:b>
+            3.0.0-beta.1
+        </div>
+    </n:footer>
+</div>

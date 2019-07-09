@@ -1,0 +1,515 @@
+.container-95 {
+  width: 100% !important;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container-95 {
+    max-width: 95% !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-95 {
+    max-width: 95% !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .container-95 {
+    max-width: 95% !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-95 {
+    max-width: 95% !important;
+  }
+}
+
+.img-viewer {
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    min-height: 240px;
+    background-color: lavender;
+}
+
+.container-v,
+.img-container {
+  background: white;
+  border: 1px solid lightgray;
+}
+
+.container-v-selected,
+.img-container-selected {
+  background-color: black !important;
+  color: white !important;
+}
+
+.bg-info-text-white {
+    background-color: #17a2b8 !important;
+    color: white;
+}
+
+.round-menu button:first-child {
+     border-top-left-radius: .2rem !important;
+     border-top-right-radius: .2rem !important;
+     border-bottom-right-radius: 0rem !important;
+     border-bottom-left-radius: 0rem !important;
+}
+
+.round-menu button:nth-child(n+2) {
+    border-radius: 0rem !important;
+}
+
+.round-menu button:last-child {
+     border-bottom-right-radius: .2rem !important;
+     border-bottom-left-radius: .2rem !important;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    opacity: 0.0;
+}
+
+.form-view{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.window-overlapped , .window-overlapped .z-window-content {
+    overflow: unset !important;
+}
+
+.ats-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  left: -104px;
+
+}
+
+.ats-dropdown:hover .ats-dropdown-content {
+  display: block;
+}
+
+.ats-dropdown {
+  position: relative;
+  display: inline-block;
+}
+/*ZK style Fixes*/
+body{
+  padding: 0px !important;
+  margin: 0px !important;
+  font-size: .91rem !important;
+}
+
+.wrapper{
+  padding: 0px !important;
+}
+.nav-link {
+   display: block !important;
+   padding: .5rem 1rem !important;
+
+ }
+
+.nav ul {
+  padding-top: initial;
+  padding-right: initial;
+  padding-bottom: initial;
+  padding-left: initial;
+  background-color: initial;
+  background-image: initial;
+  background-position-x: initial;
+  background-position-y: initial;
+  background-repeat: initial;
+  background-attachment: initial;
+  background-clip: initial;
+  background-origin: initial;
+  background-size: initial;
+  display: initial;
+  list-style-position: initial;
+  list-style-type: initial;
+  list-style-image: initial;
+      position: unset;
+      top: unset;
+      left: unset;
+      z-index: unset;
+      width: unset;
+      height: unset;
+      height: unset;
+      background-color: unset;
+      -webkit-box-shadow: unset;
+      box-shadow: unset;
+      transition: unset;
+      overflow-y: unset;
+
+}
+.z-tabs-content{
+    all: unset !important;
+    margin-left: auto !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    display: flex !important;
+    padding-left: 0 !important;
+    margin-bottom: 0 !important;
+    list-style: none !important;
+    background: #f4f6f9 !important;
+    padding-bottom: 0px !important;
+}
+
+.z-tab{
+    all: unset !important;
+    display: block !important;
+    padding: .5rem 1rem !important;
+}
+
+.z-tabs-content .z-tab{
+    all: unset !important;
+    border-color: #dee2e6 #dee2e6 #fff !important;
+    border-top-right-radius: .25rem !important;
+    border-top-left-radius: .25rem !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-top-left-radius: .25rem !important;
+    border-top-right-radius: .25rem !important;
+}
+
+.z-tabs-content .z-tab-content{
+    all: unset !important;
+    margin-bottom: -1px !important;
+    display: inline-flex !important;
+    flex-flow: row-reverse !important;
+    justify-content: space-between !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    padding-top: 3px !important;
+}
+
+.z-tab-content>.z-tab-button{
+    all: unset !important;
+    margin-left: 5px !important;
+}
+
+.z-tabs-content .z-tab-selected .z-tab-content{
+    color: #495057 !important;
+    background-color: #fff !important;
+    border-color: #dee2e6 #dee2e6 #fff !important;
+    border-top-right-radius: .25rem !important;
+    border-top-left-radius: .25rem !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+    box-sizing: border-box !important;
+}
+
+.z-icon-times:before{
+    content:"\f00d"
+}
+
+[class$="-icon"]{
+    all: unset !important;
+    font-family:"Font Awesome 5 Free" !important;
+    font-weight:900 !important;
+    -moz-osx-font-smoothing:grayscale !important;
+    -webkit-font-smoothing:antialiased !important;
+    display:inline-block !important;
+    font-style:normal !important;
+    font-variant:normal !important;
+    text-rendering:auto !important;
+    line-height:1 !important;
+}
+.z-tabs{
+    min-height: unset;
+    background: #f4f6f9 !important;
+}
+.z-north-body, .z-south-body, .z-west-body, .z-center-body, .z-east-body{
+    padding: 0px !important;
+}
+.z-center-body {
+    overflow-x: auto !important;
+}
+.z-tabpanel{
+    height: 98vh !important;
+    overflow-y: auto;
+}
+.z-tab-text, .z-tab-selected .z-tab-button{
+    color: #000 !important;
+    font-size: 13px;
+}
+.z-tab-selected .z-tab-text {
+    color: #000 !important;
+    font-weight: bold;
+    font-size: 13px;
+}
+[class*=" z-"],[class^="z-"]{
+    font-size: .8rem;
+}
+.z-listcell-content{
+    padding: 5px 5px;
+}
+.z-listheader-content{
+    padding: 7px 10px;
+}
+
+.menu-open>a{
+    color: #fff !important;
+    background-color: #007bff !important;
+}
+.z-center{
+    overflow-y: auto;
+}
+.hidden-scroll.z-tabbox.z-tabbox-top .z-tabpanels,
+.hidden-scroll.z-tabbox.z-tabbox-top{
+    height: unset !important;
+}
+.z-datebox{
+    flex-wrap: unset  !important;
+}
+..z-combobox-input, .z-bandbox-input, .z-datebox-input, .z-timebox-input, .z-spinner-input, .z-doublespinner-input{
+    width: 100% !important;
+}
+.z-east-collapsed{
+    display: none !important;
+    width: 0px !important;
+}
+.color-system.z-tabpanel{
+    padding: 5px 5px 0px 5px !important;
+}
+
+.z-panel.z-panel-noframe{
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-width: 0 !important;
+    word-wrap: break-word !important;
+    background-color: #fff !important;
+    background-clip: border-box !important;
+    border: 0 solid rgba(0,0,0,.125) !important;
+    border-radius: .25rem !important;
+    margin-bottom: 1rem !important;
+    box-shadow: 0 0 1px rgba(0,0,0,.125),0 1px 3px rgba(0,0,0,.2) !important;
+    border-top: 3px solid #007bff !important;
+    box-sizing: border-box !important;
+}
+.z-panel-head .z-panel-header{
+    all: unset  !important;
+    padding: .75rem 1.25rem !important;
+    margin-bottom: 0 !important;
+    position: relative !important;
+    background-color: transparent !important;
+    border-bottom: 1px solid rgba(0,0,0,.125) !important;
+    border-top-left-radius: .25rem !important;
+    border-top-right-radius: .25rem !important;
+    box-sizing: border-box !important;
+}
+.z-panel-body{
+    all: unset !important;
+    flex: 1 1 auto !important;
+    padding: 1.25rem !important;
+
+}
+.z-window{
+    background: #f4f6f9 !important;
+    padding: 8px !important;
+}
+.z-panel-head {
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding-bottom: 5px;
+    padding-top: 10px;
+}
+
+.z-panelchildren{
+    padding: 0px !important;
+}
+.z-messagebox-buttons.z-hlayout{
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 1rem !important;
+    padding-bottom: .1rem !important;
+    border-top: 1px solid #e9ecef !important;
+    border-bottom-right-radius: .3rem !important;
+    border-bottom-left-radius: .3rem !important;
+    flex-direction: row-reverse !important;
+    padding-bottom: .1rem !important;
+}
+.z-messagebox .z-label{
+    font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol" !important;
+    font-size: .8rem;
+}
+.z-messagebox-window .z-separator {
+    height: 15px !important;
+}
+.z-messagebox-buttons>.z-hlayout-inner:nth-child(2)>.z-messagebox-button{
+    color: #2b2b2b;
+    background-color: #e7e7e7;
+}
+
+.ats-modal-addform>.z-window-content{
+    /*padding-right: 50px !important;*/
+}
+
+.ats-modal-addform>.z-window-content>.ats-form-actions{
+    all: unset !important;
+    display: flex !important;
+    flex-direction: row-reverse !important;
+    justify-content: space-between !important;
+    padding: 1rem !important;
+    border-top: 1px solid #e9ecef !important;
+    margin-top: 30px !important;
+    padding-bottom: .2rem !important;
+
+}
+.ats-addform>.container>.row>.col-sm-8>.z-combobox{
+    margin-right: 50px;
+}
+
+.ats-modal-addform{
+    padding: 8px;
+}
+
+.z-paging .z-paging-icon {
+    font-size: .8rem !important;
+}
+
+.z-paging-input{
+    height: 26px;
+}
+
+.z-paging{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: unset;
+    height: 33px;
+}
+.z-paging ul > li{
+    display: inline-flex;
+}
+.z-paging ul > li:nth-child(3)>.z-paging-text{
+    margin-top: 5px;
+    margin-left: 4px;
+}
+.z-listbox{
+    overflow-x: auto !important;
+}
+.z-tabbox-icon{
+    padding: 5px 8px !important;
+    border-color: #dee2e6 #dee2e6 #fff !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+}
+
+.color-system.z-tabpanel,
+.content>.z-tabbox.z-tabbox-top>.z-tabpanels>.z-tabpanel{
+    height: 85vh !important;
+}
+.z-tabbox-left-scroll, .z-tabbox-right-scroll{
+    min-height: unset !important;
+}
+.z-popup-content{
+    padding: 0px !important;
+}
+.z-popup{
+    width: unset !important;
+}
+
+input[type="checkbox"]:checked {
+    background-color: unset !important;
+    color: unset !important;
+    padding-left: 2px !important;
+    font-size: 14px !important;
+}
+.form-check-label.z-checkbox.z-checkbox-default{
+    display: flex;
+}
+
+.ats-addform-cancel{
+    background-color: #e74c3c !important;
+    color: #fff !important;
+}
+.menu-open{
+    border-bottom: 1px #efefef solid;
+}
+
+.clock-box>.clock-field:nth-child(4)>.ampm-value{
+    font-size: 45px !important;
+    padding-bottom: 5px;
+}
+.z-loading{
+    left: 50% !important;
+    top: 50% !important;
+    background-color: rgba(0,0,0,0.0);
+}
+.z-loading-indicator{
+    border: 2px #efefef solid;
+    border-radius: 2rem !important;
+    padding: 8px 3px !important;
+    box-shadow: 2px 2px 4px #a1a1a1;
+}
+
+.input-group.text-dark.z-combobox,
+.input-group.text-dark.z-datebox{
+    flex-wrap: unset !important;
+}
+
+.input-group.text-dark.z-combobox>.z-combobox-input,
+.input-group.text-dark.z-datebox>.z-datebox-input{
+    width: 100% !important;
+}
+.z-datebox-popup.z-datebox-open.z-datebox-shadow{
+    width: 25% !important;
+    position: absolute !important;
+}
+.z-combobox{
+    display: flex;
+}
+.z-combobox-input{
+    width: 100%;
+}
+.ats-rangebox{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.ats-rangebox-input-group,
+.ats-rangebox-input{
+    display: flex;
+    width: 100%;
+}
+.ats-rangebox-input-group>.z-combobox>.z-combobox-input{
+    width: 50px;
+    margin-left: 5px;
+}
+.chosen-choices{
+    display: block !important;
+    width: 100% !important;
+    height: calc(2.25rem + 2px) !important;
+    padding: .375rem .75rem !important;
+    font-size: 1rem !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+    color: #495057 !important;
+    background-color: #fff !important;
+    background-clip: padding-box !important;
+    border: 1px solid #ced4da !important;
+    border-top-color: rgb(206, 212, 218) !important;
+    border-right-color: rgb(206, 212, 218) !important;
+    border-bottom-color: rgb(206, 212, 218) !important;
+    border-left-color: rgb(206, 212, 218) !important;
+    border-radius: .25rem !important;
+    box-shadow: inset 0 0 0 transparent !important;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out  !important;
+}
+.form-control.col-md-12.col-sm-12.col-lg-12.col-xs-12.p-0.m-0.z-textbox{
+    padding: unset !important;
+    padding: .375rem .75rem !important;
+}

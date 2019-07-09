@@ -1,0 +1,22 @@
+<!-- ZK will load this file
+    (classpath/metainfo/zk/lang-addon.xml) automatically -->
+
+<language-addon>
+    <!-- addon name,
+        required, it's better to be unique -->
+    <addon-name>theme-btd-admin</addon-name>
+    <!-- specifies the name of a language definition
+        should be unique in a language definition,
+        xul/html is predefinied language in ZK
+        so can be used in lang-addon directly -->
+    <language-name>xul/html</language-name>
+    <stylesheet href="~./css/index.css" type="text/css"/>
+    <stylesheet href="~./css/fontawesome/fontawesome.5.8.2.min.css" type="text/css"/>
+    <stylesheet href="~./css/bootstrap/bootstrap.4.3.1.min.css" type="text/css"/>
+    <stylesheet href="~./css/bootstrap-extend.css" type="text/css"/>
+
+    <javascript src="~./js/fontawesome/fontawesome.5.8.2.min.js"/>
+    <javascript src="~./js/popper/popper.1.14.7.min.js"/>
+    <javascript src="~./js/bootstrap/bootstrap.4.3.1.min.js"/>
+
+</language-addon>

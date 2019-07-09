@@ -1,0 +1,20 @@
+<?link href="https://www.w3schools.com/w3css/4/w3.css" rel="stylesheet" type="text/css"?>
+
+<zk xmlns:n="native">
+
+    <window
+            apply="com.gitlab.pedrioko.core.zk.widgets.Anuncios"
+            height="300px">
+        <div id="imagesdiv"
+             class="parent carousel carousel-slider center" width="100%">
+            <n:button id="back"
+                      class="w3-button w3-black w3-display-left" onClick="">
+                &#10094;
+            </n:button>
+            <n:button id="next"
+                      class="w3-button w3-black w3-display-right" onClick="">
+                &#10095;
+            </n:button>
+        </div>
+    </window>
+</zk>

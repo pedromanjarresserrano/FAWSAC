@@ -1,0 +1,20 @@
+<vlayout style="overflow-y:auto !important;" spacing="0">
+
+    <vlayout sclass="page-content" spacing="0"
+             width="100%">
+        <div sclass="page-header">
+            <label value="Dashboard"/>
+            <a label="overview &amp; stats"
+               iconSclass="z-icon-angle-double-right" sclass="subtitle"/>
+        </div>
+    </vlayout>
+    <window
+            apply="com.gitlab.pedrioko.zk.vm.user.Dashboard">
+        <div sclass="container">
+            <div sclass="row" id="content">
+
+            </div>
+        </div>
+
+    </window>
+</vlayout>

@@ -1,0 +1,22 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<?taglib uri="http://labels.ats.pedrioko/taglib" prefix="my"?>
+
+<listbox viewModel="@id('ct') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.table.CrudTable')"
+         selectedItem="@bind(ct.selectValue)"
+         model="@load(ct.items)" hflex="min">
+    <listhead children="@load(ct.headers)">
+        <template name="children" var="node">
+            <listheader label="@load(my:l(node,node))" />
+        </template>
+    </listhead>
+    <template name="model">
+        <listitem value="$each" children="@load(ct.headers)">
+            <template name="children" var="item">
+                <listcell>
+                    <label sclass="w-100" value="@load(ct.valueField(each,item))"/>
+                </listcell>
+            </template>
+        </listitem>
+    </template>
+
+</listbox>

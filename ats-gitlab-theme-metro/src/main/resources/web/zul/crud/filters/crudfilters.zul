@@ -1,0 +1,45 @@
+<borderlayout viewModel="@id('cf') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.filters.CrudFilters')">
+    <center sclass="overflow-auto-y">
+        <vlayout>
+            <div sclass="container-fuild text-black m-3">
+                <div sclass="row  p-0 m-0" children="@load(cf.filters.entrySet())">
+                    <template name="children" var="node">
+                        <div sclass="col-md-12 col-sm-12 col-lg-12 col-xs-12 p-0 m-0">
+                            <renglon label="@bind(node.key)" input="@bind(node.value)"
+                                     _sclass="col-md-12 col-sm-12 col-lg-12 col-xs-12 p-0 m-0"
+                                     _inputinnerSclass="col-md-12 col-sm-12 col-lg-12 col-xs-12 p-0 m-0"
+                                     _inputSclass="col-md-12 col-sm-12 col-lg-12 col-xs-12 "
+                            />
+                        </div>
+                    </template>
+                </div>
+                <div sclass="row" style="padding-right: 0.9rem !important;padding-left: 0.9rem !important;">
+                    <div sclass="col-md-12 col-sm-12 col-lg-12 col-xs-12 p-0 m-0">
+                        <label value="Ordenar por" zclass="col-sm-3 col-form-label"/>
+                        <combobox children="@load(cf.listfield)" placeholder="Campo" selectedItem="@bind(cf.fieldname)">
+                            <template name="children" var="field">
+                                <comboitem value="@bind(field.name)" label="@bind(field.name)"/>
+                            </template>
+                        </combobox>
+                        <combobox children="@load(cf.orderByList)" placeholder="Orientacion" selectedItem="@bind(cf.orderBY)">
+                            <template name="children" var="order">
+                                <comboitem value="@bind(order)" label="@bind(order.name())"/>
+                            </template>
+                        </combobox>
+                    </div>
+                </div>
+            </div>
+
+        </vlayout>
+    </center>
+    <south>
+        <div sclass="container">
+            <div sclass="d-flex justify-content-between">
+                <button label="Buscar" sclass="btn btn-primary" iconSclass="fas fa-search"
+                        onClick="@command('search')"/>
+                <button label="Clear" sclass="float-right btn btn-warning" iconSclass="fas fa-minus-circle"
+                        onClick="@command('clearFilters')"/>
+            </div>
+        </div>
+    </south>
+</borderlayout>

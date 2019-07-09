@@ -1,0 +1,80 @@
+<?page contentType="text/html;charset=UTF-8"?>
+<?meta name="viewport" content="width=device-width, initial-scale=1.0" ?>
+
+<zk xmlns:n="native">
+    <div apply="org.zkoss.bind.BindComposer"
+         viewModel="@id('vm') @init('com.gitlab.pedrioko.zk.vm.login.LoginVM')" zclass="container-fluid">
+        <div zclass="row">
+            <div zclass="col-12 col-sm-12  col-md-6 w-50 elevation-5 d-flex flex-column justify-content-between min-vh-100">
+                <div>
+                    <image src="~./zul/images/AdminLTELogo.png"/>
+                </div>
+                <div zclass="pb-5">
+                    <n:h1 class="mb-5 p-4">ERP Login</n:h1>
+                    <n:form action="/login" method='POST'
+                            class="form-inline login-card-body justify-content-between p-3">
+                        <div zclass="form-inline flex-md-nowrap w-100">
+                            <div zclass="input-group flex-fill mr-0 mr-sm-2 mb-2 mb-sm-0 ">
+                                <textbox type="text" sclass="form-control form-control-sm"
+                                         name="username"
+                                         placeholder="Enter email address"/>
+                                <div zclass="input-group-append">
+                                    <n:span class="input-group-text">
+                                        <n:i class="fas fa-envelope"></n:i>
+                                    </n:span>
+                                </div>
+                            </div>
+                            <div zclass="input-group flex-fill mr-0 mr-sm-2 mb-2 mb-sm-0 ">
+                                <textbox type="password"
+                                         name="password"
+                                         sclass="form-control form-control-sm"
+                                         placeholder="Password"/>
+                                <div zclass="input-group-append">
+                                    <n:span class="input-group-text">
+                                        <n:i class="fas fa-lock"></n:i>
+                                    </n:span>
+                                </div>
+                            </div>
+
+                            <button type="submit" zclass="btn btn-flat btn-secondary btn-sm " label="@bind(vm.boton)"/>
+                        </div>
+                        <div zclass="form-check d-flex justify-content-start pt-2 w-100">
+                            <checkbox sclass="form-check-label" name="remember-me" label="Remember me"/>
+                        </div>
+                        <div sclass="alert alert-danger  w-100 mt-3"
+                             visible="@bind(vm.visiblemessage)">
+                            <n:h6>
+                                <n:i class="icon fas fa-ban"></n:i>
+                                Error de autenticación
+                            </n:h6>
+                            <n:p>
+                                ${vm.labelerror}
+                            </n:p>
+                        </div>
+                    </n:form>
+                </div>
+                <div zclass="container login-footer">
+                    <div zclass="row">
+                        <div zclass="col-5 socials ">
+                            <a href="javascript:void(0)" zclass="p-1">
+                                <n:i class="fab fa-2x fa-instagram text-muted"></n:i>
+                            </a>
+                            <a href="javascript:void(0)" zclass="p-1">
+                                <n:i class="fab fa-2x fa-facebook-square text-muted"></n:i>
+                            </a>
+                            <a href="javascript:void(0)" zclass="p-1">
+                                <n:i class="fab fa-2x fa-twitter-square text-muted"></n:i>
+                            </a>
+                        </div>
+                        <div zclass="col-7 copyrights pr-4">
+                            <n:p class="text-right">Copyright © ERP 2019</n:p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div zclass="d-none d-md-block w-50">
+                <image src="~./zul/images/bg3.jpg" zclass="vh-100 w-100"/>
+            </div>
+        </div>
+    </div>
+</zk>

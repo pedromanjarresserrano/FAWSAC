@@ -1,0 +1,121 @@
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+
+<?taglib uri="http://labels.ats.pedrioko/taglib" prefix="my"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+
+<div apply="org.zkoss.bind.BindComposer" xmlns:ca="client/attribute"
+     viewModel="@id('mm') @init('com.gitlab.pedrioko.core.zk.viewmodel.Menu')" xmlns:n="native"
+     zclass="">
+    <div zclass="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div zclass="image">
+            <image content="@bind(mm.image)" zclass="img-circle elevation-2" ca:alt="User Image" width="33px"
+                   height="33px"/>
+        </div>
+        <div zclass="info">
+            <a href="javascript:void(0)" zclass="d-block">${mm.fullName}</a>
+        </div>
+    </div>
+    <n:nav class="mt-2">
+        <n:ul class="nav nav-pills nav-sidebar flex-column" ca:data-widget="treeview" ca:role="menu"
+              ca:data-accordion="false">
+            <n:li sclass="nav-item" forEach="${mm.navmenues}">
+                <a zclass="nav-link"
+                   href="javascript:void(0)"
+                   onClick="@command('clickAction', action=menuvalue)">
+                    <custom-attributes menuvalue="${each}"/>
+                    <n:i class="${c:cat('nav-icon ',each.icon )}"></n:i>
+                    <n:p>
+                        ${my:l(each.label,each.label)}
+                    </n:p>
+                </a>
+            </n:li>
+
+            <n:li sclass="nav-item has-treeview" forEach="${mm.menues.entrySet()}">
+                <a zclass="nav-link"
+                   href="javascript:void(0)">
+                    <n:i class="nav-icon far fa-circle"></n:i>
+                    <n:p>
+                        ${my:l(each.key,each.key)}
+                        <n:i class="right fas fa-angle-left"></n:i>
+                    </n:p>
+                </a>
+                <n:ul class="nav nav-treeview">
+                    <n:li sclass="nav-item" forEach="${each.value}">
+                        <a zclass="nav-link"
+                           href="javascript:void(0)"
+                           onClick="@command('clickAction', action=smenuvalue)">
+                            <custom-attributes smenuvalue="${each}"/>
+                            <n:i class="${c:cat('nav-icon ',each.icon )}"></n:i>
+                            <n:p>
+                                ${my:l(each.label,each.label)}
+                            </n:p>
+                        </a>
+                    </n:li>
+                </n:ul>
+            </n:li>
+            <n:li class="nav-header">About</n:li>
+            <n:li class="nav-item">
+                <a href="javascript:void(0)" zclass="nav-link">
+                    <n:i class="nav-icon far fa-circle text-danger"></n:i>
+                    <n:p class="text">${appInfo.name}</n:p>
+                </a>
+            </n:li>
+            <n:li class="nav-item">
+                <a href="javascript:void(0)" zclass="nav-link">
+                    <n:i class="nav-icon far fa-circle text-warning"></n:i>
+                    <n:p>${appInfo.version}</n:p>
+                </a>
+            </n:li>
+            <n:li class="nav-item">
+                <a href="javascript:void(0)" zclass="nav-link">
+                    <n:i class="nav-icon far fa-circle text-info"></n:i>
+                    <n:p>${appInfo.build}</n:p>
+                </a>
+            </n:li>
+            <!--
+                        <div sclass="nav" children="@load(mm.menues.entrySet())">
+                            <template name="children" var="node">
+                                <n:li sclass="nav-item dropdown">
+                                    <a zclass="nav-link dropdown-toggle h-100" ca:data-toggle="dropdown" href="#" ca:role="button"
+                                       ca:aria-haspopup="true" ca:aria-expanded="false"
+                                       label=" @load(my:l(node.key,node.key))">
+                                    </a>
+                                    <div children="@load(node.value)"
+                                         sclass="flex-column justify-content-start p-0 m-0 dropdown-menu  round-menu "
+                                         ca:x-placement="bottom-start"
+                                         style="min-width: 16rem; position: absolute; transform: translate3d(0px, 40px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                        <template name="children" var="submenu">
+                                            <button zclass="btn btn-outline-dark btn-sm btn-block mt-0"
+                                                    label="@load(submenu.label)"
+                                                    iconSclass="@load(submenu.icon)"
+                                                    onClick="@command('clickAction', action=submenu)"
+                                            />
+                                        </template>
+                                    </div>
+                                </n:li>
+                            </template>
+                        </div>
+                        <div zclass="nav ml-auto mt-auto">
+                            <n:li class="nav-item avatar ats-dropdown ">
+                                <a zclass="nav-link p-1" href="javascript:void(0)">
+                                    <image width="50px" height="50px" sclass="img-thumbnail rounded-circle"
+                                           content="@bind(mm.image)"
+                                    />
+                                </a>
+                                <div zclass="ats-dropdown-content">
+                                    <button zclass="btn btn-outline-danger btn-sm btn-block m-0"
+                                            label="@load(my:l('perfil','Perfil'))"
+                                            iconSclass="z-icon-user"
+                                            onClick="@command('profile')"
+                                    />
+                                    <button zclass="btn btn-outline-danger btn-sm btn-block m-0"
+                                            label="Logout"
+                                            iconSclass="fas fa-sign-out-alt"
+                                            onClick="@command('logout')"
+                                    />
+                                </div>
+                            </n:li>
+                        </div>-->
+        </n:ul>
+    </n:nav>
+</div>
