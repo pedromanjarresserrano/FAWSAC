@@ -12,7 +12,7 @@ public class ReportsMenuProvider implements MenuProvider {
 
     @Override
     public String getLabel() {
-        return ReflectionZKUtil.getLabel("Reports");
+        return ReflectionZKUtil.getLabel("Print Reports");
     }
 
     @Override

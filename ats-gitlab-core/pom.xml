@@ -30,8 +30,7 @@
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <joda-time.version>2.10.3</joda-time.version>
         <junit-tools.version>0.1.0</junit-tools.version>
-        <mysql-connector-java.version>6.0.6</mysql-connector-java.version>
-        <ckez.version>4.4.6.3</ckez.version>
+        <ckez.version>4.11.1.0</ckez.version>
         <commons-configuration2.version>2.5</commons-configuration2.version>
         <lombok.version>1.18.8</lombok.version>
         <commons-beanutils.version>1.9.3</commons-beanutils.version>
@@ -42,7 +41,6 @@
         <jquery.version>3.1.0</jquery.version>
         <stomp-websocket.version>2.3.3</stomp-websocket.version>
         <sockjs-client.version>1.0.2</sockjs-client.version>
-        <jcodec-javase.version>0.2.3</jcodec-javase.version>
         <hibernate.version>5.4.3.Final</hibernate.version>
         <querydsl-jpa.version>4.2.1</querydsl-jpa.version>
         <querydsl-core.version>4.2.1</querydsl-core.version>
@@ -97,17 +95,6 @@
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
             <version>${pdfbox.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jcodec</groupId>
-            <artifactId>jcodec</artifactId>
-            <version>${jcodec-javase.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jcodec</groupId>
-            <artifactId>jcodec-javase</artifactId>
-            <version>${jcodec-javase.version}</version>
         </dependency>
 
 
@@ -216,13 +203,7 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector-java.version}</version>
-            <scope>runtime</scope>
-        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -315,42 +296,6 @@
             <version>${querydsl-jpa.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/xuggle/xuggle-xuggler -->
-        <dependency>
-            <groupId>io.humble</groupId>
-            <artifactId>humble-video-all</artifactId>
-            <version>0.3.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.bytedeco</groupId>
-            <artifactId>javacv-platform</artifactId>
-            <version>1.5</version>
-        </dependency>
-        <!-- Testing -->
-
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.icegreen</groupId>
-            <artifactId>greenmail</artifactId>
-            <version>1.5.6</version>
-            <scope>test</scope>
-        </dependency>
 
     </dependencies>
 
@@ -366,6 +311,28 @@
 
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <!-- get all project dependencies -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <!-- bind to the packaging phase -->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

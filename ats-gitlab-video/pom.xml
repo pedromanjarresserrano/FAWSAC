@@ -5,12 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.gitlab.pedrioko.core.services</groupId>
-    <artifactId>api</artifactId>
+    <artifactId>video</artifactId>
     <version>1.0.0.BETA</version>
     <properties>
         <querydsl-jpa.version>4.2.1</querydsl-jpa.version>
         <querydsl-core.version>4.2.1</querydsl-core.version>
         <querydsl.version>4.2.1</querydsl.version>
+        <humble-video-all.version>0.3.0</humble-video-all.version>
+        <javacv-platform.version>1.5</javacv-platform.version>
+        <jcodec-javase.version>0.2.3</jcodec-javase.version>
+        <ats.version>1.0.0.BETA</ats.version>
     </properties>
     <build>
         <plugins>
@@ -49,6 +53,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.gitlab.pedrioko.core.services</groupId>
+            <artifactId>api</artifactId>
+            <version>${ats.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.gitlab.pedrioko.core</groupId>
             <artifactId>lang</artifactId>
             <version>1.0.0.BETA</version>
@@ -79,6 +88,24 @@
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
             <version>${querydsl-jpa.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.jcodec</groupId>
+            <artifactId>jcodec</artifactId>
+            <version>${jcodec-javase.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jcodec</groupId>
+            <artifactId>jcodec-javase</artifactId>
+            <version>${jcodec-javase.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>${javacv-platform.version}</version>
         </dependency>
     </dependencies>
 </project>
