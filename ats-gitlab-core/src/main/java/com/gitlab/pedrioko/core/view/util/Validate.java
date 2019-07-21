@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class Validate {
 
-    public static boolean noDuplicate(Object val, List<?> list) {
+    public static boolean noDuplicate(Object val) {
         if (val.getClass().isAnnotationPresent(NoDuplicate.class)) {
             CrudService bean = ApplicationContextUtils.getBean(CrudService.class);
             PathBuilder<?> pathBuilder = bean.getPathBuilder(val.getClass());

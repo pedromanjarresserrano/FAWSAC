@@ -2,6 +2,9 @@ package com.gitlab.pedrioko.core.zk.component.rangebox;
 
 import com.gitlab.pedrioko.core.lang.DurationRange;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Doublebox;
@@ -95,6 +98,19 @@ public class DurationRangeBox extends Div {
             value.setFin(null);
         }
 
+    }
+
+    @Override
+    public boolean addEventListener(String evtnm, EventListener<? extends Event> listener) {
+        switch (evtnm) {
+            case Events.ON_CHANGE:
+            case Events.ON_CHANGING: {
+                fin.addEventListener(evtnm, listener);
+                break;
+            }
+        }
+
+        return super.addEventListener(evtnm, listener);
     }
 }
 

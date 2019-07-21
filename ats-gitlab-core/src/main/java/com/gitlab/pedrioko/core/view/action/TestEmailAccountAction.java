@@ -13,23 +13,22 @@ import com.gitlab.pedrioko.core.view.util.Validate;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;
+import com.gitlab.pedrioko.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventQueues;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @ToolAction
-public class SaveAction implements Action {
+public class TestEmailAccountAction implements Action {
 
     @Autowired
-    private CrudService crudservice;
+    private MailService mailService;
 
     @Override
     public String getLabel() {
-        return ReflectionZKUtil.getLabel("guardar");
+        return ReflectionZKUtil.getLabel("Send Mail test");
     }
 
     @Override
@@ -39,37 +38,7 @@ public class SaveAction implements Action {
 
     @Override
     public void actionPerform(CrudActionEvent event) {
-        Object value = event.getValue();
-        CrudView crudViewParent = event.getCrudViewParent();
-        ArrayList list = null;
-        if (crudViewParent != null)
-            list = crudViewParent.getValue();
-        if (Validate.noDuplicate(value) && event.getFormstate() != FormStates.UPDATE) {
-            String noDuplicateValue = Validate.getNoDuplicateValue(value);
-            ZKUtil.showMessage(noDuplicateValue + " - " + ReflectionZKUtil.getLabel("onlist"), MessageType.WARNING);
-        } else {
-            value = crudservice.saveOrUpdate(value);
-            Valuable source = event.getSource();
-            source.setValueForm(value);
-            source.setEstado(FormStates.UPDATE);
-
-            if (crudViewParent != null) {
-                ReflectionJavaUtil.removeById(list, ReflectionJavaUtil.getIdValue(value));
-                crudViewParent.addValue(value);
-                crudViewParent.previusState();
-                boolean a = event.getFormstate() == FormStates.CREATE || event.getFormstate() == FormStates.UPDATE;
-                if (a && crudViewParent.getReloadable()) {
-                    crudViewParent.getCrudController().doQuery();
-                }
-                crudViewParent.update();
-            }
-        /*    if (!event.getCrudViewParent().getReloadable()) {
-
-                crudViewParent.setModel(list);
-            }*/
-
-            ZKUtil.showMessage(ReflectionZKUtil.getLabel("userbasicform.guardar"), MessageType.SUCCESS);
-        }
+        mailService.send("Test","Teste Email","pedro3manjarrez@gmail.com");
     }
 
     @Override

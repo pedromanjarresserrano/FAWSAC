@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 public class EntityFormVM implements Valuable {
 
     private Object value;
-    CrudActionEvent event;
+    private CrudActionEvent event;
     private List<String> fields;
     private transient Map<Field, Component> binding = new LinkedHashMap<>();
     private transient Map<String, Component> renglones = new LinkedHashMap<>();
@@ -84,11 +84,15 @@ public class EntityFormVM implements Valuable {
         }
         listfield.forEach(this::fieldToUiField);
         setValueForm(value);
-        List<Action> beans = ApplicationContextUtils.getBeans(Action.class);
-        actions = beans.stream().filter(e -> e.getAplicateClass().contains(Form.class)).collect(Collectors.toList());
-        actions.sort(Comparator.comparing(Action::position));
+        List<Action> actions = (List<Action>) Executions.getCurrent().getArg().get("actions-form");
+        if (actions == null) {
+            List<Action> beans = ApplicationContextUtils.getBeans(Action.class);
+            this.actions = beans.stream().filter(e -> e.getAplicateClass().contains(Form.class)).collect(Collectors.toList());
+        } else
+            this.actions = actions;
+        this.actions.sort(Comparator.comparing(Action::position));
         if (estado == FormStates.READ) {
-            actions.clear();
+            this.actions.clear();
         }
     }
 
@@ -252,13 +256,6 @@ public class EntityFormVM implements Valuable {
         this.estado = estado;
     }
 
-    public CrudActionEvent getEvent() {
-        return event;
-    }
-
-    public void setEvent(CrudActionEvent event) {
-        this.event = event;
-    }
 
     public List<String> getFields() {
         return fields;

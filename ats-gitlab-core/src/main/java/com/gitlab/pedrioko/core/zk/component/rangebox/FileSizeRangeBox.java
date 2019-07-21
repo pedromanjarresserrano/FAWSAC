@@ -3,6 +3,9 @@ package com.gitlab.pedrioko.core.zk.component.rangebox;
 import com.gitlab.pedrioko.core.lang.FileSizeRange;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import org.apache.commons.io.FileUtils;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Decimalbox;
 import org.zkoss.zul.Div;
@@ -103,6 +106,19 @@ public class FileSizeRangeBox extends Div {
         split = displaySize.split(" ");
         value.setInicio(BigDecimal.valueOf(Long.parseLong(split[0])));
         comboboxfin.setSelectedIndex(Arrays.asList(sizes).indexOf(split));
+    }
+
+    @Override
+    public boolean addEventListener(String evtnm, EventListener<? extends Event> listener) {
+        switch (evtnm) {
+            case Events.ON_CHANGE:
+            case Events.ON_CHANGING: {
+                fin.addEventListener(evtnm, listener);
+                break;
+            }
+        }
+
+        return super.addEventListener(evtnm, listener);
     }
 }
 

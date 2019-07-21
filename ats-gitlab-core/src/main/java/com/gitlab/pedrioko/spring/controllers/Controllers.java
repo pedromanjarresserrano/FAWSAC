@@ -1,48 +1,48 @@
 package com.gitlab.pedrioko.spring.controllers;
 
-import org.springframework.context.annotation.Scope;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
-@Scope("session")
+@Order(1)
 public class Controllers {
 
-    //@RequestMapping("/{page}")
-    public ModelAndView root(@PathVariable String page) {
-        ModelAndView model = new ModelAndView(page);
-        model.addObject("message", "Dinesh");
-        return model;
+    @RequestMapping(value ="/{page}")
+    public ModelAndView root(@PathVariable String page, HttpServletRequest request) {
+        ModelAndView mv = new ModelAndView(page);
+        mv.addObject("contextPath", request.getContextPath());
+        return mv;
     }
 
-    @GetMapping("/login")
+    //@GetMapping("/login")
     public String login() {
         return "login";
     }
 
-    @GetMapping("/register")
+   // @GetMapping("/register")
     public String register() {
         return "register";
     }
 
-    @GetMapping("/index")
+   // @GetMapping("/index")
     public String index() {
         return "index";
     }
 
-    @GetMapping("/recovery")
+   // @GetMapping("/recovery")
     public String recovery() {
         return "recovery";
     }
 
-    @GetMapping("/favicon.ico")
+  //  @GetMapping("/favicon.ico")
     public String favicon() {
         return "images/favicon.ico";
     }
-
-
 
 
     public class Hello {

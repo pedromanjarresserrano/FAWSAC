@@ -8,10 +8,10 @@
             <div children="@load(node.value)" zclass="btn-group">
                 <template name="children" var="node">
                     <button onClick="@command('clickAction', action=node)"
-                                   iconSclass="@load(c:cat(' fas ', node.icon))"
-                                   zclass="btn text-white btn-sm"
-                                   style="@load(c:cat(' color:#fff !important; background:', node.color))"
-                                   tooltiptext="@load(node.tooltipText)"/>
+                            iconSclass="@load(c:cat(' fas ', node.icon))"
+                            zclass="btn text-white btn-sm"
+                            style="@load(c:cat(' color:#fff !important; background:', node.color))"
+                            tooltiptext="@load(node.tooltipText)"/>
                 </template>
 
             </div>
@@ -20,11 +20,21 @@
      <button zclass="d-block d-md-none  btn btn-secondary"
              iconSclass="fas fa-bars"
              popup="@load(tb.id)"
-/> 
-    <textbox sclass="m-1 ml-auto pull-right " placeholder="Search" onOK="@command('searchAction', valuesearch=self.value)"/>
+/> <!--
+    <div sclass="row  p-0 m-0" children="@load(tb.filters.entrySet())">
+        <template name="children" var="node">
+            <div zclass="ats-toolfilter p-0 m-0">
+                <renglon label="" input="@bind(node.value)"
+                />
+            </div>
+        </template>
+    </div>-->
+    <textbox sclass="m-1 ml-auto pull-right " placeholder="Search"
+             onOK="@command('searchAction', valuesearch=self.value)"/>
     <popup id="@load(tb.id)" width="100px" children="@bind(tb.actions.entrySet())">
         <template name="children" var="node">
-            <div children="@load(node.value)" sclass="btn-group-vertical d-flex flex-column pb-2" if="${node.value ne null and node.value.size() gt 0}">
+            <div children="@load(node.value)" sclass="btn-group-vertical d-flex flex-column pb-2"
+                 if="${node.value ne null and node.value.size() gt 0}">
                 <template name="children" var="node">
                     <button onClick="@command('clickAction', action=node)"
                             iconSclass="@load(c:cat(' fa-lg ', node.icon))"

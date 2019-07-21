@@ -1,7 +1,7 @@
 <?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
 
 <?page contentType="text/html;charset=UTF-8" title="Login ${appInfo.name}"?>
-
+<?link  rel="shortcut icon" href="${contextPath}/zkau/web/zul/images/favicon.ico"?>
 <?meta name="viewport" content="width=device-width, initial-scale=1.0" ?>
 
 <zk xmlns:n="native">

@@ -519,3 +519,11 @@ input[type="checkbox"]:checked {
 .z-messagebox-window.z-window-modal .z-window-content{
     padding: 8px !important;
 }
+
+.ats-toolfilter  .col-form-label{
+    display:none !important;
+}
+
+.ats-toolfilter .ats-rangebox{
+    flex-wrap: unset !important;
+}

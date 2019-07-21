@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventQueue;
 import org.zkoss.zk.ui.event.EventQueues;
 
 import javax.persistence.EntityManager;
@@ -259,15 +260,17 @@ public class DAOGenericImpl<T> implements DAOGeneric {
      */
     @Override
     public <T> T saveOrUpdate(T klass) {
-        publishEvent(klass, "save");
         T merge = entityManager.merge(klass);
         updateFieldsEntites(merge);
+        publishEvent(merge, "save");
         return merge;
     }
 
     private <T> void publishEvent(T klass, String event) {
         try {
-            EventQueues.lookup(event + klass.getClass().getSimpleName(), EventQueues.APPLICATION, true).publish(new Event(event + klass.getClass().getSimpleName(), null, null));
+            String name = event + klass.getClass().getSimpleName();
+            EventQueue<Event> eventEventQueue = EventQueues.lookup("saveQueue", EventQueues.APPLICATION, true);
+            eventEventQueue.publish(new Event(name, null, klass));
         } catch (Exception e) {
             LOGGER.error("ErrorSaveEventQueue", e);
         }

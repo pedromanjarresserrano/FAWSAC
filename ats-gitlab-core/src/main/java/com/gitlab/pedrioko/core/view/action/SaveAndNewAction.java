@@ -39,7 +39,7 @@ public class SaveAndNewAction implements Action {
         CrudView crudViewParent = event.getCrudViewParent();
         Object val = event.getValue();
         ArrayList list = crudViewParent.getValue();
-        if (Validate.noDuplicate(val, list) && event.getFormstate() != FormStates.UPDATE) {
+        if (Validate.noDuplicate(val) && event.getFormstate() != FormStates.UPDATE) {
             String noDuplicateValue = Validate.getNoDuplicateValue(val);
             ZKUtil.showMessage(noDuplicateValue + " - " + ReflectionZKUtil.getLabel("onlist"), MessageType.WARNING);
         } else {
@@ -53,6 +53,7 @@ public class SaveAndNewAction implements Action {
 
             event.getSource().setValueForm(ReflectionJavaUtil.getNewInstace(val.getClass()));
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("userbasicform.guardar"), MessageType.SUCCESS);
+
         }
     }
 

@@ -96,8 +96,6 @@ class LoginVM {
      */
     @Init
     public void init() {
-        appName = ApplicationContextUtils.getBean(Environment.class).getProperty("spring.application.name");
-        Executions.getCurrent().getDesktop().getFirstPage().setTitle("Login - " + appName);
         fhsessionutil.setIpLocal(Executions.getCurrent().getRemoteAddr());
         Usuario currentUser = fhsessionutil.getCurrentUser();
         if (currentUser != null) Executions.sendRedirect("/index");

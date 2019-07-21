@@ -6,20 +6,26 @@ import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.services.CrudService;
+import com.gitlab.pedrioko.spring.api.DeleteListener;
 import org.hibernate.CallbackException;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.zkoss.zk.ui.Executions;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class UserInterceptor extends EmptyInterceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(EmptyInterceptor.class);
+
+    @Autowired
+    private List<DeleteListener> deleteListeners;
 
     @Override
     public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
@@ -46,7 +52,6 @@ public class UserInterceptor extends EmptyInterceptor {
     }
 
     @Override
-
     public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types) throws CallbackException {
         return logging(entity, "OnUpdate", "Update");
     }
@@ -54,6 +59,7 @@ public class UserInterceptor extends EmptyInterceptor {
     @Override
     public void onDelete(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         logging(entity, "OnDelete", "Delete");
+        deleteListeners.forEach(e -> e.eventPerform(entity));
     }
 
 

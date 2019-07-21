@@ -49,7 +49,7 @@ public class Anuncios extends SelectorComposer<Window> {
         fhsessionutil = ApplicationContextUtils.getBean(FHSessionUtil.class);
         storageservice = ApplicationContextUtils.getBean(StorageService.class);
         load(comp);
-        EventQueues.lookup("saveAnuncio", EventQueues.APPLICATION, true).subscribe(event -> {
+        EventQueues.lookup("saveQueue", EventQueues.APPLICATION, true).subscribe(event -> {
             if ("saveAnuncio".equals(event.getName())) {
                 load(comp);
             }

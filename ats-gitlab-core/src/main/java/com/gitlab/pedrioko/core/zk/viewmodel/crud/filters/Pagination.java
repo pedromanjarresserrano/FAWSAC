@@ -32,10 +32,10 @@ public class Pagination {
     @NotifyChange("*")
     @GlobalCommand
     public void refresh() {
+        count = crudController.getCount();
+        pagesize = crudController.getLimit();
         if (activepage > crudController.getPage())
             activepage = 0;
-        pagesize = crudController.getLimit();
-        count = crudController.getCount();
     }
 
     public int getActivepage() {

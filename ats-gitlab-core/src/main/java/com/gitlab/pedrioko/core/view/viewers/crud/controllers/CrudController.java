@@ -199,8 +199,9 @@ public class CrudController {
 
     private Predicate getPredicate(PathBuilder pathBuilder) {
         Predicate where = null;
-        map.putAll(paramsroot);
+        //map.putAll(paramsroot);
         where = getPredicate(map, pathBuilder, where);
+        where = getPredicate(paramsroot, pathBuilder, where);
         return beginString != null && !beginString.isEmpty() ? crudService.getLikePredicate(beginString.trim(), ReflectionJavaUtil.getStringFields(klass), pathBuilder, where) : where;
     }
 
@@ -242,10 +243,10 @@ public class CrudController {
                             }
                     }
                 } else {
-                    where = where != null ? pathBuilder.get(v.getKey()).in( (Collection)value).or(where) : pathBuilder.get(v.getKey()).in( (Collection)value);
-        //            for (Object val : (Collection) value) {
-                //        where = where != null ? pathBuilder.get(v.getKey()).eq(val).or(where) : pathBuilder.get(v.getKey()).eq(val);
-              //      }
+                    where = where != null ? paramMode == ParamMode.AND ? pathBuilder.get(v.getKey()).in((Collection) value).and(where) : pathBuilder.get(v.getKey()).in((Collection) value).or(where) : pathBuilder.get(v.getKey()).in((Collection) value);
+                    //            for (Object val : (Collection) value) {
+                    //        where = where != null ? pathBuilder.get(v.getKey()).eq(val).or(where) : pathBuilder.get(v.getKey()).eq(val);
+                    //      }
                 }
                 continue;
             }
@@ -274,6 +275,7 @@ public class CrudController {
 
     public void setContainsString(String beginString) {
         this.beginString = beginString;
+        this.offSet = 0;
         doQuery();
     }
 
@@ -283,6 +285,7 @@ public class CrudController {
         } else {
             map.put(field, value);
         }
+        this.offSet = 0;
         doQuery();
 
     }
@@ -313,7 +316,7 @@ public class CrudController {
         if (crudViewValue) {
             return crudViewValueList != null ? crudViewValueList.size() : 0;
         } else {
-            map.putAll(paramsroot);
+            //  map.putAll(paramsroot);
             PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
             JPAQuery<?> query = crudService.query().from(pathBuilder);
             Predicate predicate = getPredicate(pathBuilder);
@@ -347,7 +350,7 @@ public class CrudController {
         if (crudViewValue) {
             return this.crudViewValueList;
         } else {
-            map.putAll(paramsroot);
+            // map.putAll(paramsroot);
             PathBuilder<?> pathBuilder = crudService.getPathBuilder(klass);
             JPAQuery<?> query = crudService.query().from(pathBuilder).where(getPredicate(pathBuilder));
             loadInnners(query, pathBuilder);

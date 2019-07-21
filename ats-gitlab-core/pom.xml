@@ -172,10 +172,6 @@
             <artifactId>hibernate-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>javax.mail-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.zkoss.zkforge</groupId>
             <artifactId>ckez</artifactId>
             <version>${ckez.version}</version>

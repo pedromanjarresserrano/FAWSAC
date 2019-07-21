@@ -40,7 +40,7 @@ public class SaveAndEditAction implements Action {
         CrudView crudViewParent = event.getCrudViewParent();
         Object val = event.getValue();
         ArrayList list = crudViewParent.getValue();
-        if (Validate.noDuplicate(val, list) && event.getSource().getEstado() != FormStates.UPDATE) {
+        if (Validate.noDuplicate(val) && event.getSource().getEstado() != FormStates.UPDATE) {
             String noDuplicateValue = Validate.getNoDuplicateValue(val);
             ZKUtil.showMessage(noDuplicateValue + " - " + ReflectionZKUtil.getLabel("onlist"), MessageType.WARNING);
         } else {

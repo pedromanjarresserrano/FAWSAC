@@ -99,7 +99,10 @@ class ChosenBoxImage extends HtmlBasedComponent {
     }
 
     public List<Object> getValue() {
-        return new ArrayList<>(value);
+        if (value != null)
+            return new ArrayList<>(value);
+        else
+            return Collections.emptyList();
     }
 
     public void setValue(List value) {

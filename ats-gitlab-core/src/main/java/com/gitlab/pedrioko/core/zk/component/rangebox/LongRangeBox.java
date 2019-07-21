@@ -1,6 +1,9 @@
 package com.gitlab.pedrioko.core.zk.component.rangebox;
 
 import com.gitlab.pedrioko.core.lang.LongRange;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Longbox;
 
@@ -39,6 +42,19 @@ public class LongRangeBox extends Div {
         this.value = value;
         value.setInicio(inicio.getValue());
         value.setFin(fin.getValue());
+    }
+
+    @Override
+    public boolean addEventListener(String evtnm, EventListener<? extends Event> listener) {
+        switch (evtnm) {
+            case Events.ON_CHANGE:
+            case Events.ON_CHANGING: {
+                fin.addEventListener(evtnm, listener);
+                break;
+            }
+        }
+
+        return super.addEventListener(evtnm, listener);
     }
 }
 

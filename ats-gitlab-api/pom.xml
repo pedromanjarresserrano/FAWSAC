@@ -80,5 +80,10 @@
             <artifactId>querydsl-jpa</artifactId>
             <version>${querydsl-jpa.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>5.1.5.RELEASE</version>
+        </dependency>
     </dependencies>
 </project>

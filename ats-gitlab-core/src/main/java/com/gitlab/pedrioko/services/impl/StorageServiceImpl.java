@@ -37,8 +37,7 @@ import java.util.zip.ZipInputStream;
 public class StorageServiceImpl implements StorageService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StorageServiceImpl.class);
-    @Autowired
-    private ServerListener serverListener;
+
     @Autowired
     private CrudService crudService;
 
@@ -67,7 +66,7 @@ public class StorageServiceImpl implements StorageService {
     private void eventsListener() {
         if (saveQueues == null) {
             try {
-                saveQueues = EventQueues.lookup("saveQueues", EventQueues.APPLICATION, true);
+                saveQueues = EventQueues.lookup("saveQueue", EventQueues.APPLICATION, true);
                 saveQueues.subscribe(event -> {
                     if ("saveAppParam".equals(event.getName())) {
                         AppParam aux = (AppParam) event.getData();
@@ -80,7 +79,8 @@ public class StorageServiceImpl implements StorageService {
                     }
                 });
             } catch (Exception e) {
-                LOGGER.error("saveQueues Error");
+                saveQueues = null;
+                LOGGER.error("saveAppParam Queues Error");
             }
         }
     }
