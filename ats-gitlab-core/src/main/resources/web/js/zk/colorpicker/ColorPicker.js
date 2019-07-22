@@ -14,7 +14,9 @@ zk.colorpicker.ColorPicker = zk.$extends(zk.Widget, {
         var elementId = '#'+this.uuid + '-colorpicker';
         $(elementId).on("change", function (event) {
            event.preventDefault();
-           zAu.send(new zk.Event(zk.Widget.$(elementId), 'updateValue',{ value: $(this).val() }, {toServer: true}));
+           var wiget = zk.Widget.$(elementId);
+           wiget.fire("onChange", { value: $(this).val() }, { toServer: !0 }, 90)
+           //zAu.send(new zk.Event(zk.Widget.$(elementId), 'updateValue',{ value: $(this).val() }, {toServer: true}));
         });
         jscolor.installByClassName("jscolor");
     },

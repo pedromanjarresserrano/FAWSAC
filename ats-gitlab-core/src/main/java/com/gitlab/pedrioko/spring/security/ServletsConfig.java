@@ -98,7 +98,7 @@ public class ServletsConfig {
     }
 
 
-    @Bean
+    //@Bean
     public JavaMailSenderImpl emailSender(@Value("#{'${mail.host}'}") String emailHost,
                                           @Value("#{'${mail.port}'}") String emailPort, @Value("#{'${mail.username}'}") String username,
                                           @Value("#{'${mail.password}'}") String password) {
