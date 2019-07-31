@@ -122,7 +122,9 @@ zk.plyr.Plyr = zk.$extends(zk.Widget, {
     bind_: function () {
         this.$supers('bind_', arguments);
         var elementId = this.uuid + '-video';
+        var ctx = $('#'+elementId);
         const player = new Plyr('#' + elementId);
+
         player.source = {
             type: 'video',
             sources: [
@@ -131,6 +133,21 @@ zk.plyr.Plyr = zk.$extends(zk.Widget, {
                 }
             ]
           }
+            player.on('playing', function (event) {
+                var currentTime = event.detail.plyr.media.currentTime;
+                var n = '#' + this.id + '-video';
+                var widget = zk.Widget.$(elementId);
+                widget.fire("onPlaying", { currentTime: currentTime }, { toServer: !0 }, 90)
+                //zAu.send(new zk.Event(widget, 'setPlaying', {playing: 'true', currentTime: currentTime}, {toServer: true}));
+            });
+            player.on('pause', function (event) {
+                var currentTime = event.detail.plyr.media.currentTime;
+                var n = '#' + this.id + '-video';
+                var widget = zk.Widget.$(elementId);
+                widget.fire("onPause", { currentTime: currentTime }, { toServer: !0 }, 90)
+
+                //zAu.send(new zk.Event(widget, 'setPlaying', {playing: 'false', currentTime: currentTime}, {toServer: true}));
+            });
     },
     unbind_: function () {
         this.$supers('unbind_', arguments);

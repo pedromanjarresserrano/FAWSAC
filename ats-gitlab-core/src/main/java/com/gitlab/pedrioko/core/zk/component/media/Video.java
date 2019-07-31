@@ -2,19 +2,24 @@ package com.gitlab.pedrioko.core.zk.component.media;
 
 import lombok.Data;
 import org.zkoss.json.JSONObject;
+import org.zkoss.zk.au.AuRequest;
+import org.zkoss.zk.au.AuRequests;
 import org.zkoss.zk.au.out.AuInvoke;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zk.ui.sys.ContentRenderer;
 
 import java.io.IOException;
+import java.util.Map;
 
 public @Data
 class Video extends HtmlBasedComponent {
     public static final String ON_PLAY = "onPlaying";
     public static final String ON_PAUSE = "onPause";
-    public static final String ON_RESUME = "onResume";
+  //  public static final String ON_RESUME = "onResume";
     private String src = "";
     private boolean controls = false;
     private boolean muted = false;
@@ -119,6 +124,36 @@ class Video extends HtmlBasedComponent {
         }
     }
 
+    @Override
+    public void service(AuRequest request, boolean everError) {
+        String cmd = request.getCommand();
+        Object value;
+        switch (cmd) {
+            case "onPlaying": {
+                Map<String, Object> data = request.getData();
+                String currentTime = String.valueOf(data.get("currentTime"));
+                InputEvent evt = new InputEvent(cmd, this, currentTime, this.currentTime, AuRequests.getBoolean(data, "bySelectBack"), AuRequests.getInt(data, "start", 0));
+                Events.postEvent(evt);
+                this.currentTime = currentTime;
+                this.setPlaying(true);
+                break;
+            }
+            case "onPause": {
+                Map<String, Object> data = request.getData();
+                String currentTime = String.valueOf(data.get("currentTime"));
+                InputEvent evt = new InputEvent(cmd, this, currentTime, this.currentTime, AuRequests.getBoolean(data, "bySelectBack"), AuRequests.getInt(data, "start", 0));
+                Events.postEvent(evt);
+                this.currentTime = currentTime;
+                this.setPlaying(false);
+                break;
+            }
+            default: {
+                super.service(request, everError);
+                break;
+            }
+        }
+    }
+/*
     public void setPlaying(Event evt) throws Exception {
         Object data = evt.getData();
         if (data != null) {
@@ -149,7 +184,7 @@ class Video extends HtmlBasedComponent {
 
 
     }
-
+*//*
 
     @Override
     public boolean addEventListener(String evtnm, EventListener<? extends Event> listener) {
@@ -171,7 +206,7 @@ class Video extends HtmlBasedComponent {
             }
         }
     }
-
+*/
     public void setLoop(boolean loop) {
         if (this.loop != loop) {
             this.loop = loop;
@@ -191,5 +226,11 @@ class Video extends HtmlBasedComponent {
             this.playbackRate = playbackRate;
             this.smartUpdate("playbackRate", this.playbackRate);
         }
+    }
+
+
+    static {
+        addClientEvent(Video.class, "onPlaying", 16385);
+        addClientEvent(Video.class, "onPause", 8192);
     }
 }

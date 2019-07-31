@@ -34,7 +34,8 @@ zk.imageupload.ImageUpload = zk.$extends(zk.Widget, {
               var reader = new FileReader();
               reader.onload = function (e) {
                 $(elementId + '-imageupload-img').attr('src', e.target.result);
-                 zAu.send(new zk.Event(zk.Widget.$(elementId), 'updateValue',{ filename: filename ,value: e.target.result }, {toServer: true}));
+                zk.Widget.$(elementId).fire("onChange",{ filename: filename ,value: e.target.result }, { toServer: !0 }, 90);
+                // zAu.send(new zk.Event(zk.Widget.$(elementId), 'updateValue',{ filename: filename ,value: e.target.result }, {toServer: true}));
               }
               reader.readAsDataURL(e.target.files[0]);
             }

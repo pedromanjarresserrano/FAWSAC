@@ -5,14 +5,18 @@ import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.services.StorageService;
 import lombok.Data;
 import org.zkoss.json.JSONObject;
+import org.zkoss.zk.au.AuRequest;
+import org.zkoss.zk.au.AuRequests;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.InputEvent;
 import org.zkoss.zk.ui.sys.ContentRenderer;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Map;
 
 public @Data
 class ImageUpload extends HtmlBasedComponent {
@@ -36,17 +40,6 @@ class ImageUpload extends HtmlBasedComponent {
     public void setRawValue(String rawValue) {
         this.rawValue = rawValue;
         smartUpdate("rawValue", rawValue);
-    }
-
-    public void updateValue(Event evt) throws Exception {
-        JSONObject data = (JSONObject) evt.getData();
-        if (data != null) {
-            this.rawValue = (String) data.get("value");
-            this.filename = (String) data.get("filename");
-            for (EventListener<? extends Event> e : this.getEventListeners(Events.ON_CHANGE)) {
-                e.onEvent(null);
-            }
-        }
     }
 
     public FileEntity getValue() {
@@ -90,5 +83,28 @@ class ImageUpload extends HtmlBasedComponent {
         this.filename = filename;
         smartUpdate("filename", filename);
 
+    }
+
+    @Override
+    public void service(AuRequest request, boolean everError) {
+
+        String cmd = request.getCommand();
+        Object value;
+        switch (cmd) {
+            case "onChange": {
+                Map<String, Object> data = request.getData();
+                String rawValue = (String) data.get("value");
+                String filename = (String) data.get("filename");
+                InputEvent evt = new InputEvent(cmd, this, rawValue, this.rawValue, AuRequests.getBoolean(data, "bySelectBack"), AuRequests.getInt(data, "start", 0));
+                Events.postEvent(evt);
+                this.rawValue = rawValue;
+                this.filename = filename;
+                break;
+            }
+            default: {
+                super.service(request, everError);
+                break;
+            }
+        }
     }
 }

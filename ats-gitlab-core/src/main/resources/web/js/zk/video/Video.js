@@ -128,14 +128,13 @@ zk.video.Video = zk.$extends(zk.Widget, {
             this.setPlaybackRate(this._playbackRate);
             ctx.on('play', function () {
                 var currentTime = this.currentTime;
-                var n = '#' + this.id + '-video';
-                var widget = zk.Widget.$(n);
-                zAu.send(new zk.Event(widget, 'setPlaying', {playing: 'true', currentTime: currentTime}, {toServer: true}));
+                var widget = zk.Widget.$(elementId);
+                widget.fire("onPlaying", { currentTime: currentTime }, { toServer: !0 }, 90)
+                //zAu.send(new zk.Event(widget, 'setPlaying', {playing: 'true', currentTime: currentTime}, {toServer: true}));
             });
             ctx.on('pause', function () {
                 var currentTime = this.currentTime;
-                var n = '#' + this.id + '-video';
-                var widget = zk.Widget.$(n);
+                var widget = zk.Widget.$(elementId);
                 zAu.send(new zk.Event(widget, 'setPlaying', {playing: 'false', currentTime: currentTime}, {toServer: true}));
             });
 

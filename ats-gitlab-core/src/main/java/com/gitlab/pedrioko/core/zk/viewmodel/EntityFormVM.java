@@ -15,7 +15,7 @@ import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
-import com.gitlab.pedrioko.core.zk.component.colorchooserbox.ColorChooserBox;
+import com.gitlab.pedrioko.core.zk.component.colorpicker.ColorPicker;
 import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.dsl.PathBuilder;
 import org.slf4j.Logger;
@@ -143,7 +143,7 @@ public class EntityFormVM implements Valuable {
             return;
         }
         if (e.isAnnotationPresent(ColorChooser.class)) {
-            ColorChooserBox c = new ColorChooserBox();
+            ColorPicker c = new ColorPicker();
             putBinding(e, c);
             loadReglon(label, c);
             return;
