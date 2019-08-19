@@ -2,12 +2,11 @@ package com.gitlab.pedrioko.providers;
 
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.domain.LoginLog;
-import com.gitlab.pedrioko.domain.Usuario;
 import org.zkoss.zk.ui.Component;
 
 @Menu

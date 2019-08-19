@@ -2,7 +2,7 @@ package com.gitlab.pedrioko.core.zk.component.chosenbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gitlab.pedrioko.core.view.api.ChosenItem;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.services.StorageService;
 import lombok.Data;

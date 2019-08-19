@@ -2,7 +2,7 @@ package com.gitlab.pedrioko.core.zk.component.gmap;
 
 import com.gitlab.pedrioko.core.lang.Point;
 import com.gitlab.pedrioko.core.lang.Polygon;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

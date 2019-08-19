@@ -1,12 +1,10 @@
 package com.gitlab.pedrioko.zk.vm.login;
 
-import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.Usuario;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.util.resource.Labels;
 import org.zkoss.zk.ui.Executions;

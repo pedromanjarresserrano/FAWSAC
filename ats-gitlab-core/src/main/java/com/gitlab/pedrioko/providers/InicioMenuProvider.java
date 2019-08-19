@@ -2,7 +2,7 @@ package com.gitlab.pedrioko.providers;
 
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import org.springframework.core.annotation.Order;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;

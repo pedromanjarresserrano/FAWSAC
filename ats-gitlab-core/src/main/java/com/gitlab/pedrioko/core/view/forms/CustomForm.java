@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.core.view.forms;
 
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.gmaps.Gmaps;

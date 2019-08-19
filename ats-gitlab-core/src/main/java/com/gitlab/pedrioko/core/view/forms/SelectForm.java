@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.core.view.forms;
 
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.services.CrudService;

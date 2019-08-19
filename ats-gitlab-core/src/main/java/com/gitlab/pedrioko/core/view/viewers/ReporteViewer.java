@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.core.view.viewers;
 
 import com.gitlab.pedrioko.core.view.enums.MessageType;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.Exporter;
 import com.gitlab.pedrioko.core.view.util.StringUtil;

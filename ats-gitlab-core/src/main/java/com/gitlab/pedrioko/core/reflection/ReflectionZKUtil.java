@@ -1,9 +1,9 @@
-package com.gitlab.pedrioko.core.view.reflection;
+package com.gitlab.pedrioko.core.reflection;
 
 import com.gitlab.pedrioko.core.lang.annotation.Reference;
 import com.gitlab.pedrioko.core.view.api.TransformerAnnotation;
 import com.gitlab.pedrioko.core.view.api.ValidateAnnotation;
-import com.gitlab.pedrioko.core.view.reflection.enums.ClassMethod;
+import com.gitlab.pedrioko.core.reflection.enums.ClassMethod;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.StringUtil;
 import com.gitlab.pedrioko.core.zk.component.chosenbox.ChosenBox;
@@ -81,8 +81,7 @@ public class ReflectionZKUtil {
                 try {
                     Method methodSetProperty = klass.getMethod(methodName, k.getType());
                     methodSetProperty.invoke(newInstance, collect);
-                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                        | NoSuchMethodException | SecurityException e) {
+                } catch (Exception e) {
                     LOGGER.error(ERROR_ON_GET_BINDING_VALUE, e);
                 }
             } else if (v.getClass() != Gmaps.class) {
@@ -97,8 +96,7 @@ public class ReflectionZKUtil {
                     });
                     Method methodSetProperty = klass.getMethod(methodName, k.getType());
                     methodSetProperty.invoke(newInstance, k.getType() == Set.class ? new HashSet((Collection) aux[0]) : aux[0]);
-                } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                        | NoSuchMethodException | SecurityException e) {
+                } catch (Exception e) {
                     LOGGER.error(ERROR_ON_GET_BINDING_VALUE, e);
                 }
 
@@ -118,8 +116,7 @@ public class ReflectionZKUtil {
             Method methodSetProperty = klass.getMethod(methodName, field.getType());
             methodSetProperty.invoke(newInstance, valueComponent);
             return newInstance;
-        } catch (IllegalArgumentException | NoSuchMethodException | IllegalAccessException | InvocationTargetException
-                | NoSuchFieldException e) {
+        } catch (Exception e) {
             LOGGER.error(ERROR_ON_GET_BINDING_VALUE, e);
             return null;
         }
@@ -177,7 +174,7 @@ public class ReflectionZKUtil {
             try {
                 if (v.getClass() != Gmaps.class)
                     readOnlyComponent(v);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            } catch (Exception e) {
                 LOGGER.error("ERROR on disableBinding()", e);
             }
         });
@@ -207,11 +204,14 @@ public class ReflectionZKUtil {
     }
 
     public static void widthComponent(Component component) {
+        widthComponent(component, "90%");
+    }
+
+    public static void widthComponent(Component component, String width) {
         try {
             Method method = component.getClass().getMethod("setWidth", String.class);
-            method.invoke(component, "90%");
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-                | SecurityException e) {
+            method.invoke(component, width);
+        } catch (Exception e) {
             LOGGER.error("ERROR on widthComponent()", e);
         }
     }

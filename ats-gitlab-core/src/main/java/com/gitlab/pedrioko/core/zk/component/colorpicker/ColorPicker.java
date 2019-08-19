@@ -1,14 +1,8 @@
 package com.gitlab.pedrioko.core.zk.component.colorpicker;
 
-import lombok.Data;
 import org.zkoss.zk.au.AuRequest;
-import org.zkoss.zk.ui.HtmlBasedComponent;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.sys.ContentRenderer;
 import org.zkoss.zul.Textbox;
-import org.zkoss.zul.impl.InputElement;
 
 import java.io.IOException;
 

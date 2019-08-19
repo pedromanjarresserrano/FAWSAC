@@ -1,7 +1,6 @@
 package com.gitlab.pedrioko.spring.beans;
 
 import com.gitlab.pedrioko.config.AppInfo;
-import com.gitlab.pedrioko.config.ZKCEConfig;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
@@ -14,8 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Properties;
 

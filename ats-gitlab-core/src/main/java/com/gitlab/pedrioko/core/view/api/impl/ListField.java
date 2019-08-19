@@ -4,7 +4,7 @@ import com.gitlab.pedrioko.core.lang.annotation.FieldForm;
 import com.gitlab.pedrioko.core.lang.annotation.Reference;
 import com.gitlab.pedrioko.core.view.api.FieldComponent;
 import com.gitlab.pedrioko.core.view.enums.CrudMode;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;

@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.core.view.util;
 
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 
 import java.math.BigDecimal;
 import java.util.LinkedList;

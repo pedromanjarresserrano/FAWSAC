@@ -1,8 +1,6 @@
 package com.gitlab.pedrioko.core.view.forms;
 
-import com.gitlab.pedrioko.core.view.api.ChosenItem;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ArraysUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
@@ -18,8 +16,6 @@ import org.zkoss.zul.Comboitem;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 
 public class AddForm extends CustomForm {

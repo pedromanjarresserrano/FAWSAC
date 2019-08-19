@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.core.view.util;
 
 import com.gitlab.pedrioko.core.lang.annotation.NoDuplicate;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;

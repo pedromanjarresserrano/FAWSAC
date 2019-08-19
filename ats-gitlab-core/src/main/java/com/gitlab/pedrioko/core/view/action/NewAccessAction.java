@@ -6,7 +6,7 @@ import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.forms.AccessForm;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 
 import java.util.Arrays;

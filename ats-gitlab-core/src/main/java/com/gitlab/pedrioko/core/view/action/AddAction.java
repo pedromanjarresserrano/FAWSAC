@@ -8,7 +8,7 @@ import com.gitlab.pedrioko.core.view.enums.MessageType;
 import com.gitlab.pedrioko.core.view.enums.SubCrudView;
 import com.gitlab.pedrioko.core.view.forms.AddForm;
 import com.gitlab.pedrioko.core.view.forms.CustomForm;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ArraysUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;

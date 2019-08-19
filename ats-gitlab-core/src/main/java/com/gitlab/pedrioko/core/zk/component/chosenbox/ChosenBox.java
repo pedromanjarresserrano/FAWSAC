@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.core.zk.component.chosenbox;
 
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Bandpopup;

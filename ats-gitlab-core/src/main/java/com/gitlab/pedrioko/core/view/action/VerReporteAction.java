@@ -6,7 +6,7 @@ import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.api.ContentView;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.ReporteViewer;

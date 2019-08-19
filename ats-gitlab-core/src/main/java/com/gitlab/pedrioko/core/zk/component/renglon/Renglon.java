@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.core.zk.component.renglon;
 
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;

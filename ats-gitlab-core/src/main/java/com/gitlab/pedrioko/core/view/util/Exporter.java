@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.core.view.util;
 
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Phrase;

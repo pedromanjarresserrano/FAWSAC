@@ -1,8 +1,8 @@
 package com.gitlab.pedrioko.core.zk.viewmodel.crud.filters;
 
 import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.CrudController;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.model.OrderBY;

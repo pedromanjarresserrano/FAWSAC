@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.core.hibernate.interceptors;
 
 import com.gitlab.pedrioko.core.lang.AuditLog;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.Usuario;

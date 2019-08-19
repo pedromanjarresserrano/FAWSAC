@@ -1,19 +1,14 @@
 package com.gitlab.pedrioko.services.impl;
 
-import com.gitlab.pedrioko.core.lang.AppParam;
-import com.gitlab.pedrioko.core.lang.annotation.Email;
 import com.gitlab.pedrioko.domain.EmailAccount;
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.MailService;
-import com.gitlab.pedrioko.services.StorageService;
 import com.querydsl.core.types.dsl.PathBuilder;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;

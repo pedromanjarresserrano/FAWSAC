@@ -7,15 +7,13 @@ import com.gitlab.pedrioko.core.view.api.Valuable;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
 import com.gitlab.pedrioko.core.view.forms.Form;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.Validate;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventQueues;
 
 import java.util.ArrayList;
 import java.util.Arrays;

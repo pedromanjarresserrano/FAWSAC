@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.core.zk.component.rangebox;
 
 import com.gitlab.pedrioko.core.lang.DurationRange;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;

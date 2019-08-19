@@ -3,7 +3,6 @@ package com.gitlab.pedrioko.domain;
 import com.gitlab.pedrioko.core.lang.BaseEntity;
 import com.gitlab.pedrioko.core.lang.annotation.NoDuplicate;
 import com.gitlab.pedrioko.core.lang.annotation.NoEmpty;
-import com.gitlab.pedrioko.core.lang.annotation.Password;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

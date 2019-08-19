@@ -3,7 +3,7 @@ package com.gitlab.pedrioko.core.zk.viewmodel.crud.table;
 import com.gitlab.pedrioko.core.lang.FileEntity;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.util.StringUtil;

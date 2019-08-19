@@ -7,7 +7,7 @@ import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.CrudMode;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;

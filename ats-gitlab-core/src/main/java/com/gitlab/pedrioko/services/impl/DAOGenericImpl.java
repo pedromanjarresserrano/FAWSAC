@@ -2,7 +2,7 @@ package com.gitlab.pedrioko.services.impl;
 
 import com.gitlab.pedrioko.core.hibernate.MySQLJPATemplates;
 import com.gitlab.pedrioko.core.lang.annotation.CrudOrderBy;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.services.DAOGeneric;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Predicate;
@@ -24,7 +24,6 @@ import org.zkoss.zk.ui.event.EventQueues;
 import javax.persistence.EntityManager;
 import javax.persistence.ManyToOne;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;

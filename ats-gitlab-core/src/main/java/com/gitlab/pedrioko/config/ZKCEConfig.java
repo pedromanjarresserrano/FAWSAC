@@ -1,15 +1,10 @@
 package com.gitlab.pedrioko.config;
 
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.zkoss.web.util.resource.ClassWebResource;
@@ -20,9 +15,6 @@ import org.zkoss.zk.ui.http.WebManager;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 
 public class ZKCEConfig {
 

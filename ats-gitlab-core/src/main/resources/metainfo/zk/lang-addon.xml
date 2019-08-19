@@ -18,7 +18,6 @@
     <javascript src="~./js/html2canvas.js"/>
     <javascript src="~./js/alertify/alertify.min.js"/>
 
-    <javascript src="~./js/addons.js"/>
 
 
     <!-- define a component -->

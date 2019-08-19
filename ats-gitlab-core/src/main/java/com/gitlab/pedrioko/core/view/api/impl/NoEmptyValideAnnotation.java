@@ -3,7 +3,7 @@ package com.gitlab.pedrioko.core.view.api.impl;
 import com.gitlab.pedrioko.core.lang.annotation.NoEmpty;
 import com.gitlab.pedrioko.core.view.api.ValidateAnnotation;
 import com.gitlab.pedrioko.core.view.exception.ValidationException;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.StringUtil;
 import org.springframework.stereotype.Component;
 

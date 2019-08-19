@@ -1,6 +1,6 @@
-package com.gitlab.pedrioko.core.view.reflection;
+package com.gitlab.pedrioko.core.reflection;
 
-import com.gitlab.pedrioko.core.view.reflection.enums.ClassMethod;
+import com.gitlab.pedrioko.core.reflection.enums.ClassMethod;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;

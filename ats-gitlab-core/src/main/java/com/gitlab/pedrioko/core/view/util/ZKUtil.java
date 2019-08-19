@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.core.view.util;
 
 import com.gitlab.pedrioko.core.view.enums.MessageType;
-import com.gitlab.pedrioko.core.view.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;

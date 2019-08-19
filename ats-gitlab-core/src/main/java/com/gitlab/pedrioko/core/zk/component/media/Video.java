@@ -1,7 +1,6 @@
 package com.gitlab.pedrioko.core.zk.component.media;
 
 import lombok.Data;
-import org.zkoss.json.JSONObject;
 import org.zkoss.zk.au.AuRequest;
 import org.zkoss.zk.au.AuRequests;
 import org.zkoss.zk.au.out.AuInvoke;
