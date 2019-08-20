@@ -1,0 +1,12 @@
+<zk>
+    <window width="350px" title="${arg.title}" border="normal" closable="true">
+        <div zclass="modal-body">
+            <label value="${arg.message}"/>
+            <separator/>
+            <textbox id="tb" style="width:100%"/>
+        </div>
+        <div zclass="modal-footer justify-content-between">
+            <button label="OK" id="okBtn"/>
+        </div>
+    </window>
+</zk>

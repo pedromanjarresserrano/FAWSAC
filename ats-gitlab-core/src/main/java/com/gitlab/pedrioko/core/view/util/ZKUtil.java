@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.core.view.util;
 
+import com.gitlab.pedrioko.core.view.api.Event;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
@@ -7,10 +8,16 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.sys.ExecutionsCtrl;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.LayoutRegion;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ZKUtil {
 
@@ -109,4 +116,22 @@ public class ZKUtil {
         window.setSclass("window-overlapped ats-modal-addform");
         window.doModal();
     }
+
+    public static void showInputDialogWindow(String title, String message, Event events) {
+        Map<String, Object> arg = new HashMap<>();
+        arg.put("title", title);
+        arg.put("message", message);
+
+        Window dialog = (Window) Executions.createComponents("~./zul/forms/modalinputform.zul", null, arg);
+        dialog.doModal();
+
+        Button okBtn = (Button) dialog.getFellow("okBtn");
+
+        okBtn.addEventListener("onClick", (EventListener) event -> {
+            Textbox tb = (Textbox) dialog.getFellow("tb");
+            events.doSomething(tb.getValue());
+            dialog.detach();
+        });
+    }
+
 }
