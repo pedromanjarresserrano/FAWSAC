@@ -81,7 +81,9 @@ public class AccessForm extends CustomForm {
                 .filter(x -> x.getAplicateClass().contains(klass)).map(Action::getClass)
                 .map(Class::getSimpleName).forEach(listmodel::add);
         if (klass == null) {
-            beans.stream().filter(x -> x.getAplicateClass().contains(CrudAction.class) || x.getAplicateClass().contains(AplicateAllClass.class)).map(Action::getClass).map(Class::getSimpleName)
+            beans.stream()
+                    .filter(x -> x.getAplicateClass().contains(CrudAction.class) || x.getAplicateClass().contains(AplicateAllClass.class))
+                    .map(Action::getClass).map(Class::getSimpleName)
                     .forEach(listmodel::add);
         }
     }
@@ -95,7 +97,7 @@ public class AccessForm extends CustomForm {
      */
     @Override
     public void setValueForm(Object obj) {
-        super.setValueForm((ProviderAccess) obj);
+        super.setValueForm(obj);
         ProviderAccess pva = (ProviderAccess) obj;
         if (menuprovider.getSelectedItem() != null) {
             loadChosenbox();
