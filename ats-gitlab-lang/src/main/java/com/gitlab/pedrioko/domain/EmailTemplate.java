@@ -16,9 +16,7 @@ import javax.persistence.*;
 @EqualsAndHashCode(callSuper = false)
 public @Data
 class EmailTemplate extends BaseEntity {
-    /**
-     * The iddiagnostico.
-     */
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
