@@ -1,0 +1,30 @@
+{
+  "AuditLog": {
+    "table": {
+      "commonactions": {
+        "enable": false
+      }
+    }
+  },
+  "ProviderAccess": {
+    "table": {
+      "commonactions": {
+        "enable": false
+      }
+    }
+  },
+  "Usuario": {
+    "table": {
+      "fields": [
+        "nombres",
+        "apellidos",
+        "email",
+        "telephone",
+        "cedula",
+        "username",
+        "tipo",
+        "empresa"
+      ]
+    }
+  }
+}

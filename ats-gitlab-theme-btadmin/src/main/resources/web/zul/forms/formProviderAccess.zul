@@ -1,0 +1,30 @@
+<valuewindow apply="org.zkoss.bind.BindComposer" sclass="bg-light"
+             style="height: 100%; overflow-x: hidden;"
+             viewModel="@id('vm') @init('com.gitlab.pedrioko.core.zk.viewmodel.EntityFormVM')">
+    <borderlayout>
+        <center>
+            <div sclass="container-fuild text-black m-3">
+                <div sclass="row  m-3" children="@load(vm.renglones.entrySet())">
+                    <template name="children" var="node">
+                        <renglon label="@bind(node.key)" input="@bind(node.value)"/>
+                    </template>
+                </div>
+                <div sclass="row  m-3" children="@load(vm.crudviews.entrySet())">
+                    <template name="children" var="node">
+                        <renglonview label="@bind(node.key)" aclass="hidden-scroll" view="@bind(node.value)"
+                                     height="100%"/>
+                    </template>
+                </div>
+            </div>
+        </center>
+        <south>
+            <div sclass="m-1 text-white w-100" children="@load(vm.actions)">
+                    <template name="children" var="node">
+                        <button label="@bind(node.label)" zclass="@bind(c:cat('btn ml-1 mr-1 ', node.classes))"
+                                onClick="@command('clickAction', action=node)"/>
+
+                    </template>
+            </div>
+        </south>
+    </borderlayout>
+</valuewindow>
