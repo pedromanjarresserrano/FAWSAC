@@ -10,6 +10,8 @@ import com.gitlab.pedrioko.core.view.util.StringUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.StorageService;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.zkoss.bind.annotation.*;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventQueues;
@@ -29,6 +31,7 @@ public class CrudTable {
 
     private List<Field> fieldList;
     private List<String> headers;
+    private JSONArray headersbase;
     private CrudView crudView;
     private Class<?> klass;
     private List<?> items;
@@ -42,7 +45,7 @@ public class CrudTable {
     private void init() {
         crudView = (CrudView) Executions.getCurrent().getArg().get("CrudView");
         klass = (Class<?>) Executions.getCurrent().getArg().get("klass-crud");
-        headers = getBean(PropertiesUtil.class).getFieldTable(klass);
+        headersbase = getBean(PropertiesUtil.class).getFieldTable(klass);
         items = (List<?>) Executions.getCurrent().getArg().get("crud-list-items");
         uuid = (String) Executions.getCurrent().getArg().get("CrudViewUUID");
         crudService = ApplicationContextUtils.getBean(CrudService.class);
@@ -70,8 +73,9 @@ public class CrudTable {
 
     private void loadfields() {
         fieldList = ReflectionJavaUtil.getFields(klass);
-        if (headers != null && !headers.isEmpty()) {
-            List<Field> filter = fieldList.stream().filter(e -> headers.contains(e.getName()))
+        if (headersbase != null && !headersbase.isEmpty()) {
+            List<String> names = (List<String>) headersbase.stream().map(w -> ((JSONObject) w).get("name").toString()).collect(Collectors.toList());
+            List<Field> filter = fieldList.stream().filter(e -> names.contains(e.getName()))
                     .collect(Collectors.toList());
             fieldList = filter;
         }

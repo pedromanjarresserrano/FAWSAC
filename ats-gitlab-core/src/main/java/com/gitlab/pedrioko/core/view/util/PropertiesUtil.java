@@ -11,13 +11,12 @@ import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.nio.file.Files.createTempFile;
@@ -27,11 +26,11 @@ public class PropertiesUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PropertiesUtil.class);
 
-    private CombinedConfiguration config;
-    private Object jsoNfile;
+    //  private CombinedConfiguration config;
+    private JSONObject jsonproperties = new JSONObject();
 
     public PropertiesUtil() {
-        PropertiesConfiguration external = null;
+      /*  PropertiesConfiguration external = null;
 
         try {
 
@@ -61,43 +60,70 @@ public class PropertiesUtil {
             config.addConfiguration(external);//this overrides config2
         }
         config.addConfiguration(internal);
-        this.config = config;
+        this.config = config;*/
+        Object jsonInternal = null;
         try {
             JSONParser jsonParser = new JSONParser();
             InputStream resourceAsStream = PropertiesUtil.class.getResourceAsStream("/internaldomain.json");
             File destination = createTempFile("temp", "temp").toFile();
             FileUtils.copyInputStreamToFile(resourceAsStream, destination);
             FileReader reader = new FileReader(destination);
-            jsoNfile = jsonParser.parse(reader);
+            jsonInternal = jsonParser.parse(reader);
+
         } catch (Exception e) {
             LOGGER.warn("WARNING -- NOT FOUND internaldomain.json", e);
         }
+        Object jsonExternal = null;
+        try {
+            JSONParser jsonParser = new JSONParser();
+            InputStream resourceAsStream = PropertiesUtil.class.getResourceAsStream("/domain.json");
+            File destination = createTempFile("temp", "temp").toFile();
+            FileUtils.copyInputStreamToFile(resourceAsStream, destination);
+            FileReader reader = new FileReader(destination);
+            jsonExternal = jsonParser.parse(reader);
+
+        } catch (Exception e) {
+            LOGGER.warn("WARNING -- NOT FOUND domain.json", e);
+        }
+
+        JSONObject[] objs = new JSONObject[]{(JSONObject) jsonInternal, (JSONObject) jsonExternal};
+        for (JSONObject obj : objs) {
+            if (obj != null) {
+                Set set = obj.keySet();
+                Iterator it = set.iterator();
+                while (it.hasNext()) {
+                    String key = (String) it.next();
+                    jsonproperties.put(key, obj.get(key));
+                }
+            }
+        }
     }
 
-    public List<String> getFieldTable(Class<?> c) {
+    public JSONArray getFieldTable(Class<?> c) {
         return getListClass(c, ".table.fields");
     }
 
-    public List<String> getFieldForm(Class<?> c) {
+    public JSONArray getFieldForm(Class<?> c) {
         return getListClass(c, ".form.fields");
     }
 
     public Object getJsonValue(String key) {
-        Object a = this.jsoNfile;
+        Object a = this.jsonproperties;
         String[] split = key.split("\\.");
         for (String k : split) {
-            a = a instanceof JSONObject ? ((JSONObject) a).get(k) : ((JSONArray) a);
+            if (a == null) return null;
+            a = a instanceof JSONObject ? ((JSONObject) a).get(k) : a instanceof JSONArray ? ((JSONArray) a) : a;
         }
         return a;
     }
 
-    public List<String> getListClass(Class<?> c, String add) {
+    public JSONArray getListClass(Class<?> c, String add) {
         String key = c.getSimpleName() + add;
         Object jsonValue = getJsonValue(key);
         if (jsonValue != null && !((List) jsonValue).isEmpty()) {
-            return (List) jsonValue;
+            return (JSONArray) jsonValue;
         } else {
-            return config.getList(key).stream().map(Object::toString).collect(Collectors.toList());
+            return new JSONArray();
         }
     }
 
@@ -121,10 +147,10 @@ public class PropertiesUtil {
      */
     public boolean getBoolean(String key) {
         Object jsonValue = getJsonValue(key);
-        if (jsonValue != null && !((List) jsonValue).isEmpty()) {
+        if (jsonValue != null) {
             return (boolean) jsonValue;
         } else {
-            return config.getBoolean(key);
+            return true;
         }
     }
 
@@ -137,10 +163,10 @@ public class PropertiesUtil {
      */
     public boolean getBoolean(String key, boolean defaultValue) {
         Object jsonValue = getJsonValue(key);
-        if (jsonValue != null && !((List) jsonValue).isEmpty()) {
+        if (jsonValue != null) {
             return (boolean) jsonValue;
         } else {
-            return config.getBoolean(key, defaultValue);
+            return defaultValue;
         }
     }
 
@@ -153,10 +179,10 @@ public class PropertiesUtil {
      */
     public Boolean getBoolean(String key, Boolean defaultValue) {
         Object jsonValue = getJsonValue(key);
-        if (jsonValue != null && !((List) jsonValue).isEmpty()) {
+        if (jsonValue != null) {
             return (Boolean) jsonValue;
         } else {
-            return config.getBoolean(key, defaultValue);
+            return defaultValue;
         }
     }
 
@@ -167,10 +193,10 @@ public class PropertiesUtil {
      */
     public double getDouble(String key) {
         Object jsonValue = getJsonValue(key);
-        if (jsonValue != null && !((List) jsonValue).isEmpty()) {
+        if (jsonValue != null) {
             return (Double) jsonValue;
         } else {
-            return config.getDouble(key);
+            return -1.0D;
         }
     }
 
@@ -182,10 +208,10 @@ public class PropertiesUtil {
      */
     public double getDouble(String key, double defaultValue) {
         Object jsonValue = getJsonValue(key);
-        if (jsonValue != null && !((List) jsonValue).isEmpty()) {
+        if (jsonValue != null) {
             return (Double) jsonValue;
         } else {
-            return config.getDouble(key, defaultValue);
+            return defaultValue;
         }
     }
 
@@ -197,10 +223,10 @@ public class PropertiesUtil {
      */
     public Double getDouble(String key, Double defaultValue) {
         Object jsonValue = getJsonValue(key);
-        if (jsonValue != null && !((List) jsonValue).isEmpty()) {
+        if (jsonValue != null) {
             return (Double) jsonValue;
         } else {
-            return config.getDouble(key, defaultValue);
+            return defaultValue;
         }
     }
 

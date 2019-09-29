@@ -18,6 +18,8 @@ import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.zk.component.colorpicker.ColorPicker;
 import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.dsl.PathBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkforge.ckez.CKeditor;
@@ -46,7 +48,8 @@ public class EntityFormVM implements Valuable {
 
     private Object value;
     private CrudActionEvent event;
-    private List<String> fields;
+    private List<String> fields = new ArrayList<>();
+    private JSONArray fieldsBase;
     private transient Map<Field, Component> binding = new LinkedHashMap<>();
     private transient Map<String, Component> renglones = new LinkedHashMap<>();
     private transient Map<String, Component> crudviews = new LinkedHashMap<>();
@@ -68,21 +71,25 @@ public class EntityFormVM implements Valuable {
         estado = (FormStates) Executions.getCurrent().getArg().get("estado-form");
 
         valueClass = value.getClass();
-        fields = ApplicationContextUtils.getBean(PropertiesUtil.class).getFieldForm(valueClass);
+        fieldsBase = ApplicationContextUtils.getBean(PropertiesUtil.class).getFieldForm(valueClass);
         List<Field> listfield = new ArrayList<>();
-        if (fields != null && !fields.isEmpty()) {
+        if (fieldsBase != null && !fieldsBase.isEmpty()) {
             List<Field> finalListfield = listfield;
-            fields.forEach(e -> {
-                finalListfield.add(ReflectionJavaUtil.getField(valueClass, e));
+            fieldsBase.forEach(e -> {
+                finalListfield.add(ReflectionJavaUtil.getField(valueClass, ((JSONObject) e).get("name").toString()));
             });
         } else {
             listfield = ReflectionJavaUtil.getFields(valueClass).stream()
-                    .filter(e -> !e.isAnnotationPresent(Version.class) && !e.getName().equalsIgnoreCase("serialVersionUID")
+                    .filter(e -> !e.isAnnotationPresent(Version.class)
+                            && !e.getName().equalsIgnoreCase("serialVersionUID")
                             && !e.isAnnotationPresent(Id.class)
-                            && (fields != null && !fields.isEmpty() ? fields.contains(e.getName()) : true))
+                    )
                     .collect(Collectors.toList());
         }
-        listfield.forEach(this::fieldToUiField);
+        listfield.forEach(e -> {
+            fields.add(e.getName());
+            this.fieldToUiField(e);
+        });
         setValueForm(value);
         List<Action> actions = (List<Action>) Executions.getCurrent().getArg().get("actions-form");
         if (actions == null) {

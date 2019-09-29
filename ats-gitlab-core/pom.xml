@@ -48,21 +48,21 @@
         <pdfbox.version>2.0.15</pdfbox.version>
         <ats.version>1.0.0.BETA</ats.version>
         <json-simple.version>1.1.1</json-simple.version>
-        <jasperreports.version>6.7.0</jasperreports.version>
+        <jasperreports.version>6.9.0</jasperreports.version>
         <jackson-core.version>2.9.7</jackson-core.version>
     </properties>
     <repositories>
         <repository>
-            <id>ZK CE</id>
-            <url>http://mavensync.zkoss.org/maven2</url>
+            <id>jasperreports</id>
+            <url>http://jasperreports.sourceforge.net/maven2</url>
         </repository>
         <repository>
             <id>Central</id>
             <url>http://central.maven.org/maven2/</url>
         </repository>
         <repository>
-            <id>Dcm4Che</id>
-            <url>http://www.dcm4che.org/maven2/</url>
+            <id>ZK CE</id>
+            <url>http://mavensync.zkoss.org/maven2</url>
         </repository>
 
     </repositories>

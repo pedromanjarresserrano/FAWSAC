@@ -10,6 +10,7 @@ import com.gitlab.pedrioko.services.MailService;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.core.types.dsl.PathBuilder;
 import lombok.Data;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.DigestUtils;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -67,6 +68,10 @@ class RecoveryVM {
     @WireVariable
     private MailService smtpmailsender;
 
+
+    @WireVariable
+    private PasswordEncoder passwordEncoder;
+
     /**
      * The action.
      */
@@ -121,7 +126,7 @@ class RecoveryVM {
         }
 
         String saltstring = StringUtil.getSaltString();
-        user.setPassword(DigestUtils.md5DigestAsHex(saltstring.getBytes()));
+        user.setPassword(passwordEncoder.encode(saltstring));
         crudService.save(user);
         sendEmail(user.getEmail(), user.getUsername(), saltstring);
 

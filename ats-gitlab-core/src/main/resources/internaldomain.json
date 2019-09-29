@@ -6,25 +6,85 @@
       }
     }
   },
-  "ProviderAccess": {
+  "LoginLog": {
     "table": {
       "commonactions": {
         "enable": false
       }
     }
   },
+  "EmailTemplate": {
+    "table": {
+      "fields": [
+        {
+          "name": "nombre"
+        },
+        {
+          "name": "tipo"
+        }
+      ]
+    }
+  },
+  "ProviderAccess": {
+    "table": {
+      "fields": [
+        {
+          "name": "menuprovider"
+        },
+        {
+          "name": "actions"
+        }
+      ],
+      "commonactions": {
+        "enable": false
+      }
+    }
+  },
+  "UserProfile": {
+    "table": {
+      "fields": [
+        {
+          "name": "menuprovider"
+        },
+        {
+          "name": "actions"
+        }
+      ],
+      "subcruds": false
+    }
+  },
   "Usuario": {
     "table": {
       "fields": [
-        "nombres",
-        "apellidos",
-        "email",
-        "telephone",
-        "cedula",
-        "username",
-        "tipo",
-        "empresa"
+        {
+          "name": "nombres"
+        },
+        {
+          "name": "apellidos"
+        },
+        {
+          "name": "email"
+        },
+        {
+          "name": "telephone"
+        },
+        {
+          "name": "cedula"
+        },
+        {
+          "name": "username"
+        },
+        {
+          "name": "tipo"
+        },
+        {
+          "name": "empresa"
+        }
       ]
     }
+  },
+  "gmap": {
+    "lat": 10.40475434603431,
+    "lng": -75.50670504570007
   }
 }
