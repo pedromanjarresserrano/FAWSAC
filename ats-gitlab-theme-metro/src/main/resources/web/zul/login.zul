@@ -41,8 +41,10 @@
 
                             <button type="submit" zclass="btn btn-flat btn-secondary btn-sm " label="@bind(vm.boton)"/>
                         </div>
-                        <div zclass="form-check d-flex justify-content-start pt-2 w-100">
+                        <div zclass="form-check d-flex justify-content-between pt-2 w-100">
                             <checkbox sclass="form-check-label" name="remember-me" label="Remember me"/>
+                            <a label="Recover account"
+                               href="/recovery"/>
                         </div>
                         <div sclass="alert alert-danger  w-100 mt-3"
                              visible="@bind(vm.visiblemessage)">

@@ -44,7 +44,7 @@
                                value="@bind(vm.labelerror)"/>
                     </div>
                     <a label="@bind(vm.labellogin)"
-                       href="/login.zul"/>
+                       href="/login"/>
                     <button id="register"
                             iconSclass="z-icon-share" onClick="@command('recover')"
                             zclass="btn btn-success pull-right btn-md"
