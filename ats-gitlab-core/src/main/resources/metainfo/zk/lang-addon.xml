@@ -541,4 +541,22 @@
             </attribute>
         </annotation>
     </component>
+
+    <component>
+        <component-name>listboxv</component-name>
+        <component-class>com.gitlab.pedrioko.core.zk.component.listbox.ListBox</component-class>
+        <extends>listbox</extends>
+        <annotation>
+            <annotation-name>default-bind</annotation-name>
+            <property-name>value</property-name>
+            <attribute>
+                <attribute-name>access</attribute-name>
+                <attribute-value>both</attribute-value>
+            </attribute>
+            <attribute>
+                <attribute-name>save-when</attribute-name>
+                <attribute-value>self.onChange</attribute-value>
+            </attribute>
+        </annotation>
+    </component>
 </language-addon>

@@ -9,4 +9,11 @@ public interface Valuable {
     FormStates getEstado();
 
     void setEstado(FormStates update);
+
+    default Object getValue() {
+        return null;
+    }
+
+    default void setValue(Object value) {
+    }
 }

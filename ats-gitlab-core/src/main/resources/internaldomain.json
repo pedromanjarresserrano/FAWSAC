@@ -26,6 +26,16 @@
     }
   },
   "ProviderAccess": {
+    "form": {
+      "fields": [
+        {
+          "name": "menuprovider"
+        },
+        {
+          "name": "actions",
+        }
+      ]
+    },
     "table": {
       "fields": [
         {
@@ -36,7 +46,7 @@
         }
       ],
       "commonactions": {
-        "enable": false
+        "enable": true
       }
     }
   },

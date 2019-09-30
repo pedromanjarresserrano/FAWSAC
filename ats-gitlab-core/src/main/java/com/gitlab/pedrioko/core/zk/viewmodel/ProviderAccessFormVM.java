@@ -1,20 +1,27 @@
 package com.gitlab.pedrioko.core.zk.viewmodel;
 
+import com.gitlab.pedrioko.core.lang.ProviderAccess;
 import com.gitlab.pedrioko.core.lang.annotation.Ckeditor;
 import com.gitlab.pedrioko.core.lang.annotation.ColorChooser;
 import com.gitlab.pedrioko.core.lang.annotation.Reference;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.CancelAction;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.api.FieldComponent;
+import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.api.Valuable;
+import com.gitlab.pedrioko.core.view.enums.AplicateAllClass;
+import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
+import com.gitlab.pedrioko.core.view.enums.SubCrudView;
 import com.gitlab.pedrioko.core.view.exception.ValidationException;
 import com.gitlab.pedrioko.core.view.forms.Form;
-import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
-import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
+import com.gitlab.pedrioko.core.view.util.StringUtil;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.core.zk.component.colorpicker.ColorPicker;
 import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.dsl.PathBuilder;
@@ -44,7 +51,7 @@ import java.util.stream.Collectors;
 
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class EntityFormVM implements Valuable {
+public class ProviderAccessFormVM implements Valuable {
 
     private Object value;
     private CrudActionEvent event;
@@ -53,7 +60,7 @@ public class EntityFormVM implements Valuable {
     private transient Map<Field, Component> binding = new LinkedHashMap<>();
     private transient Map<String, Component> renglones = new LinkedHashMap<>();
     private transient Map<String, Component> crudviews = new LinkedHashMap<>();
-    private static final Logger LOGGER = LoggerFactory.getLogger(EntityFormVM.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProviderAccessFormVM.class);
     private FormStates estado = FormStates.CREATE;
     @Wire
     private Tab tabs;
@@ -64,14 +71,66 @@ public class EntityFormVM implements Valuable {
     private Class<?> valueClass;
     private transient Map<String, LinkedHashMap<String, Component>> renglonesGroup = new LinkedHashMap<>();
 
+    private List<String> listproviders = new ArrayList<>();
+    private String selectprovider = new String();
+    private List<String> permissions = new ArrayList<>();
+    private List<Action> beans;
+    private List<String> selectpermissions = new ArrayList<>();
+
+    @Command("loadpermissions")
+    @NotifyChange("permissions")
+    public void loadPermissions() {
+        permissions.clear();
+        loadActions(permissions, selectprovider);
+    }
+
+    private void loadActions(List<String> listmodel, String string) {
+        addToList(listmodel, null);
+        addToList(listmodel, AplicateAllClass.class);
+        addToList(listmodel, SubCrudView.class);
+        Object bean = getBean(StringUtil.getDescapitalize(string));
+        addToList(listmodel, bean.getClass());
+        if (bean instanceof MenuProvider) {
+            Component view = ((MenuProvider) bean).getView();
+            if (view instanceof CrudView) {
+                addToList(listmodel, ((CrudView) view).getTypeClass());
+            }
+
+        }
+    }
+
+    private Object getBean(String arg0) {
+        return ApplicationContextUtils.getBean(arg0);
+    }
+
+    private void addToList(List listmodel, Class<?> klass) {
+        beans.stream().filter(x -> x.getAplicateClass() != null)
+                .filter(x -> x.getAplicateClass().contains(klass)).map(Action::getClass)
+                .map(Class::getSimpleName).forEach(listmodel::add);
+        if (klass == null) {
+            beans.stream()
+                    .filter(x -> x.getAplicateClass().contains(CrudAction.class) || x.getAplicateClass().contains(AplicateAllClass.class))
+                    .map(Action::getClass).map(Class::getSimpleName)
+                    .forEach(listmodel::add);
+        }
+    }
+
     @Init
     public void init() {
         value = Executions.getCurrent().getArg().get("value");
         event = (CrudActionEvent) Executions.getCurrent().getArg().get("event-crud");
         estado = (FormStates) Executions.getCurrent().getArg().get("estado-form");
-
+        beans = ApplicationContextUtils.getBeans(Action.class);
+        listproviders = ApplicationContextUtils.getBeans(MenuProvider.class).stream()
+                .map(MenuProvider::getClass)
+                .map(Class::getSimpleName)
+                .collect(Collectors.toList());
         valueClass = value.getClass();
-        fieldsBase = ApplicationContextUtils.getBean(PropertiesUtil.class).getFieldForm(valueClass);
+
+        selectprovider = ((ProviderAccess) value).getMenuprovider();
+        if (selectprovider != null) loadPermissions();
+        selectpermissions = ((ProviderAccess) value).getActions();
+      /*  fieldsBase = ApplicationContextUtils.getBean(PropertiesUtil.class).getFieldForm(valueClass);
         if (fieldsBase != null && !fieldsBase.isEmpty()) {
             fieldsBase.forEach(e -> {
                 Object name = ((JSONObject) e).get("name");
@@ -97,9 +156,9 @@ public class EntityFormVM implements Valuable {
                 fields.add(e.getName());
                 this.fieldToUiField(e);
             });
-        }
+        }*/
 
-        setValueForm(value);
+        //setValueForm(value);
         List<Action> actions = (List<Action>) Executions.getCurrent().getArg().get("actions-form");
         if (actions == null) {
             List<Action> beans = ApplicationContextUtils.getBeans(Action.class);
@@ -110,6 +169,14 @@ public class EntityFormVM implements Valuable {
         if (estado == FormStates.READ) {
             this.actions.clear();
         }
+    }
+
+    public List<String> getListproviders() {
+        return listproviders;
+    }
+
+    public void setListproviders(List<String> listproviders) {
+        this.listproviders = listproviders;
     }
 
     public List<Action> getActions() {
@@ -124,7 +191,8 @@ public class EntityFormVM implements Valuable {
     public void clickAction(@BindingParam("action") Action action) {
         try {
             if (!(action instanceof CancelAction)) {
-                Object value = getValue();
+                ((ProviderAccess) value).setMenuprovider(selectprovider);
+                ((ProviderAccess) value).setActions(selectpermissions);
                 event.setSource(this);
                 event.setValue(value);
             }
@@ -148,7 +216,7 @@ public class EntityFormVM implements Valuable {
         this.value = value;
     }
 
-
+/*
     private void fieldToUiField(Field e) {
         Class<?> type = e.getType();
         String label = ReflectionZKUtil.getLabel(e);
@@ -173,7 +241,7 @@ public class EntityFormVM implements Valuable {
             }
 
         });
-    }
+    }*/
 
     public Component putBinding(String key, Component value) {
         return binding.put(ReflectionJavaUtil.getField(valueClass, key), value);
@@ -303,5 +371,29 @@ public class EntityFormVM implements Valuable {
 
     public void setTabpanels(Tabpanels tabpanels) {
         this.tabpanels = tabpanels;
+    }
+
+    public String getSelectprovider() {
+        return selectprovider;
+    }
+
+    public void setSelectprovider(String selectprovider) {
+        this.selectprovider = selectprovider;
+    }
+
+    public List<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
+
+    public List<String> getSelectpermissions() {
+        return selectpermissions;
+    }
+
+    public void setSelectpermissions(List<String> selectpermissions) {
+        this.selectpermissions = selectpermissions;
     }
 }

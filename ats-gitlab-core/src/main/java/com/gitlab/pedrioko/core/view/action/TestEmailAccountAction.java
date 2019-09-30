@@ -20,6 +20,7 @@ import org.zkoss.zul.Window;
 import org.zkoss.zul.impl.MessageboxDlg;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @ToolAction
@@ -55,7 +56,7 @@ public class TestEmailAccountAction implements Action {
 
     @Override
     public List<?> getAplicateClass() {
-        return Arrays.asList(Form.class);
+        return Collections.emptyList();
     }
 
     @Override

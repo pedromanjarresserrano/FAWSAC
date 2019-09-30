@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@NoDuplicate(value = "menuprovider")
+//@NoDuplicate(value = "menuprovider")
 public @Data
 class ProviderAccess extends BaseEntity {
 
