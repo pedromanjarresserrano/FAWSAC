@@ -55,11 +55,6 @@ public class ProviderAccessFormVM implements Valuable {
 
     private Object value;
     private CrudActionEvent event;
-    private List<String> fields = new ArrayList<>();
-    private JSONArray fieldsBase;
-    private transient Map<Field, Component> binding = new LinkedHashMap<>();
-    private transient Map<String, Component> renglones = new LinkedHashMap<>();
-    private transient Map<String, Component> crudviews = new LinkedHashMap<>();
     private static final Logger LOGGER = LoggerFactory.getLogger(ProviderAccessFormVM.class);
     private FormStates estado = FormStates.CREATE;
     @Wire
@@ -68,8 +63,6 @@ public class ProviderAccessFormVM implements Valuable {
     private Tabpanels tabpanels;
     @WireVariable
     private List<Action> actions;
-    private Class<?> valueClass;
-    private transient Map<String, LinkedHashMap<String, Component>> renglonesGroup = new LinkedHashMap<>();
 
     private List<String> listproviders = new ArrayList<>();
     private String selectprovider = new String();
@@ -125,40 +118,11 @@ public class ProviderAccessFormVM implements Valuable {
                 .map(MenuProvider::getClass)
                 .map(Class::getSimpleName)
                 .collect(Collectors.toList());
-        valueClass = value.getClass();
 
         selectprovider = ((ProviderAccess) value).getMenuprovider();
         if (selectprovider != null) loadPermissions();
         selectpermissions = ((ProviderAccess) value).getActions();
-      /*  fieldsBase = ApplicationContextUtils.getBean(PropertiesUtil.class).getFieldForm(valueClass);
-        if (fieldsBase != null && !fieldsBase.isEmpty()) {
-            fieldsBase.forEach(e -> {
-                Object name = ((JSONObject) e).get("name");
-                fields.add(name.toString());
-                Object customcomponentzul = ((JSONObject) e).get("customcomponentzul");
-                Field field = ReflectionJavaUtil.getField(valueClass, ((JSONObject) e).get("name").toString());
-                if (customcomponentzul != null) {
-                    Component component = Executions.createComponents(customcomponentzul.toString(), null, null);
-                    putBinding(field, component);
-                    loadReglon(ReflectionZKUtil.getLabel(name.toString()), component);
-                } else {
-                    this.fieldToUiField(field);
-                }
-            });
-        } else {
-            List<Field> listfield = ReflectionJavaUtil.getFields(valueClass).stream()
-                    .filter(e -> !e.isAnnotationPresent(Version.class)
-                            && !e.getName().equalsIgnoreCase("serialVersionUID")
-                            && !e.isAnnotationPresent(Id.class)
-                    )
-                    .collect(Collectors.toList());
-            listfield.forEach(e -> {
-                fields.add(e.getName());
-                this.fieldToUiField(e);
-            });
-        }*/
 
-        //setValueForm(value);
         List<Action> actions = (List<Action>) Executions.getCurrent().getArg().get("actions-form");
         if (actions == null) {
             List<Action> beans = ApplicationContextUtils.getBeans(Action.class);
@@ -204,130 +168,22 @@ public class ProviderAccessFormVM implements Valuable {
     }
 
     public Object getValue() {
-        try {
-            return ReflectionZKUtil.getBindingValue(binding, value.getClass(), value);
-        } catch (ValidationException w) {
-            LOGGER.error("ERROR on getModel()", w);
-            throw w;
-        }
+        return value;
+
     }
 
     public void setValue(Object value) {
         this.value = value;
+        selectprovider = ((ProviderAccess) value).getMenuprovider();
+        if (selectprovider != null) loadPermissions();
+        selectpermissions = ((ProviderAccess) value).getActions();
     }
 
-/*
-    private void fieldToUiField(Field e) {
-        Class<?> type = e.getType();
-        String label = ReflectionZKUtil.getLabel(e);
-        if (e.isAnnotationPresent(Ckeditor.class)) {
-            CKeditor c = new CKeditor();
-            putBinding(e, c);
-            loadReglon(label, c);
-            return;
-        }
-        if (e.isAnnotationPresent(ColorChooser.class)) {
-            ColorPicker c = new ColorPicker();
-            putBinding(e, c);
-            loadReglon(label, c);
-            return;
-        }
-        ApplicationContextUtils.getBeansOfType(FieldComponent.class).stream().filter(v -> v.getToClass() == null
-                || v.getToClass().length == 0 || Arrays.asList(v.getToClass()).contains(type)).forEach(w -> {
-            Component component = w.getComponent(e);
-            if (component != null) {
-                putBinding(e, component);
-                loadReglon(label, component);
-            }
-
-        });
-    }*/
-
-    public Component putBinding(String key, Component value) {
-        return binding.put(ReflectionJavaUtil.getField(valueClass, key), value);
-    }
-
-    public Component putBinding(Field key, Component value) {
-        return binding.put(key, value);
-    }
-
-    public void loadReglon(String label, Component campo) {
-        if (campo instanceof Tabbox)
-            crudviews.put(label, campo);
-        else {
-            renglones.put(label, campo);
-            LinkedHashMap<String, Component> list = renglonesGroup.get(campo.getClass().getSimpleName());
-            if (list == null)
-                list = new LinkedHashMap<>();
-            list.put(label, campo);
-            renglonesGroup.put(campo.getClass().getSimpleName(), list);
-        }
-    }
-
-    public Map<Field, Component> getBinding() {
-        return binding;
-    }
-
-    public void setBinding(Map<Field, Component> binding) {
-        this.binding = binding;
-    }
-
-    public Map<String, Component> getRenglones() {
-        return renglones;
-    }
-
-    public void setRenglones(Map<String, Component> renglones) {
-        this.renglones = renglones;
-    }
-
-    public Map<String, LinkedHashMap<String, Component>> getRenglonesGroup() {
-        return renglonesGroup;
-    }
-
-    public void setRenglonesGroup(Map<String, LinkedHashMap<String, Component>> renglonesGroup) {
-        this.renglonesGroup = renglonesGroup;
-    }
 
     @Override
     @NotifyChange("*")
     public void setValueForm(Object value) {
-        CrudService crudService = ApplicationContextUtils.getBean(CrudService.class);
-        if (value != null) {
-            Object obj = crudService.refresh(value);
-            getBinding().forEach((k, v) -> {
-                try {
-                    Object invoke = ReflectionJavaUtil.getValueFieldObject(k.getName(), obj);
-                    if (estado == FormStates.READ)
-                        ReflectionZKUtil.disableComponent(v);
-                    if (invoke == null)
-                        invoke = ReflectionJavaUtil.getNewInstace(k);
-                    if (k.isAnnotationPresent(Reference.class)) {
-                        Reference annotation = k.getAnnotation(Reference.class);
-                        Class<?> annotationvalue = annotation.value();
-
-                        PathBuilder<?> pathBuilder = crudService.getPathBuilder(annotationvalue);
-                        String id = annotation.id();
-                        PathBuilder<Object> t = null;
-                        if (id != null && !id.isEmpty())
-                            t = pathBuilder.get(id);
-                        else {
-                            String idPropertyName = crudService.getIdPropertyName(getValue().getClass());
-                            t = pathBuilder.get(idPropertyName);
-                        }
-
-                        Object o = invoke != null ? invoke : new ArrayList<>();
-                        o = ((List) o).stream().map(l -> Long.parseLong(l.toString())).collect(Collectors.toList());
-                        List<?> fetch = crudService.query().from(pathBuilder).where(t.in((List) o)).fetch();
-                        ReflectionZKUtil.setValueComponent(v, fetch != null ? fetch : new ArrayList<>());
-
-                    } else
-                        ReflectionZKUtil.setValueComponent(v, invoke);
-                } catch (SecurityException e) {
-                    LOGGER.error("ERROR on setValueForm()", e);
-                }
-            });
-
-        }
+        setValue(value);
     }
 
     @Override
@@ -338,23 +194,6 @@ public class ProviderAccessFormVM implements Valuable {
     @Override
     public void setEstado(FormStates estado) {
         this.estado = estado;
-    }
-
-
-    public List<String> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<String> fields) {
-        this.fields = fields;
-    }
-
-    public Map<String, Component> getCrudviews() {
-        return crudviews;
-    }
-
-    public void setCrudviews(Map<String, Component> crudviews) {
-        this.crudviews = crudviews;
     }
 
     public Tab getTabs() {

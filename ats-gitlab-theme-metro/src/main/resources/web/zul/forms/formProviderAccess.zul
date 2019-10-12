@@ -16,7 +16,7 @@
                         </template>
                     </div>
                -->
-                <div zclass="row">
+                <div zclass="row mb-4">
                     <div zclass="col-12 col-md-4">
                         <label>Menu</label>
                     </div>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div zclass="row">
-                    <div zclass="col-12">
+                    <div zclass="col-12 mb-3">
                         <label>Permissions</label>
                     </div>
                     <div zclass="col-12">
