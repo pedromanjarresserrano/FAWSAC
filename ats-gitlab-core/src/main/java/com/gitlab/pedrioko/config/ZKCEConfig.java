@@ -2,6 +2,7 @@ package com.gitlab.pedrioko.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import org.zkoss.zk.ui.http.WebManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
+@EntityScan(basePackages = {"com.gitlab"})
 public class ZKCEConfig {
 
     private static final String RICHLET_URI = "/richlet"; //optional
