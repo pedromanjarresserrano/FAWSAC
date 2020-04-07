@@ -62,5 +62,5 @@ public interface StorageService {
 
     void saveFile(MultipartFile file);
 
-    File getNewFile(String s);
+    File getNewFile(String fileName);
 }

@@ -18,9 +18,6 @@ import java.util.UUID;
 @Scope("session")
 public class FHSessionUtil {
 
-    private final String uuid = UUID.randomUUID().toString();
-    @Autowired
-    private CrudService crudService;
     private String ipLocal;
 
     /**
@@ -30,9 +27,6 @@ public class FHSessionUtil {
      */
     public Usuario getCurrentUser() {
         Object currentUser = getSession().getAttribute("CurrentUser");
-       /* if (currentUser != null)
-            return crudService.getById(Usuario.class, ReflectionJavaUtil.getIdValue(currentUser));
-        else*/
         return (Usuario) currentUser;
     }
 

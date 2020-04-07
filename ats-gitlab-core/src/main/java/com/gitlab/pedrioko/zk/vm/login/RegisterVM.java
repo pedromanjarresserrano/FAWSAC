@@ -293,8 +293,7 @@ public class RegisterVM {
         disableMessage();
         newuser.setIdusuario(-1);
         newuser.setPassword(DigestUtils.md5DigestAsHex(newuser.getPassword().getBytes()));
-        if (TextValidator.validateIfBlank(newuser.getEmail(), newuser.getApellidos(), newuser.getNombres(),
-                newuser.getPassword(), newuser.getUsername(), valuecpassword)) {
+        if (TextValidator.validateIfBlank(newuser.getEmail(), newuser.getApellidos(), newuser.getNombres(), newuser.getPassword(), newuser.getUsername(), valuecpassword)) {
             avilitableMessage();
             labelerror = Labels.getLabel("userbasicform.error.campovacio");
             return;
@@ -304,15 +303,13 @@ public class RegisterVM {
             labelerror = Labels.getLabel("userbasicform.error.contrasena");
             return;
         }
-        Usuario user = crudService.getEntityByQueryUnique("FROM " + Usuario.class.getName() + " usr WHERE usr.email = ?",
-                newuser.getEmail());
+        Usuario user = crudService.getEntityByQueryUnique("FROM " + Usuario.class.getName() + " usr WHERE usr.email = ?", newuser.getEmail());
         if (user != null) {
             labelerror = Labels.getLabel("registro.error.email");
             avilitableMessage();
             return;
         }
-        user = crudService.getEntityByQueryUnique("FROM " + Usuario.class.getName() + " usr WHERE usr.username = ?",
-                newuser.getUsername());
+        user = crudService.getEntityByQueryUnique("FROM " + Usuario.class.getName() + " usr WHERE usr.username = ?", newuser.getUsername());
         if (user != null) {
             labelerror = Labels.getLabel("registro.error.usuario");
             avilitableMessage();

@@ -21,7 +21,6 @@ public class CrudFilters {
 
     private CrudController crudController;
     private Class<?> klass;
-    private final Random random = new Random();
     private List<String> fieldsfilters;
     private Map<String, Component> filters = new LinkedHashMap<>();
     private final transient Map<Field, Component> binding = new LinkedHashMap<>();

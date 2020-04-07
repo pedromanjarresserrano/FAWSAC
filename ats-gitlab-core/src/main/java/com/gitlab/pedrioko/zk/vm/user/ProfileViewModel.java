@@ -172,7 +172,7 @@ class ProfileViewModel {
         titulo = Labels.getLabel("userbasic.perfil.titulo");
         subir = Labels.getLabel("userbasicform.subir");
         labelutil.setValueapellidos(labelutil.getUser().getApellidos());
-        labelutil.setValuecedula(labelutil.getUser().getCedula());
+        labelutil.setValuecedula(labelutil.getUser().getIdentificacion());
         labelutil.setValueemail(labelutil.getUser().getEmail());
         labelutil.setValuenombres(labelutil.getUser().getNombres());
         labelutil.setValuetelefono(labelutil.getUser().getTelefono());

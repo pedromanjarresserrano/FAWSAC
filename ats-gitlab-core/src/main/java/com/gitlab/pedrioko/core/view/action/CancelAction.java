@@ -25,7 +25,7 @@ public class CancelAction implements Action {
 
     @Override
     public void actionPerform(CrudActionEvent event) {
-        event.getCrudViewParent().previusState();
+        event.getCrudViewParent().previousState();
     }
 
     @Override

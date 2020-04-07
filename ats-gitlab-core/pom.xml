@@ -12,7 +12,7 @@
     <artifactId>ats</artifactId>
     <version>1.0.0.BETA</version>
     <properties>
-        <zk.version>8.6.0.1</zk.version>
+        <zk.version>9.0.0</zk.version>
         <commons-io>2.6</commons-io>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>

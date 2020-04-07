@@ -9,11 +9,10 @@ import org.zkoss.zul.Tabpanel;
 public @Data
 class CrudActionEvent {
     private Object value;
-    private Tabpanel tabpanel;
     private CrudView crudViewParent;
     private FormStates formstate;
-    private Valuable source;
     private Class type;
+    private Valuable source;
 
     public CrudActionEvent() {
     }

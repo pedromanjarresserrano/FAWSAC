@@ -31,11 +31,8 @@ public class CrudView extends Tabpanel {
     private static final long serialVersionUID = 1L;
     private Map<String, Object> rootParams = new LinkedHashMap<>();
     private Class<?> klass;
-    private List<Button> listActions;
     private Div divbar;
-    private @Getter
-    @Setter
-    Div actions;
+
 
     private @Getter
     @Setter
@@ -47,9 +44,7 @@ public class CrudView extends Tabpanel {
     private @Getter
     @Setter
     CrudMode crudviewmode;
-    private @Getter
-    East east;
-    private CrudMenuContext popup;
+    private East east;
     private North north;
     private Borderlayout borderlayout;
     private int selectedIndex = 0;
@@ -88,12 +83,12 @@ public class CrudView extends Tabpanel {
         crudviewmode = CrudMode.MAINCRUD;
         view(klass, getBean(PropertiesUtil.class).getFieldTable(klass));
     }
-
+/*
     public void useAlphabetFilter() {
         North north = new North();
         north.appendChild(new AlphabetFilter(crudController, klass));
 
-    }
+    }*/
 /*
     protected void init(Class<?> klass) {
         crudviewmode = CrudMode.MAINCRUD;
@@ -111,13 +106,14 @@ public class CrudView extends Tabpanel {
     private void createUI() {
         borderlayout = new Borderlayout();
         divbar = new Div();
-        actions = new Div();
         arg = new HashMap<>();
         arg.put("klass-crud", klass);
         arg.put("CrudView", this);
         arg.put("CrudViewUUID", UUID.randomUUID().toString());
 
-        Component crudviewbar = Executions.createComponents("~./zul/crud/crudviewbar.zul", null, arg);
+        Component crudviewbar = null;
+        crudviewbar = loadPlantilla(crudviewbar, "~./zul/crud/crudviewbar");
+
         divbar.appendChild(crudviewbar);
         east = new East();
         north = new North();
@@ -144,19 +140,10 @@ public class CrudView extends Tabpanel {
         arg.put("crud-list-items", crudController.getValues());
         arg.put("crud-controller", crudController);
         Component crudtable = null;
-        try {
-            crudtable = Executions.createComponents("~./zul/crud/table/crudtable" + klass.getSimpleName() + ".zul", null, arg);
-        } catch (Exception e) {
-            LOGGER.info("CUSTOM CRUD TABLE PAGE NOT FOUND....");
-            LOGGER.info("USING DEFAULT CRUD TABLE PAGE ");
-        }
-        if (crudtable == null) crudtable = Executions.createComponents("~./zul/crud/table/crudtable.zul", null, arg);
+        crudtable = loadPlantilla(crudtable, "~./zul/crud/table/crudtable");
 
         center.appendChild(crudtable);
 
-        //east.setSlidable(true);
-        //east.setCollapsible(false);
-        appendChild(actions);
         setStyle("height:100%;");
         reloadable = crudviewmode != CrudMode.SUBCRUD;
         east.addEventListener(Events.ON_VISIBILITY_CHANGE, e -> {
@@ -166,10 +153,24 @@ public class CrudView extends Tabpanel {
             }
         });
         South south = new South();
-        Component pagination = Executions.createComponents("~./zul/crud/filters/pagination.zul", null, arg);
+        Component pagination = null;
+        pagination = loadPlantilla(pagination, "~./zul/crud/filters/pagination");
+
         south.appendChild(pagination);
         borderlayout.appendChild(south);
 
+    }
+
+    private Component loadPlantilla(Component component, String plantilla) {
+        try {
+            component = Executions.createComponents(plantilla + klass.getSimpleName() + ".zul", null, arg);
+        } catch (Exception e) {
+            LOGGER.info("CUSTOM CRUD TABLE PAGE NOT FOUND....");
+            LOGGER.info("USING DEFAULT CRUD TABLE PAGE ");
+        }
+        if (component == null)
+            component = Executions.createComponents(plantilla + ".zul", null, arg);
+        return component;
     }
 
     public CrudView(Class<?> klass, List<?> value) {
@@ -192,7 +193,6 @@ public class CrudView extends Tabpanel {
 
     private void view(Class<?> klass, List<String> fields) {
         this.klass = klass;
-        listActions = new ArrayList<>();
         createUI();
     }
 
@@ -211,7 +211,7 @@ public class CrudView extends Tabpanel {
         }
     }
 
-    public void previusState() {
+    public void previousState() {
         crudController.clearParams();
         getChildren().clear();
         createUI();
@@ -219,14 +219,14 @@ public class CrudView extends Tabpanel {
         if (reloadable)
             update();
     }
-
+/*
     public List<String> getValueIds() {
         return crudController.getValueIds();
     }
 
     public void setValueIds(List<String> value) {
         crudController.setValueIds(value);
-    }
+    }*/
 
     public void setContent(Component c) {
         selectedIndex = getTabbox().getSelectedIndex();
@@ -246,21 +246,6 @@ public class CrudView extends Tabpanel {
         this.setValue((List) value);
     }
 
-    public List<Button> getListActions() {
-        return listActions;
-    }
-
-    public void setListActions(List<Button> listActions) {
-        this.listActions = listActions;
-    }
-
-    public Div getToolbar() {
-        return divbar;
-    }
-
-    public void setToolbar(Div toolbar) {
-        divbar = toolbar;
-    }
 
     public void setDisabled(boolean disable) {
         divbar.setVisible(!disable);
@@ -290,26 +275,6 @@ public class CrudView extends Tabpanel {
 
     public void addValue(Object value) {
         crudController.addValue(value);
-    }
-
-    public void addAction(Action action, CrudActionEvent event) {
-        addAction(action.getLabel(), action.getIcon(), "btn " + action.getClasses(), e -> {
-            EventQueues.lookup("action-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).publish(new Event("action-crud-" + klass.getSimpleName() + "-" + UUID.randomUUID().toString(), null, action));
-        });
-    }
-
-    public void addAction(String labelaction, String icon, EventListener<? extends Event> event) {
-        addAction(labelaction, icon, "btn btn-primary pull-left", event);
-    }
-
-    public void addAction(String labelaction, String icon, String classes, EventListener<? extends Event> event) {
-        Button btn = new Button();
-        btn.setLabel(labelaction);
-        btn.setIconSclass(icon);
-        btn.setClass("btn btn-action " + classes);
-        btn.addEventListener(Events.ON_CLICK, event);
-        actions.appendChild(btn);
-
     }
 
     public void update() {

@@ -21,7 +21,7 @@ import java.util.List;
 @Table(name = "Usuario")
 @Inheritance(strategy = InheritanceType.JOINED)
 @EqualsAndHashCode(callSuper = false)
-@NoDuplicate(values = {"username", "email", "cedula"})
+@NoDuplicate(values = {"username", "email", "identificacion"})
 public @Data
 class Usuario extends BaseEntity {
 
@@ -72,7 +72,7 @@ class Usuario extends BaseEntity {
     @Lob
     @Column(length = 50000)
     @NoEmpty
-    private String cedula;
+    private String identificacion;
 
     /**
      * The username.
@@ -133,7 +133,7 @@ class Usuario extends BaseEntity {
      */
     @Override
     public String toString() {
-        return cedula + " - " + nombres + apellidos;
+        return identificacion + " - " + nombres + apellidos;
     }
 
 }

@@ -48,7 +48,6 @@ public class EntityFormVM implements Valuable {
 
     private Object value;
     private CrudActionEvent event;
-    private List<String> fields = new ArrayList<>();
     private JSONArray fieldsBase;
     private transient Map<Field, Component> binding = new LinkedHashMap<>();
     private transient Map<String, Component> renglones = new LinkedHashMap<>();
@@ -75,7 +74,6 @@ public class EntityFormVM implements Valuable {
         if (fieldsBase != null && !fieldsBase.isEmpty()) {
             fieldsBase.forEach(e -> {
                 Object name = ((JSONObject) e).get("name");
-                fields.add(name.toString());
                 Object customcomponentzul = ((JSONObject) e).get("customcomponentzul");
                 Field field = ReflectionJavaUtil.getField(valueClass, ((JSONObject) e).get("name").toString());
                 if (customcomponentzul != null) {
@@ -94,7 +92,6 @@ public class EntityFormVM implements Valuable {
                     )
                     .collect(Collectors.toList());
             listfield.forEach(e -> {
-                fields.add(e.getName());
                 this.fieldToUiField(e);
             });
         }
@@ -270,15 +267,6 @@ public class EntityFormVM implements Valuable {
     @Override
     public void setEstado(FormStates estado) {
         this.estado = estado;
-    }
-
-
-    public List<String> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<String> fields) {
-        this.fields = fields;
     }
 
     public Map<String, Component> getCrudviews() {

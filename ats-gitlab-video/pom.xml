@@ -15,6 +15,7 @@
         <javacv-platform.version>1.5</javacv-platform.version>
         <jcodec-javase.version>0.2.3</jcodec-javase.version>
         <ats.version>1.0.0.BETA</ats.version>
+        <zk.version>9.0.0</zk.version>
     </properties>
     <build>
         <plugins>
@@ -70,7 +71,7 @@
         <dependency>
             <groupId>org.zkoss.zk</groupId>
             <artifactId>zk</artifactId>
-            <version>8.6.0.1</version>
+            <version>${zk.version}</version>
         </dependency>
         <dependency>
             <groupId>com.querydsl</groupId>

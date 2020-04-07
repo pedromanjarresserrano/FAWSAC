@@ -352,7 +352,7 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public File getNewFile(String s) {
-        return new File(getStorageLocation() + "\\" + s);
+    public File getNewFile(String fileName) {
+        return new File(getStorageLocation() + "\\" + fileName);
     }
 }

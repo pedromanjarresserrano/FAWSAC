@@ -31,12 +31,11 @@ import java.util.Map;
 
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class Menu {
+public class  Menu {
     private static final Logger LOGGER = LoggerFactory.getLogger(MenuPages.class);
     @WireVariable
     private transient ContentView contentView;
     private Usuario user;
-    private List<Groupbox> groups;
     private AImage image;
     private Label labelnombre;
     private Map<String, List<MenuProvider>> menues;
@@ -50,7 +49,6 @@ public class Menu {
     @Init
     public void init() {
         user = fhsessionutil.getCurrentUser();
-        groups = new LinkedList<>();
         labelnombre = new Label(user.getNombres() + " " + user.getApellidos());
         labelnombre.setZclass("label-nombre");
         menues = securityService.getProviderGroup(user);

@@ -13,6 +13,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import org.hibernate.Hibernate;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.metamodel.spi.MetamodelImplementor;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -179,7 +180,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
 
     @Override
     public <T> String getIdPropertyName(Class<T> klass) {
-        return getCurrentSession().getSessionFactory().getClassMetadata(klass).getIdentifierPropertyName();
+        return ((MetamodelImplementor) entityManager.getMetamodel()).entityPersister(klass).getIdentifierPropertyName();
     }
 
     /*

@@ -54,7 +54,7 @@ public class SaveAction implements Action {
             if (crudViewParent != null) {
                 ReflectionJavaUtil.removeById(list, ReflectionJavaUtil.getIdValue(value));
                 crudViewParent.addValue(value);
-                crudViewParent.previusState();
+                crudViewParent.previousState();
                 boolean a = event.getFormstate() == FormStates.CREATE || event.getFormstate() == FormStates.UPDATE;
                 if (a && crudViewParent.getReloadable()) {
                     crudViewParent.getCrudController().doQuery();
