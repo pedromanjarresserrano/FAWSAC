@@ -13,7 +13,9 @@ public interface Action {
 
     public String getLabel();
 
-    public String getTooltipText();
+    default String getTooltipText() {
+        return "";
+    }
 
     public String getIcon();
 
@@ -22,9 +24,13 @@ public interface Action {
     @SuppressWarnings("rawtypes")
     public List<?> getAplicateClass();
 
-    public String getClasses();
+    default String getClasses() {
+        return "";
+    }
 
-    public FormStates getFormState();
+    default FormStates getFormState() {
+        return FormStates.READ;
+    }
 
     public Integer position();
 
