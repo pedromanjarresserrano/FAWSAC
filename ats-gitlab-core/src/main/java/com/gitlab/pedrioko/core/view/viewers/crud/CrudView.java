@@ -2,10 +2,15 @@ package com.gitlab.pedrioko.core.view.viewers.crud;
 
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
+import com.gitlab.pedrioko.core.view.api.OnEvent;
+import com.gitlab.pedrioko.core.view.api.OnQuery;
+import com.gitlab.pedrioko.core.view.enums.CrudEvents;
 import com.gitlab.pedrioko.core.view.enums.CrudMode;
+import com.gitlab.pedrioko.core.view.enums.ParamMode;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.CrudController;
+import com.gitlab.pedrioko.core.view.viewers.crud.controllers.model.OrderBY;
 import com.gitlab.pedrioko.core.view.viewers.crud.grid.AlphabetFilter;
 import lombok.Getter;
 import lombok.Setter;
@@ -302,4 +307,115 @@ public class CrudView extends Tabpanel {
         crudController.clearParams();
     }
 
+    public String getBeginString() {
+        return crudController.getBeginString();
+    }
+
+    public ParamMode getParamMode() {
+        return crudController.getParamMode();
+    }
+
+    public void setBeginString(String beginString) {
+        crudController.setBeginString(beginString);
+    }
+
+    public void setParamMode(ParamMode paramMode) {
+        crudController.setParamMode(paramMode);
+    }
+
+    public void setCrudViewValue(List<?> value) {
+        crudController.setCrudViewValue(value);
+    }
+
+    public List<String> getValueIds() {
+        return crudController.getValueIds();
+    }
+
+    public void setValueIds(List<String> value) {
+        crudController.setValueIds(value);
+    }
+
+    public Object getRoot(Object key) {
+        return crudController.getRoot(key);
+    }
+
+    public Object putRoot(String key, Object value) {
+        return crudController.putRoot(key, value);
+    }
+
+    public Object get(Object key) {
+        return crudController.get(key);
+    }
+
+    public Object put(String key, Object value) {
+        return crudController.put(key, value);
+    }
+
+    public void doQuery() {
+        crudController.doQuery();
+    }
+
+    public void addEventOnEvent(CrudEvents e, OnEvent o) {
+        crudController.addEventOnEvent(e, o);
+    }
+
+    public void addEventPostQuery(OnQuery o) {
+        crudController.addEventPostQuery(o);
+    }
+
+    public void setContainsString(String beginString) {
+        crudController.setContainsString(beginString);
+    }
+
+    public void doQueryStringBegin(String field, String value) {
+        crudController.doQueryStringBegin(field, value);
+    }
+
+    public void setPage(int offSet) {
+        crudController.setPage(offSet);
+    }
+
+    public void setPage(int offSet, int limit) {
+        crudController.setPage(offSet, limit);
+    }
+
+    public long getCount() {
+        return crudController.getCount();
+    }
+
+    public List getValues() {
+        return crudController.getValues();
+    }
+
+    public int getOffSet() {
+        return crudController.getOffSet();
+    }
+
+    public int getLimit() {
+        return crudController.getLimit();
+    }
+
+    public Object getFullData() {
+        return crudController.getFullData();
+    }
+
+    public String getOrderField() {
+        return crudController.getOrderField();
+    }
+
+    public void setOrderField(String orderField) {
+        crudController.setOrderField(orderField);
+    }
+
+    public OrderBY getOrderBY() {
+        return crudController.getOrderBY();
+    }
+
+    public void setOrderBY(OrderBY orderBY) {
+        crudController.setOrderBY(orderBY);
+    }
+
+    public void putAllRoot(Map<? extends String, ?> m) {
+        crudController.putAllRoot(m);
+    }
 }
