@@ -30,7 +30,8 @@ public class CrudFilters {
 
     @Init
     private void init() {
-        crudController = (CrudController) Executions.getCurrent().getArg().get("crud-controller");
+        Map<?, ?> arg = (Map<?, ?>) Executions.getCurrent().getArg();
+        crudController = (CrudController) arg.get("crud-controller");
         klass = crudController.getTypeClass();
         listfield = ReflectionJavaUtil.getFields(getKlass()).stream()
                 .filter(e -> !e.isAnnotationPresent(Version.class) && !e.getName().equalsIgnoreCase("serialVersionUID")

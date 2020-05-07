@@ -2,6 +2,7 @@ package com.gitlab.pedrioko.core.reflection;
 
 import com.gitlab.pedrioko.core.reflection.enums.ClassMethod;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.Version;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ReflectionJavaUtil {
@@ -101,6 +99,12 @@ public class ReflectionJavaUtil {
             try {
                 return class1.newInstance();
             } catch (InstantiationException | IllegalAccessException e) {
+                try {
+                    Object[] objects = {0};
+                    return ConstructorUtils.invokeConstructor(class1, objects);
+                } catch (Exception e1) {
+                    LOGGER.error("ERROR on getNewInstace()", e);
+                }
                 LOGGER.error("ERROR on getNewInstace()", e);
             }
         return null;

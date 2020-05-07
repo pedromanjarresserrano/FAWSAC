@@ -1,0 +1,54 @@
+<borderlayout viewModel="@id('cv') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.CrudViewVM')">
+    <north>
+        <zscript language="Java">
+            import org.zkoss.zk.ui.Executions;
+            import java.util.Map;
+            Map arg = (Map) Executions.getCurrent().getArg();
+            Class klass = (Class) arg.get("klass-crud");
+            try {
+                self.appendChild(Executions.createComponents("~./zul/crud/crudviewbar" + klass.getSimpleName() + ".zul", null, arg));
+            } catch (Exception e) {
+                self.appendChild(Executions.createComponents("~./zul/crud/crudviewbar.zul", null, arg));
+            }
+        </zscript>
+    </north>
+    <center>
+        <zscript language="Java">
+            import org.zkoss.zk.ui.Executions;
+            import java.util.Map;
+            Map arg = (Map) Executions.getCurrent().getArg();
+            Class klass = (Class) arg.get("klass-crud");
+            try {
+                self.appendChild(Executions.createComponents("~./zul/crud/table/crudtable" + klass.getSimpleName() + ".zul", null, arg));
+            } catch (Exception e) {
+                self.appendChild(Executions.createComponents("~./zul/crud/table/crudtable.zul", null, arg));
+            }
+        </zscript>
+    </center>
+    <east width="300px"    open="@bind(cv.open)"  collapsible="true">
+        <zscript language="Java">
+            import org.zkoss.zk.ui.Executions;
+            import java.util.Map;
+            Map arg = (Map) Executions.getCurrent().getArg();
+            Class klass = (Class) arg.get("klass-crud");
+            try {
+                self.appendChild(Executions.createComponents("~./zul/crud/filters/crudfilters" + klass.getSimpleName() + ".zul", null, arg));
+            } catch (Exception e) {
+                self.appendChild(Executions.createComponents("~./zul/crud/filters/crudfilters.zul", null, arg));
+            }
+        </zscript>
+    </east>
+    <south>
+        <zscript language="Java">
+            import org.zkoss.zk.ui.Executions;
+            import java.util.Map;
+            Map arg = (Map) Executions.getCurrent().getArg();
+            Class klass = (Class) arg.get("klass-crud");
+            try {
+                self.appendChild(Executions.createComponents("~./zul/crud/filters/pagination" + klass.getSimpleName() + ".zul", null, arg));
+            } catch (Exception e) {
+                self.appendChild(Executions.createComponents("~./zul/crud/filters/pagination.zul", null, arg));
+            }
+        </zscript>
+    </south>
+</borderlayout>

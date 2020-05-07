@@ -20,6 +20,7 @@ import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
@@ -43,11 +44,12 @@ public class CrudTable {
 
     @Init
     private void init() {
-        crudView = (CrudView) Executions.getCurrent().getArg().get("CrudView");
-        klass = (Class<?>) Executions.getCurrent().getArg().get("klass-crud");
+        Map<?, ?> arg = (Map<?, ?>) Executions.getCurrent().getArg();
+        crudView = (CrudView) arg.get("CrudView");
+        klass = (Class<?>) arg.get("klass-crud");
         headersbase = getBean(PropertiesUtil.class).getFieldTable(klass);
-        items = (List<?>) Executions.getCurrent().getArg().get("crud-list-items");
-        uuid = (String) Executions.getCurrent().getArg().get("CrudViewUUID");
+        items = (List<?>) arg.get("crud-list-items");
+        uuid = (String) arg.get("CrudViewUUID");
         crudService = ApplicationContextUtils.getBean(CrudService.class);
         storageService = ApplicationContextUtils.getBean(StorageService.class);
         loadfields();

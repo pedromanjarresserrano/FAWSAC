@@ -1,15 +1,15 @@
 <?taglib uri="http://labels.ats.pedrioko/taglib" prefix="my"?>
 <?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 
-<div apply="org.zkoss.bind.BindComposer" sclass="d-flex flex-row"
+<div apply="org.zkoss.bind.BindComposer" sclass="d-flex flex-row bg-dark"
      viewModel="@id('tb') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.CrudViewBar')">
-    <toolbar children="@bind(tb.actions.entrySet())" sclass="hidden-sm w-100">
+    <toolbar children="@bind(tb.actions.entrySet())" sclass="hidden-sm w-100 bg-dark">
         <template name="children" var="node">
             <div children="@load(node.value)" sclass="btn-group">
                 <template name="children" var="node">
                     <toolbarbutton onClick="@command('clickAction', action=node)"
                                    iconSclass="@load(c:cat(' fa-lg ', node.icon))"
-                                   sclass="btn text-white btn-sm"
+                                   sclass="btn text-white btn-md"
                                    style="@load(c:cat(' color:#fff !important; background:', node.color))"
                                    tooltiptext="@load(node.tooltipText)"/>
                 </template>

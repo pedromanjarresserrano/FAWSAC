@@ -8,6 +8,8 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 
+import java.util.Map;
+
 public class Pagination {
 
     private CrudController crudController;
@@ -17,7 +19,8 @@ public class Pagination {
 
     @Init
     private void init() {
-        crudController = (CrudController) Executions.getCurrent().getArg().get("crud-controller");
+        Map<?, ?> arg = (Map<?, ?>) Executions.getCurrent().getArg();
+        crudController = (CrudController) arg.get("crud-controller");
         count = crudController.getCount();
         pagesize = crudController.getLimit();
         crudController.addEventOnEvent(CrudEvents.ON_SET_PAGE_SIZE, this::refresh);

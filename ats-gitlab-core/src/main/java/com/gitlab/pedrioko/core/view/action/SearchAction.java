@@ -10,6 +10,8 @@ import com.gitlab.pedrioko.services.CrudService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventQueues;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +37,8 @@ public class SearchAction implements Action {
     public void actionPerform(CrudActionEvent event) {
         // event.getCrudViewParent().getEast().setSlide(true);
         event.getCrudViewParent().openFilters();
+       // EventQueues.lookup("filter-crud-" + event.getType().getSimpleName(), EventQueues.SESSION, true).publish(new Event("filter-crud-" + event.getType().getSimpleName() + "-" + event.getCrudViewParent().getCrudViewUUID(), event.getCrudViewParent(), this));
+
     }
 
     @Override

@@ -51,10 +51,11 @@ public class CrudViewBar {
 
     @Init
     private void init() {
-        crudView = (CrudView) Executions.getCurrent().getArg().get("CrudView");
-        klass = (Class<?>) Executions.getCurrent().getArg().get("klass-crud");
-        menuprovider = (MenuProvider) Executions.getCurrent().getArg().get("menuprovider");
-        uuid = (String) Executions.getCurrent().getArg().get("CrudViewUUID");
+        Map<?, ?> arguments = (Map<?, ?>) Executions.getCurrent().getArg();
+        crudView = (CrudView) arguments.get("CrudView");
+        klass = (Class<?>) arguments.get("klass-crud");
+        menuprovider = (MenuProvider) arguments.get("menuprovider");
+        uuid = (String) arguments.get("CrudViewUUID");
         enableCommonActionsClass = ApplicationContextUtils.getBean(PropertiesUtil.class)
                 .getEnableCommonActionsClass(klass);
         crudService = getBean(CrudService.class);

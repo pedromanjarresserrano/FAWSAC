@@ -48,7 +48,7 @@ public class Dashboard extends SelectorComposer<Window> {
     @Override
     public void doAfterCompose(Window window) throws Exception {
         super.doAfterCompose(window);
-        Chart child = new Chart();
+/*        Chart child = new Chart();
         DataChart data = new DataChart();
         List<String> labels = new ArrayList<>();
         labels.add("datalabels");
@@ -95,7 +95,7 @@ public class Dashboard extends SelectorComposer<Window> {
         div.appendChild(child);
         div.setHeight("200px !important");
 
-        window.appendChild(div);
+        window.appendChild(div);*/
         List<DashBoardComponent> listView = ApplicationContextUtils
                 .getBeansOfType(DashBoardComponent.class)
                 .stream()
@@ -136,7 +136,4 @@ public class Dashboard extends SelectorComposer<Window> {
         }
     }
 
-    public boolean isMobile() {
-        return Executions.getCurrent().getBrowser("mobile") != null;
-    }
 }

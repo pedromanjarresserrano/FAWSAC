@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -25,6 +26,7 @@ import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.*;
 
+import java.io.File;
 import java.util.*;
 
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
@@ -56,6 +58,9 @@ public class CrudView extends Tabpanel {
 
     private int pagesize = 16;
     private HashMap<Object, Object> arg;
+    private @Getter
+    @Setter
+    String crudViewUUID = "";
 
     public CrudView() {
     }
@@ -64,7 +69,6 @@ public class CrudView extends Tabpanel {
         super();
         crudviewmode = CrudMode.MAINCRUD;
         view(klass, getBean(PropertiesUtil.class).getFieldTable(klass));
-
     }
 
     public CrudView(Class<?> klass, CrudMode crudviewmode) {
@@ -114,56 +118,23 @@ public class CrudView extends Tabpanel {
         arg = new HashMap<>();
         arg.put("klass-crud", klass);
         arg.put("CrudView", this);
-        arg.put("CrudViewUUID", UUID.randomUUID().toString());
-
-        Component crudviewbar = null;
-        crudviewbar = loadPlantilla(crudviewbar, "~./zul/crud/crudviewbar");
-
-        divbar.appendChild(crudviewbar);
-        east = new East();
-        north = new North();
-        north.appendChild(divbar);
-        borderlayout.appendChild(north);
-        east.setTitle("Filters");
-        if (ZKUtil.isMobile()) {
-            east.setCollapsible(false);
-            east.setSplittable(false);
-            east.setOpen(false);
-            east.setSlide(true);
-        } else {
-            east.setSplittable(false);
-            east.setCollapsible(true);
-            east.setOpen(false);
-            east.setVisible(true);
-            east.setSlide(false);
-        }
-        borderlayout.appendChild(east);
-        borderlayout.appendChild(new Center());
-        appendChild(borderlayout);
-        Center center = borderlayout.getCenter();
+        crudViewUUID = UUID.randomUUID().toString();
+        arg.put("CrudViewUUID", crudViewUUID);
         configController(klass);
         arg.put("crud-list-items", crudController.getValues());
         arg.put("crud-controller", crudController);
-        Component crudtable = null;
-        crudtable = loadPlantilla(crudtable, "~./zul/crud/table/crudtable");
+        Component component = null;
 
-        center.appendChild(crudtable);
+        try {
+            component = Executions.createComponents("~./zul/crud/crudview" + klass.getSimpleName() + ".zul", null, arg);
+        } catch (Exception e) {
+            LOGGER.info("CUSTOM CRUD TABLE PAGE NOT FOUND....");
+            LOGGER.info("USING DEFAULT CRUD TABLE PAGE ");
+        }
+        if (component == null)
+            component = Executions.createComponents("~./zul/crud/crudview.zul", null, arg);
 
-        setStyle("height:100%;");
-        reloadable = crudviewmode != CrudMode.SUBCRUD;
-        east.addEventListener(Events.ON_VISIBILITY_CHANGE, e -> {
-            if (!east.isVisible()) {
-                clearParams();
-                crudController.doQuery();
-            }
-        });
-        South south = new South();
-        Component pagination = null;
-        pagination = loadPlantilla(pagination, "~./zul/crud/filters/pagination");
-
-        south.appendChild(pagination);
-        borderlayout.appendChild(south);
-
+        appendChild(component);
     }
 
     private Component loadPlantilla(Component component, String plantilla) {
@@ -187,13 +158,7 @@ public class CrudView extends Tabpanel {
     }
 
     public void openFilters() {
-        if (east.getChildren().isEmpty()) {
-            Component crudfilters = Executions.createComponents("~./zul/crud/filters/crudfilters.zul", null, arg);
-            east.appendChild(crudfilters);
-
-        }
-        east.setStyle("width: 350px;");
-        east.setOpen(!east.isOpen());
+        EventQueues.lookup("filter-crud-" + getTypeClass().getSimpleName(), EventQueues.SESSION, true).publish(new Event("filter-crud-" + getTypeClass().getSimpleName() + "-" + getCrudViewUUID(), this, this));
     }
 
     private void view(Class<?> klass, List<String> fields) {

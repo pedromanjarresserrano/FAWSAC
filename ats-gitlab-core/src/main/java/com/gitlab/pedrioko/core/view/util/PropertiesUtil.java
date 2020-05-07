@@ -103,6 +103,10 @@ public class PropertiesUtil {
         return getListClass(c, ".table.fields");
     }
 
+    public String getCrudViewPartPosition(Class<?> c, String part) {
+        return getString(c + ".crudview." + part);
+    }
+
     public JSONArray getFieldForm(Class<?> c) {
         return getListClass(c, ".form.fields");
     }
@@ -225,6 +229,18 @@ public class PropertiesUtil {
         Object jsonValue = getJsonValue(key);
         if (jsonValue != null) {
             return (Double) jsonValue;
+        } else {
+            return defaultValue;
+        }
+    }
+    public String getString(String key) {
+        return getString(key, "");
+    }
+
+    public String getString(String key, String defaultValue) {
+        Object jsonValue = getJsonValue(key);
+        if (jsonValue != null) {
+            return (String) jsonValue;
         } else {
             return defaultValue;
         }
