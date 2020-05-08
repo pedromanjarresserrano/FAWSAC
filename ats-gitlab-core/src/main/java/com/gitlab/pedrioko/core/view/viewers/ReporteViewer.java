@@ -147,7 +147,7 @@ public class ReporteViewer extends Borderlayout {
             east.appendChild(child);
             List<String> columnas = reporte.getColumnas();
             east.setSclass("chart-view");
-            graficos.forEach(e -> {
+            for (Grafico e : graficos) {
                 int indexlabels = columnas.indexOf(e.getColumnaetiquetas());
                 int indexdata = columnas.indexOf(e.getColumnavalores());
                 Chart chart = new Chart();
@@ -168,7 +168,7 @@ public class ReporteViewer extends Borderlayout {
                 chart.setData(dataChart);
                 child.appendChild(chart);
                 charts.add(chart);
-            });
+            }
         }
 
     }

@@ -1,15 +1,12 @@
 package com.gitlab.pedrioko.core.view.util;
 
 import com.gitlab.pedrioko.domain.Usuario;
-import com.gitlab.pedrioko.services.CrudService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpSession;
-import java.util.UUID;
 
 /**
  * The Class FHSessionUtil.

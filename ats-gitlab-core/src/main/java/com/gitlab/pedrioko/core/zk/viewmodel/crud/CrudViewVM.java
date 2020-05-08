@@ -4,7 +4,6 @@ import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.StorageService;
 import org.zkoss.bind.BindUtils;
-import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
@@ -21,11 +20,9 @@ public class CrudViewVM {
 
     private CrudView crudView;
     private Class<?> klass;
-    @WireVariable
-    private CrudService crudService;
-    private StorageService storageService;
     private String uuid;
-    private boolean open = false;
+    private boolean openFilters = false;
+    private boolean disableCrud = false;
 
     @Init
     private void init() {
@@ -37,7 +34,14 @@ public class CrudViewVM {
 
         EventQueues.lookup("filter-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).subscribe(event -> {
             if (event.getTarget() == crudView && event.getName().equalsIgnoreCase("filter-crud-" + klass.getSimpleName() + "-" + uuid)) {
-                open = !open;
+                openFilters = !openFilters;
+                BindUtils.postGlobalCommand(null, null, "refresh", null);
+            }
+        });
+
+        EventQueues.lookup("disable-crud-" + klass.getSimpleName(), EventQueues.SESSION, true).subscribe(event -> {
+            if (event.getTarget() == crudView && event.getName().equalsIgnoreCase("disable-crud-" + klass.getSimpleName() + "-" + uuid)) {
+                disableCrud = !disableCrud;
                 BindUtils.postGlobalCommand(null, null, "refresh", null);
             }
         });
@@ -50,11 +54,19 @@ public class CrudViewVM {
         System.out.println("Update");
     }
 
-    public boolean isOpen() {
-        return open;
+    public boolean isOpenFilters() {
+        return openFilters;
     }
 
-    public void setOpen(boolean open) {
-        this.open = open;
+    public void setOpenFilters(boolean openFilters) {
+        this.openFilters = openFilters;
+    }
+
+    public boolean isDisableCrud() {
+        return !disableCrud;
+    }
+
+    public void setDisableCrud(boolean disableCrud) {
+        this.disableCrud = disableCrud;
     }
 }

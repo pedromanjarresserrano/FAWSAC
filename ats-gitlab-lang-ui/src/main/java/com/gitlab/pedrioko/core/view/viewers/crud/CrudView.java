@@ -1,32 +1,25 @@
 package com.gitlab.pedrioko.core.view.viewers.crud;
 
-import com.gitlab.pedrioko.core.view.action.api.Action;
-import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.api.OnEvent;
 import com.gitlab.pedrioko.core.view.api.OnQuery;
 import com.gitlab.pedrioko.core.view.enums.CrudEvents;
 import com.gitlab.pedrioko.core.view.enums.CrudMode;
 import com.gitlab.pedrioko.core.view.enums.ParamMode;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
-import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.CrudController;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.model.OrderBY;
-import com.gitlab.pedrioko.core.view.viewers.crud.grid.AlphabetFilter;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.EventQueues;
-import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.*;
+import org.zkoss.zul.Div;
+import org.zkoss.zul.Tabpanel;
 
-import java.io.File;
 import java.util.*;
 
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
@@ -51,9 +44,7 @@ public class CrudView extends Tabpanel {
     private @Getter
     @Setter
     CrudMode crudviewmode;
-    private East east;
-    private North north;
-    private Borderlayout borderlayout;
+
     private int selectedIndex = 0;
 
     private int pagesize = 16;
@@ -113,7 +104,6 @@ public class CrudView extends Tabpanel {
     }
 
     private void createUI() {
-        borderlayout = new Borderlayout();
         divbar = new Div();
         arg = new HashMap<>();
         arg.put("klass-crud", klass);
@@ -218,7 +208,7 @@ public class CrudView extends Tabpanel {
 
 
     public void setDisabled(boolean disable) {
-        divbar.setVisible(!disable);
+        EventQueues.lookup("disable-crud-" + getTypeClass().getSimpleName(), EventQueues.SESSION, true).publish(new Event("disable-crud-" + getTypeClass().getSimpleName() + "-" + getCrudViewUUID(), this, this));
     }
 
     public String getKlass() {

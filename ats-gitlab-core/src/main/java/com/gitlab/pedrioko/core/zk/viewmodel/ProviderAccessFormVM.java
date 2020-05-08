@@ -1,35 +1,21 @@
 package com.gitlab.pedrioko.core.zk.viewmodel;
 
 import com.gitlab.pedrioko.core.lang.ProviderAccess;
-import com.gitlab.pedrioko.core.lang.annotation.Ckeditor;
-import com.gitlab.pedrioko.core.lang.annotation.ColorChooser;
-import com.gitlab.pedrioko.core.lang.annotation.Reference;
-import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
-import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.CancelAction;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
-import com.gitlab.pedrioko.core.view.api.FieldComponent;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.api.Valuable;
 import com.gitlab.pedrioko.core.view.enums.AplicateAllClass;
 import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.SubCrudView;
-import com.gitlab.pedrioko.core.view.exception.ValidationException;
 import com.gitlab.pedrioko.core.view.forms.Form;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
-import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.util.StringUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
-import com.gitlab.pedrioko.core.zk.component.colorpicker.ColorPicker;
-import com.gitlab.pedrioko.services.CrudService;
-import com.querydsl.core.types.dsl.PathBuilder;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.zkforge.ckez.CKeditor;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -40,12 +26,8 @@ import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 import org.zkoss.zul.Tab;
-import org.zkoss.zul.Tabbox;
 import org.zkoss.zul.Tabpanels;
 
-import javax.persistence.Id;
-import javax.persistence.Version;
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 

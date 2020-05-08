@@ -12,7 +12,7 @@ import org.zkoss.zul.Window;
 /**
  * The Class TestStatsDashBoard.
  */
-@Component
+//@Component
 public class WeatherDashBoard implements DashBoardComponent {
 
     /*

@@ -2,10 +2,6 @@ package com.gitlab.pedrioko.zk.vm.user;
 
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
-import com.gitlab.pedrioko.core.zk.component.chartjs.Chart;
-import com.gitlab.pedrioko.core.zk.component.chartjs.domain.DataChart;
-import com.gitlab.pedrioko.core.zk.component.chartjs.domain.DataChartSet;
-import com.gitlab.pedrioko.core.zk.component.chartjs.domain.enums.ChartType;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import com.gitlab.pedrioko.zk.composer.interfaces.DashBoardComponent;
 import org.zkoss.zk.ui.Executions;
@@ -19,7 +15,6 @@ import org.zkoss.zul.Div;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Window;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;

@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Map;
 
+import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
+
 public @Data
 class ImageUpload extends HtmlBasedComponent {
     private String rawValue = "";
@@ -42,7 +44,7 @@ class ImageUpload extends HtmlBasedComponent {
     public FileEntity getValue() {
         try {
             byte[] decode = Base64.getMimeDecoder().decode(this.rawValue.split(",")[1]);
-            return ApplicationContextUtils.getBean(StorageService.class).saveFileToFileEntity(this.filename, decode);
+            return getBean(StorageService.class).saveFileToFileEntity(this.filename, decode);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -51,7 +53,7 @@ class ImageUpload extends HtmlBasedComponent {
 
     public void setValue(FileEntity value) {
         if (value != null && value.getFilename() != null) {
-            String urlFile = ApplicationContextUtils.getBean(StorageService.class).getUrlFile(value.getFilename(), false).replace("//", "/");
+            String urlFile = getBean(StorageService.class).getUrlFile(value.getFilename(), false).replace("//", "/");
             this.rawValue = urlFile;
             this.filename = value.getFilename();
         } else {

@@ -1,5 +1,5 @@
 <borderlayout viewModel="@id('cv') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.CrudViewVM')">
-    <north>
+    <north visible="@bind(cv.disableCrud)">
         <zscript language="Java">
             import org.zkoss.zk.ui.Executions;
             import java.util.Map;
@@ -25,7 +25,7 @@
             }
         </zscript>
     </center>
-    <east width="300px"    open="@bind(cv.open)"  collapsible="true">
+    <east style="width:300px !important;" visible="@bind(cv.openFilters)"  collapsible="true">
         <zscript language="Java">
             import org.zkoss.zk.ui.Executions;
             import java.util.Map;

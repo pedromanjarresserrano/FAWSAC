@@ -30,37 +30,7 @@ public class PropertiesUtil {
     private JSONObject jsonproperties = new JSONObject();
 
     public PropertiesUtil() {
-      /*  PropertiesConfiguration external = null;
 
-        try {
-
-            external = new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
-                    .configure(new Parameters().properties().setFileName("domain.properties")
-                            .setThrowExceptionOnMissing(true)
-                            .setListDelimiterHandler(new DefaultListDelimiterHandler(',')).setIncludesAllowed(false)
-                    ).getConfiguration();
-        } catch (ConfigurationException e) {
-            LOGGER.warn("WARNING -- NOT FOUND domain.properties");
-        }
-        PropertiesConfiguration internal = null;
-        try {
-            InputStream resourceAsStream = PropertiesUtil.class.getResourceAsStream("/internaldomain.properties");
-            File destination = createTempFile("temp", "temp").toFile();
-            FileUtils.copyInputStreamToFile(resourceAsStream, destination);
-            internal = new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
-                    .configure(new Parameters().properties().setFile(destination)
-                            .setThrowExceptionOnMissing(true)
-                            .setListDelimiterHandler(new DefaultListDelimiterHandler(',')).setIncludesAllowed(false)
-                    ).getConfiguration();
-        } catch (ConfigurationException | IOException e) {
-            LOGGER.warn("WARNING -- NOT FOUND internaldomain.properties");
-        }
-        CombinedConfiguration config = new CombinedConfiguration(new OverrideCombiner());
-        if (external != null) {
-            config.addConfiguration(external);//this overrides config2
-        }
-        config.addConfiguration(internal);
-        this.config = config;*/
         Object jsonInternal = null;
         try {
             JSONParser jsonParser = new JSONParser();

@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.core.view.util;
 
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Random;
 
@@ -47,7 +47,7 @@ public class StringUtil {
     }
 
     public static String getCapitalize(String string) {
-        return org.apache.commons.lang.StringUtils.capitalize(string);
+        return StringUtils.capitalize(string);
     }
 
     public static String getDescapitalize(String string) {

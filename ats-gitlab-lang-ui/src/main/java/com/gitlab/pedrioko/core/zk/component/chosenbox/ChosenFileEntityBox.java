@@ -12,6 +12,8 @@ import org.zkoss.zul.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
+
 public class ChosenFileEntityBox extends Bandbox {
 
     private static final long serialVersionUID = 1L;
@@ -80,7 +82,7 @@ public class ChosenFileEntityBox extends Bandbox {
             Hlayout hl = new Hlayout();
 
             List<FileEntity> filesEntities = ((ChosenItem) e).filesEntities();
-            Image image = new Image(filesEntities != null && !filesEntities.isEmpty() ? ApplicationContextUtils.getBean(StorageService.class).getUrlFile(filesEntities.get(0).getFilename()) : "");
+            Image image = new Image(filesEntities != null && !filesEntities.isEmpty() ? getBean(StorageService.class).getUrlFile(filesEntities.get(0).getFilename()) : "");
             image.setWidth("40px");
             image.setHeight("50px");
             listitem.setStyle("width:90%");

@@ -73,6 +73,11 @@
             <version>${ats.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.gitlab.pedrioko.core</groupId>
+            <artifactId>lang-ui</artifactId>
+            <version>${ats.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.gitlab.pedrioko.core.services</groupId>
             <artifactId>api</artifactId>
             <version>${ats.version}</version>
