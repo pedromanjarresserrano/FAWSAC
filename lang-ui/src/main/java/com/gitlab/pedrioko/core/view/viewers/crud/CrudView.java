@@ -36,7 +36,7 @@ public class CrudView extends Tabpanel {
 
     private @Getter
     @Setter
-    Boolean reloadable;
+    Boolean reloadable = Boolean.FALSE;
 
     private @Getter
     @Setter
@@ -176,7 +176,7 @@ public class CrudView extends Tabpanel {
         getChildren().clear();
         createUI();
         getTabbox().setSelectedIndex(selectedIndex);
-        if (reloadable)
+        if (reloadable!=null && reloadable)
             update();
     }
 /*
