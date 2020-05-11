@@ -57,9 +57,12 @@ public class RootBeans {
         }
 
         Properties pro = new Properties();
-        Iterator<String> keys = external.getKeys();
-        PropertiesConfiguration finalExternal = external;
-        keys.forEachRemaining(e -> pro.setProperty(e, finalExternal.getString(e)));
+        Iterator<String> keys = null;
+        if (external != null) {
+            keys = external.getKeys();
+            PropertiesConfiguration finalExternal = external;
+            keys.forEachRemaining(e -> pro.setProperty(e, finalExternal.getString(e)));
+        }
 
         AppInfo applicationInfo = AppInfo.load(pro);
         return applicationInfo;

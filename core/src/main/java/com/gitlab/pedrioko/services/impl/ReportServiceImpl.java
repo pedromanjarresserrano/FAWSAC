@@ -1,11 +1,12 @@
 package com.gitlab.pedrioko.services.impl;
 
 import com.gitlab.pedrioko.core.lang.Report;
-import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.ReportService;
 import com.gitlab.pedrioko.services.StorageService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,9 @@ import java.util.UUID;
 
 @Service
 public class ReportServiceImpl implements ReportService {
-    @Autowired
-    private CrudService crudService;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DAOGenericImpl.class);
+
 
     @Autowired
     private StorageService storageService;
@@ -30,13 +32,12 @@ public class ReportServiceImpl implements ReportService {
         JasperPrint jasperPrint;
         HashMap<String, Object> hashMap = new HashMap<>();
         File newFile = storageService.getNewFile(report.getNombre() + UUID.randomUUID().toString() + ".pdf");
-        OutputStream outputStream = new FileOutputStream(newFile);
-        try {
+        try (OutputStream outputStream = new FileOutputStream(newFile)) {
             jasperReport = JasperCompileManager.compileReport(report.getJasperFile().getUrl());
             jasperPrint = JasperFillManager.fillReport(jasperReport, hashMap, beanBurritoWrap);
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
         } catch (JRException e) {
-            e.printStackTrace();
+            LOGGER.error("Error", e);
         }
         return newFile;
     }

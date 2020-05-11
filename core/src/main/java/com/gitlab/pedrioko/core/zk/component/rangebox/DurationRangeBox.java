@@ -2,6 +2,8 @@ package com.gitlab.pedrioko.core.zk.component.rangebox;
 
 import com.gitlab.pedrioko.core.lang.DurationRange;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -12,6 +14,9 @@ import org.zkoss.zul.Doublebox;
 import java.util.Arrays;
 
 public class DurationRangeBox extends Div {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DurationRangeBox.class);
+
     private static final long serialVersionUID = -8290174092737445717L;
     Doublebox fin = new Doublebox();
     Doublebox inicio = new Doublebox();
@@ -90,12 +95,14 @@ public class DurationRangeBox extends Div {
             value.setInicio(value.getFin());
             comboboxfin.setSelectedIndex(Arrays.asList(sizes).indexOf("SG"));
         } else {
-            fin.setValue(null);
-            inicio.setValue(null);
-            comboboxinicio.setSelectedItem(null);
-            comboboxfin.setSelectedItem(null);
-            value.setInicio(null);
-            value.setFin(null);
+            try {
+                fin.setValue(null);
+                inicio.setValue(null);
+                comboboxinicio.setSelectedItem(null);
+                comboboxfin.setSelectedItem(null);
+            } catch (Exception e) {
+                LOGGER.error("ERROR on setValue()", e);
+            }
         }
 
     }

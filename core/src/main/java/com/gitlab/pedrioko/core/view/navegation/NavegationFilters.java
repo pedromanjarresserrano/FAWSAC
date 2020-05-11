@@ -3,6 +3,8 @@ package com.gitlab.pedrioko.core.view.navegation;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.services.CrudService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Caption;
@@ -15,6 +17,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class NavegationFilters extends Vlayout {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NavegationFilters.class);
+
     private String[] classes;
     private final CrudService crudService;
     private List<Groupbox> groups = new LinkedList<>();
@@ -49,14 +54,14 @@ public class NavegationFilters extends Vlayout {
                 groupbox.appendChild(div);
                 appendChild(groupbox);
             } catch (ClassNotFoundException e1) {
-                e1.printStackTrace();
+                LOGGER.error("ERROR on init()", e);
             }
 
         });
     }
 
     public String getClasses() {
-        return classes.toString();
+        return Arrays.toString(classes);
     }
 
     public void setClasses(String classes) {

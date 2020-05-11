@@ -35,7 +35,7 @@ public class ProgressWindow extends Window {
                 + "var bar1 = new ldBar(\"#" + progressbar.getUuid() + "\");\n  "
                 + "bar2.set('" + getPercent(value) + "');"
                 + "bar1.set('" + getPercent(value) + "');");
-        if (value == maxvalue)
+        if (value.equals(maxvalue))
             this.detach();
     }
 

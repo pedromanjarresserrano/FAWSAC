@@ -1,7 +1,7 @@
 <?taglib uri="http://labels.ats.pedrioko/taglib" prefix="my"?>
 <?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 
-<div apply="org.zkoss.bind.BindComposer" sclass="d-flex flex-row" xmlns:n="native"
+<div apply="org.zkoss.bind.BindComposer" sclass="d-flex flex-row"
      viewModel="@id('tb') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.CrudViewBar')">
     <div children="@bind(tb.actions.entrySet())" zclass="pt-1 pl-1 d-none d-sm-none d-md-block w-100">
         <template name="children" var="node">

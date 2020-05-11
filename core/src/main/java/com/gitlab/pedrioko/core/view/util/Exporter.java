@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class Exporter {
@@ -49,18 +50,22 @@ public class Exporter {
     }
 
     private static HSSFWorkbook createWorkbook(List<Object[]> list, List<String> headers) {
-        HSSFWorkbook wb = new HSSFWorkbook();
-        HSSFSheet sheet = wb.createSheet("sheet");
-        load(headers, sheet);
-        for (int r = 1; r < list.size() + 1; r++) {
-            HSSFRow row = sheet.createRow(r);
-            Object[] o = list.get(r - 1);
-            for (int c = 0; c < headers.size(); c++) {
-                HSSFCell cell = row.createCell(c);
-                cell.setCellValue("" + o[c]);
+        try (HSSFWorkbook wb = new HSSFWorkbook()) {
+            HSSFSheet sheet = wb.createSheet("sheet");
+            load(headers, sheet);
+            for (int r = 1; r < list.size() + 1; r++) {
+                HSSFRow row = sheet.createRow(r);
+                Object[] o = list.get(r - 1);
+                for (int c = 0; c < headers.size(); c++) {
+                    HSSFCell cell = row.createCell(c);
+                    cell.setCellValue("" + o[c]);
+                }
             }
+            return wb;
+        } catch (IOException e) {
+            LOGGER.error("ERROR on createWorkbook()", e);
+            return null;
         }
-        return wb;
     }
 
     private static void load(List<String> headers, HSSFSheet sheet) {
@@ -74,20 +79,24 @@ public class Exporter {
     }
 
     private static HSSFWorkbook createWorkbook(List<?> list) {
-        HSSFWorkbook wb = new HSSFWorkbook();
-        HSSFSheet sheet = wb.createSheet("sheet");
-        List<String> fieldTable = getListFiled(list);
-        load(fieldTable, sheet);
-        for (int r = 1; r < list.size() + 1; r++) {
-            HSSFRow row = sheet.createRow(r);
-            Object o = list.get(r - 1);
-            for (int c = 0; c < fieldTable.size(); c++) {
-                Object valueFieldObject = ReflectionJavaUtil.getValueFieldObject(fieldTable.get(c), o);
-                HSSFCell cell = row.createCell(c);
-                cell.setCellValue("" + valueFieldObject);
+        try (HSSFWorkbook wb = new HSSFWorkbook()) {
+            HSSFSheet sheet = wb.createSheet("sheet");
+            List<String> fieldTable = getListFiled(list);
+            load(fieldTable, sheet);
+            for (int r = 1; r < list.size() + 1; r++) {
+                HSSFRow row = sheet.createRow(r);
+                Object o = list.get(r - 1);
+                for (int c = 0; c < fieldTable.size(); c++) {
+                    Object valueFieldObject = ReflectionJavaUtil.getValueFieldObject(fieldTable.get(c), o);
+                    HSSFCell cell = row.createCell(c);
+                    cell.setCellValue("" + valueFieldObject);
+                }
             }
+            return wb;
+        } catch (IOException e) {
+            LOGGER.error("ERROR on createWorkbook()", e);
+            return null;
         }
-        return wb;
     }
 
     public static byte[] BuildCSV(List<?> list) {

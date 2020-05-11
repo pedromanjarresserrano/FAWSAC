@@ -4,7 +4,6 @@ import com.gitlab.pedrioko.core.view.api.Valuable;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import lombok.Data;
-import org.zkoss.zul.Tabpanel;
 
 public @Data
 class CrudActionEvent {

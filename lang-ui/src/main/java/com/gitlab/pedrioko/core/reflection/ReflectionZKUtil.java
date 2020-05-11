@@ -1,9 +1,9 @@
 package com.gitlab.pedrioko.core.reflection;
 
 import com.gitlab.pedrioko.core.lang.annotation.Reference;
+import com.gitlab.pedrioko.core.reflection.enums.ClassMethod;
 import com.gitlab.pedrioko.core.view.api.TransformerAnnotation;
 import com.gitlab.pedrioko.core.view.api.ValidateAnnotation;
-import com.gitlab.pedrioko.core.reflection.enums.ClassMethod;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.StringUtil;
 import com.gitlab.pedrioko.core.zk.component.chosenbox.ChosenBox;
@@ -150,7 +150,7 @@ public class ReflectionZKUtil {
             } else if (class1 == ChosenBox.class) {
                 PropertyUtils.setSimpleProperty(component, "valueSelection", obj == null ? new ArrayList<>() : (List) obj);
             } else if (obj != null && (obj.getClass() == PersistentBag.class || obj.getClass() == PersistentSet.class)) {
-                PropertyUtils.setSimpleProperty(component, "value", obj == null ? new ArrayList<>() : new ArrayList((Collection) obj));
+                PropertyUtils.setSimpleProperty(component, "value", new ArrayList((Collection) obj));
             } else {
                 if (class1 != Gmaps.class) {
                     PropertyUtils.setSimpleProperty(component, "value", obj != null && obj.getClass() == Timestamp.class ? new Date(((Timestamp) obj).getTime()) : obj);

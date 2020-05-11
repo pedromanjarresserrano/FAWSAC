@@ -151,7 +151,7 @@ public class CrudController {
             PathBuilder pathBuilder = crudService.getPathBuilder(klass);
             Predicate where = getPredicate(pathBuilder);
             JPAQuery<?> jpaQuery = crudService.query().from(pathBuilder).offset(offSet).limit(limit);
-            OrderSpecifier orderBy = getOrderBy(pathBuilder);
+            OrderSpecifier orderBy = getOrderByField(pathBuilder);
             if (orderBy != null)
                 jpaQuery.orderBy(orderBy);
             if (where != null)
@@ -180,7 +180,7 @@ public class CrudController {
         return jpaQuery;
     }
 
-    private OrderSpecifier getOrderBy(PathBuilder pathBuilder) {
+    private OrderSpecifier getOrderByField(PathBuilder pathBuilder) {
         if (orderField != null && !orderField.isEmpty()) {
             ComparablePath cp = pathBuilder.getComparable(orderField, ReflectionJavaUtil.getField(this.getTypeClass(), orderField).getType());
             OrderSpecifier orderSpecifier = null;

@@ -1,11 +1,13 @@
 package com.gitlab.pedrioko.core.zk.component.chosenbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gitlab.pedrioko.core.view.api.ChosenItem;
 import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
+import com.gitlab.pedrioko.core.view.api.ChosenItem;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.services.StorageService;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zkoss.json.JSONArray;
 import org.zkoss.json.JSONObject;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -20,9 +22,11 @@ import java.util.stream.Collectors;
 
 public @Data
 class ChosenBoxImage extends HtmlBasedComponent {
+
     private Map<Object, ChosenItem> model = new LinkedHashMap<>();
     private List<Object> value = new LinkedList<>();
     private ObjectMapper objectMapper = new ObjectMapper();
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChosenBoxImage.class);
 
     public ChosenBoxImage() {
     }
@@ -58,7 +62,7 @@ class ChosenBoxImage extends HtmlBasedComponent {
             });
             smartUpdate("model", objectMapper.writeValueAsString(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("ERROR setModel", e);
         }
     }
 
@@ -76,7 +80,7 @@ class ChosenBoxImage extends HtmlBasedComponent {
             });
             smartUpdate("model", objectMapper.writeValueAsString(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("ERROR setModel", e);
         }
     }
 
@@ -86,7 +90,7 @@ class ChosenBoxImage extends HtmlBasedComponent {
             if (value != null) this.value.clear();
             JSONArray value = (JSONArray) data.get("value");
             if (value != null && !"null".equalsIgnoreCase((String) value.get(0))) {
-                this.value = value.stream().map(o -> model.get(Long.parseLong(o.toString()))).collect(Collectors.toList());
+                this.value = value.stream().map(o -> model.get(new Long(o.toString()))).collect(Collectors.toList());
             } else {
                 List<Object> objects = new ArrayList<>();
                 objects.add(null);
@@ -116,7 +120,7 @@ class ChosenBoxImage extends HtmlBasedComponent {
             });
             smartUpdate("value", objectMapper.writeValueAsString(values));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("ERROR setValue", e);
         }
     }
 }

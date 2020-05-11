@@ -22,14 +22,14 @@ import java.util.List;
 
 @Component
 public class UserInterceptor extends EmptyInterceptor {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmptyInterceptor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserInterceptor.class);
 
     @Autowired
-    private List<DeleteListener> deleteListeners;
+    private transient List<DeleteListener> deleteListeners;
 
     @Override
     public boolean onLoad(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
-        return false;//logging(entity, "OnLoad", "Load");
+        return false;
     }
 
     private boolean logging(Object entity, String event, String type) {
@@ -47,12 +47,12 @@ public class UserInterceptor extends EmptyInterceptor {
     }
 
     @Override
-    public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) throws CallbackException {
+    public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         return logging(entity, "OnSave", "Save");
     }
 
     @Override
-    public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types) throws CallbackException {
+    public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types)  {
         return logging(entity, "OnUpdate", "Update");
     }
 

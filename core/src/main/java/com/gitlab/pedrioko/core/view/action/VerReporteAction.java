@@ -1,12 +1,12 @@
 package com.gitlab.pedrioko.core.view.action;
 
 import com.gitlab.pedrioko.core.lang.annotation.ToolAction;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.api.ContentView;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
-import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.ReporteViewer;
@@ -35,8 +35,7 @@ public class VerReporteAction implements Action {
     private final String agregar = "Ver";
     @Autowired
     private CrudService crudService;
-    private static final String AGREGAR = "Ver";
-    DateFormat df = new SimpleDateFormat("YYYY/MM/dd hh:mm:ss");
+    DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 
     @Override
     public String getIcon() {

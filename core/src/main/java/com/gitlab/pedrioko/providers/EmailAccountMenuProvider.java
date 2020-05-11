@@ -1,12 +1,12 @@
 package com.gitlab.pedrioko.providers;
 
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.SaveAction;
 import com.gitlab.pedrioko.core.view.action.TestEmailAccountAction;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
-import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zk.ui.Component;

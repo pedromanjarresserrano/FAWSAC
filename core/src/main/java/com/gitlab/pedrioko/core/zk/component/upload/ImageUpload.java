@@ -1,9 +1,11 @@
 package com.gitlab.pedrioko.core.zk.component.upload;
 
 import com.gitlab.pedrioko.core.lang.FileEntity;
-import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
+import com.gitlab.pedrioko.core.zk.component.simplecarousel.SimpleCarousel;
 import com.gitlab.pedrioko.services.StorageService;
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zkoss.zk.au.AuRequest;
 import org.zkoss.zk.au.AuRequests;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -19,6 +21,9 @@ import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean
 
 public @Data
 class ImageUpload extends HtmlBasedComponent {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ImageUpload.class);
+
     private String rawValue = "";
     private String filename = "";
 
@@ -46,7 +51,7 @@ class ImageUpload extends HtmlBasedComponent {
             byte[] decode = Base64.getMimeDecoder().decode(this.rawValue.split(",")[1]);
             return getBean(StorageService.class).saveFileToFileEntity(this.filename, decode);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("ERROR on getValue()", e);
             return null;
         }
     }

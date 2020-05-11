@@ -152,7 +152,7 @@ public class StorageServiceImpl implements StorageService {
         if (replace.indexOf("/") == 0) {
             replace = replace.substring(1);
         }
-        return filename != null ? getUrlFile(replace) : "";
+        return getUrlFile(replace);
     }
 
     @Override
@@ -220,7 +220,7 @@ public class StorageServiceImpl implements StorageService {
                     } catch (Exception w) {
                         LOGGER.error("ERROR", w);
                     }
-                    file.delete();
+                    boolean delete = file.delete();
                 }
             }
         } catch (Exception e) {

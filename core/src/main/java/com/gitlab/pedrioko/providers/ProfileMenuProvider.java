@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.providers;
 
-import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 

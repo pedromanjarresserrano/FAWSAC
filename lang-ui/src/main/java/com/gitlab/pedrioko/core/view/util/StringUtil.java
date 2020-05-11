@@ -2,7 +2,11 @@ package com.gitlab.pedrioko.core.view.util;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Random;
 
 /**
@@ -10,10 +14,21 @@ import java.util.Random;
  */
 public class StringUtil {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(StringUtil.class);
+
     /**
      * The Constant SALTCHARS.
      */
     private static final String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    private static Random r;
+
+    static {
+        try {
+            r = SecureRandom.getInstanceStrong();
+        } catch (NoSuchAlgorithmException e) {
+            LOGGER.error("Error on getInstanceStrong()", e);
+        }
+    }
 
     /**
      * Gets the salt string.
@@ -22,9 +37,8 @@ public class StringUtil {
      */
     public static String getSaltString() {
         StringBuilder salt = new StringBuilder();
-        Random rnd = new Random();
         while (salt.length() < 18) {
-            int index = rnd.nextInt(SALTCHARS.length());
+            int index = r.nextInt(SALTCHARS.length());
             salt.append(SALTCHARS.charAt(index));
         }
         return salt.toString();
@@ -36,7 +50,6 @@ public class StringUtil {
      * @return the random hex color
      */
     public static String getRandomHexColor() {
-        Random r = new Random();
         String redhex = Long.toHexString(r.nextLong() + r.nextLong() * r.nextLong() / r.nextLong());
         String greenhex = Long.toHexString(r.nextLong() + r.nextLong() + r.nextLong() / r.nextInt());
         String bluehex = Long.toHexString((r.nextLong() + r.nextLong() * r.nextLong()) - r.nextLong());

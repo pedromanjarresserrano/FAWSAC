@@ -1,8 +1,8 @@
 package com.gitlab.pedrioko.core.zk.viewmodel.crud.filters;
 
-import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
 import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
+import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.CrudController;
 import com.gitlab.pedrioko.core.view.viewers.crud.controllers.model.OrderBY;
@@ -14,7 +14,10 @@ import org.zkoss.zk.ui.Executions;
 import javax.persistence.Id;
 import javax.persistence.Version;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class CrudFilters {

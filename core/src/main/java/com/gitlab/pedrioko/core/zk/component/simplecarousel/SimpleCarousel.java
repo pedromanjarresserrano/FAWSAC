@@ -1,6 +1,8 @@
 package com.gitlab.pedrioko.core.zk.component.simplecarousel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.HtmlBasedComponent;
 import org.zkoss.zk.ui.sys.ContentRenderer;
 
@@ -9,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class SimpleCarousel extends HtmlBasedComponent {
+
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleCarousel.class);
 
     private List<String> value = new LinkedList<>();
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -31,7 +36,7 @@ public class SimpleCarousel extends HtmlBasedComponent {
             this.value = value;
             smartUpdate("value", objectMapper.writeValueAsString(value));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("ERROR on setValue()", e);
         }
     }
 }

@@ -32,9 +32,10 @@ import java.util.stream.Collectors;
 @EnableJpaAuditing
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    protected static final String ZUL_FILES = "/zkau/web/**/*.zul";
+    protected static final String[] ZK_RESOURCES = {"/zkau/web/**/js/**", "/zkau/web/**/zul/css/**", "/zkau/web/**/img/**"};
 
-    private static final String ZUL_FILES = "/zkau/web/**/*.zul";
-    private static final String REMOVE_DESKTOP_REGEX = "/zkau\\?dtid=.*&cmd_0=rmDesktop&.*";
+    protected static final String REMOVE_DESKTOP_REGEX = "/zkau\\?dtid=.*&cmd_0=rmDesktop&.*";
 
     @Autowired
     private UserDetailsService customUserDetailsService;
@@ -80,10 +81,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         List<StaticResouceLocation> beans = ApplicationContextUtils.getBeans(StaticResouceLocation.class);
         String[] strings = beans.stream().map(e -> e.getPath()).collect(Collectors.toSet()).toArray(new String[]{});
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry and = http.authorizeRequests().antMatchers("/ws/**").permitAll().and().authorizeRequests()
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry and = http.csrf().disable().authorizeRequests().antMatchers("/ws/**").permitAll().and().authorizeRequests()
                 .antMatchers(ZUL_FILES)
                 .denyAll()
-                .antMatchers("**/favicon.ico","/test/**", "/file/**", "/tester/**", "/videos", "/css/**", "/signaling", "/components/**", "/bootstrap/**", "/fonts/**", "/js/**",
+                .antMatchers(HttpMethod.GET, ZK_RESOURCES).permitAll() // allow zk resources
+                .regexMatchers(HttpMethod.GET, REMOVE_DESKTOP_REGEX).permitAll()
+                .antMatchers("**/favicon.ico", "/test/**", "/file/**", "/videos", "/css/**", "/components/**", "/fonts/**", "/js/**",
                         "/images/**", "/zkau/**", "/login", "/recovery", "/register", "/logout")
                 .permitAll()
                 .regexMatchers(HttpMethod.GET, REMOVE_DESKTOP_REGEX)
@@ -106,8 +109,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/login")
                 .successHandler(authenticationSuccessHandler)
                 .failureUrl("/login?error=true")
-                .and().logout().logoutUrl("/logout").deleteCookies("JSESSIONID")
-                .and().csrf().disable();
+                .and().logout().logoutUrl("/logout").deleteCookies("JSESSIONID");
     }
 
 

@@ -68,7 +68,7 @@ public class DAOGenericImpl<T> implements DAOGeneric {
                     try {
                         Hibernate.initialize(ReflectionJavaUtil.getValueFieldObject(e.getName(), klass2));
                     } catch (Exception e1) {
-                        e1.printStackTrace();
+                        LOGGER.error("Error", e1);
                     }
                 });
 

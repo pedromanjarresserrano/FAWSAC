@@ -7,12 +7,15 @@ import com.gitlab.pedrioko.services.StorageService;
 import com.gitlab.pedrioko.services.VideoService;
 import org.bytedeco.ffmpeg.global.avutil;
 import org.bytedeco.javacv.FFmpegFrameGrabber;
+import org.bytedeco.javacv.FrameGrabber;
 import org.bytedeco.javacv.OpenCVFrameConverter;
 import org.jcodec.common.DemuxerTrack;
 import org.jcodec.common.DemuxerTrackMeta;
 import org.jcodec.common.io.NIOUtils;
 import org.jcodec.common.io.SeekableByteChannel;
 import org.jcodec.containers.mp4.demuxer.MP4Demuxer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
@@ -27,6 +30,8 @@ import static org.bytedeco.opencv.helper.opencv_imgcodecs.cvSaveImage;
 
 @Service
 public class VideoServiceImpl implements VideoService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(VideoServiceImpl.class);
 
 
     private static final String JGP = ".jpg";
@@ -49,9 +54,18 @@ public class VideoServiceImpl implements VideoService {
             AppParam name = storageService.getAppParam();
             ImageIO.setUseCache(false);
             File file = new File(filePath);
-            try {
-                avutil.av_log_set_level(avutil.AV_LOG_QUIET);
-                FFmpegFrameGrabber g = new FFmpegFrameGrabber(filePath);
+            loadFFmpegFrameGrabber(filePath, previewCount, quality, fileEntities, name, file);
+
+        } catch (Exception e) {
+            LOGGER.error("Error on generatePreviewImage()", e);
+        }
+        return fileEntities;
+    }
+
+    private void loadFFmpegFrameGrabber(String filePath, int previewCount, int quality, List<FileEntity> fileEntities, AppParam name, File file) {
+        try (FFmpegFrameGrabber g = new FFmpegFrameGrabber(filePath)) {
+            avutil.av_log_set_level(avutil.AV_LOG_QUIET);
+            if (file != null) {
                 String fileExtension = getFileExtension(file);
                 g.setFormat(fileExtension);
                 g.start();
@@ -65,39 +79,39 @@ public class VideoServiceImpl implements VideoService {
                     g.setFrameNumber(i);
                     boolean existFileEntity = storageService.existFileEntity(name1 + JGP);
 
-                    if (!existFileEntity) {
-                        if (!output.exists()) {
-                            //       dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
-                            //        storageService.writeImage(output, dst, "jpg");
-                            cvSaveImage(output.getAbsolutePath(), converterToIplImage.convert(g.grabImage()), new int[]{IMWRITE_JPEG_QUALITY, quality, 0});
-                        }
-                        FileEntity fileEntity = new FileEntity();
-                        fileEntity.setFilename(name1 + JGP);
-                        fileEntity.setUrl(output.getAbsolutePath());
-                        fileEntities.add(crudService.saveOrUpdate(fileEntity));
-                    } else {
-                        if (!output.exists() && output.length() <= 0) {
-                            //       dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
-                            //         fileEntities.add(storageService.saveFileImage(dst, name1));
-                            cvSaveImage(output.getAbsolutePath(), converterToIplImage.convert(g.grabImage()), new int[]{IMWRITE_JPEG_QUALITY, quality, 0});
-                            FileEntity fileEntity = !existFileEntity ? new FileEntity() : storageService.getFileEntities(name1).get(0);
-                            fileEntity.setFilename(output.getName());
-                            fileEntity.setUrl(output.getAbsolutePath());
-                            fileEntities.add(fileEntity);
-                        } else {
-                            fileEntities.add(storageService.getFileEntity(name1 + JGP));
-                        }
-                    }
+                    loadFiles(quality, fileEntities, g, name1, output, existFileEntity);
                 }
-                g.stop();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-
+            g.stop();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error on loadFFmpegFrameGrabber", e);
         }
-        return fileEntities;
+    }
+
+    private void loadFiles(int quality, List<FileEntity> fileEntities, FFmpegFrameGrabber g, String name1, File output, boolean existFileEntity) throws FrameGrabber.Exception {
+        if (!existFileEntity) {
+            if (!output.exists()) {
+                //       dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
+                //        storageService.writeImage(output, dst, "jpg");
+                cvSaveImage(output.getAbsolutePath(), converterToIplImage.convert(g.grabImage()), new int[]{IMWRITE_JPEG_QUALITY, quality, 0});
+            }
+            FileEntity fileEntity = new FileEntity();
+            fileEntity.setFilename(name1 + JGP);
+            fileEntity.setUrl(output.getAbsolutePath());
+            fileEntities.add(crudService.saveOrUpdate(fileEntity));
+        } else {
+            if (!output.exists() && output.length() <= 0) {
+                //       dst = ((AWTFrameGrab) awtFrameGrab.seekToSecondPrecise(sec)).getFrameWithOrientation();
+                //         fileEntities.add(storageService.saveFileImage(dst, name1));
+                cvSaveImage(output.getAbsolutePath(), converterToIplImage.convert(g.grabImage()), new int[]{IMWRITE_JPEG_QUALITY, quality, 0});
+                FileEntity fileEntity = storageService.getFileEntities(name1).get(0);
+                fileEntity.setFilename(output.getName());
+                fileEntity.setUrl(output.getAbsolutePath());
+                fileEntities.add(fileEntity);
+            } else {
+                fileEntities.add(storageService.getFileEntity(name1 + JGP));
+            }
+        }
     }
 
     private String getFileExtension(File file) {
@@ -123,28 +137,33 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public double getTime(String filePath) {
+        MP4Demuxer dm = null;
         try {
             SeekableByteChannel bc = NIOUtils.readableFileChannel(filePath);
-            MP4Demuxer dm = MP4Demuxer.createMP4Demuxer(bc);
+            dm = MP4Demuxer.createMP4Demuxer(bc);
             DemuxerTrack vt = dm.getVideoTrack();
             DemuxerTrackMeta meta = vt.getMeta();
             return meta.getTotalDuration();
         } catch (Exception e) {
             return 0D;
+        } finally {
+            try {
+                if (dm != null)
+                    dm.close();
+            } catch (Exception e) {
+                LOGGER.error("Error on getTime()", e);
+            }
         }
     }
 
     @Override
     public Integer getResolution(String filePath) {
-        try {
-            FFmpegFrameGrabber g = new FFmpegFrameGrabber(filePath);
+        try (FFmpegFrameGrabber g = new FFmpegFrameGrabber(filePath)) {
             String[] split = filePath.split("\\.");
             g.setFormat(split[split.length - 1]);
             g.start();
             g.setFrameNumber(1);
-            int imageHeight = g.getImageHeight();
-            g.close();
-            return imageHeight;
+            return g.getImageHeight();
         } catch (Exception e) {
             return 0;
         }

@@ -104,7 +104,7 @@ class Plyr extends HtmlBasedComponent {
     }
 
     public void setPlay(Boolean autoplay) {
-        if (this.playing != autoplay.toString()) {
+        if (!this.playing.equals(autoplay.toString())) {
             this.playing = autoplay.toString();
             this.smartUpdate("playing", this.playing);
         }

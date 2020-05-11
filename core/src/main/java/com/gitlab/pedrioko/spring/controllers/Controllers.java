@@ -4,6 +4,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @Order(1)
 public class Controllers {
 
-    @RequestMapping(value ="/{page}")
+    @RequestMapping(value ="/{page}", method = RequestMethod.GET)
     public ModelAndView root(@PathVariable String page, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView(page);
         mv.addObject("contextPath", request.getContextPath());

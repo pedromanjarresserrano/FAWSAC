@@ -1,6 +1,5 @@
 package com.gitlab.pedrioko.core.lang;
 
-import com.gitlab.pedrioko.core.lang.annotation.NoDuplicate;
 import com.gitlab.pedrioko.core.lang.annotation.NoEmpty;
 import lombok.Data;
 

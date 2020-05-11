@@ -2,7 +2,6 @@ package com.gitlab.pedrioko.core.zk.component.chosenbox;
 
 import com.gitlab.pedrioko.core.lang.FileEntity;
 import com.gitlab.pedrioko.core.view.api.ChosenItem;
-import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.services.StorageService;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;

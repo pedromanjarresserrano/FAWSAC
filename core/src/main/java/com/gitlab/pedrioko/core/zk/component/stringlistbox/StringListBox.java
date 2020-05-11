@@ -1,8 +1,8 @@
 package com.gitlab.pedrioko.core.zk.component.stringlistbox;
 
+import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
 import com.gitlab.pedrioko.core.view.forms.CustomForm;
-import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import lombok.Data;
 import org.zkoss.util.resource.Labels;

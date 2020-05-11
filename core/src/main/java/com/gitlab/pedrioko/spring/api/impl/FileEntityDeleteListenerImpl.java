@@ -26,7 +26,7 @@ public class FileEntityDeleteListenerImpl implements DeleteListener {
             File file = new File(replace);
             try {
                 FileUtils.forceDelete(file);
-                file.getCanonicalFile().delete();
+                boolean delete = file.getCanonicalFile().delete();
                 Files.delete(Paths.get(replace));
             } catch (NoSuchFileException e1) {
                 LOGGER.error("No such file/directory exists", e1);

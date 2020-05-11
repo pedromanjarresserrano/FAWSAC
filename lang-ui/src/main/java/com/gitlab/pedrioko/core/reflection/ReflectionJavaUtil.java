@@ -13,7 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.Version;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ReflectionJavaUtil {
@@ -23,17 +26,17 @@ public class ReflectionJavaUtil {
         if (obj == null) return obj;
         List<Field> fields = getFields(obj.getClass());
         Optional<Field> optional = fields.stream().filter(e -> e.isAnnotationPresent(Id.class)).findFirst();
-        return optional.isPresent() ? getValueFieldObject(optional.get().getName(), obj) : null;
+        return optional.isPresent() ? getValueFieldObject(optional.get().getName(), obj) : Long.MIN_VALUE;
     }
 
     public static Object getVersionValue(Object obj) {
         List<Field> fields = getFields(obj.getClass());
         Optional<Field> optional = fields.stream().filter(e -> e.isAnnotationPresent(Version.class)).findFirst();
-        return optional.isPresent() ? getValueFieldObject(optional.get().getName(), obj) : null;
+        return optional.isPresent() ? getValueFieldObject(optional.get().getName(), obj) : Long.MIN_VALUE;
     }
 
     public static boolean newsIsUpdate(Object news, Object old) {
-        if (getIdValue(news).equals(getIdValue(old))) {
+        if (!getIdValue(news).equals(getIdValue(old))) {
             throw new IllegalArgumentException("Different Id value");
         }
         return Long.parseLong(getVersionValue(news).toString()) > Long.parseLong(getVersionValue(old).toString());

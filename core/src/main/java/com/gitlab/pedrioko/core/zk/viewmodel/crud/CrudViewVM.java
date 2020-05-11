@@ -1,8 +1,6 @@
 package com.gitlab.pedrioko.core.zk.viewmodel.crud;
 
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
-import com.gitlab.pedrioko.services.CrudService;
-import com.gitlab.pedrioko.services.StorageService;
 import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
@@ -10,7 +8,6 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.EventQueues;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
-import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 import java.util.Map;
 

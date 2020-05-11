@@ -11,12 +11,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.zkoss.web.util.resource.ClassWebResource;
 import org.zkoss.zk.au.http.DHtmlUpdateServlet;
-import org.zkoss.zk.ui.http.HttpSessionListener;
 import org.zkoss.zk.ui.http.RichletFilter;
-import org.zkoss.zk.ui.http.WebManager;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
 
 @EntityScan(basePackages = {"com.gitlab"})
 @ComponentScan("com.gitlab")
