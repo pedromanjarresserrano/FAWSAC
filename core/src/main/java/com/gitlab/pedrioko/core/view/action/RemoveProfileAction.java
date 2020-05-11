@@ -20,7 +20,6 @@ import java.util.List;
 @Order(0)
 public class RemoveProfileAction implements Action {
 
-    private static final String AGREGAR = "Agregar";
     @Autowired
     private CrudService crudService;
 

@@ -1,7 +1,6 @@
 package com.gitlab.pedrioko.core.zk.component.upload;
 
 import com.gitlab.pedrioko.core.lang.FileEntity;
-import com.gitlab.pedrioko.core.zk.component.simplecarousel.SimpleCarousel;
 import com.gitlab.pedrioko.services.StorageService;
 import lombok.Data;
 import org.slf4j.Logger;

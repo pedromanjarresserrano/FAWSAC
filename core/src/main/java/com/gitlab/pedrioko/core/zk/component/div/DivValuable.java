@@ -6,7 +6,7 @@ import org.zkoss.zul.Div;
 import java.io.IOException;
 
 public class DivValuable extends Div {
-    private Object value;
+    private transient Object value;
 
     public Object getValue() {
         return value;

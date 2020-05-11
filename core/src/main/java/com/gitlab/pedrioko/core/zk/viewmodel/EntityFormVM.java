@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class EntityFormVM implements Valuable {
 
-    private Object value;
+    private transient Object value;
     private CrudActionEvent event;
     private JSONArray fieldsBase;
     private transient Map<Field, Component> binding = new LinkedHashMap<>();

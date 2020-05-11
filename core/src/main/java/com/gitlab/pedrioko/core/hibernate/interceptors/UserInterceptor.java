@@ -7,7 +7,6 @@ import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.spring.api.DeleteListener;
-import org.hibernate.CallbackException;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 import org.slf4j.Logger;

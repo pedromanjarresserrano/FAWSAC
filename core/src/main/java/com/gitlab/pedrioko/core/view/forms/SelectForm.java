@@ -16,7 +16,6 @@ import java.util.List;
 
 
 public class SelectForm extends Window {
-    private static final String AGREGAR = "Agregar";
 
     private static final long serialVersionUID = 1L;
     private final CrudService crudService;

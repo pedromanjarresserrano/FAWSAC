@@ -17,8 +17,7 @@ public class StringFieldFilter implements FieldFilterComponent {
 
     @Override
     public Component getComponent(Field field) {
-        Textbox textbox = new Textbox();
-        return textbox;
+        return new Textbox();
     }
 
 }

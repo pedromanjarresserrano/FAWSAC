@@ -19,8 +19,8 @@ import static java.util.stream.Collectors.toList;
 public class CrudMenuContext extends Menupopup {
 
     private final Class klass;
-    private List<Action> actions = new ArrayList<>();
-    private CrudActionEvent valueSelect;
+    private transient List<Action> actions = new ArrayList<>();
+    private transient CrudActionEvent valueSelect;
 
     public CrudMenuContext(Class klass, List<Action> actions) {
         this.klass = klass;

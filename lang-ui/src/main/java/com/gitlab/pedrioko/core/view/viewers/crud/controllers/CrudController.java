@@ -35,9 +35,9 @@ public class CrudController {
 
     private static final long serialVersionUID = 1L;
     private final Class<?> klass;
-    private final transient CrudService crudService;
-    private final transient Map<String, Object> map = new HashMap<>();
-    private final transient Map<String, Object> paramsroot = new HashMap<>();
+    private final  CrudService crudService;
+    private final  Map<String, Object> map = new HashMap<>();
+    private final  Map<String, Object> paramsroot = new HashMap<>();
     private final Map<CrudEvents, List<OnEvent>> onEvent = new HashMap<>();
     private final List<OnQuery> postEvent = new ArrayList<>();
     private @Getter
@@ -82,7 +82,7 @@ public class CrudController {
             if (crudViewValue)
                 crudViewValueList.add(value);
             List<OnEvent> onEvents = onEvent.get(CrudEvents.ON_ADD);
-            if (onEvents != null) onEvents.forEach(it -> it.doSomething());
+            if (onEvents != null) onEvents.forEach(OnEvent::doSomething);
         } else
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("onlist"), MessageType.WARNING);
     }

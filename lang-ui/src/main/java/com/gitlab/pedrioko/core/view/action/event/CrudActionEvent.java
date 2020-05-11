@@ -7,7 +7,7 @@ import lombok.Data;
 
 public @Data
 class CrudActionEvent {
-    private Object value;
+    private transient Object value;
     private CrudView crudViewParent;
     private FormStates formstate;
     private Class type;

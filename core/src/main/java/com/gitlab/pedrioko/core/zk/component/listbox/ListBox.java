@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class ListBox extends Listbox {
 
-    private Object value;
+    private transient Object value;
 
     public Object getValue() {
         return value;

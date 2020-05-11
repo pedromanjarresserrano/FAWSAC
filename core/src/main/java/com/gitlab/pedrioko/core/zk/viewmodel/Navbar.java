@@ -3,7 +3,6 @@ package com.gitlab.pedrioko.core.zk.viewmodel;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.ContentView;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
-import com.gitlab.pedrioko.core.view.navegation.MenuPages;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
@@ -26,14 +25,14 @@ import org.zkoss.zul.Messagebox;
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class Navbar {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MenuPages.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Navbar.class);
     @WireVariable
-    private transient ContentView contentView;
+    private ContentView contentView;
     private Usuario user;
     private AImage image;
 
     @WireVariable("fhsessionutil")
-    private transient FHSessionUtil fhsessionutil;
+    private FHSessionUtil fhsessionutil;
     @WireVariable
     private SecurityService securityService;
 

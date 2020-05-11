@@ -22,12 +22,12 @@ public class FileUpload extends Fileupload {
     private static final StorageService storageService = ApplicationContextUtils.getBean(StorageService.class);
     private transient @Getter
     FileEntity value;
-    public @Getter
+    public transient @Getter
     List<FileEntity> values = new ArrayList<>();
-    private Media photo;
-    private Media[] media;
-    private EventListener<UploadEvent> eventEventListener = x -> {
-        UploadEvent upEvent = (UploadEvent) x;
+    private transient Media photo;
+    private transient Media[] media;
+    private transient EventListener<UploadEvent> eventEventListener = x -> {
+        UploadEvent upEvent = x;
         if (upEvent != null) {
             if (media != null && media.length > 1) {
                 for (Media m : media) {

@@ -23,7 +23,6 @@ public class PasswordTransformerAnnotation implements TransformerAnnotation {
     }
 
     public boolean isValid(String s) {
-        boolean matches = BCRYPT_PATTERN.matcher(s).matches();
-        return matches;
+        return BCRYPT_PATTERN.matcher(s).matches();
     }
 }
