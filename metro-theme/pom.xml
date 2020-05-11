@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.gitlab.pedrioko</groupId>
-        <artifactId>rsa</artifactId>
+        <artifactId>fawsac</artifactId>
         <version>1.0.0.BETA</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
