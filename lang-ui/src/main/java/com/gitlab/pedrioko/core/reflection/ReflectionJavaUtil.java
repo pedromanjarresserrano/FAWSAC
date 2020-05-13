@@ -26,13 +26,13 @@ public class ReflectionJavaUtil {
         if (obj == null) return obj;
         List<Field> fields = getFields(obj.getClass());
         Optional<Field> optional = fields.stream().filter(e -> e.isAnnotationPresent(Id.class)).findFirst();
-        return optional.isPresent() ? getValueFieldObject(optional.get().getName(), obj) : Long.MIN_VALUE;
+        return optional.isPresent() ? getValueFieldObject(optional.get().getName(), obj) : null;
     }
 
     public static Object getVersionValue(Object obj) {
         List<Field> fields = getFields(obj.getClass());
         Optional<Field> optional = fields.stream().filter(e -> e.isAnnotationPresent(Version.class)).findFirst();
-        return optional.isPresent() ? getValueFieldObject(optional.get().getName(), obj) : Long.MIN_VALUE;
+        return optional.isPresent() ? getValueFieldObject(optional.get().getName(), obj) : null;
     }
 
     public static boolean newsIsUpdate(Object news, Object old) {

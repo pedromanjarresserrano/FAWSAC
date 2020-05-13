@@ -46,7 +46,7 @@
         }
       ],
       "commonactions": {
-        "enable": true
+        "enable": false
       }
     }
   },
@@ -54,10 +54,10 @@
     "table": {
       "fields": [
         {
-          "name": "menuprovider"
+          "name": "nombre"
         },
         {
-          "name": "actions"
+          "name": "pordefectorgistro"
         }
       ],
       "subcruds": false

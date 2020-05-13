@@ -113,6 +113,7 @@ public class CrudView extends Tabpanel {
         configController(klass);
         arg.put("crud-list-items", crudController.getValues());
         arg.put("crud-controller", crudController);
+
         Component component = null;
 
         try {

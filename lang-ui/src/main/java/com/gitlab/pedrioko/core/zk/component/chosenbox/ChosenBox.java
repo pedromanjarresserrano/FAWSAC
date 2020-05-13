@@ -7,11 +7,10 @@ import org.zkoss.zul.Bandpopup;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listitem;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ChosenBox extends Bandbox {
 
@@ -44,6 +43,24 @@ public class ChosenBox extends Bandbox {
                 listselected.forEach(x -> valueSelection.add(x.getValue()));
                 setLabel();
             });
+            listitem.addEventListener(Events.ON_SELECTION, w -> {
+                List<Listitem> listselected = new ArrayList<>(list.getSelectedItems());
+                valueSelection.clear();
+                listselected.forEach(x -> valueSelection.add(x.getValue()));
+                setLabel();
+            });
+
+
+        });
+
+        list.addEventListener(Events.ON_CHANGE, w -> {
+            List<Listitem> listselected = new ArrayList<>(list.getSelectedItems());
+            valueSelection.clear();
+            listselected.forEach(x -> valueSelection.add(x.getValue()));
+            setLabel();
+        });
+        this.addEventListener(Events.ON_CHANGE, v -> {
+            v.getData();
         });
         popup.getChildren().add(list);
         getChildren().add(popup);
@@ -72,14 +89,19 @@ public class ChosenBox extends Bandbox {
      * @param valueSelection
      */
     public void setValueSelection(List<?> valueSelection) {
-        this.valueSelection = new HashSet<>(valueSelection);
-        Set<Listitem> set = new HashSet<>();
-        valueSelection.forEach(e -> listsitems.stream()
-                .filter(w -> w.getValue().toString().trim().equalsIgnoreCase(e.toString().trim()))
-                .forEach(set::add));
-
-        list.setSelectedItems(set);
-        setLabel();
+        if (valueSelection != null) {
+            this.valueSelection = new HashSet<>(valueSelection);
+            Set<Listitem> set = new HashSet<>();
+            valueSelection.forEach(e -> {
+                List<Listitem> listitemStream = listsitems.stream()
+                        .filter(w -> w.getValue().toString().trim().equalsIgnoreCase(e.toString().trim()) && w.getPage() != null).collect(Collectors.toList());
+                listitemStream
+                        .forEach(set::add);
+            });
+            list.clearSelection();
+            list.setSelectedItems(set);
+            setLabel();
+        }
     }
 
     /**

@@ -113,7 +113,7 @@ public class ContentViewImpl implements ContentView {
                 list.add(tab);
                 tab.setClosable(true);
                 tabview.getTabs().appendChild(tab);
-                tabview.setAttribute("menuprovider", provider);
+                Executions.getCurrent().setAttribute("menuprovider", provider);
                 loadView(id, label, tab, provider.getView());
                 tab.setIconSclass(provider.getIcon());
                 tabview.setSelectedTab(tab);

@@ -29,11 +29,28 @@ public class SecurityServiceImpl implements SecurityService {
         return crudService.refresh(user)
                 .getUserprofiles()
                 .stream()
+                .map(crudService::refresh)
                 .map(UserProfile::getProvidersaccess)
                 .flatMap(List::stream)
                 .map(ProviderAccess::getMenuprovider)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<String> getPermission(Usuario user, MenuProvider menuProvider) {
+        return crudService.refresh(user)
+                .getUserprofiles()
+                .stream()
+                .map(crudService::refresh)
+                .map(UserProfile::getProvidersaccess)
+                .flatMap(List::stream)
+                .filter(e -> {
+                    return e.getMenuprovider().equalsIgnoreCase(menuProvider.getClass().getSimpleName());
+                })
+                .flatMap(e -> crudService.refresh(e).getActions().stream())
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     public List<MenuProvider> getProvider(Usuario user) {

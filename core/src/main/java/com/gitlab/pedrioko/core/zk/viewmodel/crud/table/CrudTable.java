@@ -60,7 +60,7 @@ public class CrudTable {
                 crudevent.setCrudViewParent(crudView);
                 crudevent.setType(klass);
                 crudevent.setFormstate(action.getFormState());
-                crudevent.setValue(selectValue);
+                crudevent.setValue(crudService.refresh(this.selectValue));
                 action.actionPerform(crudevent);
                 uuidold = event.getName();
             }
@@ -126,7 +126,7 @@ public class CrudTable {
         Action bean = (Action) getBean(StringUtil.getDescapitalize(action));
         CrudActionEvent event = new CrudActionEvent();
         event.setCrudViewParent(crudView);
-        event.setValue(this.selectValue);
+        event.setValue(crudService.refresh(this.selectValue));
         event.setFormstate(bean.getFormState());
         event.setType(klass);
         bean.actionPerform(event);

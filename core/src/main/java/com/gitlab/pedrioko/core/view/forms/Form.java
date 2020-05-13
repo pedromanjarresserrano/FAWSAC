@@ -18,9 +18,7 @@ import lombok.EqualsAndHashCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
-import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.*;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Label;
@@ -118,7 +116,7 @@ class Form extends Window implements Valuable {
 
                 } else
                     ReflectionZKUtil.setValueComponent(v, invoke);
-            } catch (SecurityException  e) {
+            } catch (SecurityException e) {
                 LOGGER.error("ERROR on setValueForm()", e);
             }
         });
@@ -180,12 +178,14 @@ class Form extends Window implements Valuable {
         addAction(labelaction, icon, "btn btn-primary pull-left", event);
     }
 
-    public void addAction(String labelaction, String icon, String classes, EventListener<? extends Event> event) {
+    public void addAction(String labelaction, String icon, String classes, EventListener event) {
         Button btn = new Button();
         btn.setLabel(labelaction);
         btn.setIconSclass(icon);
         btn.setClass("btn-action " + classes + (ZKUtil.isMobile() ? " col-sm-12 " : ""));
-        btn.addEventListener(Events.ON_CLICK, event);
+        btn.addEventListener(Events.ON_CLICK, e -> {
+            event.onEvent(new Event("", this, getValue()));
+        });
         getActions().appendChild(btn);
     }
 

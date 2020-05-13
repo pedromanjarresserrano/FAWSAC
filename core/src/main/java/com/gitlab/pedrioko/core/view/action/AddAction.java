@@ -59,9 +59,8 @@ public class AddAction implements Action {
         });
         form.addAction(ReflectionZKUtil.getLabel("cancelar"), "fa fa-ban", "btn btn-danger", e -> form.detach());
         AddForm addForm = new AddForm(typeClass.getSimpleName(), typeClass, Combobox.class, true, crudViewParent, e -> {
-            Comboitem selectedItem = combobox.getSelectedItem();
-            if (selectedItem != null) crudViewParent.addValue(selectedItem.getValue());
-            e.getTarget().getParent().detach();
+            crudViewParent.addValue(e.getData());
+            e.getTarget().detach();
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("userbasicform.guardar"), MessageType.SUCCESS);
         }, e -> form.detach());
         ZKUtil.showDialogWindow(addForm);

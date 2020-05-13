@@ -46,7 +46,7 @@
             <version>${jackson-core.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.gitlab.pedrioko.core.services</groupId>
+            <groupId>com.gitlab.pedrioko</groupId>
             <artifactId>api</artifactId>
             <version>${ats.version}</version>
         </dependency>

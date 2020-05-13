@@ -3,6 +3,7 @@ package com.gitlab.pedrioko.core.view.forms;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.ArraysUtil;
+import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.core.zk.component.chosenbox.ChosenBoxImage;
 import com.gitlab.pedrioko.core.zk.component.chosenbox.ChosenFileEntityBox;
@@ -10,6 +11,8 @@ import com.gitlab.pedrioko.services.CrudService;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 
@@ -22,6 +25,7 @@ public class AddForm extends CustomForm {
     private static final String AGREGAR = "Agregar";
 
     private static final long serialVersionUID = 1L;
+    private String fieldname;
 
     public AddForm(Class klass, String field) {
         super(klass, new LinkedHashMap<>());
@@ -61,7 +65,8 @@ public class AddForm extends CustomForm {
     }
 
     private void build(String fieldname, Class<?> typeClass, Class<?> componentClass, boolean removeDuplicates, List<?> value, EventListener<? extends Event> addevent, EventListener<? extends Event> cancelevent) {
-        if (fieldname == null || fieldname.isEmpty())
+        this.fieldname = fieldname;
+        if (fieldname == null || this.fieldname.isEmpty())
             this.addField(AGREGAR, componentClass);
         else
             this.addField(fieldname, componentClass);
@@ -72,6 +77,8 @@ public class AddForm extends CustomForm {
         }
 
         Component componentField = fieldname == null || fieldname.isEmpty() ? this.getComponentField(AGREGAR) : this.getComponentField(fieldname);
+
+        //this.putBinding((fieldname == null || fieldname.isEmpty() )? AGREGAR:this.fieldname,componentField);
 
         if (componentClass == ChosenBoxImage.class) {
             ((ChosenBoxImage) componentField).setModel(all);
@@ -93,5 +100,26 @@ public class AddForm extends CustomForm {
             this.addAction(ReflectionZKUtil.getLabel("cancelar"), "fa fa-ban", "ats-addform-cancel", cancelevent);
         else
             this.addAction(ReflectionZKUtil.getLabel("cancelar"), "fa fa-ban", "ats-addform-cancel", e -> this.detach());
+    }
+
+    @Override
+    public void addAction(String labelaction, String icon, String classes, EventListener event) {
+        Button btn = new Button();
+        btn.setLabel(labelaction);
+        btn.setIconSclass(icon);
+        btn.setClass("btn-action " + classes + (ZKUtil.isMobile() ? " col-sm-12 " : ""));
+
+        btn.addEventListener(Events.ON_CLICK, e -> {
+            Component componentField = this.getComponentField(fieldname);
+            Object value = null;
+            if (componentField.getClass() == ChosenBoxImage.class) {
+                value = ((ChosenBoxImage) componentField).getValue();
+            }
+            if (componentField.getClass() == Combobox.class) {
+                value = ((Combobox) componentField).getSelectedItem().getValue();
+            }
+            event.onEvent(new Event("", this, value));
+        });
+        getActions().appendChild(btn);
     }
 }

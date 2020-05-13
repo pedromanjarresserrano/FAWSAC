@@ -9,6 +9,8 @@ import java.util.Map;
 public interface SecurityService {
     List<String> getAccess(Usuario user);
 
+    List<String> getPermission(Usuario user, MenuProvider menuProvider);
+
     List<MenuProvider> getProvider(Usuario user);
 
     Map<String, List<MenuProvider>> getProviderGroup(Usuario user);

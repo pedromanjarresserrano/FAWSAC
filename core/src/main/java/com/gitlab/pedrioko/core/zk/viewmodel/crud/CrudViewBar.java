@@ -14,6 +14,7 @@ import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import com.gitlab.pedrioko.services.CrudService;
+import com.gitlab.pedrioko.services.SecurityService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -41,9 +42,10 @@ public class CrudViewBar {
     private Map<Integer, List<Action>> actions = new LinkedHashMap<>();
     private boolean enableCommonActionsClass;
     private CrudView crudView;
-    private CrudService crudService;
     @WireVariable
     private transient FHSessionUtil fhSessionUtil;
+    @WireVariable
+    private transient SecurityService securityService;
     private MenuProvider menuprovider;
     private List<String> strings = new ArrayList<>();
     private String uuid;
@@ -54,17 +56,15 @@ public class CrudViewBar {
         Map<?, ?> arguments = (Map<?, ?>) Executions.getCurrent().getArg();
         crudView = (CrudView) arguments.get("CrudView");
         klass = (Class<?>) arguments.get("klass-crud");
-        menuprovider = (MenuProvider) arguments.get("menuprovider");
+        Map<String, Object> attributes = Executions.getCurrent().getAttributes();
+        menuprovider = (MenuProvider) attributes.get("menuprovider");
         uuid = (String) arguments.get("CrudViewUUID");
         enableCommonActionsClass = ApplicationContextUtils.getBean(PropertiesUtil.class)
                 .getEnableCommonActionsClass(klass);
-        crudService = getBean(CrudService.class);
         fhSessionUtil = getBean(FHSessionUtil.class);
         Map<Integer, List<Action>> listMap = getBeansOfType(Action.class).stream().sorted(Comparator.comparing(Action::position)).collect(groupingBy(Action::getGroup));
         if (fhSessionUtil.getCurrentUser().getTipo() != TipoUsuario.ROLE_ADMIN) {
-            strings.addAll(fhSessionUtil.getCurrentUser().getUserprofiles().stream().flatMap(e -> e.getProvidersaccess().stream())
-                    .filter(e -> e.getMenuprovider().equalsIgnoreCase(menuprovider.getClass().getSimpleName()))
-                    .flatMap(e -> e.getActions().stream()).collect(Collectors.toList()));
+            strings.addAll(securityService.getPermission(fhSessionUtil.getCurrentUser(), menuprovider));
         }
 
         listMap.forEach((k, v) -> {
@@ -96,7 +96,7 @@ public class CrudViewBar {
                 filters.put(ReflectionZKUtil.getLabel(w.getField()), component);
                 component.addEventListener(Events.ON_CHANGE, e -> {
                     crudView.getCrudController().put(w.getField(), ReflectionZKUtil.getValue(component));
-                //    crudView.getCrudController().doQuery();
+                    //    crudView.getCrudController().doQuery();
                 });
                 component.addEventListener(Events.ON_OK, e -> {
                     crudView.getCrudController().put(w.getField(), ReflectionZKUtil.getValue(component));

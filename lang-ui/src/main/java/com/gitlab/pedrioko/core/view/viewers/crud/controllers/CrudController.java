@@ -35,9 +35,9 @@ public class CrudController {
 
     private static final long serialVersionUID = 1L;
     private final Class<?> klass;
-    private final  CrudService crudService;
-    private final  Map<String, Object> map = new HashMap<>();
-    private final  Map<String, Object> paramsroot = new HashMap<>();
+    private final CrudService crudService;
+    private final Map<String, Object> map = new HashMap<>();
+    private final Map<String, Object> paramsroot = new HashMap<>();
     private final Map<CrudEvents, List<OnEvent>> onEvent = new HashMap<>();
     private final List<OnQuery> postEvent = new ArrayList<>();
     private @Getter
@@ -85,6 +85,7 @@ public class CrudController {
             if (onEvents != null) onEvents.forEach(OnEvent::doSomething);
         } else
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("onlist"), MessageType.WARNING);
+        BindUtils.postGlobalCommand(null, null, "refresh", null);
     }
 
     public void setValue(List value) {
@@ -100,6 +101,8 @@ public class CrudController {
 
     public void setCrudViewValue(List<?> value) {
         crudViewValue = TRUE;
+        if (value != null)
+            value = value.stream().map(crudService::refresh).collect(Collectors.toList());
         crudViewValueList = value != null ? value : new ArrayList();
         doQuery();
     }
