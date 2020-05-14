@@ -46,7 +46,7 @@
         }
       ],
       "commonactions": {
-        "enable": false
+        "enable": true
       }
     }
   },

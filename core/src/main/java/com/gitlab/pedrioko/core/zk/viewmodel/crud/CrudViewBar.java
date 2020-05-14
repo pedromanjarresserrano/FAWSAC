@@ -50,6 +50,7 @@ public class CrudViewBar {
     private List<String> strings = new ArrayList<>();
     private String uuid;
     private final transient Map<String, Component> binding = new LinkedHashMap<String, Component>();
+    private CrudMode crudmode;
 
     @Init
     private void init() {
@@ -59,8 +60,11 @@ public class CrudViewBar {
         Map<String, Object> attributes = Executions.getCurrent().getAttributes();
         menuprovider = (MenuProvider) attributes.get("menuprovider");
         uuid = (String) arguments.get("CrudViewUUID");
-        enableCommonActionsClass = ApplicationContextUtils.getBean(PropertiesUtil.class)
+        crudmode = (CrudMode) arguments.get("crud-mode");
+        PropertiesUtil propertiesUtil = getBean(PropertiesUtil.class);
+        enableCommonActionsClass = propertiesUtil
                 .getEnableCommonActionsClass(klass);
+        boolean enableSubCrudsClass = propertiesUtil.getEnableSubCrudsClass(klass, true);
         fhSessionUtil = getBean(FHSessionUtil.class);
         Map<Integer, List<Action>> listMap = getBeansOfType(Action.class).stream().sorted(Comparator.comparing(Action::position)).collect(groupingBy(Action::getGroup));
         if (fhSessionUtil.getCurrentUser().getTipo() != TipoUsuario.ROLE_ADMIN) {
@@ -84,6 +88,10 @@ public class CrudViewBar {
             }
             this.actions.put(k, actions);
         });
+        if (crudmode == CrudMode.SUBCRUD && !enableSubCrudsClass) {
+            crudsActions.clear();
+            this.actions.remove(0);
+        }
         ApplicationContextUtils.getBeansOfType(ToolbarFilter.class)
                 .stream()
                 .filter(v -> v.getAplicateClass() == null ||

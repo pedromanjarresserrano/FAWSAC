@@ -60,7 +60,7 @@ public class StringUtil {
     }
 
     public static String getCapitalize(String string) {
-        return StringUtils.capitalize(string);
+        return StringUtils.capitalize(string.toLowerCase());
     }
 
     public static String getDescapitalize(String string) {

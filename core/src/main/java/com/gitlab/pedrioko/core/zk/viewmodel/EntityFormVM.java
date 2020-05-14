@@ -15,6 +15,7 @@ import com.gitlab.pedrioko.core.view.exception.ValidationException;
 import com.gitlab.pedrioko.core.view.forms.Form;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
+import com.gitlab.pedrioko.core.view.util.StringUtil;
 import com.gitlab.pedrioko.core.zk.component.colorpicker.ColorPicker;
 import com.gitlab.pedrioko.services.CrudService;
 import com.querydsl.core.types.dsl.PathBuilder;
@@ -291,5 +292,14 @@ public class EntityFormVM implements Valuable {
 
     public void setTabpanels(Tabpanels tabpanels) {
         this.tabpanels = tabpanels;
+    }
+
+    public String getFormName() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(StringUtil.getCapitalize(estado.toString()));
+        sb.append(" ");
+        sb.append(valueClass.getSimpleName());
+        return sb.toString();
     }
 }

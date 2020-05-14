@@ -4,6 +4,7 @@
     <borderlayout>
         <center>
             <div sclass="container-fuild text-black m-3">
+                <label value="@load(vm.formName)" zclass="h3"/>
                 <div sclass="row  m-3" children="@load(vm.renglones.entrySet())">
                     <template name="children" var="node">
                         <renglon label="@bind(node.key)" input="@bind(node.value)"/>
