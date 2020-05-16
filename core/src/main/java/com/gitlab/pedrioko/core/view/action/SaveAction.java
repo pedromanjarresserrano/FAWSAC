@@ -38,7 +38,7 @@ public class SaveAction implements Action {
     @Override
     public void actionPerform(CrudActionEvent event) {
         Object value = event.getValue();
-        CrudView crudViewParent = event.getCrudViewParent();
+        CrudView crudViewParent = (CrudView) event.getCrudViewParent();
         ArrayList list = null;
         if (crudViewParent != null)
             list = crudViewParent.getValue();

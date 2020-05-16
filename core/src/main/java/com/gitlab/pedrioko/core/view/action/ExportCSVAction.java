@@ -9,6 +9,7 @@ import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
 import com.gitlab.pedrioko.core.view.util.Exporter;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
@@ -35,7 +36,7 @@ public class ExportCSVAction implements Action {
         String filename = "export-" + UUID.randomUUID() + ".csv";
 
         try {
-            byte[] buildCSV = Exporter.BuildCSV(event.getCrudViewParent().getValue());
+            byte[] buildCSV = Exporter.BuildCSV(((CrudView)event.getCrudViewParent()).getValue());
             if (buildCSV == null) {
                 ZKUtil.showMessage(ReflectionZKUtil.getLabel("emptyexport"), MessageType.INFO);
                 return;

@@ -8,6 +8,7 @@ import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Component;
@@ -34,7 +35,7 @@ public class EditAction implements Action {
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("seleccione"), MessageType.WARNING);
         } else {
             HashMap<Object, Object> arg = new HashMap<>();
-            Class<?> typeClass = event.getCrudViewParent().getTypeClass();
+            Class<?> typeClass = ((CrudView) event.getCrudViewParent()).getTypeClass();
             arg.put("value", value);
             arg.put("event-crud", event);
             arg.put("estado-form", FormStates.UPDATE);
@@ -46,7 +47,7 @@ public class EditAction implements Action {
                 LOGGER.info("USING DEFAULT ENTITY FORM  PAGE ");
             }
             if (component == null) component = Executions.createComponents("~./zul/forms/form.zul", null, arg);
-            event.getCrudViewParent().setContent(component);
+            ((CrudView) event.getCrudViewParent()).setContent(component);
         }
     }
 

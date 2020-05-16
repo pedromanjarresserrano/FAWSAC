@@ -6,6 +6,7 @@ import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.forms.Form;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +26,7 @@ public class CancelAction implements Action {
 
     @Override
     public void actionPerform(CrudActionEvent event) {
-        event.getCrudViewParent().previousState();
+        ((CrudView) event.getCrudViewParent()).previousState();
     }
 
     @Override

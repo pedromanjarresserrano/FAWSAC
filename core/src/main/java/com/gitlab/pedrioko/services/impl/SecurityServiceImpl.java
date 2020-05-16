@@ -2,18 +2,30 @@ package com.gitlab.pedrioko.services.impl;
 
 import com.gitlab.pedrioko.core.lang.ProviderAccess;
 import com.gitlab.pedrioko.core.lang.UserProfile;
+import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
+import com.gitlab.pedrioko.core.view.enums.AplicateAllClass;
+import com.gitlab.pedrioko.core.view.enums.CrudAction;
+import com.gitlab.pedrioko.core.view.enums.CrudMode;
+import com.gitlab.pedrioko.core.view.enums.SubCrudView;
+import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
+import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
+import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
 import com.gitlab.pedrioko.services.CrudService;
 import com.gitlab.pedrioko.services.SecurityService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.PostConstruct;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
+import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBeansOfType;
+import static java.util.stream.Collectors.groupingBy;
 
 @Service("securityService")
 public class SecurityServiceImpl implements SecurityService {
@@ -23,6 +35,21 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Autowired
     private List<MenuProvider> beansOfType;
+
+    @Autowired
+    PropertiesUtil propertiesUtil;
+
+    @Autowired
+    private List<Action> actionList;
+
+
+    private Map<Integer, List<Action>> actionMap;
+
+    @PostConstruct
+    private void init() {
+        actionMap = getBeansOfType(Action.class).stream().sorted(Comparator.comparing(Action::position)).collect(groupingBy(Action::getGroup));
+
+    }
 
     @Override
     public List<String> getAccess(Usuario user) {
@@ -44,11 +71,47 @@ public class SecurityServiceImpl implements SecurityService {
                 .map(crudService::refresh)
                 .map(UserProfile::getProvidersaccess)
                 .flatMap(List::stream)
-                .filter(e -> {
-                    return e.getMenuprovider().equalsIgnoreCase(menuProvider.getClass().getSimpleName());
-                })
+                .filter(e -> e.getMenuprovider().equalsIgnoreCase(menuProvider.getClass().getSimpleName()))
                 .flatMap(e -> crudService.refresh(e).getActions().stream())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Map<Integer, List<Action>> getActions(Usuario user, MenuProvider menuProvider, Class klass) {
+        return this.getActions(user, menuProvider, klass, Collections.EMPTY_LIST);
+    }
+
+    @Override
+    public Map<Integer, List<Action>> getActions(Usuario user, MenuProvider menuProvider, Class<?> klass, List<Class<?>> classList) {
+        boolean enableCommonActionsClass = propertiesUtil
+                .getEnableCommonActionsClass(klass);
+        boolean enableSubCrudsClass = classList.contains(SubCrudView.class) ? propertiesUtil.getEnableSubCrudsClass(klass, true) : true;
+        List<String> permission = new ArrayList<>();
+        Map<Integer, List<Action>> actionsList = new LinkedHashMap<>();
+        if (user.getTipo() != TipoUsuario.ROLE_ADMIN) {
+            permission.addAll(getPermission(user, menuProvider));
+        }
+
+        actionMap.forEach((k, v) -> {
+            List<Action> actions = new ArrayList<>();
+            for (Action e : v) {
+                if (permission.contains(e.getClass().getSimpleName()) || user.getTipo() == TipoUsuario.ROLE_ADMIN) {
+                    if (CollectionUtils.containsAny(e.getAplicateClass(), classList)) {
+                        if (k != 0 || !e.isDefault() || enableCommonActionsClass) {
+                            if (enableSubCrudsClass && k == 0)
+                                actions.add(e);
+                            else if (k > 0) {
+                                actions.add(e);
+                            }
+                        }
+                    }
+                }
+            }
+            actionsList.put(k, actions);
+
+        });
+
+        return actionsList;
     }
 
 

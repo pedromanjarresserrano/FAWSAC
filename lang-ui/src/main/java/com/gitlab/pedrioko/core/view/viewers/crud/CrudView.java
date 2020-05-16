@@ -17,7 +17,6 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventQueues;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Tabpanel;
 
 import java.util.*;
@@ -31,8 +30,6 @@ public class CrudView extends Tabpanel {
     private static final long serialVersionUID = 1L;
     private Map<String, Object> rootParams = new LinkedHashMap<>();
     private Class<?> klass;
-    private Div divbar;
-
 
     private @Getter
     @Setter
@@ -104,7 +101,6 @@ public class CrudView extends Tabpanel {
     }
 
     private void createUI() {
-        divbar = new Div();
         arg = new HashMap<>();
         arg.put("klass-crud", klass);
         arg.put("CrudView", this);
@@ -120,25 +116,13 @@ public class CrudView extends Tabpanel {
         try {
             component = Executions.createComponents("~./zul/crud/crudview" + klass.getSimpleName() + ".zul", null, arg);
         } catch (Exception e) {
-            LOGGER.info("CUSTOM CRUD TABLE PAGE NOT FOUND....");
-            LOGGER.info("USING DEFAULT CRUD TABLE PAGE ");
+            LOGGER.info("CUSTOM CRUDVIEW PAGE NOT FOUND....", e);
+            LOGGER.info("USING DEFAULT CRUDVIEW PAGE ");
         }
         if (component == null)
             component = Executions.createComponents("~./zul/crud/crudview.zul", null, arg);
 
         appendChild(component);
-    }
-
-    private Component loadPlantilla(Component component, String plantilla) {
-        try {
-            component = Executions.createComponents(plantilla + klass.getSimpleName() + ".zul", null, arg);
-        } catch (Exception e) {
-            LOGGER.info("CUSTOM CRUD TABLE PAGE NOT FOUND....");
-            LOGGER.info("USING DEFAULT CRUD TABLE PAGE ");
-        }
-        if (component == null)
-            component = Executions.createComponents(plantilla + ".zul", null, arg);
-        return component;
     }
 
     public CrudView(Class<?> klass, List<?> value) {

@@ -7,6 +7,7 @@ import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.zk.ui.Component;
@@ -30,7 +31,8 @@ public class NewAction implements Action {
     public void actionPerform(CrudActionEvent event) {
         HashMap<Object, Object> arg = new HashMap<>();
 
-        Class<?> typeClass = event.getCrudViewParent().getTypeClass();
+        CrudView crudViewParent = (CrudView) event.getCrudViewParent();
+        Class<?> typeClass = crudViewParent.getTypeClass();
         arg.put("value", ReflectionJavaUtil.getNewInstace(typeClass));
         arg.put("event-crud", event);
         arg.put("estado-form", FormStates.CREATE);
@@ -42,7 +44,7 @@ public class NewAction implements Action {
             LOGGER.info("USING DEFAULT ENTITY FORM  PAGE ");
         }
         if (component == null) component = Executions.createComponents("~./zul/forms/form.zul", null, arg);
-        event.getCrudViewParent().setContent(component);
+        crudViewParent.setContent(component);
     }
 
     @Override

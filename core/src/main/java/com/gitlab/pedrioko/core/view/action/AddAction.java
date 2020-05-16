@@ -37,7 +37,7 @@ public class AddAction implements Action {
     @Override
     public void actionPerform(CrudActionEvent event) {
 
-        CrudView crudViewParent = event.getCrudViewParent();
+        CrudView crudViewParent = (CrudView) event.getCrudViewParent();
         Class<?> typeClass = crudViewParent.getTypeClass();
         CustomForm form = new CustomForm(typeClass, new LinkedHashMap<>());
         form.addField(AGREGAR, Combobox.class);

@@ -39,7 +39,7 @@ public class DeleteAction implements Action {
 
     @Override
     public void actionPerform(CrudActionEvent event) {
-        CrudView crudViewParent = event.getCrudViewParent();
+        CrudView crudViewParent = (CrudView) event.getCrudViewParent();
         Object value = event.getValue();
         ArrayList list = crudViewParent.getValue();
         if (value == null) {

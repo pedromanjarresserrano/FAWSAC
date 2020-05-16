@@ -12,10 +12,8 @@ import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
-import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
-import com.gitlab.pedrioko.services.CrudService;
+import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.services.SecurityService;
-import org.apache.commons.collections4.CollectionUtils;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -28,11 +26,9 @@ import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.WireVariable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
-import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBeansOfType;
-import static java.util.stream.Collectors.groupingBy;
+
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class CrudViewBar {
@@ -66,31 +62,20 @@ public class CrudViewBar {
                 .getEnableCommonActionsClass(klass);
         boolean enableSubCrudsClass = propertiesUtil.getEnableSubCrudsClass(klass, true);
         fhSessionUtil = getBean(FHSessionUtil.class);
-        Map<Integer, List<Action>> listMap = getBeansOfType(Action.class).stream().sorted(Comparator.comparing(Action::position)).collect(groupingBy(Action::getGroup));
-        if (fhSessionUtil.getCurrentUser().getTipo() != TipoUsuario.ROLE_ADMIN) {
-            strings.addAll(securityService.getPermission(fhSessionUtil.getCurrentUser(), menuprovider));
-        }
+        Usuario currentUser = fhSessionUtil.getCurrentUser();
 
-        listMap.forEach((k, v) -> {
-            List<Action> actions = new ArrayList<>();
-            for (Action e : v) {
-                if (strings.contains(e.getClass().getSimpleName()) || fhSessionUtil.getCurrentUser().getTipo() == TipoUsuario.ROLE_ADMIN) {
-                    Class<?> subCrudViewClass = crudView.getCrudviewmode() == CrudMode.SUBCRUD ? SubCrudView.class : ApplicationContextUtils.class;
-                    if (CollectionUtils.containsAny(e.getAplicateClass(), Arrays.asList(CrudAction.class, klass, AplicateAllClass.class, subCrudViewClass))) {
-                        if (k != 0 || !e.isDefault() || enableCommonActionsClass) {
-                            if (e.isDefault() && k == 0) {
-                                crudsActions.add(e);
-                            }
-                            actions.add(e);
-                        }
-                    }
-                }
-            }
-            this.actions.put(k, actions);
-        });
+        Class<?> subCrudViewClass = crudView.getCrudviewmode() == CrudMode.SUBCRUD ? SubCrudView.class : ApplicationContextUtils.class;
+        this.actions.putAll(securityService.getActions(currentUser, menuprovider, klass, Arrays.asList(CrudAction.class, klass, AplicateAllClass.class, subCrudViewClass)));
+
         if (crudmode == CrudMode.SUBCRUD && !enableSubCrudsClass) {
+            List<Action> actions = this.actions.get(0);
+            crudsActions.forEach(e -> {
+
+                actions.remove(e);
+            });
+            this.actions.put(0, actions);
             crudsActions.clear();
-            this.actions.remove(0);
+
         }
         ApplicationContextUtils.getBeansOfType(ToolbarFilter.class)
                 .stream()

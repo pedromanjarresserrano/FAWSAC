@@ -37,7 +37,7 @@ public class SaveAndEditAction implements Action {
 
     @Override
     public void actionPerform(CrudActionEvent event) {
-        CrudView crudViewParent = event.getCrudViewParent();
+        CrudView crudViewParent = (CrudView) event.getCrudViewParent();
         Object val = event.getValue();
         ArrayList list = crudViewParent.getValue();
         if (Validate.noDuplicate(val) && event.getSource().getEstado() != FormStates.UPDATE) {

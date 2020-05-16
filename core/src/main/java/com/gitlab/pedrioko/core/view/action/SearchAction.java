@@ -6,6 +6,7 @@ import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +35,7 @@ public class SearchAction implements Action {
     @Override
     public void actionPerform(CrudActionEvent event) {
         // event.getCrudViewParent().getEast().setSlide(true);
-        event.getCrudViewParent().openFilters();
+        ((CrudView)event.getCrudViewParent()).openFilters();
        // EventQueues.lookup("filter-crud-" + event.getType().getSimpleName(), EventQueues.SESSION, true).publish(new Event("filter-crud-" + event.getType().getSimpleName() + "-" + event.getCrudViewParent().getCrudViewUUID(), event.getCrudViewParent(), this));
 
     }

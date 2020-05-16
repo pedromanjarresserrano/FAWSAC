@@ -8,6 +8,7 @@ import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +43,7 @@ public class ViewAction implements Action {
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("seleccione"), MessageType.WARNING);
         } else {
             HashMap<Object, Object> arg = new HashMap<>();
-            Class<?> typeClass = event.getCrudViewParent().getTypeClass();
+            Class<?> typeClass = ((CrudView)event.getCrudViewParent()).getTypeClass();
             arg.put("value", crudService.refresh(value));
             arg.put("event-crud", event);
             arg.put("estado-form", FormStates.READ);

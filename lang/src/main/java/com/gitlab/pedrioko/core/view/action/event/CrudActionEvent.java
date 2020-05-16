@@ -2,13 +2,12 @@ package com.gitlab.pedrioko.core.view.action.event;
 
 import com.gitlab.pedrioko.core.view.api.Valuable;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
-import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import lombok.Data;
 
 public @Data
 class CrudActionEvent {
     private transient Object value;
-    private CrudView crudViewParent;
+    private Object crudViewParent;
     private FormStates formstate;
     private Class type;
     private Valuable source;

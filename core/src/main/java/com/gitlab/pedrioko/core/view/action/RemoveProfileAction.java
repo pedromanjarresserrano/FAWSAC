@@ -7,6 +7,7 @@ import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
+import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.services.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class RemoveProfileAction implements Action {
                 if (event1.getName().equalsIgnoreCase(Messagebox.ON_OK)) {
                     ((Usuario) value).getUserprofiles().clear();
                     crudService.saveOrUpdate(value);
-                    event.getCrudViewParent().getCrudController().doQuery();
+                    ((CrudView) event.getCrudViewParent()).getCrudController().doQuery();
                     ZKUtil.showMessage(ReflectionZKUtil.getLabel("removed"), MessageType.WARNING);
                 }
             });
