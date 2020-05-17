@@ -36,7 +36,6 @@ public class CrudViewBar {
     private List<Action> crudsActions = new ArrayList<>();
     private Map<String, Component> filters = new LinkedHashMap<>();
     private Map<Integer, List<Action>> actions = new LinkedHashMap<>();
-    private boolean enableCommonActionsClass;
     private CrudView crudView;
     @WireVariable
     private transient FHSessionUtil fhSessionUtil;
@@ -53,13 +52,11 @@ public class CrudViewBar {
         Map<?, ?> arguments = (Map<?, ?>) Executions.getCurrent().getArg();
         crudView = (CrudView) arguments.get("CrudView");
         klass = (Class<?>) arguments.get("klass-crud");
-        Map<String, Object> attributes = Executions.getCurrent().getAttributes();
-        menuprovider = (MenuProvider) attributes.get("menuprovider");
+        menuprovider = (MenuProvider) Executions.getCurrent().getAttributes().get("menuprovider");
         uuid = (String) arguments.get("CrudViewUUID");
         crudmode = (CrudMode) arguments.get("crud-mode");
         PropertiesUtil propertiesUtil = getBean(PropertiesUtil.class);
-        enableCommonActionsClass = propertiesUtil
-                .getEnableCommonActionsClass(klass);
+
         boolean enableSubCrudsClass = propertiesUtil.getEnableSubCrudsClass(klass, true);
         fhSessionUtil = getBean(FHSessionUtil.class);
         Usuario currentUser = fhSessionUtil.getCurrentUser();
@@ -123,13 +120,6 @@ public class CrudViewBar {
         return actions;
     }
 
-    public boolean isEnableCommonActionsClass() {
-        return enableCommonActionsClass;
-    }
-
-    public void setEnableCommonActionsClass(boolean enableCommonActionsClass) {
-        this.enableCommonActionsClass = enableCommonActionsClass;
-    }
 
     public CrudView getCrudView() {
         return crudView;

@@ -18,7 +18,7 @@ public @Data
 class Video extends HtmlBasedComponent {
     public static final String ON_PLAY = "onPlaying";
     public static final String ON_PAUSE = "onPause";
-  //  public static final String ON_RESUME = "onResume";
+    public static final String ON_RESUME = "onResume";
     private String src = "";
     private boolean controls = false;
     private boolean muted = false;
@@ -152,60 +152,7 @@ class Video extends HtmlBasedComponent {
             }
         }
     }
-/*
-    public void setPlaying(Event evt) throws Exception {
-        Object data = evt.getData();
-        if (data != null) {
-            JSONObject jsonObject = (JSONObject) data;
-            String playing = (String) jsonObject.get("playing");
-            switch (playing) {
-                case "true": {
-                    setPlaying(true);
-                    setPlay(true);
-                    if (playingListener != null)
-                        playingListener.onEvent(null);
-                    break;
-                }
-                case "false": {
-                    setPlaying(false);
-                    setPlay(false);
-                    if (pauseListener != null)
-                        pauseListener.onEvent(null);
-                    break;
-                }
-            }
-            Object currentTime = jsonObject.get("currentTime");
-            if (currentTime != null) {
-                this.currentTime = currentTime.toString();
-                this.smartUpdate("currentTime", currentTime);
-            }
-        }
 
-
-    }
-*//*
-
-    @Override
-    public boolean addEventListener(String evtnm, EventListener<? extends Event> listener) {
-        switch (evtnm) {
-            case Video.ON_PLAY: {
-                playingListener = listener;
-                return true;
-            }
-            case Video.ON_PAUSE: {
-                pauseListener = listener;
-                return true;
-            }
-            case Video.ON_RESUME: {
-                playingListener = listener;
-                return true;
-            }
-            default: {
-                return super.addEventListener(evtnm, listener);
-            }
-        }
-    }
-*/
     public void setLoop(boolean loop) {
         if (this.loop != loop) {
             this.loop = loop;

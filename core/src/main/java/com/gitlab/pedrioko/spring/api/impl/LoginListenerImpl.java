@@ -19,7 +19,7 @@ public class LoginListenerImpl implements LoginListener {
     public void onLoginEvent(Usuario usuario) {
         LoginLog loginLog = new LoginLog();
         loginLog.setIp(ApplicationContextUtils.getBean(FHSessionUtil.class).getIpLocal());
-        loginLog.setUser(usuario);
+        loginLog.setUser(crudService.refresh(usuario));
         crudService.save(loginLog);
     }
 

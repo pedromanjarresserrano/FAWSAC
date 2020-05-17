@@ -283,7 +283,7 @@ class ProfileViewModel {
         crudView.getCrudController().setOrderField("createdAt");
         crudView.getCrudController().setOrderBY(OrderBY.DESC);
         crudView.addRootParams("user", ApplicationContextUtils.getBean(FHSessionUtil.class).getCurrentUser());
-
+        crudView.doQuery();
         return crudView;
     }
 }

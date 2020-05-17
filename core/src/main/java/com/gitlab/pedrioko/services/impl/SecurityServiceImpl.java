@@ -65,6 +65,8 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public List<String> getPermission(Usuario user, MenuProvider menuProvider) {
+        if (menuProvider == null)
+            return Collections.emptyList();
         return crudService.refresh(user)
                 .getUserprofiles()
                 .stream()
