@@ -61,11 +61,6 @@ public class SaveAction implements Action {
                 }
                 crudViewParent.update();
             }
-        /*    if (!event.getCrudViewParent().getReloadable()) {
-
-                crudViewParent.setModel(list);
-            }*/
-
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("userbasicform.guardar"), MessageType.SUCCESS);
         }
     }

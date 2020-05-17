@@ -128,7 +128,7 @@ class Video extends HtmlBasedComponent {
         String cmd = request.getCommand();
         Object value;
         switch (cmd) {
-            case "onPlaying": {
+            case ON_PLAY: {
                 Map<String, Object> data = request.getData();
                 String currentTime = String.valueOf(data.get("currentTime"));
                 InputEvent evt = new InputEvent(cmd, this, currentTime, this.currentTime, AuRequests.getBoolean(data, "bySelectBack"), AuRequests.getInt(data, "start", 0));
@@ -137,7 +137,7 @@ class Video extends HtmlBasedComponent {
                 this.setPlaying(true);
                 break;
             }
-            case "onPause": {
+            case ON_PAUSE: {
                 Map<String, Object> data = request.getData();
                 String currentTime = String.valueOf(data.get("currentTime"));
                 InputEvent evt = new InputEvent(cmd, this, currentTime, this.currentTime, AuRequests.getBoolean(data, "bySelectBack"), AuRequests.getInt(data, "start", 0));

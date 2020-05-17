@@ -13,7 +13,7 @@ public class StringTransformerAnnotation implements TransformerAnnotation {
     @Override
     public Object Validate(Field f, Object value) {
         if (value instanceof String) {
-            String trim = ((String) value);
+            String trim;
             trim = ((String) value).trim();
 
             if (f.getAnnotation(CapitalizeFully.class) != null) {

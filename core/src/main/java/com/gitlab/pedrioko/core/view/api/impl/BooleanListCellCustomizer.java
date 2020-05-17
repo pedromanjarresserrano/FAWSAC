@@ -19,7 +19,8 @@ public class BooleanListCellCustomizer implements ListCellCustomizer {
     public Component getCompònent(Object value) {
         Checkbox checkbox = new Checkbox();
         checkbox.setDisabled(true);
-        checkbox.setChecked(value != null ? (Boolean) value : false);
+        if (value != null) checkbox.setChecked((Boolean) value);
+        else checkbox.setChecked(false);
         return checkbox;
     }
 }

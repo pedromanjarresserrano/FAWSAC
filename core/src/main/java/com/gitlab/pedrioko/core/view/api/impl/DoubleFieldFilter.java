@@ -21,7 +21,8 @@ public class DoubleFieldFilter implements FieldFilterComponent {
 
     @Override
     public Component getComponent(Field field) {
-        return field.isAnnotationPresent(FileSize.class) ? new FileSizeRangeBox() : field.isAnnotationPresent(Duration.class) ? new DurationRangeBox() : new DoubleRangeBox();
+        if (field.isAnnotationPresent(FileSize.class)) return new FileSizeRangeBox();
+        return field.isAnnotationPresent(Duration.class) ? new DurationRangeBox() : new DoubleRangeBox();
     }
 
 }

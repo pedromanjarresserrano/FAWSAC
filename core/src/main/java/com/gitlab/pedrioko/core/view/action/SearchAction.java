@@ -17,7 +17,6 @@ import java.util.List;
 
 @ToolAction
 public class SearchAction implements Action {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SearchAction.class);
 
     @Autowired
     private CrudService crudservice;
@@ -34,10 +33,7 @@ public class SearchAction implements Action {
 
     @Override
     public void actionPerform(CrudActionEvent event) {
-        // event.getCrudViewParent().getEast().setSlide(true);
         ((CrudView)event.getCrudViewParent()).openFilters();
-       // EventQueues.lookup("filter-crud-" + event.getType().getSimpleName(), EventQueues.SESSION, true).publish(new Event("filter-crud-" + event.getType().getSimpleName() + "-" + event.getCrudViewParent().getCrudViewUUID(), event.getCrudViewParent(), this));
-
     }
 
     @Override

@@ -82,13 +82,11 @@ public class ContentViewImpl implements ContentView {
         tab.appendChild(tabpanels);
         if (ZKUtil.isMobile()) tabs.setStyle("overflow-x: auto !important;");
         tabbes.add(tab);
-        tab.addEventListener(Events.ON_AFTER_SIZE, e -> {
-            securityService.getProvider(fhSessionUtil.getCurrentUser())
-                    .stream()
-                    .filter(MenuProvider::isOpenByDefault)
-                    .filter(f -> !getTab(f.getClass().getSimpleName()).isPresent())
-                    .forEachOrdered(this::addContent);
-        });
+        tab.addEventListener(Events.ON_AFTER_SIZE, e -> securityService.getProvider(fhSessionUtil.getCurrentUser())
+                .stream()
+                .filter(MenuProvider::isOpenByDefault)
+                .filter(f -> !getTab(f.getClass().getSimpleName()).isPresent())
+                .forEachOrdered(this::addContent));
         return tab;
     }
 

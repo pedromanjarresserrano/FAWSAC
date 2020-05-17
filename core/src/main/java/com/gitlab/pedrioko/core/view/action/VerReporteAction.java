@@ -32,7 +32,7 @@ import java.util.List;
 public class VerReporteAction implements Action {
 
 
-    private final String agregar = "Ver";
+    private final static String VER = "Ver";
     @Autowired
     private CrudService crudService;
     DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
@@ -57,7 +57,7 @@ public class VerReporteAction implements Action {
                 form.appendChild(dateRangeBox);
                 form.appendChild(new Space());
                 Button b = new Button();
-                b.setLabel(ReflectionZKUtil.getLabel(agregar));
+                b.setLabel(ReflectionZKUtil.getLabel(VER));
                 b.setIconSclass("fa fa-info");
                 b.setSclass("btn btn-primary");
                 b.addEventListener(Events.ON_CLICK, e -> {
@@ -129,7 +129,7 @@ public class VerReporteAction implements Action {
 
     @Override
     public String getTooltipText() {
-        return ReflectionZKUtil.getLabel(agregar);
+        return ReflectionZKUtil.getLabel(VER);
     }
 
 }

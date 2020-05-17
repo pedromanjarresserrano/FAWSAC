@@ -81,7 +81,7 @@ public class Exporter {
     private static HSSFWorkbook createWorkbook(List<?> list) {
         try (HSSFWorkbook wb = new HSSFWorkbook()) {
             HSSFSheet sheet = wb.createSheet("sheet");
-            List<String> fieldTable = getListFiled(list);
+            List<String> fieldTable = getListField(list);
             load(fieldTable, sheet);
             for (int r = 1; r < list.size() + 1; r++) {
                 HSSFRow row = sheet.createRow(r);
@@ -114,7 +114,7 @@ public class Exporter {
             Document iText_xls_2_pdf = new Document();
             PdfWriter.getInstance(iText_xls_2_pdf, bos);
             iText_xls_2_pdf.open();
-            List<String> fieldTable = getListFiled(list);
+            List<String> fieldTable = getListField(list);
             if (fieldTable.isEmpty())
                 fieldTable = ReflectionJavaUtil.getFieldsNames(list.get(0).getClass());
             PdfPTable my_table = new PdfPTable(fieldTable.size());
@@ -139,7 +139,7 @@ public class Exporter {
         }
     }
 
-    private static List<String> getListFiled(List<?> list) {
+    private static List<String> getListField(List<?> list) {
         Class<?> elementType = list.get(0).getClass();
         List<String> fieldTable = ApplicationContextUtils.getBean(PropertiesUtil.class).getFieldTable(elementType);
         return fieldTable.isEmpty() ? ReflectionJavaUtil.getFieldsNames(list.get(0).getClass()) : fieldTable;

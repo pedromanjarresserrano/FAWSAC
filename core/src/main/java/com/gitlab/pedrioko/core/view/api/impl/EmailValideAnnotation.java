@@ -15,12 +15,11 @@ public class EmailValideAnnotation implements ValidateAnnotation {
 
     @Override
     public void Validate(Field f, Object value) {
-        if (f.isAnnotationPresent(Email.class)) {
-            if ((value == null || ((String) value).isEmpty()
-                    || !TextValidator.validateEmail((String) value)))
-                throw new ValidationException(ReflectionZKUtil.getLabel(f) + " "
-                        + StringUtil.getDescapitalize(ReflectionZKUtil.getLabel("noemail")));
-        }
+        if (f.isAnnotationPresent(Email.class) &&
+                ((value == null || ((String) value).isEmpty() || !TextValidator.validateEmail((String) value))))
+            throw new ValidationException(ReflectionZKUtil.getLabel(f) + " "
+                    + StringUtil.getDescapitalize(ReflectionZKUtil.getLabel("noemail")));
     }
+
 
 }
