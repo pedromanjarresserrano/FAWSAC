@@ -92,7 +92,6 @@ public class CrudTable {
         this.headers = headers;
     }
 
-
     public Object getSelectValue() {
         return selectValue;
     }
