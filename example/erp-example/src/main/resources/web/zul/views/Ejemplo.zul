@@ -1,0 +1,131 @@
+<zk xmlns:n="native">
+    <div>
+        <n:h1>Vista NO CRUD</n:h1>
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <n:h1 class="display-4">Pricing</n:h1>
+            <n:p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap
+                example. It’s built with default Bootstrap components and utilities with little customization.
+            </n:p>
+        </div>
+        <div class="container">
+            <div class="card-deck mb-3 text-center">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header">
+                        <n:h4 class="my-0 font-weight-normal">Free</n:h4>
+                    </div>
+                    <div class="card-body">
+                        <n:h1 class="card-title pricing-card-title">$0
+                            <n:small class="text-muted">/ mo</n:small>
+                        </n:h1>
+                        <n:ul class="list-unstyled mt-3 mb-4">
+                            <n:li>10 users included</n:li>
+                            <n:li>2 GB of storage</n:li>
+                            <n:li>Email support</n:li>
+                            <n:li>Help center access</n:li>
+                        </n:ul>
+                        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Sign up for free</button>
+                    </div>
+                </div>
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header">
+                        <n:h4 class="my-0 font-weight-normal">Pro</n:h4>
+                    </div>
+                    <div class="card-body">
+                        <n:h1 class="card-title pricing-card-title">$15
+                            <n:small class="text-muted">/ mo</n:small>
+                        </n:h1>
+                        <n:ul class="list-unstyled mt-3 mb-4">
+                            <n:li>20 users included</n:li>
+                            <n:li>10 GB of storage</n:li>
+                            <n:li>Priority email support</n:li>
+                            <n:li>Help center access</n:li>
+                        </n:ul>
+                        <button type="button" class="btn btn-lg btn-block btn-primary">Get started</button>
+                    </div>
+                </div>
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header">
+                        <n:h4 class="my-0 font-weight-normal">Enterprise</n:h4>
+                    </div>
+                    <div class="card-body">
+                        <n:h1 class="card-title pricing-card-title">$29
+                            <n:small class="text-muted">/ mo</n:small>
+                        </n:h1>
+                        <n:ul class="list-unstyled mt-3 mb-4">
+                            <n:li>30 users included</n:li>
+                            <n:li>15 GB of storage</n:li>
+                            <n:li>Phone and email support</n:li>
+                            <n:li>Help center access</n:li>
+                        </n:ul>
+                        <button type="button" class="btn btn-lg btn-block btn-primary">Contact us</button>
+                    </div>
+                </div>
+            </div>
+
+            <n:footer class="pt-4 my-md-5 pt-md-5 border-top">
+                <div class="row">
+                    <div class="col-12 col-md">
+                        <n:small class="d-block mb-3 text-muted">© 2017-2019</n:small>
+                    </div>
+                    <div class="col-6 col-md">
+                        <n:h5>Features</n:h5>
+                        <n:ul class="list-unstyled text-small">
+                            <n:li>
+                                <a class="text-muted" href="#">Cool stuff</a>
+                            </n:li>
+                            <n:li>
+                                <a class="text-muted" href="#">Random feature</a>
+                            </n:li>
+                            <n:li>
+                                <a class="text-muted" href="#">Team feature</a>
+                            </n:li>
+                            <n:li>
+                                <a class="text-muted" href="#">Stuff for developers</a>
+                            </n:li>
+                            <n:li>
+                                <a class="text-muted" href="#">Another one</a>
+                            </n:li>
+                            <n:li>
+                                <a class="text-muted" href="#">Last time</a>
+                            </n:li>
+                        </n:ul>
+                    </div>
+                    <div class="col-6 col-md">
+                        <n:h5>Resources</n:h5>
+                        <n:ul class="list-unstyled text-small">
+                            <n:li>
+                                <a class="text-muted" href="#">Resource</a>
+                            </n:li>
+                            <n:li>
+                                <a class="text-muted" href="#">Resource name</a>
+                            </n:li>
+                            <n:li>
+                                <a class="text-muted" href="#">Another resource</a>
+                            </n:li>
+                            <n:li>
+                                <a class="text-muted" href="#">Final resource</a>
+                            </n:li>
+                        </n:ul>
+                    </div>
+                    <div class="col-6 col-md">
+                        <n:h5>About</n:h5>
+                        <n:ul class="list-unstyled text-small">
+                            <n:li>
+                                <a class="text-muted" href="#">Team</a>
+                            </n:li>
+                            <n:li>
+                                <a class="text-muted" href="#">Locations</a>
+                            </n:li>
+                            <n:li>
+                                <a class="text-muted" href="#">Privacy</a>
+                            </n:li>
+                            <n:li>
+                                <a class="text-muted" href="#">Terms</a>
+                            </n:li>
+                        </n:ul>
+                    </div>
+                </div>
+            </n:footer>
+        </div>
+    </div>
+</zk>

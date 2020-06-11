@@ -1,0 +1,51 @@
+{
+  "Item": {
+    "form": {
+      "fields": [
+        {
+          "name": "codigo"
+        },
+        {
+          "name": "nombre"
+        },
+        {
+          "name": "descripcion"
+        },
+        {
+          "name": "cantidad"
+        },
+        {
+          "name": "precio"
+        },
+        {
+          "name": "costo"
+        },
+        {
+          "name": "habilitado"
+        },
+        {
+          "name": "proveedorList"
+        }
+      ]
+    },
+    "table": {
+      "fields": [
+        {
+          "name": "nombre"
+        },
+        {
+          "name": "cantidad"
+        },
+        {
+          "name": "costo"
+        },
+        {
+          "name": "precio"
+        },
+        {
+          "name": "habilitado"
+        }
+      ]
+    }
+  }
+}

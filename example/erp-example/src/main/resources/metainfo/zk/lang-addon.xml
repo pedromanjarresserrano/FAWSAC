@@ -1,0 +1,14 @@
+<!-- ZK will load this file
+    (classpath/metainfo/zk/lang-addon.xml) automatically -->
+
+<language-addon>
+    <!-- addon name,
+        required, it's better to be unique -->
+    <addon-name>custom</addon-name>
+    <!-- specifies the name of a language definition
+        should be unique in a language definition,
+        xul/html is predefinied language in ZK
+        so can be used in lang-addon directly -->
+    <language-name>xul/html</language-name>
+    <javascript src="~./js/ejemplo.js"/>
+</language-addon>
