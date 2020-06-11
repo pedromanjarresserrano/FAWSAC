@@ -45,10 +45,8 @@ public class SecurityServiceImpl implements SecurityService {
 
     private Map<Integer, List<Action>> actionMap;
 
-    @PostConstruct
     private void init() {
         actionMap = getBeansOfType(Action.class).stream().sorted(Comparator.comparing(Action::position)).collect(groupingBy(Action::getGroup));
-
     }
 
     @Override
@@ -93,6 +91,8 @@ public class SecurityServiceImpl implements SecurityService {
         if (user.getTipo() != TipoUsuario.ROLE_ADMIN) {
             permission.addAll(getPermission(user, menuProvider));
         }
+        if (actionMap == null || actionMap.isEmpty())
+            init();
 
         actionMap.forEach((k, v) -> {
             List<Action> actions = new ArrayList<>();
