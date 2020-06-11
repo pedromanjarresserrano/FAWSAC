@@ -86,7 +86,6 @@
         <module>metro-theme</module>
         <module>btadmin-theme</module>
         <module>lang-ui</module>
-        <module>video-services</module>
     </modules>
 
 </project>
