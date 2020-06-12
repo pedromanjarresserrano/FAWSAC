@@ -36,7 +36,7 @@ public class ZKUtil {
     }
 
     public static void showMessage(String message, MessageType type) {
-        String string = "alertify." + getTypeMessage(type) + "('" + message + "', 5 ); ";
+        String string = "alertify." + getTypeMessage(type) + "(\"" + message + "\", 5 ); ";
         Clients.evalJavaScript(string);
     }
 
