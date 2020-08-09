@@ -31,6 +31,14 @@
 
     </repositories>
 
+    <distributionManagement>
+        <repository>
+            <id>githubfawsac</id>
+            <name>GitHub pedrioko Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/pedrioko/fawsac</url>
+        </repository>
+    </distributionManagement>
+
     <properties>
         <spring-web.version>5.1.7.RELEASE</spring-web.version>
         <zk.version>9.0.0</zk.version>
