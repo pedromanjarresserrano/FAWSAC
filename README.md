@@ -1,4 +1,6 @@
-Full-Stack Framework Java
+# Framework for Applications Web Scalables and Advanced Customizability – FAWSAC
+###### Full-Stack Framework Java
+
 
 # 1.   Instalación y configuración
 
@@ -6,23 +8,23 @@ Full-Stack Framework Java
 
 Para realizar la instalación localmente del framework se recomienda utilizar el editor de código Intellij IDEA, debido a que es necesario utilizar 2 complementos, el primero es Lombok y el segundo es ZK, estos se muestran en las siguientes imágenes:
 
-​![](./docs-files/image002.png)
+![](./docs-files/image002.png)
 
 Ilustración 1. Complemento Lombok
 
-​![](./docs-files/image003.png)
+![](./docs-files/image003.png)
 
 Ilustración 2. Complemento ZK
 
 Luego para realizar la compilación e instalación del proyecto lo primero que se tiene que hacer es importar dentro de Intellij IDEA con la siguiente opción
 
-​![](./docs-files/image004.png)
+![](./docs-files/image004.png)
 
 Ilustración 3. Opción de importación de proyecto.
 
 Una vez importado el proyecto lo único que se tiene que realizar es la ejecución de la tarea “install” de Maven para que se realice todo el proceso de compilación e instalación locamente, para ello hay que utilizar la opción del panel lateral “maven” y posteriormente ejecutar con doble clic la tarea “install” del proyecto Maven de nombre “fawsac (root)”, el cual corresponde al padre de todos los módulos del proyecto
 
-​![](./docs-files/image005.png)
+![](./docs-files/image005.png)
 
 Ilustración 4. Ejecución de la tarea de instalación.
 
@@ -36,7 +38,7 @@ Para iniciar un proyecto en el cual se utilice el framework lo primero que hay q
 
 Dentro de esta aplicación puede seleccionar las dependencias necesarias para el framework, como lo es la dependencia **Spring Web**, la otra dependencia que sería necesaria seria el controlador para la base de datos que se va a utilizar, esta dependencia se puede seleccionar también en la parte de dependencias, al finalizar la selección y el llenado de los datos el formulario de creación debería verse similar a este ejemplo:
 
-​![](./docs-files/image006.png)
+![](./docs-files/image006.png)
 
 Ilustración 5. Ejemplo de proyecto base en https://start.spring.io/
 
@@ -92,7 +94,7 @@ Dentro del framework se encuentran disponible entidades y componentes que facili
 
 Esta entidad es la que utiliza el framework para las diferentes entidades que tiene y que son guardadas en la base de datos a la cual se conectara el software, adicionalmente esta clase es la que se debe utilizar en las demás entidades del software para que se pueda llevar un registro auditable de los diferentes cambios que tengas los datos como los son la fecha de creación, la fecha de última modificación del registro y además de tener la propiedad version, la cual es utilizada por hibernate para evitar concurrencias en la actualización de datos.
 
-​![](./docs-files/image007.png)
+![](./docs-files/image007.png)
 
 Ilustración 7. Diagrama de propiedades de la entidad BaseEntity
 
@@ -102,13 +104,13 @@ Ilustración 7. Diagrama de propiedades de la entidad BaseEntity
 
 Polygon es la entidad que se debe usar en el caso que se necesite crea un polígono de mapa de google, esta clase aparte le indica al generador de vistas del framework que debe usar PolygonGmap como componente visual para el ingreso de datos.
 
-​![](./docs-files/image008.png)
+![](./docs-files/image008.png)
 
 Ilustración 8. Diagrama de propiedades de la entidad Polygon.
 
 PolygonGmap es una clase que hereda de la clase Gmap de ZKoss que es la representación en java del mapa de google JS, esta clase hereda todo lo de Gmap con la característica principal que está configurada para la creación de polígonos, cuando es llamado el método getValue() este retorna el polígono creado en el mapa siendo una instancia de la clase Polygon.
 
-​![](./docs-files/image009.png)
+![](./docs-files/image009.png)
 
 Ilustración 9. Diagrama de propiedades del componente PolygonGmap.
 
@@ -116,13 +118,13 @@ Ilustración 9. Diagrama de propiedades del componente PolygonGmap.
 
 Point es la entidad que se debe usar en el caso que se necesite un punto de mapa de google, esta clase le indica al generador de vistas del framework que debe usar PointGmap como componente visual de ingreso de datos.
 
-​![](./docs-files/image010.png)
+![](./docs-files/image010.png)
 
 Ilustración 10. Diagrama de propiedades de la entidad Point.
 
 PointGmap es una clase que hereda de la clase Gmap de ZKoss que es la representación en java del mapa de google JS, esta clase hereda todo lo de Gmap con la característica principal que es esta configurado para la creación de un punto, cuando es llamado el método getValue() este retorna el punto creado en el mapa siendo una instancia de la clase Point.
 
-​![](./docs-files/image011.png)
+![](./docs-files/image011.png)
 
 Ilustración 11. Diagrama de propiedades del componente PointGmap
 
@@ -130,13 +132,13 @@ Ilustración 11. Diagrama de propiedades del componente PointGmap
 
 FileEntity es la entidad que se debe usar en el caso que se necesite tener un archivo adjunto en una clase, esta clase es la representación y enlace a los archivos gestionados por el framework, le indica al generador de vistas del framework que debe usar FileUpload como componente de ingreso de datos, además el núcleo ya se encarga de guardar el archivo en la ubicación de datos del servidor.
 
-​![](./docs-files/image012.png)
+![](./docs-files/image012.png)
 
 Ilustración 12. Diagrama de propiedades de la entidad FileEntity.
 
 FileUpload es una clase que hereda de la clase Fileupload de ZKoss que es la representación de un botón con la función de subir archivo, sin embargo, la diferencia radica que esta clase en getValue() devuelve una instancia de la clase FileEntity que a diferencia del File que devuelve el getValue() de la clase Fileupload.
 
-​![](./docs-files/image013.png)
+![](./docs-files/image013.png)
 
 Ilustración 13. Diagrama de propiedades del componente FileUpload.
 
@@ -144,7 +146,7 @@ Ilustración 13. Diagrama de propiedades del componente FileUpload.
 
 Esta entidad es la que utiliza el framework para el inicio de sesión dentro del software en tiempo de ejecución, esta entidad cuenta con una variedad de propiedades las cuales pueden ser utilizadas a necesidad por el framework o por requerimientos del software a desarrollar.
 
-​![](./docs-files/image014.png)
+![](./docs-files/image014.png)
 
 Ilustración 14. Diagrama de propiedades de la entidad Usuario.
 
@@ -152,7 +154,7 @@ Ilustración 14. Diagrama de propiedades de la entidad Usuario.
 
 Esta entidad es la que utiliza el framework para la cuenta de correo que es configurada en el software en tiempo de ejecución, esta entidad cuenta con todos los datos necesarios para conectarse al servidor de correos y enviar correos desde el software.
 
-​![](./docs-files/image015.png)
+![](./docs-files/image015.png)
 
 Ilustración 15. Diagrama de propiedades de la entidad EmailAccount.
 
@@ -166,7 +168,7 @@ El framework cuenta con anotaciones propias que indican validaciones que se tend
 
 Esta anotación es para usarse propiedades de tipo String, esta anotación sólo afecta a los formularios generados y este indica al framework que las propiedades del formulario anotadas con esta anotación no pueden quedar en null o un String vacío, además el framework mostrara una notificación al usuario. 
 
-​![](./docs-files/image016.png)
+![](./docs-files/image016.png)
 
 Ilustración 16. Diagrama de la anotación NoEmpty.
 
@@ -174,7 +176,7 @@ Ilustración 16. Diagrama de la anotación NoEmpty.
 
 Esta anotación es para usarse propiedades de tipo String, esta anotación se utiliza para indicar que el valor de la propiedad anotada será una contraseña, por lo que el framework al detectar esta anotación realizara un proceso de encriptado del valor utilizan el algoritmo Bcrypt, este algoritmo lo aplica al momento en que se está creando o actualizando un objeto en la base de datos.
 
-​![](./docs-files/image017.png)
+![](./docs-files/image017.png)
 
 Ilustración 17. Diagrama de la anotación Password.
 
@@ -182,7 +184,7 @@ Ilustración 17. Diagrama de la anotación Password.
 
 Esta anotación es para usarse propiedades de tipo String, y esta anotación le indica al núcleo que dicha propiedad debe ser un email por lo cual este realiza las validaciones necesarias para verificar que el valor de la propiedad sea un email.
 
-​![](./docs-files/image018.png)
+![](./docs-files/image018.png)
 
 Ilustración 18. Diagrama de la anotación Email.
 
@@ -190,11 +192,11 @@ Ilustración 18. Diagrama de la anotación Email.
 
 Esta anotación es para usarse propiedades de tipo String, esto le indica al framework que para esta propiedad no debe usar un TextField si no el componente CKeditor que es un WYSWYG.
 
-​![](./docs-files/image019.png)
+![](./docs-files/image019.png)
 
 Ilustración 19. Diagrama de la anotación Ckeditor.
 
-​![](./docs-files/image020.png)
+![](./docs-files/image020.png)
 
 Ilustración 20. Imagen de muestra de Ckeditor en el navegador.
 
@@ -218,7 +220,7 @@ Ilustración 21. Ejemplo del uso de la anotación NoDuplicate.
 
 En este ejemplo de NoDuplicate se le está indicando al framework que no debe haber 2 registros de la clase Reporte en la base de datos que tengan el mismo nombre.
 
-​![](./docs-files/image021.png)
+![](./docs-files/image021.png)
 
 Ilustración 22. Diagrama de la anotación NoDuplicate.
 
@@ -226,7 +228,7 @@ Ilustración 22. Diagrama de la anotación NoDuplicate.
 
 Esta anotación es para nivel de clase, ella hace que la clase se considera un Bean por Spring y este a si vez crea un singleton de la clase, esta anotación se utiliza para los botones menú del menú generado por el framework.
 
-​![](./docs-files/image022.png)
+![](./docs-files/image022.png)
 
 Ilustración 23. Diagrama de la anotación Menú.
 
@@ -260,13 +262,13 @@ Ilustración 23. Diagrama de la anotación Menú.
 
 El framework maneja una auditoria para las consultas realizadas a la base de datos mediante el uso del acceso a datos del framework CrudService, la auditoría es llevada a cabo por interceptor de Hibernate, lo que asegura que todas las consultas realizadas serán auditadas y se creará un registro en la base de datos de la entidad AuditLog.
 
-​![](./docs-files/image023.png)
+![](./docs-files/image023.png)
 
 Ilustración 24. Diagrama del interceptor UserInterceptor.
 
 El registro de AuditLog como lo muestra el diagrama tiene una diversidad de datos que permitirán llevar un seguimiento sobre qué usuario realizó una acción (Crear, Actualizar, Eliminar), también desde que dirección IP se realizó la consulta, fecha en la que, sucedido, el id de ese usuario, el nombre del usuario, entre otros datos.
 
-​![](./docs-files/image024.png)
+![](./docs-files/image024.png)
 
 Ilustración 25.Diagrama de propiedades de la entidad AuditLog.
 
@@ -302,10 +304,10 @@ Este servicio es utilizado para realizar las operaciones CRUD (crear, leer, actu
 
 ​     
 <code>
-    ​import com.gitlab.pedrioko.services.CrudService;    
-    import org.springframework.beans.factory.annotation.Autowired;
-    import org.springframework.stereotype.Component;    
-                                        
+​    ​import com.gitlab.pedrioko.services.CrudService;    
+​    import org.springframework.beans.factory.annotation.Autowired;
+​    import org.springframework.stereotype.Component;    
+​                                        
     @Component    
     public class ExampleComponent {  
         
@@ -331,7 +333,7 @@ En la ilustración 22 se muestra un ejemplo de un componente de Spring que tiene
 
 Este servicio cuenta con una variedad de métodos para realizar diferentes funciones, estos son:
 
-​![](./docs-files/image025.png)
+![](./docs-files/image025.png)
 
 
 Ilustración 27. Diagrama de métodos de la interfaz del servicio CrudService.
@@ -413,7 +415,7 @@ Ilustración 28. Ejemplo de componente con autowired para MailService.
 
 Este servicio cuenta con una variedad de métodos para realizar diferentes funciones, estos son:
 
-​![](./docs-files/image026.png)
+![](./docs-files/image026.png)
 
 Ilustración 29. Diagrama de métodos de la interfaz del servicio MailService.
 
@@ -447,7 +449,7 @@ Ilustración 30. Ejemplo de componente con autowired para ParamService.
 
 Este servicio cuenta con una variedad de métodos para realizar diferentes funciones, estos son:
 
-​![](./docs-files/image027.png)
+![](./docs-files/image027.png)
 
 Ilustración 31. Diagrama de métodos de la interfaz del servicio ParamService.
 
@@ -481,7 +483,7 @@ Ilustración 32. Ejemplo de componente con autowired para SecurityService.
 
 Este servicio cuenta con una variedad de métodos para realizar diferentes funciones, estos son:
 
-​![](./docs-files/image028.png)
+![](./docs-files/image028.png)
 
 Ilustración 33. Diagrama de métodos de la interfaz del servicio SecurityService.
 
@@ -519,7 +521,7 @@ Ilustración 34. Ejemplo de componente con autowired para StorageService.
 
 Este servicio cuenta con una variedad de métodos para realizar diferentes funciones, estos son:
 
-​![](./docs-files/image029.png)
+![](./docs-files/image029.png)
 
 Ilustración 35. Diagrama de métodos de la interfaz del servicio StorageService.
 
@@ -577,13 +579,13 @@ Ilustración 35. Diagrama de métodos de la interfaz del servicio StorageService
 
 La vistas CRUD es uno de los componentes principales del framework y la razón por la que se creó este, este componente para su creación dinámica utiliza las propiedades de la clase base para determinar los valores que sean mostrados en listado de registros (Objetos almacenados en la base de datos), adicionalmente tiene las diferentes acciones que se pueden realizar para la clase base, estas incluyen las acciones por defecto como Crear, Leer, Editar y Eliminar, adicionalmente saldrías las acciones que se hayan creado para aplicados a la clase base.
 
-​![](./docs-files/image030.png)
+![](./docs-files/image030.png)
 
 Ilustración 36. Diagrama del componente CrudView
 
 Las vistas crud dentro del framework son creadas mediante la clase CrudView, como lo muestra el diagrama el componente CrudView hereda de la clase Tabpanel del framework ZK, con esta herencia el CrudView tiene todas las propiedades y métodos de este, los cuales son utilizados para realizar cada una de las operaciones y a su vez generar la vista que será renderizada al usuario en el navegador. La herencia de la clase Tabpanel se escogió con la finalidad que los software a desarrollar manejen un sistema pestañas para cada una de sus vistas, esto es con la finalidad de permitir la multitarea al usuario final.
 
-​![](./docs-files/image031.png)
+![](./docs-files/image031.png)
 
 Ilustración 37. Diagrama de propiedades del componente CrudView
 
@@ -647,7 +649,7 @@ El proceso de crear el menú dinámicamente por el framework se realiza en base 
 
 Para agregar un nuevo menú al creado por el framework solo bastaría con crear una implementación de la interfaz MenuProvider y además anotando la clase con la anotación Menu, como se puede observar en la interfaz MenuProvider tiene varios métodos que son usados para la apariencia y comportamiento que tendrá el botón menú, dependiendo de la implementación se puede establecer el texto que tendrá (getLabel), el icono (getIcon), la posición (getPosition), a que menú padre pertenece (getGroup) , si un vez el usuario inicie sesión estará carga la vista (isOpenByDefault) y cuál será la vista que mostrar es sistema al darle clic en el menú (getView)
 
-​![](./docs-files/image032.png)
+![](./docs-files/image032.png)
 
 Ilustración 38. Diagrama de métodos de la interfaz MenuProvider.
 
@@ -687,7 +689,7 @@ Las acciones dentro del framework son los diferentes procesos que se pueden real
 
 Esta acción saldrá por defecto en las vistas CRUD, la función de esta acción es exportar los datos que estén la vista a un archivo CSV, adicionalmente esta exportación también tendrá en cuenta el filtrado que se le hayan realizado a los datos.
 
-​![](./docs-files/image033.png)
+![](./docs-files/image033.png)
 
 Ilustración 39. Diagrama de la acción ExportCSVAction.
 
@@ -695,7 +697,7 @@ Ilustración 39. Diagrama de la acción ExportCSVAction.
 
 Esta acción saldrá por defecto en las vistas CRUD, la función de esta acción es exportar los datos que estén la vista a un archivo PDF, adicionalmente esta exportación también tendrá en cuenta el filtrado que se le hayan realizado a los datos.
 
-​![](./docs-files/image034.png)
+![](./docs-files/image034.png)
 
 Ilustración 40. Diagrama de la acción ExportPDFAction.
 
@@ -703,7 +705,7 @@ Ilustración 40. Diagrama de la acción ExportPDFAction.
 
 Esta acción saldrá por defecto en las vistas CRUD, la función de esta acción es exportar los datos que estén la vista a un archivo de Excel xls, adicionalmente esta exportación también tendrá en cuenta el filtrado que se le hayan realizado a los datos.
 
-​![](./docs-files/image035.png)
+![](./docs-files/image035.png)
 
 Ilustración 41. Diagrama de la acción ExportExcelAction.
 
@@ -725,7 +727,7 @@ Esta acción saldrá en las vistas CRUD de propiedades de clases, con esta acci�
 
 Ilustración 42. Ejemplo de caso para AddAction.
 
-​![](./docs-files/image036.png)
+![](./docs-files/image036.png)
 
 Ilustración 43. Diagrama de la acción AddAction.
 
@@ -733,7 +735,7 @@ Ilustración 43. Diagrama de la acción AddAction.
 
 Esta acción saldrá en las vistas CRUD, esta acción permite habilitar las opciones de filtrado de la vista CRUD generada, estas opciones son en base a cada una de las propiedades de la clase en cual se creó la vista.
 
-​![](./docs-files/image037.png)
+![](./docs-files/image037.png)
 
 Ilustración 44. Diagrama de la acción SearchAction.
 
@@ -755,7 +757,7 @@ Como se mencionó anteriormente las actions o acciones son diferentes operacione
 
 Como se puede ver en el ejemplo la implementación de la interfaz Action requiere la sobrescritura de varios métodos, sin embargo, hay otros métodos de la interfaz que son opcionales, estos se pueden observar en el siguiente gráfico:
 
-​![](./docs-files/image038.png)
+![](./docs-files/image038.png)
 
 Ilustración 45. Diagrama de métodos de la interfaz Action.
 
@@ -785,14 +787,14 @@ Ilustración 46. Diagrama de propiedades de la clase CrudActionEvent.
 
 ·     crudViewParent: es el crudview donde se ejecutó la acción.
 
- 
+
 ## 3.5.    Personalización
 
 La personalización de las diferentes vistas del framework es un punto importante dentro de él, para ello se utilizan varios archivos Zul que funcionan como plantillas para cada vista y parte de vista que genera o controla el framework, entre esas vistas se encuentran la vistas CRUD, la vista de login, la vista de recuperación de cuenta, la vista de panel principal del software, la vista de mensajes de error, el menú que tendrá el software, entre otras vistas.
 
 Para realizar una personalización de cada una de las vistas se tienen la estructura de carpetas y ubicaciones de los diferentes archivos Zul
 
-​![](./docs-files/image040.png) 
+![](./docs-files/image040.png) 
 
 Ilustración 47. Diagrama de carpetas para los archivos plantillas zul.
 
@@ -816,14 +818,14 @@ La vista de login es generada en base al archivo login.zul, este archivo debe se
 
 Ilustración 48. Ruta del archivo zul del login
 
-​![](./docs-files/image041.png) 
+![](./docs-files/image041.png) 
 
 
 ​             Ilustración 49. Ubicación grafica del archivo zul de la vista login.      
 
 Este archivo zul puede utilizar todas las etiquetas y funciones disponibles en el framework ZK, adicionalmente se puede utilizar lenguajes como HTML, CSS y JavaScript, por lo que se puede realizar una personalización de esta vista para que cumpla con los requerimientos y requisitos del software a desarrollar, adicionalmente esta vista está asociada con el ViewModel de nombre LoginVM, este ViewModel tiene los siguientes métodos y atributos que se puede utilizar para personalizarlo:
 
-​![](./docs-files/image042.png) 
+![](./docs-files/image042.png) 
 
 Ilustración 50. Diagrama de métodos y propiedades del ViewModel LoginVM.
 
@@ -871,15 +873,15 @@ La vista de recuperación de cuenta es generada en base al archivo recovery.zul,
 
 Ilustración 51. Ruta del archivo zul de la vista de recuperación.
 
-​![](./docs-files/image045.png) 
+![](./docs-files/image045.png) 
 
 
 Ilustración 52. Ubicación grafica del archivo zul de la vista recuperación de cuenta.
 
 Este archivo zul puede utilizar todas las etiquetas y funciones disponibles en el framework ZK, adicionalmente se puede utilizar lenguajes como HTML, CSS y JavaScript, por lo que se puede realizar una personalización de esta vista para que cumpla con los requerimientos y requisitos del software a desarrollar, adicionalmente esta vista está asociada con el ViewModel de nombre RecoveryVM, este ViewModel tiene los siguientes métodos y atributos que se puede utilizar para personalizarlo:
 
-​![](./docs-files/image044.png) 
- 
+![](./docs-files/image044.png) 
+
 
 Ilustración 53. Diagrama de métodos y propiedades del ViewModel RecoveryVM.
 
@@ -931,14 +933,14 @@ La vista de registro es generada en base al archivo register.zul, este archivo d
 
 Ilustración 54. Ruta del archivo zul de la vista de registro.
 
-​![](./docs-files/image045.png) 
+![](./docs-files/image045.png) 
 
 
 Ilustración 55. Ubicación grafica del archivo zul de la vista de registro.
 
 Este archivo zul puede utilizar todas las etiquetas y funciones disponibles en el framework ZK, adicionalmente se puede utilizar lenguajes como HTML, CSS y JavaScript, por lo que se puede realizar una personalización de esta vista para que cumpla con los requerimientos y requisitos del software a desarrollar, adicionalmente esta vista está asociada con el ViewModel de nombre RecoveryVM, este ViewModel tiene los siguientes métodos y atributos que se puede utilizar para personalizarlo:
 
-​![](./docs-files/image046.png) 
+![](./docs-files/image046.png) 
 
 Ilustración 56. Diagrama de métodos y propiedades del ViewModel RegisterVM.
 
@@ -1000,7 +1002,7 @@ La vista principal del software es la que saldrá después que el usuario realic
 
 Ilustración 57. Ruta del archivo zul de la vista principal.
 
-​![](./docs-files/image047.png) 
+![](./docs-files/image047.png) 
 
 Ilustración 58. Ubicación grafica del archivo zul de la vista principal.
 
@@ -1024,7 +1026,7 @@ El menú de navegación del software es generado en base al archivo index.zul, e
 
 Ilustración 59. Ruta del archivo zul del menú.
 
-​![](./docs-files/image048.png) 
+![](./docs-files/image048.png) 
 
 Ilustración 60. Ubicación grafica del archivo zul del menú de navegación.
 
@@ -1032,7 +1034,7 @@ Ilustración 60. Ubicación grafica del archivo zul del menú de navegación.
 
 Este archivo zul puede utilizar todas las etiquetas y funciones disponibles en el framework ZK, adicionalmente se puede utilizar lenguajes como HTML, CSS y JavaScript, por lo que se puede realizar una personalización de esta vista para que cumpla con los requerimientos y requisitos del software a desarrollar, adicionalmente esta vista está asociada con el ViewModel de nombre Menu, este ViewModel tiene los siguientes métodos y atributos que se puede utilizar para personalizarlo:
 
-​![](./docs-files/image049.png) 
+![](./docs-files/image049.png) 
 
 Ilustración 61. Diagrama de métodos y propiedades del ViewModel Menu.
 
@@ -1082,7 +1084,7 @@ Las vistas CRUD están compuestas de cuatro partes principalmente, estas partes 
 
 Ilustración 62. Ruta de los archivos zul de las vistas CRUD.
 
-​![](./docs-files/image050.png) 
+![](./docs-files/image050.png) 
 
 Ilustración 63. Ubicación grafica de los archivos zul de las vistas CRUD.
 
@@ -1108,13 +1110,13 @@ El archivo zul correspondiente a esta parte es el crudviewbar.zul y debe ser ubi
 
 Ilustración 64. Ruta del archivo zul de la barra de acciones de las vistas crud.
 
-​![](./docs-files/image051.png) 
+![](./docs-files/image051.png) 
 
 Ilustración 65. Ubicación grafica del archivo zul de la barra de acciones
 
 Dentro de este archivo zul aparte de poder utilizar todas las funcionalidades del framework ZK y los lenguajes web como HTML, CSS y JavaScript, también se pueden utilizar las propiedades y métodos del ViewModel asociado a este parte de la vista CRUD, estas son:
 
-​![](./docs-files/image052.png) 
+![](./docs-files/image052.png) 
 
 Ilustración 66. Diagrama de métodos y propiedades del ViewModel CrudViewBar.
 
@@ -1164,13 +1166,13 @@ El archivo zul correspondiente a esta parte es el crudfilters.zul y debe ser ubi
 
 Ilustración 67. Ruta del archivo zul del panel de filtrado de las vistas crud.
 
-​![](./docs-files/image053.png) 
+![](./docs-files/image053.png) 
 
 Ilustración 68. Ubicación grafica del archivo zul del panel de filtrado de las vistas CRUD.
 
 Dentro de este archivo zul aparte de poder utilizar todas las funcionalidades del framework ZK y los lenguajes web como HTML, CSS y JavaScript, también se pueden utilizar las propiedades y métodos del ViewModel asociado a este parte de la vista CRUD, estas son:
 
-​![](./docs-files/image054.png) 
+![](./docs-files/image054.png) 
 
 Ilustración 69. Diagrama de métodos y propiedades del ViewModel CrudFilters.
 
@@ -1224,13 +1226,13 @@ El archivo zul correspondiente a esta parte es el crudtable.zul y debe ser ubica
 
 Ilustración 70. Ruta del archivo zul de la tabla de datos de las vistas CRUD.
 
-​![](./docs-files/image055.png) 
+![](./docs-files/image055.png) 
 
 Ilustración 71. Ubicación grafica del archivo zul de la tabla de datos de las vistas CRUD.
 
 Dentro de este archivo zul aparte de poder utilizar todas las funcionalidades del framework ZK y los lenguajes web como HTML, CSS y JavaScript, también se pueden utilizar las propiedades y métodos del ViewModel asociado a este parte de la vista CRUD, estas son:
 
-​![](./docs-files/image056.png) 
+![](./docs-files/image056.png) 
 
 Ilustración 72. Diagrama de métodos y propiedades del ViewModel CrudTable.
 
@@ -1276,13 +1278,13 @@ El archivo zul correspondiente a esta parte es el pagination.zul y debe ser ubic
 
 Ilustración 73. Ruta del archivo zul del panel de paginación de las vistas CRUD.
 
-​![](./docs-files/image057.png) 
+![](./docs-files/image057.png) 
 
 Ilustración 74. Ubicación grafica del archivo zul del panel de paginación de las vistas CRUD.
 
 Dentro de este archivo zul aparte de poder utilizar todas las funcionalidades del framework ZK y los lenguajes web como HTML, CSS y JavaScript, también se pueden utilizar las propiedades y métodos del ViewModel asociado a este parte de la vista CRUD, estas son:
 
-​![](./docs-files/image058.png) 
+![](./docs-files/image058.png) 
 
 Ilustración 75. Diagrama de métodos y propiedades del ViewModel Pagination.
 
@@ -1318,7 +1320,7 @@ Las vistas de formularios dentro del framework para las acciones CRUD (crear, le
 
 Ilustración 76. Ruta del archivo zul del menú.
 
-​![](./docs-files/image059.png) 
+![](./docs-files/image059.png) 
 
 Ilustración 77. Ubicación grafica del archivo zul de los formularios.
 
@@ -1326,7 +1328,7 @@ Ilustración 77. Ubicación grafica del archivo zul de los formularios.
 
 Este archivo zul puede utilizar todas las etiquetas y funciones disponibles en el framework ZK, adicionalmente se puede utilizar lenguajes como HTML, CSS y JavaScript, por lo que se puede realizar una personalización de esta vista para que cumpla con los requerimientos y requisitos del software a desarrollar, adicionalmente esta vista está asociada con el ViewModel de nombre EntityForm, este ViewModel tiene los siguientes métodos y atributos que se puede utilizar para personalizarlo:
 
-​![](./docs-files/image060.png) 
+![](./docs-files/image060.png) 
 
 Ilustración 78. Diagrama de métodos y propiedades del ViewModel EntityForm.
 
@@ -1356,22 +1358,22 @@ Ilustración 78. Diagrama de métodos y propiedades del ViewModel EntityForm.
 
 ## Guia Rapida instalacion FAWSAC en repositorio local MAVEN
 
- 
+
 https://www.youtube.com/watch?v=im4SDMRc-yE
- 
+
 
 ## Guia Rapida FAWSAC crear proyecto
- 
+
 
 https://www.youtube.com/watch?v=8jkUOWNTuwk
 
- 
+
 ## Guia Rapida FAWSAC crear vista CRUDVIEW y agregarla al menú
- 
+
 
 https://www.youtube.com/watch?v=HdOYl-z8g_c
 
 ## Guia Rapida FAWSAC agregar acciones y utilizar servicios
- 
+
 
 https://www.youtube.com/watch?v=BimAStiY_gI
