@@ -1,5 +1,7 @@
 package com.gitlab.pedrioko.providers;
 
+import com.gitlab.pedrioko.core.lang.AuditLog;
+import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.SaveAction;
@@ -17,12 +19,17 @@ import java.util.HashMap;
 
 @Menu
 public class EmailAccountMenuProvider implements MenuProvider {
-    @Autowired
-    private MailService mailService;
-    @Autowired
-    private SaveAction saveAction;
-    @Autowired
-    private TestEmailAccountAction testEmailAccountAction;
+    private final MailService mailService;
+    private final SaveAction saveAction;
+    private final TestEmailAccountAction testEmailAccountAction;
+
+    Page page = new Page("~./zul/forms/form.zul");
+
+    public EmailAccountMenuProvider(MailService mailService, SaveAction saveAction, TestEmailAccountAction testEmailAccountAction) {
+        this.mailService = mailService;
+        this.saveAction = saveAction;
+        this.testEmailAccountAction = testEmailAccountAction;
+    }
 
     @Override
     public String getLabel() {
@@ -30,17 +37,17 @@ public class EmailAccountMenuProvider implements MenuProvider {
     }
 
     @Override
-    public Component getView() {
+    public Page getView() {
         HashMap<Object, Object> arg = new HashMap<>();
-        arg.put("actions-form", Arrays.asList(saveAction,testEmailAccountAction));
+        arg.put("actions-form", Arrays.asList(saveAction, testEmailAccountAction));
         arg.put("value", mailService.getEmailAccount());
         CrudActionEvent actionEvent = new CrudActionEvent();
         actionEvent.setFormstate(FormStates.UPDATE);
         arg.put("event-crud", actionEvent);
         arg.put("estado-form", FormStates.UPDATE);
 
-        Component components = Executions.createComponents("~./zul/forms/form.zul", null, arg);
-        return components;
+        page.setArg(arg);
+        return page;
     }
 
     @Override

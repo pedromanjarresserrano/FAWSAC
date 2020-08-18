@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.providers;
 
+import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
@@ -9,8 +10,13 @@ import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.domain.LoginLog;
 import org.zkoss.zk.ui.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Menu
 public class LogUsuarioMenuProvider implements MenuProvider {
+
+    Page page = new Page(LoginLog.class);
 
     @Override
     public String getLabel() {
@@ -18,10 +24,12 @@ public class LogUsuarioMenuProvider implements MenuProvider {
     }
 
     @Override
-    public Component getView() {
-        CrudView crudView = new CrudView(LoginLog.class);
-        crudView.addRootParams("user", ApplicationContextUtils.getBean(FHSessionUtil.class).getCurrentUser());
-        return crudView;
+    public Page getView() {
+
+        HashMap<Object, Object> paramsroot = new HashMap<>();
+        paramsroot.put("user", ApplicationContextUtils.getBean(FHSessionUtil.class).getCurrentUser());
+        this.page.setArg(paramsroot);
+        return this.page;
     }
 
     @Override

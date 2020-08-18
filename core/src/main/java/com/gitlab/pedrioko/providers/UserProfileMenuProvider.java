@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.providers;
 
+import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.UserProfile;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
@@ -10,14 +11,16 @@ import org.zkoss.zk.ui.Component;
 @Menu
 public class UserProfileMenuProvider implements MenuProvider {
 
+    Page page = new Page(UserProfile.class);
+
     @Override
     public String getLabel() {
         return ReflectionZKUtil.getLabel("UserProfile");
     }
 
     @Override
-    public Component getView() {
-        return new CrudView(UserProfile.class);
+    public Page getView() {
+        return this.page;
     }
 
     @Override

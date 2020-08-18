@@ -68,9 +68,9 @@ public class ProviderAccessFormVM implements Valuable {
         Object bean = getBean(StringUtil.getDescapitalize(string));
         addToList(listmodel, bean.getClass());
         if (bean instanceof MenuProvider) {
-            Component view = ((MenuProvider) bean).getView();
-            if (view instanceof CrudView) {
-                addToList(listmodel, ((CrudView) view).getTypeClass());
+            Class view = ((MenuProvider) bean).getView().getPageClass();
+            if (view != null) {
+                addToList(listmodel, view);
             }
 
         }

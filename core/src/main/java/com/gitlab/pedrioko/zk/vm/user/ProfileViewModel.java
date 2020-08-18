@@ -164,6 +164,8 @@ class ProfileViewModel {
             AImage ai = new AImage(test);
             labelutil.setPhoto(ai);
         } catch (Exception e) {
+            LOGGER.info("Not load pic image()");
+
             LOGGER.error("ERROR ON init()", e);
         }
         tabdatos = Labels.getLabel("userbasicform.datosbasicos");

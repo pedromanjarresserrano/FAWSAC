@@ -1,12 +1,13 @@
 package com.gitlab.pedrioko.core.view.api;
 
+import com.gitlab.pedrioko.core.lang.Page;
 import org.zkoss.zk.ui.Component;
 
 public interface MenuProvider {
 
     String getLabel();
 
-    Component getView();
+    Page getView();
 
     String getIcon();
 

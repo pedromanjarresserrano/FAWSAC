@@ -1,8 +1,10 @@
 package com.gitlab.pedrioko.providers;
 
+import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
+import com.gitlab.pedrioko.domain.Reporte;
 import com.gitlab.pedrioko.services.impl.ThreadServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.zkoss.zk.ui.Component;
@@ -15,10 +17,15 @@ import org.zkoss.zul.Window;
 @Menu
 public class TaskMenuProvider implements MenuProvider {
 
-    @Autowired
-    private ThreadServiceImpl taskExecutor;
+    Page page = new Page("");
+
+    private final ThreadServiceImpl taskExecutor;
 
     private static int totalCount = 0;
+
+    public TaskMenuProvider(ThreadServiceImpl taskExecutor) {
+        this.taskExecutor = taskExecutor;
+    }
 
     @Override
     public String getLabel() {
@@ -26,7 +33,7 @@ public class TaskMenuProvider implements MenuProvider {
     }
 
     @Override
-    public Component getView() {
+    public Page getView() {
         Window window = new Window();
         Label label = new Label();
         window.appendChild(label);
@@ -34,9 +41,9 @@ public class TaskMenuProvider implements MenuProvider {
         Progressmeter progressmeter = new Progressmeter();
         label.setValue("Task at " + getProcent() + "%");
         timer.addEventListener(Events.ON_TIMER, e -> {
-            long procent = getProcent();
-            label.setValue("Task at " + procent + "% - " + (taskExecutor.getCompletedTaskCount() - totalCount) + "/" + (taskExecutor.getTaskCount() - totalCount) + " -- " + taskExecutor.getCurrent());
-            progressmeter.setValue((int) (procent < 0 ? 0 : procent));
+            long percent = getProcent();
+            label.setValue("Task at " + percent + "% - " + (taskExecutor.getCompletedTaskCount() - totalCount) + "/" + (taskExecutor.getTaskCount() - totalCount) + " -- " + taskExecutor.getCurrent());
+            progressmeter.setValue((int) (percent < 0 ? 0 : percent));
         });
         progressmeter.setWidth("100%");
         window.appendChild(timer);
@@ -44,7 +51,8 @@ public class TaskMenuProvider implements MenuProvider {
         timer.start();
         timer.setDelay(1000);
         timer.setRepeats(true);
-        return window;
+        page.setComponent(window);
+        return this.page;
     }
 
     private long getProcent() {

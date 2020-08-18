@@ -1,5 +1,7 @@
 package com.gitlab.pedrioko.providers;
 
+import com.gitlab.pedrioko.core.lang.AuditLog;
+import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.Report;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
@@ -9,6 +11,7 @@ import org.zkoss.zk.ui.Component;
 
 @Menu
 public class ReportsMenuProvider implements MenuProvider {
+    Page page = new Page(Report.class);
 
     @Override
     public String getLabel() {
@@ -16,8 +19,8 @@ public class ReportsMenuProvider implements MenuProvider {
     }
 
     @Override
-    public Component getView() {
-        return new CrudView(Report.class);
+    public Page getView() {
+        return page;
     }
 
     @Override

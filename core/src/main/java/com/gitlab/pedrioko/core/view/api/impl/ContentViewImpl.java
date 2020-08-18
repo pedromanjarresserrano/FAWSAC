@@ -1,5 +1,7 @@
 package com.gitlab.pedrioko.core.view.api.impl;
 
+import com.gitlab.pedrioko.core.lang.Page;
+import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.api.ContentView;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
@@ -170,6 +172,17 @@ public class ContentViewImpl implements ContentView {
         Optional<Component> tab = getTab(id);
         return tab.isPresent() ? tab.get() : null;
 
+    }
+
+    private void loadView(String id, String label, Tab tab, Page page) {
+        Component view;
+        if (page.getPageClass() != null)
+            view = (Component) new CrudView(page.getPageClass());
+        else if (page.getUriView() == null || page.getUriView().isEmpty())
+            view = page.getComponent();
+        else
+            view = Executions.createComponents(page.getUriView(), null, page.getArg());
+        loadView(id, label, tab, view);
     }
 
     private void loadView(String id, String label, Tab tab, Component view) {
