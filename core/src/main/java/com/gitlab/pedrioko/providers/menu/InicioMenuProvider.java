@@ -4,19 +4,17 @@ import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
-import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
-import com.gitlab.pedrioko.domain.LoginLog;
-import com.gitlab.pedrioko.domain.Usuario;
-import org.zkoss.zk.ui.Component;
+import com.gitlab.pedrioko.core.view.api.Provider;
+import org.springframework.core.annotation.Order;
 
 @Menu
-public class UsuariosMenuProvider implements MenuProvider {
-
-    Page page = new Page(Usuario.class);
+@Order(0)
+public class InicioMenuProvider implements MenuProvider {
+    Page page = new Page("~./zul/content/dashboard/page.zul");
 
     @Override
     public String getLabel() {
-        return ReflectionZKUtil.getLabel("usuarios");
+        return ReflectionZKUtil.getLabel("Dashboard");
     }
 
     @Override
@@ -26,16 +24,21 @@ public class UsuariosMenuProvider implements MenuProvider {
 
     @Override
     public String getIcon() {
-        return "fa fa-users";
+        return "z-icon-home";
     }
 
     @Override
     public int getPosition() {
-        return 2;
+        return -1;
     }
 
     @Override
-    public String getGroup() {
-        return "administracion";
+    public Class<? extends Provider> getGroup() {
+        return null;
+    }
+
+    @Override
+    public boolean isOpenByDefault() {
+        return true;
     }
 }

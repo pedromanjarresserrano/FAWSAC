@@ -11,5 +11,4 @@ public interface ReportService {
     File processReport(Report report, Collection datasource) throws Exception;
 
 
-
 }

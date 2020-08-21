@@ -12,7 +12,7 @@ import java.util.List;
 public interface StorageService {
 
     String APP_VAR_NAME = "STORAGE_DIR";
-    String APP_TEMP_VAR_NAME ="TEMP_STORAGE_DIR" ;
+    String APP_TEMP_VAR_NAME = "TEMP_STORAGE_DIR";
 
     AppParam getAppParam();
 

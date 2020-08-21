@@ -83,6 +83,7 @@ public class StorageServiceImpl implements StorageService {
             }
         }
     }
+
     @Override
     public AppParam getAppParam() {
         eventsListener();

@@ -2,6 +2,7 @@ package com.gitlab.pedrioko.services;
 
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
+import com.gitlab.pedrioko.core.view.api.Provider;
 import com.gitlab.pedrioko.domain.Usuario;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public interface SecurityService {
     List<MenuProvider> getProvider(Usuario user);
 
     Map<String, List<MenuProvider>> getProviderGroup(Usuario user);
+
+    Map<Class<? extends Provider>, List<MenuProvider>> getProviderGroupByGroup(Usuario user);
 
     boolean haveAccess(Usuario user, Class<MenuProvider> menuProvider);
 

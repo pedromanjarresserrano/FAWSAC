@@ -36,7 +36,7 @@ public class ExportCSVAction implements Action {
         String filename = "export-" + UUID.randomUUID() + ".csv";
 
         try {
-            byte[] buildCSV = Exporter.BuildCSV(((CrudView)event.getCrudViewParent()).getValue());
+            byte[] buildCSV = Exporter.BuildCSV(((CrudView) event.getCrudViewParent()).getValue());
             if (buildCSV == null) {
                 ZKUtil.showMessage(ReflectionZKUtil.getLabel("emptyexport"), MessageType.INFO);
                 return;

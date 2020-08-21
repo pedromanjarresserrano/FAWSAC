@@ -1,32 +1,28 @@
 package com.gitlab.pedrioko.providers;
 
-import com.gitlab.pedrioko.core.lang.AppParam;
 import com.gitlab.pedrioko.core.lang.Page;
+import com.gitlab.pedrioko.core.lang.Report;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
-import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
-import com.gitlab.pedrioko.domain.LoginLog;
-import org.zkoss.zk.ui.Component;
 
 @Menu
-public class ParamsMenuProvider implements MenuProvider {
-
-    Page page = new Page(AppParam.class);
+public class ReportsMenuProvider implements MenuProvider {
+    Page page = new Page(Report.class);
 
     @Override
     public String getLabel() {
-        return ReflectionZKUtil.getLabel("Params");
+        return ReflectionZKUtil.getLabel("Print Reports");
     }
 
     @Override
     public Page getView() {
-        return this.page;
+        return page;
     }
 
     @Override
     public String getIcon() {
-        return "fa fa-users";
+        return "fas fa-print";
     }
 
     @Override
@@ -35,7 +31,7 @@ public class ParamsMenuProvider implements MenuProvider {
     }
 
     @Override
-    public String getGroup() {
+    public Class<?> getGroup() {
         return "administracion";
     }
 }

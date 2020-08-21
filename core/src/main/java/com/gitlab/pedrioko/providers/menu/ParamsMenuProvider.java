@@ -1,24 +1,24 @@
 package com.gitlab.pedrioko.providers;
 
-import com.gitlab.pedrioko.core.lang.AuditLog;
+import com.gitlab.pedrioko.core.lang.AppParam;
 import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
-import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
-import org.zkoss.zk.ui.Component;
 
 @Menu
-public class AuditMenuProvider implements MenuProvider {
-    Page page = new Page(AuditLog.class);
+public class ParamsMenuProvider implements MenuProvider {
+
+    Page page = new Page(AppParam.class);
+
     @Override
     public String getLabel() {
-        return ReflectionZKUtil.getLabel("Log");
+        return ReflectionZKUtil.getLabel("Params");
     }
 
     @Override
     public Page getView() {
-        return page;
+        return this.page;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class AuditMenuProvider implements MenuProvider {
     }
 
     @Override
-    public String getGroup() {
+    public Class<?> getGroup() {
         return "administracion";
     }
 }

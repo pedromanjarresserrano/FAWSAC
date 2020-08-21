@@ -1,7 +1,6 @@
 package com.gitlab.pedrioko.core.view.api.impl;
 
 import com.gitlab.pedrioko.core.lang.Page;
-import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.view.api.ContentView;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
@@ -134,7 +133,7 @@ public class ContentViewImpl implements ContentView {
 
     @Override
     public void loadView(String id, String menu) {
-        menuProviders.stream().filter(e -> e.getGroup().compareToIgnoreCase(id) == 0).filter(e -> e.getLabel().compareToIgnoreCase(menu) == 0).forEach(this::addContent);
+        menuProviders.stream().filter(e -> e.getGroup().equals(id) && e.getLabel().compareToIgnoreCase(menu) == 0).forEach(this::addContent);
     }
 
     @Override

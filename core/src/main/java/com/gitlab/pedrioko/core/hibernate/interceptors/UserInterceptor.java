@@ -51,7 +51,7 @@ public class UserInterceptor extends EmptyInterceptor {
     }
 
     @Override
-    public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types)  {
+    public boolean onFlushDirty(Object entity, Serializable id, Object[] currentState, Object[] previousState, String[] propertyNames, Type[] types) {
         return logging(entity, "OnUpdate", "Update");
     }
 

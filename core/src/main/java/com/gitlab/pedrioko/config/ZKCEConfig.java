@@ -23,7 +23,6 @@ public class ZKCEConfig {
     private static String ZUL_VIEW_RESOLVER_PREFIX = UPDATE_URI + ClassWebResource.PATH_PREFIX + "/zul/";
 
 
-
     @Bean
     public ViewResolver zulViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver(ZUL_VIEW_RESOLVER_PREFIX, ZUL_VIEW_RESOLVER_SUFFIX);
@@ -49,8 +48,6 @@ public class ZKCEConfig {
     public ServletRegistrationBean customizableDHtmlUpdateServlet() {
         return new ServletRegistrationBean(new DHtmlUpdateServlet(), UPDATE_URI + "/*");
     }
-
-
 
 
 }

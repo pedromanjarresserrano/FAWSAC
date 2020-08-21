@@ -4,10 +4,7 @@ import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
-import com.gitlab.pedrioko.domain.Reporte;
 import com.gitlab.pedrioko.services.impl.ThreadServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Progressmeter;
@@ -78,7 +75,7 @@ public class TaskMenuProvider implements MenuProvider {
     }
 
     @Override
-    public String getGroup() {
+    public Class<?> getGroup() {
         return "administracion";
     }
 }

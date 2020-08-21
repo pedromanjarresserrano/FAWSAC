@@ -6,12 +6,9 @@ import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
-import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.domain.LoginLog;
-import org.zkoss.zk.ui.Component;
 
 import java.util.HashMap;
-import java.util.Map;
 
 @Menu
 public class LogUsuarioMenuProvider implements MenuProvider {
@@ -43,7 +40,7 @@ public class LogUsuarioMenuProvider implements MenuProvider {
     }
 
     @Override
-    public String getGroup() {
+    public Class<?> getGroup() {
         return "administracion";
     }
 }

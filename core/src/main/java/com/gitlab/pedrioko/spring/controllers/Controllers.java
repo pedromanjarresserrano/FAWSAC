@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @Order(1)
 public class Controllers {
 
-    @RequestMapping(value ="/{page}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{page}", method = RequestMethod.GET)
     public ModelAndView root(@PathVariable String page, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView(page);
         mv.addObject("contextPath", request.getContextPath());
@@ -25,22 +25,22 @@ public class Controllers {
         return "login";
     }
 
-   // @GetMapping("/register")
+    // @GetMapping("/register")
     public String register() {
         return "register";
     }
 
-   // @GetMapping("/index")
+    // @GetMapping("/index")
     public String index() {
         return "index";
     }
 
-   // @GetMapping("/recovery")
+    // @GetMapping("/recovery")
     public String recovery() {
         return "recovery";
     }
 
-  //  @GetMapping("/favicon.ico")
+    //  @GetMapping("/favicon.ico")
     public String favicon() {
         return "images/favicon.ico";
     }

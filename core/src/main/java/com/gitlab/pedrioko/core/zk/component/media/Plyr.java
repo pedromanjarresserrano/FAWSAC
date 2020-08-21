@@ -19,7 +19,7 @@ public @Data
 class Plyr extends HtmlBasedComponent {
     public static final String ON_PLAY = "onPlaying";
     public static final String ON_PAUSE = "onPause";
-//   public static final String ON_RESUME = "onResume";
+    //   public static final String ON_RESUME = "onResume";
     private String src = "";
     private boolean controls = false;
     private boolean muted = false;
@@ -153,6 +153,7 @@ class Plyr extends HtmlBasedComponent {
             }
         }
     }
+
     public void setPlaying(Event evt) throws Exception {
         Object data = evt.getData();
         if (data != null) {

@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class ErrorControllerImpl implements ErrorController {
- 
-    @RequestMapping(value = "/error",method = RequestMethod.GET)
+
+    @RequestMapping(value = "/error", method = RequestMethod.GET)
     public String handleError() {
         //do something like logging
         return "redirect:/index";
     }
- 
+
     @Override
     public String getErrorPath() {
         return "/error";

@@ -77,7 +77,6 @@ class LoginVM {
     private FHSessionUtil fhsessionutil;
 
 
-
     /**
      * Inits the.
      */

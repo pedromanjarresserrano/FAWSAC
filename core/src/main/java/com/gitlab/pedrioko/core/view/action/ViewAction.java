@@ -43,7 +43,7 @@ public class ViewAction implements Action {
             ZKUtil.showMessage(ReflectionZKUtil.getLabel("seleccione"), MessageType.WARNING);
         } else {
             HashMap<Object, Object> arg = new HashMap<>();
-            Class<?> typeClass = ((CrudView)event.getCrudViewParent()).getTypeClass();
+            Class<?> typeClass = ((CrudView) event.getCrudViewParent()).getTypeClass();
             arg.put("value", crudService.refresh(value));
             arg.put("event-crud", event);
             arg.put("estado-form", FormStates.READ);

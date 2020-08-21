@@ -28,7 +28,7 @@ import java.util.Map;
 
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
-public class  Menu {
+public class Menu {
     private static final Logger LOGGER = LoggerFactory.getLogger(Menu.class);
     @WireVariable
     private transient ContentView contentView;

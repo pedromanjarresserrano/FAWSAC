@@ -48,7 +48,6 @@ public class ProgressTask extends HtmlBasedComponent {
     }
 
 
-
     public void setCurrentValue(long currentValue) {
         if (this.currentValue != currentValue) {
             this.currentValue = currentValue;

@@ -4,12 +4,8 @@ import com.gitlab.pedrioko.core.lang.ProviderAccess;
 import com.gitlab.pedrioko.core.lang.UserProfile;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
-import com.gitlab.pedrioko.core.view.enums.AplicateAllClass;
-import com.gitlab.pedrioko.core.view.enums.CrudAction;
-import com.gitlab.pedrioko.core.view.enums.CrudMode;
+import com.gitlab.pedrioko.core.view.api.Provider;
 import com.gitlab.pedrioko.core.view.enums.SubCrudView;
-import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
-import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
@@ -19,11 +15,9 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean;
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBeansOfType;
 import static java.util.stream.Collectors.groupingBy;
 
@@ -133,6 +127,11 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Map<String, List<MenuProvider>> getProviderGroup(Usuario user) {
+        return getProvider(user).stream().collect(Collectors.groupingBy((MenuProvider menuProvider) -> menuProvider.getGroup() != null ? menuProvider.getGroup().getSimpleName() : ""));
+    }
+
+    @Override
+    public Map<Class<? extends Provider>, List<MenuProvider>> getProviderGroupByGroup(Usuario user) {
         return getProvider(user).stream().collect(Collectors.groupingBy(MenuProvider::getGroup));
     }
 

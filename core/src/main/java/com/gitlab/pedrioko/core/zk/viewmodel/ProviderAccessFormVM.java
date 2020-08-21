@@ -1,5 +1,6 @@
 package com.gitlab.pedrioko.core.zk.viewmodel;
 
+import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.ProviderAccess;
 import com.gitlab.pedrioko.core.view.action.CancelAction;
 import com.gitlab.pedrioko.core.view.action.api.Action;
@@ -13,14 +14,12 @@ import com.gitlab.pedrioko.core.view.enums.SubCrudView;
 import com.gitlab.pedrioko.core.view.forms.Form;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.StringUtil;
-import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.annotation.VariableResolver;
 import org.zkoss.zk.ui.select.annotation.Wire;
@@ -62,15 +61,19 @@ public class ProviderAccessFormVM implements Valuable {
     }
 
     private void loadActions(List<String> listmodel, String string) {
-        addToList(listmodel, null);
-        addToList(listmodel, AplicateAllClass.class);
-        addToList(listmodel, SubCrudView.class);
+
         Object bean = getBean(StringUtil.getDescapitalize(string));
-        addToList(listmodel, bean.getClass());
         if (bean instanceof MenuProvider) {
-            Class view = ((MenuProvider) bean).getView().getPageClass();
-            if (view != null) {
-                addToList(listmodel, view);
+            Page page = ((MenuProvider) bean).getView();
+            if (page.getUriView() == null || page.getUriView().isEmpty()) {
+                addToList(listmodel, null);
+                addToList(listmodel, SubCrudView.class);
+                addToList(listmodel, bean.getClass());
+
+                Class view = page.getPageClass();
+                if (view != null) {
+                    addToList(listmodel, view);
+                }
             }
 
         }

@@ -36,7 +36,7 @@ public class ExportPDFAction implements Action {
         String filename = "export-" + UUID.randomUUID() + ".pdf";
 
         try {
-            byte[] buildPDF = Exporter.BuildPDF(((CrudView)event.getCrudViewParent()).getValue());
+            byte[] buildPDF = Exporter.BuildPDF(((CrudView) event.getCrudViewParent()).getValue());
             if (buildPDF == null) {
                 ZKUtil.showMessage(ReflectionZKUtil.getLabel("emptyexport"), MessageType.INFO);
                 return;

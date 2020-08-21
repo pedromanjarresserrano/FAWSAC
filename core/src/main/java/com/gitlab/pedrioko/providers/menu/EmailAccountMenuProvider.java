@@ -1,6 +1,5 @@
 package com.gitlab.pedrioko.providers;
 
-import com.gitlab.pedrioko.core.lang.AuditLog;
 import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
@@ -10,9 +9,6 @@ import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.services.MailService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -61,7 +57,7 @@ public class EmailAccountMenuProvider implements MenuProvider {
     }
 
     @Override
-    public String getGroup() {
-        return "administracion";
+    public Class<?> getGroup() {
+        return ;
     }
 }

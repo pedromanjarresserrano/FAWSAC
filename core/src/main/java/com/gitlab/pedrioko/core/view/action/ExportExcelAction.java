@@ -36,7 +36,7 @@ public class ExportExcelAction implements Action {
         String filename = "export-" + UUID.randomUUID() + ".xls";
 
         try {
-            byte[] buildExcel = Exporter.BuildExcel(((CrudView)event.getCrudViewParent()).getValue());
+            byte[] buildExcel = Exporter.BuildExcel(((CrudView) event.getCrudViewParent()).getValue());
             if (buildExcel == null) {
                 ZKUtil.showMessage(ReflectionZKUtil.getLabel("emptyexport"), MessageType.INFO);
                 return;

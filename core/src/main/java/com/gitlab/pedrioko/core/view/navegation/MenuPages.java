@@ -16,5 +16,4 @@ class MenuPages extends Div {
     }
 
 
-
 }

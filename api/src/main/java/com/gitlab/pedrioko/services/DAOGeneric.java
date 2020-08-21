@@ -41,6 +41,7 @@ public interface DAOGeneric {
     <T> PathBuilder<?> getPathBuilder(Class<T> klass);
 
     JPAQuery<?> query();
+
     JPAQuery<?> queryRand();
 
     <T> String getIdPropertyName(Class<T> klass);

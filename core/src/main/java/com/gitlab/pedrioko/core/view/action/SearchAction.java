@@ -8,8 +8,6 @@ import com.gitlab.pedrioko.core.view.enums.CrudAction;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import com.gitlab.pedrioko.services.CrudService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
@@ -33,7 +31,7 @@ public class SearchAction implements Action {
 
     @Override
     public void actionPerform(CrudActionEvent event) {
-        ((CrudView)event.getCrudViewParent()).openFilters();
+        ((CrudView) event.getCrudViewParent()).openFilters();
     }
 
     @Override

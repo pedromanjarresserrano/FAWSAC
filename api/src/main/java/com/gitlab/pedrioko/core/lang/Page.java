@@ -7,31 +7,16 @@ import org.zkoss.zk.ui.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+
 @NoArgsConstructor
 @AllArgsConstructor
 public @Data
 class Page {
 
-    private Class<?> pageClass;
-
-    private  String uriView;
-
-    private Component component;
-
     HashMap<Object, Object> arg = new HashMap<>();
-
-    public Object getArg(Object key) {
-        return arg.get(key);
-    }
-
-    public Object putArg(Object key, Object value) {
-        return arg.put(key, value);
-    }
-
-    public void putAllArgs(Map<?, ?> m) {
-        arg.putAll(m);
-    }
-
+    private Class<?> pageClass;
+    private String uriView;
+    private Component component;
 
     public Page(Class<?> pageClass) {
         this.pageClass = pageClass;
@@ -44,5 +29,17 @@ class Page {
     public Page(String uriView, HashMap<Object, Object> arg) {
         this.uriView = uriView;
         this.arg = arg;
+    }
+
+    public Object getArg(Object key) {
+        return arg.get(key);
+    }
+
+    public Object putArg(Object key, Object value) {
+        return arg.put(key, value);
+    }
+
+    public void putAllArgs(Map<?, ?> m) {
+        arg.putAll(m);
     }
 }

@@ -24,11 +24,11 @@ class AppInfo implements Serializable {
     public static AppInfo load(Properties properties) {
         AppInfo appinfo = new AppInfo();
         properties.stringPropertyNames().forEach(key -> {
-                try {
-                    String value = properties.getProperty(key);
-                    appinfo.addProperty(key, value);
-                } catch (Exception e) {
-                }
+            try {
+                String value = properties.getProperty(key);
+                appinfo.addProperty(key, value);
+            } catch (Exception e) {
+            }
 
         });
         return appinfo;

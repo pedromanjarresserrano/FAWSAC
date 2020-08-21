@@ -4,20 +4,16 @@ import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
-import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
-import com.gitlab.pedrioko.domain.EmailTemplate;
-import com.gitlab.pedrioko.domain.Reporte;
-import org.zkoss.zk.ui.Component;
+import com.gitlab.pedrioko.domain.Usuario;
 
 @Menu
-public class EmailTemplateMenuProvider implements MenuProvider {
+public class UsuariosMenuProvider implements MenuProvider {
 
-    Page page = new Page(EmailTemplate.class);
-
+    Page page = new Page(Usuario.class);
 
     @Override
     public String getLabel() {
-        return ReflectionZKUtil.getLabel("EmailTemplate");
+        return ReflectionZKUtil.getLabel("usuarios");
     }
 
     @Override
@@ -27,16 +23,16 @@ public class EmailTemplateMenuProvider implements MenuProvider {
 
     @Override
     public String getIcon() {
-        return "fas fa-envelope-square";
+        return "fa fa-users";
     }
 
     @Override
     public int getPosition() {
-        return Integer.MAX_VALUE;
+        return 2;
     }
 
     @Override
-    public String getGroup() {
+    public Class<?> getGroup() {
         return "administracion";
     }
 }
