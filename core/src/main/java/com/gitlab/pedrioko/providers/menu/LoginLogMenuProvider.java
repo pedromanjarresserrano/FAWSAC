@@ -1,4 +1,4 @@
-package com.gitlab.pedrioko.providers;
+package com.gitlab.pedrioko.providers.menu;
 
 import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
@@ -6,6 +6,7 @@ import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.api.Provider;
 import com.gitlab.pedrioko.domain.LoginLog;
+import com.gitlab.pedrioko.providers.AdminGroupProvider;
 
 @Menu
 public class LoginLogMenuProvider implements MenuProvider {

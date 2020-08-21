@@ -1,10 +1,12 @@
-package com.gitlab.pedrioko.providers;
+package com.gitlab.pedrioko.providers.menu;
 
 import com.gitlab.pedrioko.core.lang.AppParam;
 import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
+import com.gitlab.pedrioko.core.view.api.Provider;
+import com.gitlab.pedrioko.providers.AdminGroupProvider;
 
 @Menu
 public class ParamsMenuProvider implements MenuProvider {
@@ -32,7 +34,8 @@ public class ParamsMenuProvider implements MenuProvider {
     }
 
     @Override
-    public Class<?> getGroup() {
-        return "administracion";
+    public Class<? extends Provider> getGroup() {
+        return AdminGroupProvider.class;
     }
+
 }

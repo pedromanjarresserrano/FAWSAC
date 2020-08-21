@@ -1,4 +1,4 @@
-package com.gitlab.pedrioko.providers;
+package com.gitlab.pedrioko.providers.menu;
 
 import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
@@ -7,7 +7,9 @@ import com.gitlab.pedrioko.core.view.action.SaveAction;
 import com.gitlab.pedrioko.core.view.action.TestEmailAccountAction;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
+import com.gitlab.pedrioko.core.view.api.Provider;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
+import com.gitlab.pedrioko.providers.AdminGroupProvider;
 import com.gitlab.pedrioko.services.MailService;
 
 import java.util.Arrays;
@@ -57,7 +59,7 @@ public class EmailAccountMenuProvider implements MenuProvider {
     }
 
     @Override
-    public Class<?> getGroup() {
-        return ;
+    public Class<? extends Provider> getGroup() {
+        return AdminGroupProvider.class;
     }
 }

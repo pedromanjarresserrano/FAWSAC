@@ -1,4 +1,4 @@
-package com.gitlab.pedrioko.providers;
+package com.gitlab.pedrioko.providers.menu;
 
 import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.lang.annotation.Menu;
