@@ -19,6 +19,12 @@ class Video extends HtmlBasedComponent {
     public static final String ON_PLAY = "onPlaying";
     public static final String ON_PAUSE = "onPause";
     public static final String ON_RESUME = "onResume";
+
+    static {
+        addClientEvent(Video.class, "onPlaying", 16385);
+        addClientEvent(Video.class, "onPause", 8192);
+    }
+
     private String src = "";
     private boolean controls = false;
     private boolean muted = false;
@@ -66,7 +72,6 @@ class Video extends HtmlBasedComponent {
     public void setMute(boolean muted) {
         this.response((String) null, new AuInvoke(this, "setMuted", muted));
     }
-
 
     private void setPlaying(boolean playing) {
         this.response((String) null, new AuInvoke(this, "setPlaying", playing));
@@ -172,11 +177,5 @@ class Video extends HtmlBasedComponent {
             this.playbackRate = playbackRate;
             this.smartUpdate("playbackRate", this.playbackRate);
         }
-    }
-
-
-    static {
-        addClientEvent(Video.class, "onPlaying", 16385);
-        addClientEvent(Video.class, "onPause", 8192);
     }
 }

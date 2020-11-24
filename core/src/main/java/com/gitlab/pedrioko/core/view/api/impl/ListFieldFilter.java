@@ -1,6 +1,5 @@
 package com.gitlab.pedrioko.core.view.api.impl;
 
-import com.gitlab.pedrioko.core.lang.annotation.FieldFilter;
 import com.gitlab.pedrioko.core.lang.annotation.UseChosenFileEntity;
 import com.gitlab.pedrioko.core.reflection.ReflectionJavaUtil;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;

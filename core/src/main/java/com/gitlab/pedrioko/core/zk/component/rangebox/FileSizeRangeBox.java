@@ -17,8 +17,8 @@ public class FileSizeRangeBox extends Div {
     private static final long serialVersionUID = -8290174092737445717L;
     Decimalbox fin = new Decimalbox();
     Decimalbox inicio = new Decimalbox();
-    private FileSizeRange value;
     String[] sizes = new String[]{"KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+    private FileSizeRange value;
     private Combobox comboboxinicio;
     private Combobox comboboxfin;
 
@@ -64,6 +64,19 @@ public class FileSizeRangeBox extends Div {
         }
     }
 
+    public void setValue(FileSizeRange value) {
+        this.value = value;
+        String displaySize = FileUtils.byteCountToDisplaySize(value.getInicio().longValue());
+        String[] split = displaySize.split(" ");
+        value.setInicio(BigDecimal.valueOf(Long.parseLong(split[0])));
+        comboboxinicio.setSelectedIndex(Arrays.asList(sizes).indexOf(split));
+
+        displaySize = FileUtils.byteCountToDisplaySize(value.getFin().longValue());
+        split = displaySize.split(" ");
+        value.setInicio(BigDecimal.valueOf(Long.parseLong(split[0])));
+        comboboxfin.setSelectedIndex(Arrays.asList(sizes).indexOf(split));
+    }
+
     private BigDecimal getBytes(BigDecimal decimal, String metric) {
         switch (metric) {
             case ("KB"): {
@@ -93,19 +106,6 @@ public class FileSizeRangeBox extends Div {
             default:
                 return BigDecimal.ZERO;
         }
-    }
-
-    public void setValue(FileSizeRange value) {
-        this.value = value;
-        String displaySize = FileUtils.byteCountToDisplaySize(value.getInicio().longValue());
-        String[] split = displaySize.split(" ");
-        value.setInicio(BigDecimal.valueOf(Long.parseLong(split[0])));
-        comboboxinicio.setSelectedIndex(Arrays.asList(sizes).indexOf(split));
-
-        displaySize = FileUtils.byteCountToDisplaySize(value.getFin().longValue());
-        split = displaySize.split(" ");
-        value.setInicio(BigDecimal.valueOf(Long.parseLong(split[0])));
-        comboboxfin.setSelectedIndex(Arrays.asList(sizes).indexOf(split));
     }
 
     @Override

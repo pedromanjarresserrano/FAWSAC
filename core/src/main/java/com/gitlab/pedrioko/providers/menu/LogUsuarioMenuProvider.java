@@ -1,7 +1,6 @@
 package com.gitlab.pedrioko.providers.menu;
 
 import com.gitlab.pedrioko.core.lang.Page;
-import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.api.Provider;
@@ -9,6 +8,7 @@ import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.domain.LoginLog;
 import com.gitlab.pedrioko.providers.SystemGroupProvider;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 

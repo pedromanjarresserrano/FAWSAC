@@ -32,9 +32,9 @@ public class ReporteViewer extends Borderlayout {
     private final Listbox lb = new Listbox();
     private final Listhead columns = new Listhead();
     private final Toolbar toolbar = new Toolbar();
-    private List<Object[]> data = new ArrayList<>();
     private final VelocityContext context = new VelocityContext();
     private final List<Chart> charts = new ArrayList<>();
+    private List<Object[]> data = new ArrayList<>();
 
     public ReporteViewer(Reporte reporte) {
         String sqLquery = reporte.getSQLquery();

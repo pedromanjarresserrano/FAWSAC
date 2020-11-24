@@ -5,9 +5,10 @@ import org.zkoss.zk.ui.Component;
 
 import java.util.List;
 
-public interface ToolbarFilter  {
+public interface ToolbarFilter {
 
     public String getLabel();
+
     public String getField();
 
     public String getTooltipText();

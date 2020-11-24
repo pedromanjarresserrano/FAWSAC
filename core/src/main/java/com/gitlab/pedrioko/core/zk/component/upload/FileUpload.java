@@ -20,10 +20,10 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class FileUpload extends Fileupload {
     private static final StorageService storageService = ApplicationContextUtils.getBean(StorageService.class);
-    private transient @Getter
-    FileEntity value;
     public transient @Getter
     List<FileEntity> values = new ArrayList<>();
+    private transient @Getter
+    FileEntity value;
     private transient Media photo;
     private transient Media[] media;
     private transient EventListener<UploadEvent> eventEventListener = x -> {
@@ -75,6 +75,11 @@ public class FileUpload extends Fileupload {
         onUpload();
     }
 
+    public FileUpload(String label) {
+        super(label);
+        onUpload();
+    }
+
     public static void get(Integer i, List<Media> media) {
         get(i, upEvent -> {
             if (upEvent != null) {
@@ -112,11 +117,6 @@ public class FileUpload extends Fileupload {
     private void onUpload() {
 
         addEventListener("onUpload", eventEventListener);
-    }
-
-    public FileUpload(String label) {
-        super(label);
-        onUpload();
     }
 
     /**

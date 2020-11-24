@@ -11,7 +11,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public @Data
-class LoginLog  extends BaseEntity {
+class LoginLog extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)

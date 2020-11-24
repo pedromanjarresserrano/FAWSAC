@@ -1,7 +1,7 @@
 <valuewindow apply="org.zkoss.bind.BindComposer" sclass="bg-light"
              style="height: 100%; overflow-x: hidden;"
              viewModel="@id('et') @init('com.gitlab.pedrioko.core.zk.viewmodel.EntityFormVM')">
-    <borderlayout   viewModel="@id('vm') @init('com.gitlab.pedrioko.core.zk.viewmodel.ProviderAccessFormVM')">
+    <borderlayout viewModel="@id('vm') @init('com.gitlab.pedrioko.core.zk.viewmodel.ProviderAccessFormVM')">
         <center>
             <div sclass="container-fuild text-black m-3">
                 <label value="@load(et.formName)" zclass="h3"/>

@@ -28,15 +28,14 @@ import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class CrudTable {
 
+    protected String uuidold = "";
     private Object selectValue;
-
     private List<Field> fieldList;
     private List<String> headers;
     private JSONArray headersbase;
     private CrudView crudView;
     private Class<?> klass;
     private List<?> items;
-    protected String uuidold = "";
     @WireVariable
     private CrudService crudService;
     private StorageService storageService;
@@ -104,12 +103,12 @@ public class CrudTable {
         return items.stream().map(crudService::refresh).collect(Collectors.toList());
     }
 
-    public List<?> getItems() {
-        return items;
-    }
-
     public void setItemsRefresh(List<?> items) {
         this.items = items;
+    }
+
+    public List<?> getItems() {
+        return items;
     }
 
     public void setItems(List<?> items) {

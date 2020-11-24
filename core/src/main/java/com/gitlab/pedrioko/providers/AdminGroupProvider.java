@@ -6,7 +6,6 @@ import com.gitlab.pedrioko.core.view.api.Provider;
 import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 

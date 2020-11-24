@@ -20,8 +20,8 @@ public class DurationRangeBox extends Div {
     private static final long serialVersionUID = -8290174092737445717L;
     Doublebox fin = new Doublebox();
     Doublebox inicio = new Doublebox();
-    private DurationRange value;
     String[] sizes = new String[]{"SG", "MM", "HH", "DD"};
+    private DurationRange value;
     private Combobox comboboxinicio;
     private Combobox comboboxfin;
 
@@ -67,26 +67,6 @@ public class DurationRangeBox extends Div {
         }
     }
 
-    private Double getSeconds(Double decimal, String metric) {
-        switch (metric) {
-            case ("SG"): {
-                return decimal;
-            }
-            case ("MM"): {
-                return decimal * 60;
-            }
-            case ("HH"): {
-                return decimal * 60 * 60;
-            }
-            case ("DD"): {
-                return decimal * 24 * 60 * 60;
-            }
-
-            default:
-                return 0D;
-        }
-    }
-
     public void setValue(DurationRange value) {
         this.value = value;
         if (value != null) {
@@ -105,6 +85,26 @@ public class DurationRangeBox extends Div {
             }
         }
 
+    }
+
+    private Double getSeconds(Double decimal, String metric) {
+        switch (metric) {
+            case ("SG"): {
+                return decimal;
+            }
+            case ("MM"): {
+                return decimal * 60;
+            }
+            case ("HH"): {
+                return decimal * 60 * 60;
+            }
+            case ("DD"): {
+                return decimal * 24 * 60 * 60;
+            }
+
+            default:
+                return 0D;
+        }
     }
 
     @Override

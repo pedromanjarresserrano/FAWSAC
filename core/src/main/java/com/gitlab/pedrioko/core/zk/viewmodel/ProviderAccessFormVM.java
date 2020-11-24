@@ -36,9 +36,9 @@ import java.util.stream.Collectors;
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class ProviderAccessFormVM implements Valuable {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProviderAccessFormVM.class);
     private transient Object value;
     private CrudActionEvent event;
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProviderAccessFormVM.class);
     private FormStates estado = FormStates.CREATE;
     @Wire
     private Tab tabs;

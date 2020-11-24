@@ -25,12 +25,10 @@ import java.util.List;
  */
 public class MultipartFileSender {
 
-    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private static final int DEFAULT_BUFFER_SIZE = 2048000; // ..bytes = 20KB.
     private static final long DEFAULT_EXPIRE_TIME = 60480000L; // ..ms = 1 week.
     private static final String MULTIPART_BOUNDARY = "MULTIPART_BYTERANGES";
-
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     Path filepath;
     HttpServletRequest request;
     HttpServletResponse response;

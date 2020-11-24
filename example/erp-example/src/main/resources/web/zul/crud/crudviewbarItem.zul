@@ -1,7 +1,7 @@
 <?taglib uri="http://labels.ats.pedrioko/taglib" prefix="my"?>
 <?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 
-<div apply="org.zkoss.bind.BindComposer" sclass="d-flex flex-column" xmlns:n="native"
+<div apply="org.zkoss.bind.BindComposer" sclass="d-flex flex-column"
      viewModel="@id('tb') @init('com.gitlab.pedrioko.core.zk.viewmodel.crud.CrudViewBar')">
     <div children="@bind(tb.actions.entrySet())" zclass="pt-1 pl-1 d-none d-sm-none d-md-flex flex-column w-100">
         <template name="children" var="node">
@@ -29,9 +29,9 @@
             </div>
         </template>
     </div>-->
-   <!-- <textbox sclass="m-1 ml-auto pull-right " placeholder="Search"
-             onOK="@command('searchAction', valuesearch=self.value)"/>
-             -->
+    <!-- <textbox sclass="m-1 ml-auto pull-right " placeholder="Search"
+              onOK="@command('searchAction', valuesearch=self.value)"/>
+              -->
     <popup id="@load(tb.id)" width="100px" children="@bind(tb.actions.entrySet())">
         <template name="children" var="node">
             <div children="@load(node.value)" sclass="btn-group-vertical d-flex flex-column pb-2"

@@ -6,7 +6,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 
 @Component
-public class EjemploVistaNoCRUDMenuProvider  implements MenuProvider {
+public class EjemploVistaNoCRUDMenuProvider implements MenuProvider {
     @Override
     public String getLabel() {
         return "Vista No CRUD";
@@ -14,7 +14,7 @@ public class EjemploVistaNoCRUDMenuProvider  implements MenuProvider {
 
     @Override
     public Component getView() {
-        return Executions.createComponents("~./zul/views/Ejemplo.zul",null, null);
+        return Executions.createComponents("~./zul/views/Ejemplo.zul", null, null);
     }
 
     @Override

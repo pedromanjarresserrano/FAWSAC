@@ -9,7 +9,7 @@
              viewModel="@id('vm') @init('com.gitlab.pedrioko.zk.vm.login.LoginVM')">
             <div>
                 <span zclass="fas fa-fighter-jet" style="font-size:3em;"/>
-                <label zclass="h1" style="font-size:3em;" >${appInfo.name}</label>
+                <label zclass="h1" style="font-size:3em;">${appInfo.name}</label>
 
             </div>
             <div zclass="d-flex flex-column justify-content-center align-items-center bd-highlight mb-3 h-75">

@@ -8,8 +8,8 @@ import org.zkoss.zul.Div;
 
 public class AlphabetFilter extends Div {
 
-    private final char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     public static final String STARTWITH = "*STARTWITH*-";
+    private final char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
     public AlphabetFilter(CrudController controlle, Class klass) {
         String field = null;

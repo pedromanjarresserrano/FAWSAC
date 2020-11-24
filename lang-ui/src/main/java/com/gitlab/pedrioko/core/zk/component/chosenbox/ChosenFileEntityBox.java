@@ -16,14 +16,13 @@ import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean
 public class ChosenFileEntityBox extends Bandbox {
 
     private static final long serialVersionUID = 1L;
-
+    private final Bandpopup popup;
     private transient Set<?> valueSelection;
     private transient LinkedList<?> model;
     private transient LinkedList<?> auxmodel;
     private Listbox list;
     private List<Listitem> listsitems;
     private boolean checkmark = true;
-    private final Bandpopup popup;
     private final EventListener<Event> eventEventListener = e -> {
 
         String valuex = getValue();

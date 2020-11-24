@@ -21,7 +21,8 @@
              iconSclass="fas fa-bars fa-lg"
              popup="@load(tb.id)"
 /> 
-    <textbox sclass="m-2 ml-auto pull-right " placeholder="Search" onOK="@command('searchAction', valuesearch=self.value)"/>
+    <textbox sclass="m-2 ml-auto pull-right " placeholder="Search"
+             onOK="@command('searchAction', valuesearch=self.value)"/>
     <popup id="@load(tb.id)" width="100px" children="@bind(tb.actions.entrySet())">
         <template name="children" var="node">
             <div children="@load(node.value)" sclass="d-flex flex-column mb-2">

@@ -1,6 +1,5 @@
 package com.gitlab.pedrioko.core.view.api.impl;
 
-import com.gitlab.pedrioko.core.lang.annotation.FieldFilter;
 import com.gitlab.pedrioko.core.view.api.FieldFilterComponent;
 import com.gitlab.pedrioko.core.zk.component.rangebox.DateRangeBox;
 import org.zkoss.zk.ui.Component;

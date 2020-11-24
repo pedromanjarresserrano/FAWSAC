@@ -2,14 +2,9 @@ package com.gitlab.pedrioko.core.view.util;
 
 import com.gitlab.pedrioko.core.lang.annotation.UIEntity;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -38,11 +33,6 @@ public class ApplicationContextUtils implements ApplicationContextAware {
             return entities;
     }
 
-    @PostConstruct
-    private void init(){
-        System.out.printf("INIT");
-    }
-
     public static ApplicationContext getApplicationContext() {
         return ctx;
     }
@@ -66,7 +56,6 @@ public class ApplicationContextUtils implements ApplicationContextAware {
         return getEntities().stream().map(Object::toString).map(e -> StringUtil.lastSplit(e, ".")).collect(Collectors.toList());
     }
 
-
     /**
      * @param arg0
      * @return
@@ -77,7 +66,6 @@ public class ApplicationContextUtils implements ApplicationContextAware {
         return ctx.getBean(arg0);
     }
 
-
     /**
      * @param arg0
      * @return
@@ -87,7 +75,6 @@ public class ApplicationContextUtils implements ApplicationContextAware {
     public static Object getBean(String arg0) {
         return ctx.getBean(arg0);
     }
-
 
     /**
      * @param arg0
@@ -108,6 +95,11 @@ public class ApplicationContextUtils implements ApplicationContextAware {
     public static <T> List<T> getBeans(Class<T> arg0) {
         return ctx.getBeansOfType(arg0).entrySet().stream().map(Entry<String, T>::getValue)
                 .collect(Collectors.toList());
+    }
+
+    @PostConstruct
+    private void init() {
+        System.out.printf("INIT");
     }
 
 }

@@ -1,11 +1,11 @@
 <zk xmlns:n="native">
-	<window  class="weather" style="background-color: #1192d3;" width="100%" >
+    <window class="weather" style="background-color: #1192d3;" width="100%">
 
-		<style>
-	
-		</style>
-		<n:div id="weather" style="width:100%;"></n:div>
+        <style>
+
+        </style>
+        <n:div id="weather" style="width:100%;"></n:div>
 
 
-	</window>
+    </window>
 </zk>

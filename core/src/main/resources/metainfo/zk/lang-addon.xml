@@ -19,7 +19,6 @@
     <javascript src="~./js/alertify/alertify.min.js"/>
 
 
-
     <!-- define a component -->
     <component>
         <component-name>menupages</component-name>

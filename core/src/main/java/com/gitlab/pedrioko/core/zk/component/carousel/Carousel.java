@@ -148,6 +148,11 @@ class Carousel extends HtmlBasedComponent {
         return s;
     }
 
+    public void setCarouselItemsJson(String galleryItemsJson) {
+        carouselItemsJson = galleryItemsJson;
+        smartUpdate("carouselItemsJson", carouselItemsJson);
+    }
+
     public void setControls(Boolean controls) {
         this.controls = controls;
         smartUpdate("controls", controls);
@@ -157,11 +162,6 @@ class Carousel extends HtmlBasedComponent {
         this.slideBy = slideBy;
         smartUpdate("slideBy", slideBy);
 
-    }
-
-    public void setCarouselItemsJson(String galleryItemsJson) {
-        carouselItemsJson = galleryItemsJson;
-        smartUpdate("carouselItemsJson", carouselItemsJson);
     }
 
     public void setCarouselItems(List<CarouselItem> carouselItems) {

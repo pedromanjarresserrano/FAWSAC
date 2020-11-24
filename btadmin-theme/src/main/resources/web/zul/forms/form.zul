@@ -19,11 +19,11 @@
         </center>
         <south sclass=" bg-dark ">
             <div sclass="m-1 text-white w-100" children="@load(vm.actions)">
-                    <template name="children" var="node">
-                        <button label="@bind(node.label)" zclass="@bind(c:cat('btn ml-1 mr-1 ', node.classes))"
-                                onClick="@command('clickAction', action=node)"/>
+                <template name="children" var="node">
+                    <button label="@bind(node.label)" zclass="@bind(c:cat('btn ml-1 mr-1 ', node.classes))"
+                            onClick="@command('clickAction', action=node)"/>
 
-                    </template>
+                </template>
             </div>
         </south>
     </borderlayout>

@@ -23,14 +23,14 @@ class AppParam extends BaseEntity {
     @NoEmpty
     @Lob
     private String value;
+    @Enumerated(EnumType.STRING)
+    @NoEmpty
+    private TypeAppParam typeAppParam = TypeAppParam.VARIABLE;
 
     public AppParam(int id, String name, String value) {
         this.name = name;
         this.value = value;
         this.id = id;
     }
-    @Enumerated(EnumType.STRING)
-    @NoEmpty
-    private TypeAppParam typeAppParam = TypeAppParam.VARIABLE;
 
 }

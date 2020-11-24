@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 public @Data
 class ChosenBoxImage extends HtmlBasedComponent {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChosenBoxImage.class);
     private Map<Object, ChosenItem> model = new LinkedHashMap<>();
     private List<Object> value = new LinkedList<>();
     private ObjectMapper objectMapper = new ObjectMapper();
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChosenBoxImage.class);
 
     public ChosenBoxImage() {
     }

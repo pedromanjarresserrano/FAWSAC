@@ -293,11 +293,6 @@ public class CrudController {
 
     }
 
-    public void setPage(int offSet) {
-        this.offSet = offSet;
-        setPage(offSet, limit);
-    }
-
     public void setPage(int offSet, int limit) {
         if (limit == 0)
             throw new IllegalArgumentException("Limit can't be 0");
@@ -313,7 +308,6 @@ public class CrudController {
     public void setPageSize(int limit) {
         setPage(offSet, limit);
     }
-
 
     public long getCount() {
         if (crudViewValue) {
@@ -343,6 +337,11 @@ public class CrudController {
 
     public int getPage() {
         return offSet / limit;
+    }
+
+    public void setPage(int offSet) {
+        this.offSet = offSet;
+        setPage(offSet, limit);
     }
 
     public int getLimit() {

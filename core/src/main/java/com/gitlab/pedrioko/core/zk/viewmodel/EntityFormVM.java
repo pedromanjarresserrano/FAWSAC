@@ -47,13 +47,13 @@ import java.util.stream.Collectors;
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class EntityFormVM implements Valuable {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EntityFormVM.class);
     private transient Object value;
     private CrudActionEvent event;
     private JSONArray fieldsBase;
     private transient Map<Field, Component> binding = new LinkedHashMap<>();
     private transient Map<String, Component> renglones = new LinkedHashMap<>();
     private transient Map<String, Component> crudviews = new LinkedHashMap<>();
-    private static final Logger LOGGER = LoggerFactory.getLogger(EntityFormVM.class);
     private FormStates estado = FormStates.CREATE;
     @Wire
     private Tab tabs;

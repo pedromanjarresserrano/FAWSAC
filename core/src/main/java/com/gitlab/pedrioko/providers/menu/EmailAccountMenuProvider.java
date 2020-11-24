@@ -1,7 +1,6 @@
 package com.gitlab.pedrioko.providers.menu;
 
 import com.gitlab.pedrioko.core.lang.Page;
-import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.SaveAction;
 import com.gitlab.pedrioko.core.view.action.TestEmailAccountAction;
@@ -11,6 +10,7 @@ import com.gitlab.pedrioko.core.view.api.Provider;
 import com.gitlab.pedrioko.core.view.enums.FormStates;
 import com.gitlab.pedrioko.providers.AdminGroupProvider;
 import com.gitlab.pedrioko.services.MailService;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.HashMap;

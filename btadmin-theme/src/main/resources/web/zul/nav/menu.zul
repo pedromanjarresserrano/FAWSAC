@@ -1,8 +1,8 @@
 <?taglib uri="http://labels.ats.pedrioko/taglib" prefix="my"?>
 <?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 
-<div apply="org.zkoss.bind.BindComposer"  xmlns:ca="client/attribute"
-     viewModel="@id('mm') @init('com.gitlab.pedrioko.core.zk.viewmodel.Menu')" xmlns:n="native">
+<div xmlns:ca="client/attribute" xmlns:n="native"
+     apply="org.zkoss.bind.BindComposer" viewModel="@id('mm') @init('com.gitlab.pedrioko.core.zk.viewmodel.Menu')">
     <div sclass="nav">
         <div sclass="nav" children="@load(mm.navmenues)">
             <template name="children" var="node">

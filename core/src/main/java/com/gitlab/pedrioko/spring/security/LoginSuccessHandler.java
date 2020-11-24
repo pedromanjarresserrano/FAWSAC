@@ -27,14 +27,11 @@ import java.util.List;
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginSuccessHandler.class);
     @Autowired
     private CrudService crudService;
-
     @Autowired
     private List<LoginListener> onLoginListeners;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginSuccessHandler.class);
-
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
@@ -90,11 +87,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
     }
 
-    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
-        this.redirectStrategy = redirectStrategy;
-    }
-
     protected RedirectStrategy getRedirectStrategy() {
         return redirectStrategy;
+    }
+
+    public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
+        this.redirectStrategy = redirectStrategy;
     }
 }

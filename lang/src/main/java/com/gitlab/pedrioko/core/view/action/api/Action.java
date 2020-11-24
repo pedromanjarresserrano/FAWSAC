@@ -5,7 +5,7 @@ import com.gitlab.pedrioko.core.view.enums.FormStates;
 
 import java.util.List;
 
-public interface Action  {
+public interface Action {
 
     default boolean isDefault() {
         return false;

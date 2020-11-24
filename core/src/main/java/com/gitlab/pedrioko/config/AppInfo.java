@@ -72,12 +72,12 @@ class AppInfo implements Serializable {
         return properties.get("name");
     }
 
-    public String getShortName() {
-        return properties.get("shortName");
-    }
-
     public void setName(String name) {
         properties.put("name", name);
+    }
+
+    public String getShortName() {
+        return properties.get("shortName");
     }
 
     public void setShortName(String shortName) {

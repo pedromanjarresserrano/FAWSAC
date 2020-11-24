@@ -19,9 +19,8 @@ import java.util.List;
 public class NavegationFilters extends Vlayout {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NavegationFilters.class);
-
-    private String[] classes;
     private final CrudService crudService;
+    private String[] classes;
     private List<Groupbox> groups = new LinkedList<>();
     private List<Checkbox> checks = new LinkedList<>();
 

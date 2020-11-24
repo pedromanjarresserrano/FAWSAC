@@ -1,6 +1,5 @@
 package com.gitlab.pedrioko.core.view.action;
 
-import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
@@ -16,6 +15,7 @@ import com.gitlab.pedrioko.domain.Reporte;
 import com.gitlab.pedrioko.services.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Hlayout;
@@ -33,9 +33,9 @@ public class VerReporteAction implements Action {
 
 
     private final static String VER = "Ver";
+    DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
     @Autowired
     private CrudService crudService;
-    DateFormat df = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
 
     @Override
     public String getIcon() {

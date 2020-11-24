@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public @Data
-class DoubleRange  implements RangeValue {
+class DoubleRange implements RangeValue {
     private Double inicio;
     private Double fin;
 }

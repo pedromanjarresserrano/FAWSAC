@@ -27,14 +27,10 @@ import static java.util.stream.Collectors.groupingBy;
 public class SecurityServiceImpl implements SecurityService {
 
     @Autowired
-    private CrudService crudService;
-
-
-    private List<MenuProvider> beansOfType;
-
-    @Autowired
     PropertiesUtil propertiesUtil;
-
+    @Autowired
+    private CrudService crudService;
+    private List<MenuProvider> beansOfType;
     private List<Action> actionList;
 
 

@@ -96,6 +96,14 @@ public class CrudView extends Tabpanel {
         appendChild(popup);
     }*/
 
+    public CrudView(Class<?> klass, List<?> value) {
+        super();
+        crudviewmode = CrudMode.MAINCRUD;
+        this.klass = klass;
+        crudController = new CrudController(klass, value);
+        createUI();
+    }
+
     public void setPageSize(int PAGE_SIZE) {
         crudController.setPageSize(PAGE_SIZE);
     }
@@ -123,14 +131,6 @@ public class CrudView extends Tabpanel {
             component = Executions.createComponents("~./zul/crud/crudview.zul", null, arg);
 
         appendChild(component);
-    }
-
-    public CrudView(Class<?> klass, List<?> value) {
-        super();
-        crudviewmode = CrudMode.MAINCRUD;
-        this.klass = klass;
-        crudController = new CrudController(klass, value);
-        createUI();
     }
 
     public void openFilters() {
@@ -162,7 +162,7 @@ public class CrudView extends Tabpanel {
         getChildren().clear();
         createUI();
         getTabbox().setSelectedIndex(selectedIndex);
-        if (reloadable!=null && reloadable)
+        if (reloadable != null && reloadable)
             update();
     }
 /*
@@ -252,12 +252,12 @@ public class CrudView extends Tabpanel {
         return crudController.getBeginString();
     }
 
-    public ParamMode getParamMode() {
-        return crudController.getParamMode();
-    }
-
     public void setBeginString(String beginString) {
         crudController.setBeginString(beginString);
+    }
+
+    public ParamMode getParamMode() {
+        return crudController.getParamMode();
     }
 
     public void setParamMode(ParamMode paramMode) {

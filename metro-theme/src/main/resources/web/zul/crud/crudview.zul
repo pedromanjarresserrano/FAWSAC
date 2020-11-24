@@ -6,9 +6,10 @@
             Map arg = (Map) Executions.getCurrent().getArg();
             Class klass = (Class) arg.get("klass-crud");
             try {
-                self.appendChild(Executions.createComponents("~./zul/crud/crudviewbar" + klass.getSimpleName() + ".zul", null, arg));
+            self.appendChild(Executions.createComponents("~./zul/crud/crudviewbar" + klass.getSimpleName() + ".zul",
+            null, arg));
             } catch (Exception e) {
-                self.appendChild(Executions.createComponents("~./zul/crud/crudviewbar.zul", null, arg));
+            self.appendChild(Executions.createComponents("~./zul/crud/crudviewbar.zul", null, arg));
             }
         </zscript>
     </north>
@@ -19,22 +20,24 @@
             Map arg = (Map) Executions.getCurrent().getArg();
             Class klass = (Class) arg.get("klass-crud");
             try {
-                self.appendChild(Executions.createComponents("~./zul/crud/table/crudtable" + klass.getSimpleName() + ".zul", null, arg));
+            self.appendChild(Executions.createComponents("~./zul/crud/table/crudtable" + klass.getSimpleName() + ".zul",
+            null, arg));
             } catch (Exception e) {
-                self.appendChild(Executions.createComponents("~./zul/crud/table/crudtable.zul", null, arg));
+            self.appendChild(Executions.createComponents("~./zul/crud/table/crudtable.zul", null, arg));
             }
         </zscript>
     </center>
-    <east style="width:300px !important;" visible="@bind(cv.openFilters)"  collapsible="true">
+    <east style="width:300px !important;" visible="@bind(cv.openFilters)" collapsible="true">
         <zscript language="Java">
             import org.zkoss.zk.ui.Executions;
             import java.util.Map;
             Map arg = (Map) Executions.getCurrent().getArg();
             Class klass = (Class) arg.get("klass-crud");
             try {
-                self.appendChild(Executions.createComponents("~./zul/crud/filters/crudfilters" + klass.getSimpleName() + ".zul", null, arg));
+            self.appendChild(Executions.createComponents("~./zul/crud/filters/crudfilters" + klass.getSimpleName() +
+            ".zul", null, arg));
             } catch (Exception e) {
-                self.appendChild(Executions.createComponents("~./zul/crud/filters/crudfilters.zul", null, arg));
+            self.appendChild(Executions.createComponents("~./zul/crud/filters/crudfilters.zul", null, arg));
             }
         </zscript>
     </east>
@@ -45,9 +48,10 @@
             Map arg = (Map) Executions.getCurrent().getArg();
             Class klass = (Class) arg.get("klass-crud");
             try {
-                self.appendChild(Executions.createComponents("~./zul/crud/filters/pagination" + klass.getSimpleName() + ".zul", null, arg));
+            self.appendChild(Executions.createComponents("~./zul/crud/filters/pagination" + klass.getSimpleName() +
+            ".zul", null, arg));
             } catch (Exception e) {
-                self.appendChild(Executions.createComponents("~./zul/crud/filters/pagination.zul", null, arg));
+            self.appendChild(Executions.createComponents("~./zul/crud/filters/pagination.zul", null, arg));
             }
         </zscript>
     </south>

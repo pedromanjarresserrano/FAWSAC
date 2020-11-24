@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 
 public class CrudFilters {
 
+    private final transient Map<Field, Component> binding = new LinkedHashMap<>();
     private CrudController crudController;
     private Class<?> klass;
     private List<String> fieldsfilters;
     private Map<String, Component> filters = new LinkedHashMap<>();
-    private final transient Map<Field, Component> binding = new LinkedHashMap<>();
     private List<Field> listfield;
     private String fieldname;
     private OrderBY orderBY;

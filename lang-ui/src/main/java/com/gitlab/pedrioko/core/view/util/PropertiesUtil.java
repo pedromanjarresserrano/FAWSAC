@@ -110,7 +110,6 @@ public class PropertiesUtil {
     }
 
 
-
     public boolean getBoolean(String key) {
         Object jsonValue = getJsonValue(key);
         if (jsonValue != null) {
@@ -165,6 +164,7 @@ public class PropertiesUtil {
             return defaultValue;
         }
     }
+
     public String getString(String key) {
         return getString(key, "");
     }

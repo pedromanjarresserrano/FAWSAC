@@ -19,6 +19,12 @@ public @Data
 class Plyr extends HtmlBasedComponent {
     public static final String ON_PLAY = "onPlaying";
     public static final String ON_PAUSE = "onPause";
+
+    static {
+        addClientEvent(Plyr.class, "onPlaying", 16385);
+        addClientEvent(Plyr.class, "onPause", 8192);
+    }
+
     //   public static final String ON_RESUME = "onResume";
     private String src = "";
     private boolean controls = false;
@@ -67,7 +73,6 @@ class Plyr extends HtmlBasedComponent {
     public void setMute(boolean muted) {
         this.response((String) null, new AuInvoke(this, "setMuted", muted));
     }
-
 
     private void setPlaying(boolean playing) {
         this.response((String) null, new AuInvoke(this, "setPlaying", playing));
@@ -154,6 +159,28 @@ class Plyr extends HtmlBasedComponent {
         }
     }
 
+/*
+    @Override
+    public boolean addEventListener(String evtnm, EventListener<? extends Event> listener) {
+        switch (evtnm) {
+            case Plyr.ON_PLAY: {
+                playingListener = listener;
+                return true;
+            }
+            case Plyr.ON_PAUSE: {
+                pauseListener = listener;
+                return true;
+            }
+            case Plyr.ON_RESUME: {
+                playingListener = listener;
+                return true;
+            }
+            default: {
+                return super.addEventListener(evtnm, listener);
+            }
+        }
+    }*/
+
     public void setPlaying(Event evt) throws Exception {
         Object data = evt.getData();
         if (data != null) {
@@ -185,28 +212,6 @@ class Plyr extends HtmlBasedComponent {
 
     }
 
-/*
-    @Override
-    public boolean addEventListener(String evtnm, EventListener<? extends Event> listener) {
-        switch (evtnm) {
-            case Plyr.ON_PLAY: {
-                playingListener = listener;
-                return true;
-            }
-            case Plyr.ON_PAUSE: {
-                pauseListener = listener;
-                return true;
-            }
-            case Plyr.ON_RESUME: {
-                playingListener = listener;
-                return true;
-            }
-            default: {
-                return super.addEventListener(evtnm, listener);
-            }
-        }
-    }*/
-
     public void setLoop(boolean loop) {
         if (this.loop != loop) {
             this.loop = loop;
@@ -226,11 +231,5 @@ class Plyr extends HtmlBasedComponent {
             this.playbackRate = playbackRate;
             this.smartUpdate("playbackRate", this.playbackRate);
         }
-    }
-
-
-    static {
-        addClientEvent(Plyr.class, "onPlaying", 16385);
-        addClientEvent(Plyr.class, "onPause", 8192);
     }
 }

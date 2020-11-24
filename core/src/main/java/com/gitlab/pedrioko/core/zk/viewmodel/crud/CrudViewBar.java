@@ -32,6 +32,7 @@ import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getBean
 
 @VariableResolver(org.zkoss.zkplus.spring.DelegatingVariableResolver.class)
 public class CrudViewBar {
+    private final transient Map<String, Component> binding = new LinkedHashMap<String, Component>();
     private Class<?> klass;
     private List<Action> crudsActions = new ArrayList<>();
     private Map<String, Component> filters = new LinkedHashMap<>();
@@ -44,7 +45,6 @@ public class CrudViewBar {
     private MenuProvider menuprovider;
     private List<String> strings = new ArrayList<>();
     private String uuid;
-    private final transient Map<String, Component> binding = new LinkedHashMap<String, Component>();
     private CrudMode crudmode;
 
     @Init
@@ -104,12 +104,12 @@ public class CrudViewBar {
         return klass;
     }
 
-    public String getId() {
-        return "crudviewbar-" + klass.getSimpleName() + uuid;
-    }
-
     public void setKlass(Class<?> klass) {
         this.klass = klass;
+    }
+
+    public String getId() {
+        return "crudviewbar-" + klass.getSimpleName() + uuid;
     }
 
     public List<Action> getCrudsActions() {

@@ -1,6 +1,5 @@
 package com.gitlab.pedrioko.core.view.action;
 
-import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
@@ -9,6 +8,7 @@ import com.gitlab.pedrioko.core.view.enums.MessageType;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;

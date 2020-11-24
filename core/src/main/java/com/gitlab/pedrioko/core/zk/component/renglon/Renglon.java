@@ -9,13 +9,13 @@ import org.zkoss.zul.impl.NumberInputElement;
 
 public class Renglon extends Div {
 
+    private final Div inputdiv;
     protected Component input;
     protected String label;
     protected String _sclass = "col-12 col-sm-12 col-md-6 col-lg-6 form-group row";
     protected String _labelSclass = "col-sm-3 col-form-label";
     protected String _inputSclass = "col-sm-9  order-last";
     protected String _inputinnerSclass = " input-group text-dark ";
-    private final Div inputdiv;
     private Label labelC;
 
     public Renglon() {

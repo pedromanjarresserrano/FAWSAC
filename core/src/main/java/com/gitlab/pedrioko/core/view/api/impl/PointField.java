@@ -1,7 +1,6 @@
 package com.gitlab.pedrioko.core.view.api.impl;
 
 import com.gitlab.pedrioko.core.lang.Point;
-import com.gitlab.pedrioko.core.lang.annotation.FieldForm;
 import com.gitlab.pedrioko.core.view.api.FieldComponent;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.core.zk.component.gmap.PointGmap;

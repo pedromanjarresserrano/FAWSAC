@@ -23,26 +23,6 @@ public class RootBeans {
     @Autowired
     private Environment environment;
 
-    @Bean
-    public AppInfo appInfo() {
-        try {
-            LOGGER.info("Initializing Application Info");
-            AppInfo applicationInfo = loadApplicationInfo();
-            if (applicationInfo.getName() == null) {
-                applicationInfo.setName(environment.getProperty("spring.application.name"));
-            }
-            if (applicationInfo.getName() == null || applicationInfo.getName().isEmpty()) {
-                applicationInfo.setName("ATS App");
-            }
-
-
-            return applicationInfo;
-        } catch (Exception e) {
-            LOGGER.error("ERROR LOADING APP INFO");
-            return null;
-        }
-    }
-
     static AppInfo loadApplicationInfo() {
         PropertiesConfiguration external = null;
         try {
@@ -66,5 +46,25 @@ public class RootBeans {
 
         AppInfo applicationInfo = AppInfo.load(pro);
         return applicationInfo;
+    }
+
+    @Bean
+    public AppInfo appInfo() {
+        try {
+            LOGGER.info("Initializing Application Info");
+            AppInfo applicationInfo = loadApplicationInfo();
+            if (applicationInfo.getName() == null) {
+                applicationInfo.setName(environment.getProperty("spring.application.name"));
+            }
+            if (applicationInfo.getName() == null || applicationInfo.getName().isEmpty()) {
+                applicationInfo.setName("ATS App");
+            }
+
+
+            return applicationInfo;
+        } catch (Exception e) {
+            LOGGER.error("ERROR LOADING APP INFO");
+            return null;
+        }
     }
 }

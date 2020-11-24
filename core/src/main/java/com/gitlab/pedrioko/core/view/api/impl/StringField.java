@@ -1,7 +1,6 @@
 package com.gitlab.pedrioko.core.view.api.impl;
 
 import com.gitlab.pedrioko.core.lang.annotation.Email;
-import com.gitlab.pedrioko.core.lang.annotation.FieldForm;
 import com.gitlab.pedrioko.core.lang.annotation.Password;
 import com.gitlab.pedrioko.core.lang.annotation.TextArea;
 import com.gitlab.pedrioko.core.view.api.FieldComponent;

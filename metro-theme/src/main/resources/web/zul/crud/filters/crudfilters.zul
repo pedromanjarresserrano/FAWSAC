@@ -21,7 +21,8 @@
                                 <comboitem value="@bind(field.name)" label="@bind(field.name)"/>
                             </template>
                         </combobox>
-                        <combobox children="@load(cf.orderByList)" placeholder="Orientacion" selectedItem="@bind(cf.orderBY)">
+                        <combobox children="@load(cf.orderByList)" placeholder="Orientacion"
+                                  selectedItem="@bind(cf.orderBY)">
                             <template name="children" var="order">
                                 <comboitem value="@bind(order)" label="@bind(order.name())"/>
                             </template>

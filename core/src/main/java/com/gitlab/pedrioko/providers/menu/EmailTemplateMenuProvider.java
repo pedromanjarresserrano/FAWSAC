@@ -1,12 +1,12 @@
 package com.gitlab.pedrioko.providers.menu;
 
 import com.gitlab.pedrioko.core.lang.Page;
-import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.api.Provider;
 import com.gitlab.pedrioko.domain.EmailTemplate;
 import com.gitlab.pedrioko.providers.AdminGroupProvider;
+import org.springframework.stereotype.Component;
 
 @Component
 public class EmailTemplateMenuProvider implements MenuProvider {
