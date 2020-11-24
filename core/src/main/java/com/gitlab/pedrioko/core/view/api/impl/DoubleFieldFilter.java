@@ -11,7 +11,7 @@ import org.zkoss.zk.ui.Component;
 
 import java.lang.reflect.Field;
 
-@FieldFilter
+@org.springframework.stereotype.Component
 public class DoubleFieldFilter implements FieldFilterComponent {
 
     @Override

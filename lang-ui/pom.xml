@@ -5,7 +5,7 @@
     <parent>
         <artifactId>fawsac</artifactId>
         <groupId>com.gitlab.pedrioko</groupId>
-        <version>1.0.0.BETA</version>
+        <version>1.1.0.BETA</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -32,6 +32,10 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
 
         <dependency>

@@ -1,5 +1,7 @@
 package com.gitlab.pedrioko.config;
 
+import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -22,6 +24,8 @@ public class ZKCEConfig {
     private static String UPDATE_URI = "/zkau"; //servlet mapping for ZK's update servlet
     private static String ZUL_VIEW_RESOLVER_PREFIX = UPDATE_URI + ClassWebResource.PATH_PREFIX + "/zul/";
 
+    @Autowired
+    private ApplicationContextUtils applicationContextUtilsl;
 
     @Bean
     public ViewResolver zulViewResolver() {

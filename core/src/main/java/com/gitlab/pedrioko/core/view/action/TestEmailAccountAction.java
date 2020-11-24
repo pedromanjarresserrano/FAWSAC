@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.core.view.action;
 
-import com.gitlab.pedrioko.core.lang.annotation.ToolAction;
+import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Collections;
 import java.util.List;
 
-@ToolAction
+@Component
 public class TestEmailAccountAction implements Action {
 
     @Autowired

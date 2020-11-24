@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.providers.menu;
 
 import com.gitlab.pedrioko.core.lang.Page;
-import com.gitlab.pedrioko.core.lang.annotation.Menu;
+import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.api.Provider;
@@ -13,7 +13,7 @@ import org.zkoss.zul.Progressmeter;
 import org.zkoss.zul.Timer;
 import org.zkoss.zul.Window;
 
-@Menu
+@Component
 public class TaskMenuProvider implements MenuProvider {
 
     Page page = new Page("");
@@ -24,6 +24,11 @@ public class TaskMenuProvider implements MenuProvider {
 
     public TaskMenuProvider(ThreadServiceImpl taskExecutor) {
         this.taskExecutor = taskExecutor;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.zkoss.zul.Doublebox;
 
 import java.lang.reflect.Field;
 
-@FieldForm
+@org.springframework.stereotype.Component
 public class DoubleField implements FieldComponent {
 
     @Override

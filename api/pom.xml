@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.gitlab.pedrioko</groupId>
         <artifactId>fawsac</artifactId>
-        <version>1.0.0.BETA</version>
+        <version>1.1.0.BETA</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -56,7 +56,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>${spring-web.version}</version>
         </dependency>
         <dependency>
             <groupId>org.zkoss.zk</groupId>
@@ -83,7 +82,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
-            <version>${spring-web.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

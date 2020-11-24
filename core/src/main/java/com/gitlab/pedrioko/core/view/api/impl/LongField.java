@@ -7,7 +7,7 @@ import org.zkoss.zul.Longbox;
 
 import java.lang.reflect.Field;
 
-@FieldForm
+@org.springframework.stereotype.Component
 public class LongField implements FieldComponent {
 
     @Override

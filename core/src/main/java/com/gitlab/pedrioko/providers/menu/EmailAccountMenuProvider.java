@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.providers.menu;
 
 import com.gitlab.pedrioko.core.lang.Page;
-import com.gitlab.pedrioko.core.lang.annotation.Menu;
+import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.SaveAction;
 import com.gitlab.pedrioko.core.view.action.TestEmailAccountAction;
@@ -15,7 +15,7 @@ import com.gitlab.pedrioko.services.MailService;
 import java.util.Arrays;
 import java.util.HashMap;
 
-@Menu
+@Component
 public class EmailAccountMenuProvider implements MenuProvider {
     private final MailService mailService;
     private final SaveAction saveAction;
@@ -27,6 +27,11 @@ public class EmailAccountMenuProvider implements MenuProvider {
         this.mailService = mailService;
         this.saveAction = saveAction;
         this.testEmailAccountAction = testEmailAccountAction;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 
     @Override

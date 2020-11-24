@@ -10,7 +10,7 @@ import org.zkoss.zul.Combobox;
 
 import java.lang.reflect.Field;
 
-@FieldFilter
+@org.springframework.stereotype.Component
 public class EntityFieldFilter implements FieldFilterComponent {
 
     @Override

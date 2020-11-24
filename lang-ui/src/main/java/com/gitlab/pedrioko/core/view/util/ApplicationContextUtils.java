@@ -2,10 +2,17 @@ package com.gitlab.pedrioko.core.view.util;
 
 import com.gitlab.pedrioko.core.lang.annotation.UIEntity;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.metamodel.EntityType;
 import java.util.ArrayList;
@@ -13,7 +20,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-@Configuration
+@Service
+@Lazy(false)
 public class ApplicationContextUtils implements ApplicationContextAware {
 
     private static ApplicationContext ctx;
@@ -22,7 +30,7 @@ public class ApplicationContextUtils implements ApplicationContextAware {
 
     public static List<?> getEntities() {
         if (entities == null) {
-            entities = ApplicationContextUtils.getBean(EntityManagerFactory.class).getMetamodel().getEntities().stream()
+            entities = getBean(EntityManagerFactory.class).getMetamodel().getEntities().stream()
                     .map(EntityType::getJavaType).filter(e -> !e.isAnnotationPresent(UIEntity.class))
                     .collect(Collectors.toList());
             return entities;
@@ -30,13 +38,18 @@ public class ApplicationContextUtils implements ApplicationContextAware {
             return entities;
     }
 
+    @PostConstruct
+    private void init(){
+        System.out.printf("INIT");
+    }
+
     public static ApplicationContext getApplicationContext() {
         return ctx;
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext appContext) {
-        ctx = appContext;
+    public void setApplicationContext(ApplicationContext appContext) throws BeansException {
+        ApplicationContextUtils.ctx = appContext;
     }
 
     public static List<String> getEventsListEntities() {
@@ -96,6 +109,5 @@ public class ApplicationContextUtils implements ApplicationContextAware {
         return ctx.getBeansOfType(arg0).entrySet().stream().map(Entry<String, T>::getValue)
                 .collect(Collectors.toList());
     }
-
 
 }

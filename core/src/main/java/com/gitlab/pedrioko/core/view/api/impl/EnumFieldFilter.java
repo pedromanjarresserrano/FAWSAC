@@ -9,7 +9,8 @@ import org.zkoss.zul.Combobox;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 
-@FieldFilter
+
+@org.springframework.stereotype.Component
 public class EnumFieldFilter implements FieldFilterComponent {
 
     @Override

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@FieldForm
+@org.springframework.stereotype.Component
 public class EntityField implements FieldComponent {
 
     @Override

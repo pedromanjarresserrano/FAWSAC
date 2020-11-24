@@ -2,15 +2,20 @@ package com.gitlab.pedrioko.providers.menu;
 
 import com.gitlab.pedrioko.core.lang.AuditLog;
 import com.gitlab.pedrioko.core.lang.Page;
-import com.gitlab.pedrioko.core.lang.annotation.Menu;
+import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.api.Provider;
 import com.gitlab.pedrioko.providers.AdminGroupProvider;
 
-@Menu
+@Component
 public class AuditMenuProvider implements MenuProvider {
     Page page = new Page(AuditLog.class);
+
+    @Override
+    public String getName() {
+        return "AuditMenuProvider";
+    }
 
     @Override
     public String getLabel() {

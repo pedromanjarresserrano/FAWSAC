@@ -8,7 +8,7 @@ import org.zkoss.zk.ui.Component;
 import java.lang.reflect.Field;
 import java.util.Date;
 
-@FieldFilter
+@org.springframework.stereotype.Component
 public class DateFieldFilter implements FieldFilterComponent {
 
     @Override

@@ -6,6 +6,7 @@ import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.api.Provider;
 import com.gitlab.pedrioko.core.view.enums.SubCrudView;
+import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.PropertiesUtil;
 import com.gitlab.pedrioko.domain.Usuario;
 import com.gitlab.pedrioko.domain.enumdomain.TipoUsuario;
@@ -15,6 +16,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,20 +29,26 @@ public class SecurityServiceImpl implements SecurityService {
     @Autowired
     private CrudService crudService;
 
-    @Autowired
+
     private List<MenuProvider> beansOfType;
 
     @Autowired
     PropertiesUtil propertiesUtil;
 
-    @Autowired
     private List<Action> actionList;
 
 
     private Map<Integer, List<Action>> actionMap;
 
+
     private void init() {
         actionMap = getBeansOfType(Action.class).stream().sorted(Comparator.comparing(Action::position)).collect(groupingBy(Action::getGroup));
+    }
+
+    @PostConstruct
+    private void initMP() {
+        List<MenuProvider> beansOfType = getBeansOfType(MenuProvider.class);
+        this.beansOfType = beansOfType;
     }
 
     @Override
@@ -127,12 +135,15 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public Map<String, List<MenuProvider>> getProviderGroup(Usuario user) {
-        return getProvider(user).stream().collect(Collectors.groupingBy((MenuProvider menuProvider) -> menuProvider.getGroup() != null ? menuProvider.getGroup().getSimpleName() : ""));
+        return getProvider(user).stream()
+                .collect(Collectors.groupingBy((MenuProvider menuProvider) -> menuProvider.getGroup() != null ? ApplicationContextUtils.getBean(menuProvider.getGroup()).getLabel() : ""));
     }
 
     @Override
     public Map<Class<? extends Provider>, List<MenuProvider>> getProviderGroupByGroup(Usuario user) {
-        return getProvider(user).stream().collect(Collectors.groupingBy(MenuProvider::getGroup));
+        return getProvider(user)
+                .stream()
+                .collect(Collectors.groupingBy(MenuProvider::getGroup));
     }
 
     @Override
@@ -144,4 +155,6 @@ public class SecurityServiceImpl implements SecurityService {
     public boolean haveAccess(Usuario user, MenuProvider menuProvider) {
         return haveAccess(user, (Class<MenuProvider>) menuProvider.getClass());
     }
+
+
 }

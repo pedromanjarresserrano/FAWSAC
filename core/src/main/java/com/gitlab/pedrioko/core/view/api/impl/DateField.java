@@ -8,7 +8,7 @@ import org.zkoss.zul.Datebox;
 import java.lang.reflect.Field;
 import java.util.Date;
 
-@FieldForm
+@org.springframework.stereotype.Component
 public class DateField implements FieldComponent {
 
     @Override

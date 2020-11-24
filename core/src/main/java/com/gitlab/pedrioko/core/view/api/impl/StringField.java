@@ -10,7 +10,7 @@ import org.zkoss.zul.Textbox;
 
 import java.lang.reflect.Field;
 
-@FieldForm
+@org.springframework.stereotype.Component
 public class StringField implements FieldComponent {
 
     @Override

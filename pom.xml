@@ -7,13 +7,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.5.RELEASE</version>
+        <version>2.3.3.RELEASE</version>
     </parent>
     <!-- parent pom -->
     <groupId>com.gitlab.pedrioko</groupId>
     <artifactId>fawsac</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0.BETA</version>
+    <version>1.1.0.BETA</version>
 
     <repositories>
         <repository>
@@ -40,13 +40,9 @@
     </distributionManagement>
 
     <properties>
-        <spring-web.version>5.1.7.RELEASE</spring-web.version>
-        <zk.version>9.0.0</zk.version>
-        <spring-data-commons.version>2.1.8.RELEASE</spring-data-commons.version>
-        <spring-data-jpa.version>2.1.8.RELEASE</spring-data-jpa.version>
-        <hibernate-core.version>5.4.3.Final</hibernate-core.version>
+        <zk.version>9.5.0.1</zk.version>
+        <hibernate-core.version>5.4.24.Final</hibernate-core.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
-        <spring-context.version>5.1.7.RELEASE</spring-context.version>
         <commons-io>2.6</commons-io>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -80,7 +76,7 @@
         <querydsl-core.version>4.2.1</querydsl-core.version>
         <querydsl.version>4.2.1</querydsl.version>
         <pdfbox.version>2.0.15</pdfbox.version>
-        <ats.version>1.0.0.BETA</ats.version>
+        <ats.version>1.1.0.BETA</ats.version>
         <json-simple.version>1.1.1</json-simple.version>
         <jasperreports.version>6.9.0</jasperreports.version>
         <jackson-core.version>2.9.7</jackson-core.version>

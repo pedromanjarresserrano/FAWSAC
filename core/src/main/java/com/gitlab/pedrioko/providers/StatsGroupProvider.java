@@ -15,13 +15,22 @@ public class StatsGroupProvider implements GroupProvider {
 
     private List<Provider> content;
 
-    @PostConstruct
-    private void init() {
-        this.content = ApplicationContextUtils.getBeans(MenuProvider.class).stream().filter(e -> e.getGroup() != null && e.getGroup().equals(this.getClass())).collect(Collectors.toList());    }
+    private List<Provider> init() {
+        this.content = ApplicationContextUtils.getBeans(MenuProvider.class)
+                .stream()
+                .filter(e -> e.getGroup() != null && e.getGroup().equals(this.getClass()))
+                .collect(Collectors.toList());
+        return this.content;
+    }
 
     @Override
     public List<Provider> getContent() {
-        return content;
+        return content == null ? init() : content;
+    }
+
+    @Override
+    public String getName() {
+        return "sts&r-menu";
     }
 
     @Override

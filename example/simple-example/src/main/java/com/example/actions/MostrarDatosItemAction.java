@@ -1,7 +1,7 @@
 package com.example.actions;
 
 import com.example.domain.Item;
-import com.gitlab.pedrioko.core.lang.annotation.ToolAction;
+import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
 import com.gitlab.pedrioko.core.view.enums.MessageType;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Arrays;
 import java.util.List;
 
-@ToolAction
+@Component
 public class MostrarDatosItemAction implements Action {
 
     @Autowired

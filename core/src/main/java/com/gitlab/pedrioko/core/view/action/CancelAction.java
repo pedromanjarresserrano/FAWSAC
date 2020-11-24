@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.core.view.action;
 
-import com.gitlab.pedrioko.core.lang.annotation.ToolAction;
+import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
@@ -11,7 +11,7 @@ import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import java.util.Arrays;
 import java.util.List;
 
-@ToolAction
+@Component
 public class CancelAction implements Action {
 
     @Override

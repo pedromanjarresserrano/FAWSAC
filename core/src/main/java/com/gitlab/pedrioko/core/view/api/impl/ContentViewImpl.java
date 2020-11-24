@@ -3,6 +3,7 @@ package com.gitlab.pedrioko.core.view.api.impl;
 import com.gitlab.pedrioko.core.lang.Page;
 import com.gitlab.pedrioko.core.view.api.ContentView;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
+import com.gitlab.pedrioko.core.view.util.ApplicationContextUtils;
 import com.gitlab.pedrioko.core.view.util.FHSessionUtil;
 import com.gitlab.pedrioko.core.view.util.ZKUtil;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
@@ -36,7 +37,7 @@ public class ContentViewImpl implements ContentView {
     private FHSessionUtil fhSessionUtil;
     @Autowired
     private SecurityService securityService;
-    @Autowired
+
     private List<MenuProvider> menuProviders;
 
     @PostConstruct
@@ -53,7 +54,7 @@ public class ContentViewImpl implements ContentView {
         tab.appendChild(tabpanels);
         if (ZKUtil.isMobile()) tabs.setStyle("overflow-x: auto !important;");
         tabbes.add(tab);
-
+        menuProviders = ApplicationContextUtils.getBeans(MenuProvider.class);
     }
 
     @Override

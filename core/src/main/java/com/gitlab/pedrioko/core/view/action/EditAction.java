@@ -1,6 +1,5 @@
 package com.gitlab.pedrioko.core.view.action;
 
-import com.gitlab.pedrioko.core.lang.annotation.ToolAction;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
@@ -18,7 +17,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-@ToolAction
+@org.springframework.stereotype.Component
 public class EditAction implements Action {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EditAction.class);

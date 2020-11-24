@@ -11,7 +11,7 @@ import org.springframework.core.annotation.Order;
 import java.util.Arrays;
 import java.util.List;
 
-//@ToolAction
+//@Component
 @Order(0)
 public class ViewVarTemplateAction implements Action {
 

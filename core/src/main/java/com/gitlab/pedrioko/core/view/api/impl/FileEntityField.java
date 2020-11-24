@@ -8,11 +8,12 @@ import com.gitlab.pedrioko.core.zk.component.upload.FileUpload;
 import com.gitlab.pedrioko.core.zk.component.upload.ImageUpload;
 import com.gitlab.pedrioko.services.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.zkoss.zk.ui.Component;
 
 import java.lang.reflect.Field;
 
-@FieldForm
+@org.springframework.stereotype.Component
 public class FileEntityField implements FieldComponent {
     @Autowired
     private StorageService storageservice;

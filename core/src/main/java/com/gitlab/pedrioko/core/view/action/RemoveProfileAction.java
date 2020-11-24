@@ -1,6 +1,6 @@
 package com.gitlab.pedrioko.core.view.action;
 
-import com.gitlab.pedrioko.core.lang.annotation.ToolAction;
+import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.action.api.Action;
 import com.gitlab.pedrioko.core.view.action.event.CrudActionEvent;
@@ -17,7 +17,7 @@ import org.zkoss.zul.Messagebox;
 import java.util.Arrays;
 import java.util.List;
 
-@ToolAction
+@Component
 @Order(0)
 public class RemoveProfileAction implements Action {
 

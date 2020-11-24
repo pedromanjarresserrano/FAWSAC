@@ -1,7 +1,7 @@
 package com.gitlab.pedrioko.providers.menu;
 
 import com.gitlab.pedrioko.core.lang.Page;
-import com.gitlab.pedrioko.core.lang.annotation.Menu;
+import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.reflection.ReflectionZKUtil;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.api.Provider;
@@ -12,10 +12,15 @@ import com.gitlab.pedrioko.providers.SystemGroupProvider;
 
 import java.util.HashMap;
 
-@Menu
+@Component
 public class LogUsuarioMenuProvider implements MenuProvider {
 
     Page page = new Page(LoginLog.class);
+
+    @Override
+    public String getName() {
+        return null;
+    }
 
     @Override
     public String getLabel() {

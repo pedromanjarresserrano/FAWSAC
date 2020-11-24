@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 import static com.gitlab.pedrioko.core.view.util.ApplicationContextUtils.getEntities;
 
-@FieldFilter
+@org.springframework.stereotype.Component
 public class ListFieldFilter implements FieldFilterComponent {
     @Autowired
     private CrudService crudService;

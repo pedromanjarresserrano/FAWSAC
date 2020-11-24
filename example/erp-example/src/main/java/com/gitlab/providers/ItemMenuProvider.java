@@ -1,12 +1,12 @@
 package com.gitlab.providers;
 
 import com.gitlab.domain.Item;
-import com.gitlab.pedrioko.core.lang.annotation.Menu;
+import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import com.gitlab.pedrioko.core.view.viewers.crud.CrudView;
 import org.zkoss.zk.ui.Component;
 
-@Menu
+@Component
 public class ItemMenuProvider implements MenuProvider {
     @Override
     public String getLabel() {

@@ -7,7 +7,7 @@ import org.zkoss.zul.Intbox;
 
 import java.lang.reflect.Field;
 
-@FieldForm
+@org.springframework.stereotype.Component
 public class IntField implements FieldComponent {
 
     @Override

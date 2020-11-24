@@ -11,7 +11,7 @@ import org.zkoss.zk.ui.Component;
 
 import java.lang.reflect.Field;
 
-@FieldForm
+@org.springframework.stereotype.Component
 public class PointField implements FieldComponent {
     @Autowired
     private PropertiesUtil properties;

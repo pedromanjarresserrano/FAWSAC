@@ -1,11 +1,11 @@
 package com.gitlab.providers;
 
-import com.gitlab.pedrioko.core.lang.annotation.Menu;
+import org.springframework.stereotype.Component;
 import com.gitlab.pedrioko.core.view.api.MenuProvider;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 
-@Menu
+@Component
 public class EjemploVistaNoCRUDMenuProvider  implements MenuProvider {
     @Override
     public String getLabel() {

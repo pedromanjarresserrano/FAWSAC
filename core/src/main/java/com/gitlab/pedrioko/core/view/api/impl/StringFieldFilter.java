@@ -7,7 +7,7 @@ import org.zkoss.zul.Textbox;
 
 import java.lang.reflect.Field;
 
-@FieldFilter
+@org.springframework.stereotype.Component
 public class StringFieldFilter implements FieldFilterComponent {
 
     @Override
