@@ -40,7 +40,7 @@
     </distributionManagement>
 
     <properties>
-        <zk.version>9.5.0.1</zk.version>
+        <zk.version>9.5.0.2</zk.version>
         <hibernate-core.version>5.4.24.Final</hibernate-core.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <commons-io>2.6</commons-io>

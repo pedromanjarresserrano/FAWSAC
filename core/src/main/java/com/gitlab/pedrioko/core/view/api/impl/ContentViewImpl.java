@@ -32,7 +32,7 @@ public class ContentViewImpl implements ContentView {
     private static final Logger LOGGER = LoggerFactory.getLogger(ContentViewImpl.class);
 
 
-    private List<Tabbox> tabbes = new ArrayList<>();
+    private final List<Tabbox> tabbes = new ArrayList<>();
     @Autowired
     private FHSessionUtil fhSessionUtil;
     @Autowired
@@ -114,9 +114,10 @@ public class ContentViewImpl implements ContentView {
                 tab.setClosable(true);
                 tabview.getTabs().appendChild(tab);
                 Executions.getCurrent().setAttribute("menuprovider", provider);
-                loadView(id, label, tab, provider.getView());
                 tab.setIconSclass(provider.getIcon());
                 tabview.setSelectedTab(tab);
+                loadView(id, label, tab, provider.getView());
+
 
             }
         } catch (Exception e) {
