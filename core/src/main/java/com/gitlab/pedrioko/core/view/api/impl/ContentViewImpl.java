@@ -105,8 +105,7 @@ public class ContentViewImpl implements ContentView {
         Optional<Component> existtab = getTab(id);
         try {
             if (existtab.isPresent()) {
-                if (tabview != null)
-                    tabview.setSelectedTab((Tab) existtab.get());
+                tabview.setSelectedTab((Tab) existtab.get());
             } else {
                 Tab tab = new Tab(label);
                 tab.setId(id);
@@ -116,7 +115,7 @@ public class ContentViewImpl implements ContentView {
                 Executions.getCurrent().setAttribute("menuprovider", provider);
                 tab.setIconSclass(provider.getIcon());
                 tabview.setSelectedTab(tab);
-                loadView(id, label, tab, provider.getView());
+                loadView(label, tab, provider.getView());
 
 
             }
@@ -129,20 +128,18 @@ public class ContentViewImpl implements ContentView {
     @Override
     public void changeLabel(String id, String newLabel) {
         Optional<Component> tab = getTab(id);
-        if (tab.isPresent())
-            ((LabelImageElement) tab.get()).setLabel(newLabel);
+        tab.ifPresent((v) -> ((LabelImageElement) tab.get()).setLabel(newLabel));
     }
 
     @Override
     public void loadView(String id, String menu) {
-        menuProviders.stream().filter(e -> e.getGroup().equals(id) && e.getLabel().compareToIgnoreCase(menu) == 0).forEach(this::addContent);
+        menuProviders.stream().filter(e -> e.getGroup().getSimpleName().equals(id) && e.getLabel().compareToIgnoreCase(menu) == 0).forEach(this::addContent);
     }
 
     @Override
     public void changeIcon(String id, String icon) {
         Optional<Component> tab = getTab(id);
-        if (tab.isPresent())
-            ((Tab) tab.get()).setIconSclass(icon);
+        tab.ifPresent(component -> ((Tab) component).setIconSclass(icon));
     }
 
     @Override
@@ -156,7 +153,7 @@ public class ContentViewImpl implements ContentView {
             tab.setId(id);
             tab.setClosable(true);
             tabview.getTabs().appendChild(tab);
-            loadView(id, label, tab, component);
+            loadView( label, tab, component);
             tabview.setSelectedTab(tab);
 
         }
@@ -171,22 +168,22 @@ public class ContentViewImpl implements ContentView {
     @Override
     public Component getTabView(String id) {
         Optional<Component> tab = getTab(id);
-        return tab.isPresent() ? tab.get() : null;
+        return tab.orElse(null);
 
     }
 
-    private void loadView(String id, String label, Tab tab, Page page) {
+    private void loadView(String label, Tab tab, Page page) {
         Component view;
         if (page.getPageClass() != null)
-            view = (Component) new CrudView(page.getPageClass());
+            view = new CrudView(page.getPageClass());
         else if (page.getUriView() == null || page.getUriView().isEmpty())
             view = page.getComponent();
         else
             view = Executions.createComponents(page.getUriView(), null, page.getArg());
-        loadView(id, label, tab, view);
+        loadView( label, tab, view);
     }
 
-    private void loadView(String id, String label, Tab tab, Component view) {
+    private void loadView( String label, Tab tab, Component view) {
         Tabbox tabview = ((Tabbox) getViewCurrent());
         if (!(view instanceof Tabpanel)) {
             Tabpanel tabpanel = new Tabpanel();
